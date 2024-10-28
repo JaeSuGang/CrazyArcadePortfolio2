@@ -4,7 +4,9 @@
 #include <Windows.h>
 
 #ifdef _DEBUG
-#define MSG_ASSERT(text) MessageBoxA(0, text, "에러", MB_OK); assert(false) 
+#define SHOW_ERROR(text) {MessageBoxA(0, text, "에러", MB_OK); assert(false);}
 #else
-#define MSG_ASSERT(text) (void(0))
+#define SHOW_ERROR(text) {}
 #endif // DEBUG
+
+#define SAFE_DELETE(p) if (p) {delete p; p = nullptr;}

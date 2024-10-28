@@ -1,15 +1,39 @@
 #include "stdafx.h"
 #include "Engine.h"
 #include "KeyManager.h"
+#include "WindowManager.h"
 
-UKeyManager* UEngine::GetKeyManager()
+using std::pair;
+
+void UEngine::Tick()
 {
-	auto iter = m_Managers.find("UKeyManager");
 
-	if (iter == m_Managers.end())
-	{
-		MSG_ASSERT("GetKeyManager()를 호출하기 전에 CreateKeyManager()를 호출하세요");
-	}
-
-	return 
 }
+
+void UEngine::CreateWindowManager()
+{
+	UEngineSubsystem* Subsystem = new UWindowManager{};
+
+
+	string ClassName = typeid(UWindowManager).name();
+	pair<string, UEngineSubsystem*> PairToInsert{ClassName, Subsystem};
+	m_Subsystems.insert(PairToInsert);
+}
+
+UEngine::~UEngine()
+{
+	this->Release();
+}
+
+void UEngine::Release()
+{
+	auto iter = m_Subsystems.begin();
+
+	while (iter != m_Subsystems.end())
+	{
+		SAFE_DELETE((*iter).second);
+	}
+}
+
+
+UEngine* GEngine = new UEngine{};

@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "KmEngine/Engine.h"
 
 #pragma comment (lib, "KmBase.lib")
 #pragma comment (lib, "KmEngine.lib")
@@ -9,4 +10,6 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_ int       nCmdShow)
 {
 
+
+	delete GEngine;
 }

@@ -8,6 +8,7 @@
 
 // std
 #include <string>
+#include <typeinfo>
 
 using std::string;
 

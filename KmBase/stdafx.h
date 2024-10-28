@@ -5,3 +5,7 @@
 
 // Windows API
 #include <Windows.h>
+
+// std
+#include <string>
+#include <typeinfo>

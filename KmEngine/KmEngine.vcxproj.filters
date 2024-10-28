@@ -31,6 +31,9 @@
     <ClCompile Include="KeyManager.cpp">
       <Filter>EngineSubsystem</Filter>
     </ClCompile>
+    <ClCompile Include="WindowManager.cpp">
+      <Filter>EngineSubsystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -49,6 +52,9 @@
       <Filter>EngineSubsystem</Filter>
     </ClInclude>
     <ClInclude Include="KeyManager.h">
+      <Filter>EngineSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="WindowManager.h">
       <Filter>EngineSubsystem</Filter>
     </ClInclude>
   </ItemGroup>
