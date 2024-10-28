@@ -29,6 +29,11 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CrazyArcadeEditor", "CrazyA
 		{D6515775-4270-4768-8444-D999FE39E7A3} = {D6515775-4270-4768-8444-D999FE39E7A3}
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "메모장", "메모장", "{7BBD5724-2DE7-42AE-9E98-8A06254AF9CB}"
+	ProjectSection(SolutionItems) = preProject
+		해야할것.txt = 해야할것.txt
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64

@@ -4,10 +4,32 @@
     <Filter Include="pch">
       <UniqueIdentifier>{58af4e2e-306b-4c97-84ef-5ce8a00a8668}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{27908171-3c44-4440-9869-ba821e0791c4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Object">
+      <UniqueIdentifier>{1e749ce4-f534-4cf5-ac9f-d4bccb02c7e6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineSubsystem">
+      <UniqueIdentifier>{3186e4f3-9d08-46e6-b256-7c9bc15eb6f7}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>pch</Filter>
+    </ClCompile>
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="Object.cpp">
+      <Filter>Object</Filter>
+    </ClCompile>
+    <ClCompile Include="Engine.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="EngineSubsystem.cpp">
+      <Filter>EngineSubsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="KeyManager.cpp">
+      <Filter>EngineSubsystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -16,6 +38,18 @@
     </ClInclude>
     <ClInclude Include="define.h">
       <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="Object.h">
+      <Filter>Object</Filter>
+    </ClInclude>
+    <ClInclude Include="Engine.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="EngineSubsystem.h">
+      <Filter>EngineSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyManager.h">
+      <Filter>EngineSubsystem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
