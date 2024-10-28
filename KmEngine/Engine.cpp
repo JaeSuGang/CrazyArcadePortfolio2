@@ -32,6 +32,7 @@ void UEngine::Release()
 	while (iter != m_Subsystems.end())
 	{
 		SAFE_DELETE((*iter).second);
+		++iter;
 	}
 }
 

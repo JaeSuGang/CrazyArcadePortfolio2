@@ -1,10 +1,9 @@
 #pragma once
 #include "Object.h"
 
+using std::unordered_map;
 
 class UEngineSubsystem;
-
-using std::unordered_map;
 
 class UEngine : public UObject
 {
