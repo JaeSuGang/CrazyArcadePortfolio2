@@ -8,8 +8,9 @@ class UActorComponent : public UObject
 	friend class AActor;
 
 protected:
-	virtual void BeginPlay();
-	virtual void TickComponent(float fDeltaTime);
+	virtual void Initialize() = 0;
+	virtual void BeginPlay() = 0;
+	virtual void TickComponent(float fDeltaTime) = 0;
 
 protected:
 	AActor* m_Owner;

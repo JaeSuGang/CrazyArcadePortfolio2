@@ -28,3 +28,8 @@ void AActor::BeginPlay()
 		++ComponentIter;
 	}
 }
+
+void AActor::Initialize()
+{
+
+}

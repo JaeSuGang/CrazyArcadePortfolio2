@@ -73,6 +73,9 @@
     <ClCompile Include="TestGamemode.cpp">
       <Filter>AGamemode</Filter>
     </ClCompile>
+    <ClCompile Include="TestPlayer.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -119,6 +122,9 @@
     </ClInclude>
     <ClInclude Include="TestGamemode.h">
       <Filter>AGamemode</Filter>
+    </ClInclude>
+    <ClInclude Include="TestPlayer.h">
+      <Filter>Actor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

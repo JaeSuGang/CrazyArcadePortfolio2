@@ -33,6 +33,7 @@
     <ClInclude Include="RenderManager.h" />
     <ClInclude Include="TestGameInstance.h" />
     <ClInclude Include="TestGamemode.h" />
+    <ClInclude Include="TestPlayer.h" />
     <ClInclude Include="TimeManager.h" />
   </ItemGroup>
   <ItemGroup>
@@ -53,6 +54,7 @@
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="TestGameInstance.cpp" />
     <ClCompile Include="TestGamemode.cpp" />
+    <ClCompile Include="TestPlayer.cpp" />
     <ClCompile Include="TimeManager.cpp" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

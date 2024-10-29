@@ -1,4 +1,6 @@
 
 
 
-1. 엔진 매니저들 만들기
+LevelDeserializer => ULevel 객체를 리턴해줌
+
+LevelSerializer => FLevel 구조체를 저장시켜줌

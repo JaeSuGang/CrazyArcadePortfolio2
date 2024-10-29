@@ -11,8 +11,10 @@ class AActor : public UObject
 	friend class UEngine;
 
 protected:
-	virtual void Tick(float fDeltaTime);
-	virtual void BeginPlay();
+	// 기본 Component 추가 코드
+	virtual void Initialize() = 0;
+	virtual void Tick(float fDeltaTime) = 0;
+	virtual void BeginPlay() = 0;
 
 protected:
 	template <typename T>
@@ -46,6 +48,28 @@ protected:
 
 		UActorComponent* Component = new T{};
 		Component->m_Owner = this;
+		Component->Initialize();
+		Component->BeginPlay();
+
+		string ClassName = typeid(T).name();
+		pair<string, UActorComponent> PairToInsert = { ClassName, Component };
+
+		m_OwnedComponents.insert(PairToInsert);
+	}
+
+	template <typename T>
+	void EmplaceComponent()
+	{
+		static_assert(std::is_base_of<UActorComponent, T>::value);
+
+		if (GetComponentByClass<T>())
+		{
+			return nullptr;
+		}
+
+		UActorComponent* Component = new T{};
+		Component->m_Owner = this;
+		Component->Initialize();
 
 		string ClassName = typeid(T).name();
 		pair<string, UActorComponent> PairToInsert = { ClassName, Component };
