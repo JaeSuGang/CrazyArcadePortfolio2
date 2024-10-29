@@ -16,6 +16,18 @@
     <Filter Include="GameInstance">
       <UniqueIdentifier>{9e078811-42ee-491a-8d7e-5b0cb695e3b9}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Actor">
+      <UniqueIdentifier>{b3068981-0af2-42b3-bdd4-988c10095095}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ActorComponent">
+      <UniqueIdentifier>{f0a7d253-e799-484c-9eaa-8b15b3d349ff}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{0b61c5ba-624b-46d3-8da5-d26dd7b9d1d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="AGamemode">
+      <UniqueIdentifier>{a4ae33e8-9c62-4160-be81-b92024ca9ccf}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -42,6 +54,18 @@
     </ClCompile>
     <ClCompile Include="GameInstance.cpp">
       <Filter>GameInstance</Filter>
+    </ClCompile>
+    <ClCompile Include="Actor.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="ActorComponent.cpp">
+      <Filter>ActorComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="Level.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="Gamemode.cpp">
+      <Filter>AGamemode</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -71,6 +95,18 @@
     </ClInclude>
     <ClInclude Include="GameInstance.h">
       <Filter>GameInstance</Filter>
+    </ClInclude>
+    <ClInclude Include="Actor.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="ActorComponent.h">
+      <Filter>ActorComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="Level.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="Gamemode.h">
+      <Filter>AGamemode</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

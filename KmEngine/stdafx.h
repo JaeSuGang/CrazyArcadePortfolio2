@@ -15,7 +15,16 @@ using std::string;
 // stl, 헤더파일에서 사용시 stdafx.h를 다시 인클루드
 #include <functional>
 #include <unordered_map>
+#include <unordered_set>
 #include <vector>
+#include <tuple>
 
+// Base
+#include "KmBase/Vector.h"
+
+using std::tuple;
+using std::pair;
 using std::unordered_map;
+using std::unordered_set;
 using std::vector;
+

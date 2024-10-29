@@ -1,6 +1,6 @@
 #pragma once
 
-class FVector2D
+struct FVector2D
 {
 public:
 	FVector2D() = default;
@@ -13,7 +13,7 @@ public:
 	float Y;
 };
 
-class FVector3D
+struct FVector3D
 {
 public:
 	float X;
