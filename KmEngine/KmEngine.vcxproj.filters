@@ -13,6 +13,9 @@
     <Filter Include="EngineSubsystem">
       <UniqueIdentifier>{3186e4f3-9d08-46e6-b256-7c9bc15eb6f7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameInstance">
+      <UniqueIdentifier>{9e078811-42ee-491a-8d7e-5b0cb695e3b9}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -31,8 +34,14 @@
     <ClCompile Include="KeyManager.cpp">
       <Filter>EngineSubsystem</Filter>
     </ClCompile>
-    <ClCompile Include="WindowManager.cpp">
+    <ClCompile Include="RenderManager.cpp">
       <Filter>EngineSubsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>EngineSubsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="GameInstance.cpp">
+      <Filter>GameInstance</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -54,8 +63,14 @@
     <ClInclude Include="KeyManager.h">
       <Filter>EngineSubsystem</Filter>
     </ClInclude>
-    <ClInclude Include="WindowManager.h">
+    <ClInclude Include="RenderManager.h">
       <Filter>EngineSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>EngineSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GameInstance.h">
+      <Filter>GameInstance</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

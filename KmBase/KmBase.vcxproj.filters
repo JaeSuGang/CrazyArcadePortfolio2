@@ -4,12 +4,18 @@
     <Filter Include="pch">
       <UniqueIdentifier>{fa81698b-469e-4c8f-92e9-7255058cf769}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Vector">
+      <UniqueIdentifier>{446984ca-3745-44d4-982e-bccc0aef3e16}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>pch</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Vector.cpp">
+      <Filter>Vector</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -17,6 +23,9 @@
     </ClInclude>
     <ClInclude Include="define.h">
       <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="Vector.h">
+      <Filter>Vector</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

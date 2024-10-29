@@ -1,17 +1,29 @@
 #pragma once
 #include "Object.h"
+#include "stdafx.h"
+#include "KeyManager.h"
+#include "RenderManager.h"
 
-using std::unordered_map;
-
-class UEngineSubsystem;
+class UGameInstance;
 
 class UEngine : public UObject
 {
 public:
-	void Tick();
+	void RunForever();
+	void TerminateEngine();
+
+// 사용자가 일일히 Subsystem을 Create해야 합니다
+public:
+	void CreateRenderManager(const char* lpszTitle);
+	void CreateTimeManager();
+	void CreateKeyManager();
 
 public:
+	UGameInstance* GetGameInstance() const;
+	void SetGameInstance(UGameInstance* GameInstance);
+
 	template <typename T>
+
 	T* GetEngineSubsystem()
 	{
 		// typeid를 unordered_map의 key값으로 탐색
@@ -33,15 +45,23 @@ public:
 		return Casted;
 	}
 
-	void CreateWindowManager();
+	float GetTargetFPS() const;
+	void SetTargetFPS(float fTargetFPS);
 
 public:
+	UEngine();
 	~UEngine();
 private:
 	void Release();
 
 private:
+	void Tick();
+
+private:
+	UGameInstance* m_ActiveGameInstance;
 	unordered_map<string, UEngineSubsystem*> m_Subsystems;
+	float m_fTargetFPS;
+	bool m_bEngineSwitch;
 
 };
 
