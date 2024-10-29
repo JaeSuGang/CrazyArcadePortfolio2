@@ -27,3 +27,27 @@ void UGameInstance::BeginPlay()
 {
 	m_ActiveLevel->BeginPlay();
 }
+
+void UGameInstance::OpenLevel(const char* lpszLevelName)
+{
+	auto LevelIter = m_LoadedLevels.find(string(lpszLevelName));
+
+	if (LevelIter == m_LoadedLevels.end())
+	{
+		SHOW_ERROR("존재하지 않는 Key의 Level을 OpenLevel 했습니다");
+	}
+
+	ULevel* OpenedLevel = (*LevelIter).second;
+
+	OpenedLevel->BeginPlay();
+
+	m_ActiveLevel = OpenedLevel;
+}
+
+void UGameInstance::LoadLevel(const char* lpszLevelName, ULevel* Level)
+{
+	pair<string, ULevel*> PairToInsert{ string(lpszLevelName), Level };
+	m_LoadedLevels.insert(PairToInsert);
+}
+
+

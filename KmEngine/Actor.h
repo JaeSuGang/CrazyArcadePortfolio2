@@ -8,6 +8,7 @@ class UActorComponent;
 class AActor : public UObject
 {
 	friend class ULevel;
+	friend class UEngine;
 
 protected:
 	virtual void Tick(float fDeltaTime);

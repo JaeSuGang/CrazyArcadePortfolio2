@@ -9,3 +9,6 @@ ex) SpawnActor, AddComponent, CreateManager 등
 일일히 순환하며 dynamic_cast 하는 방식을 금지하며,
 컨테이너를 unordered_map으로 하고 key를 typeid(클래스).name()으로 하여
 O(1)의 시간복잡도를 갖도록 한다.
+
+3. 임시적으로 바뀐 부분은 "// 차후수정" 이라고 주석을 달고,
+나중에 검색해서 수정한다.

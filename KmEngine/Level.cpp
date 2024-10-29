@@ -3,6 +3,13 @@
 #include "Actor.h"
 #include "Gamemode.h"
 
+ULevel::ULevel()
+	:
+	m_Actors{},
+	m_Gamemode{}
+{
+}
+
 void ULevel::Tick(float fDeltaTime)
 {
 	m_Gamemode->Tick(fDeltaTime);
@@ -12,6 +19,8 @@ void ULevel::Tick(float fDeltaTime)
 	while (ActorIter != m_Actors.end())
 	{
 		(*ActorIter)->Tick(fDeltaTime);
+
+		++ActorIter;
 	}
 }
 
@@ -24,5 +33,7 @@ void ULevel::BeginPlay()
 	while (ActorIter != m_Actors.end())
 	{
 		(*ActorIter)->BeginPlay();
+
+		++ActorIter;
 	}
 }

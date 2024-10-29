@@ -1,9 +1,11 @@
 #include "stdafx.h"
+#include "Level.h"
 #include "Engine.h"
 #include "GameInstance.h"
 #include "KeyManager.h"
 #include "RenderManager.h"
 #include "TimeManager.h"
+#include "Gamemode.h"
 
 using std::pair;
 
@@ -85,10 +87,13 @@ void UEngine::CreateKeyManager()
 	m_Subsystems.insert(PairToInsert);
 }
 
+// 초기에 한번만 실행함. 게임인스턴스는 런타임중 바뀌지 않음. 게임 CD를 컴퓨터에 넣는 개념.
 void UEngine::SetGameInstance(UGameInstance* GameInstance)
 {
+	SAFE_DELETE(m_ActiveGameInstance);
+
 	m_ActiveGameInstance = GameInstance;
-	m_ActiveGameInstance->BeginPlay();
+	m_ActiveGameInstance->Initialize();
 }
 
 float UEngine::GetTargetFPS() const
