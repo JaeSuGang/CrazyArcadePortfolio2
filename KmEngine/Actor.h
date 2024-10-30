@@ -9,14 +9,16 @@ class AActor : public UObject
 {
 	friend class ULevel;
 	friend class UEngine;
+public:
+	FVector2D GetPositionVector2D() const;
 
-protected:
+public:
 	// 기본 Component 추가 코드
 	virtual void Initialize() = 0;
 	virtual void Tick(float fDeltaTime) = 0;
 	virtual void BeginPlay() = 0;
 
-protected:
+public:
 	template <typename T>
 	T* GetComponentByClass()
 	{

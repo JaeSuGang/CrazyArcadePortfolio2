@@ -1,6 +1,9 @@
 #include "stdafx.h"
 #include "Engine.h"
 #include "RenderManager.h"
+#include "GameInstance.h"
+#include "Actor.h"
+#include "Level.h"
 
 HWND URenderManager::GetGameWindowHandle()
 {
@@ -35,6 +38,16 @@ void URenderManager::Tick()
 	{
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
+	}
+
+	ULevel* ActiveLevel = GEngine->GetGameInstance()->GetActiveLevel();
+	auto ActorIter = ActiveLevel->m_Actors.begin();
+	while (ActorIter != ActiveLevel->m_Actors.end())
+	{
+		FVector2D Position2D = (*ActorIter)->GetPositionVector2D();
+		// 할것 렌더링 실제로 하기
+
+		++ActorIter;
 	}
 }
 

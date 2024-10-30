@@ -29,6 +29,11 @@ void AActor::BeginPlay()
 	}
 }
 
+FVector2D AActor::GetPositionVector2D() const
+{
+	return m_Position;
+}
+
 void AActor::Initialize()
 {
 

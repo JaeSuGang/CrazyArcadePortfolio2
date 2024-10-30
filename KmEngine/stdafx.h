@@ -8,11 +8,13 @@
 
 // std
 #include <string>
+#include <string_view>
 #include <typeinfo>
 #include <filesystem>
 #include <cctype>
 
 using std::string;
+using std::string_view;
 
 // stl, 헤더파일에서 사용시 stdafx.h를 다시 인클루드
 #include <functional>

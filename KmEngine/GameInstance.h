@@ -9,6 +9,7 @@ class UGameInstance : public UObject
 	friend class UEngine;
 	
 public:
+	ULevel* GetActiveLevel() const;
 	void LoadLevel(const char* lpszLevelName, ULevel* Level);
 	void OpenLevel(const char* lpszLevelName);
 

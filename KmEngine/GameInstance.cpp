@@ -49,6 +49,11 @@ void UGameInstance::OpenLevel(const char* lpszLevelName)
 	m_ActiveLevel = OpenedLevel;
 }
 
+ULevel* UGameInstance::GetActiveLevel() const
+{
+	return m_ActiveLevel;
+}
+
 void UGameInstance::LoadLevel(const char* lpszLevelName, ULevel* Level)
 {
 	pair<string, ULevel*> PairToInsert{ string(lpszLevelName), Level };
