@@ -28,6 +28,18 @@
     <Filter Include="AGamemode">
       <UniqueIdentifier>{a4ae33e8-9c62-4160-be81-b92024ca9ccf}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EngineSubsystem\KeyManager">
+      <UniqueIdentifier>{ae9a6fad-72f3-45f0-b111-3fec5253419d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineSubsystem\RenderManager">
+      <UniqueIdentifier>{3552ec0d-38ec-4b37-a563-5ae13a4668cc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineSubsystem\TimeManager">
+      <UniqueIdentifier>{a167755e-2f1c-49c5-80ef-b8a9c40ac7cf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EngineSubsystem\ResourceManager">
+      <UniqueIdentifier>{89fdc9c2-9360-4aa2-8326-a48372f1fd42}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -41,15 +53,6 @@
       <Filter>Engine</Filter>
     </ClCompile>
     <ClCompile Include="EngineSubsystem.cpp">
-      <Filter>EngineSubsystem</Filter>
-    </ClCompile>
-    <ClCompile Include="KeyManager.cpp">
-      <Filter>EngineSubsystem</Filter>
-    </ClCompile>
-    <ClCompile Include="RenderManager.cpp">
-      <Filter>EngineSubsystem</Filter>
-    </ClCompile>
-    <ClCompile Include="TimeManager.cpp">
       <Filter>EngineSubsystem</Filter>
     </ClCompile>
     <ClCompile Include="GameInstance.cpp">
@@ -76,6 +79,18 @@
     <ClCompile Include="TestPlayer.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
+    <ClCompile Include="KeyManager.cpp">
+      <Filter>EngineSubsystem\KeyManager</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderManager.cpp">
+      <Filter>EngineSubsystem\RenderManager</Filter>
+    </ClCompile>
+    <ClCompile Include="TimeManager.cpp">
+      <Filter>EngineSubsystem\TimeManager</Filter>
+    </ClCompile>
+    <ClCompile Include="ResourceManager.cpp">
+      <Filter>EngineSubsystem\ResourceManager</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -91,15 +106,6 @@
       <Filter>Engine</Filter>
     </ClInclude>
     <ClInclude Include="EngineSubsystem.h">
-      <Filter>EngineSubsystem</Filter>
-    </ClInclude>
-    <ClInclude Include="KeyManager.h">
-      <Filter>EngineSubsystem</Filter>
-    </ClInclude>
-    <ClInclude Include="RenderManager.h">
-      <Filter>EngineSubsystem</Filter>
-    </ClInclude>
-    <ClInclude Include="TimeManager.h">
       <Filter>EngineSubsystem</Filter>
     </ClInclude>
     <ClInclude Include="GameInstance.h">
@@ -125,6 +131,18 @@
     </ClInclude>
     <ClInclude Include="TestPlayer.h">
       <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="KeyManager.h">
+      <Filter>EngineSubsystem\KeyManager</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderManager.h">
+      <Filter>EngineSubsystem\RenderManager</Filter>
+    </ClInclude>
+    <ClInclude Include="TimeManager.h">
+      <Filter>EngineSubsystem\TimeManager</Filter>
+    </ClInclude>
+    <ClInclude Include="ResourceManager.h">
+      <Filter>EngineSubsystem\ResourceManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

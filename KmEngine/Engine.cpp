@@ -23,8 +23,6 @@ void UEngine::Tick()
 		KeyManager->Tick(fDeltaTime);
 
 		GameInstance->Tick(fDeltaTime);
-	
-
 
 		RenderManager->Tick();
 
@@ -55,6 +53,16 @@ UGameInstance* UEngine::GetGameInstance() const
 	}
 
 	return m_ActiveGameInstance;
+}
+
+void UEngine::CreateResourceManager(HWND hGameWindow)
+{
+	UResourceManager* Subsystem = new UResourceManager{};
+	Subsystem->Initialize(hGameWindow);
+
+	string ClassName = typeid(UResourceManager).name();
+	pair<string, UEngineSubsystem*> PairToInsert{ ClassName, Subsystem };
+	m_Subsystems.insert(PairToInsert);
 }
 
 void UEngine::CreateRenderManager(const char* lpszTitle)

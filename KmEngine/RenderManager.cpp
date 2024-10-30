@@ -2,6 +2,11 @@
 #include "Engine.h"
 #include "RenderManager.h"
 
+HWND URenderManager::GetGameWindowHandle()
+{
+	return m_hWnd;
+}
+
 void URenderManager::SetWindowSize(FVector2D Size)
 {
 	SetWindowPos(m_hWnd, 0, 0, 0, (int)Size.X, (int)Size.Y, SWP_NOMOVE);
@@ -14,9 +19,7 @@ LRESULT URenderManager::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 	case WM_QUIT:
 	case WM_CLOSE:
 	case WM_DESTROY:
-		PostQuitMessage(0);
-		DefWindowProc(hWnd, message, wParam, lParam);
-		break;
+		GEngine->TerminateEngine();
 
 	default:
 		return DefWindowProc(hWnd, message, wParam, lParam);
@@ -30,11 +33,6 @@ void URenderManager::Tick()
 
 	while (PeekMessage(&msg, nullptr, 0, 0, PM_REMOVE))
 	{
-		if (msg.message == WM_QUIT)
-		{
-			GEngine->TerminateEngine();
-		}
-
 		TranslateMessage(&msg);
 		DispatchMessage(&msg);
 	}

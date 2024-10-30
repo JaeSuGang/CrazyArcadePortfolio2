@@ -50,7 +50,9 @@ public:
 
 
 public:
+	void Release();
 	ULevel();
+	~ULevel();
 
 private:
 	void Tick(float fDeltaTime);

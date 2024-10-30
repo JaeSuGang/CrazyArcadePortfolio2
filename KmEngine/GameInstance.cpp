@@ -4,7 +4,12 @@
 
 void UGameInstance::Release()
 {
-	SAFE_DELETE(m_ActiveLevel);
+	auto iter = m_LoadedLevels.begin();
+	while (iter != m_LoadedLevels.end())
+	{
+		SAFE_DELETE(iter->second);
+		++iter;
+	}
 }
 
 UGameInstance::UGameInstance()

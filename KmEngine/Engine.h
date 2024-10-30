@@ -3,6 +3,7 @@
 #include "stdafx.h"
 #include "KeyManager.h"
 #include "RenderManager.h"
+#include "ResourceManager.h"
 
 class UGameInstance;
 
@@ -14,6 +15,7 @@ public:
 
 // 사용자가 일일히 Subsystem을 Create해야 합니다
 public:
+	void CreateResourceManager(HWND hGameWindow);
 	void CreateRenderManager(const char* lpszTitle);
 	void CreateTimeManager();
 	void CreateKeyManager();

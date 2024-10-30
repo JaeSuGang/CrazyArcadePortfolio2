@@ -13,18 +13,14 @@ public:
 	void OpenLevel(const char* lpszLevelName);
 
 public:
+	void Release();
 	UGameInstance();
+	virtual ~UGameInstance();
 
-protected:
+public:
 	virtual void Tick(float fDeltaTime) = 0;
 	virtual void BeginPlay() = 0;
 	virtual void Initialize() = 0;
-
-protected:
-
-protected:
-	void Release();
-	virtual ~UGameInstance();
 
 // 접근 제한 차후 수정
 public:

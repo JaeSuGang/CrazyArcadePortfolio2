@@ -8,7 +8,7 @@ class ATestGamemode : public AGamemode
 
 protected:
 	void Tick(float fDeltaTime) override;
-
+	void Initialize() override;
 	void BeginPlay() override;
 
 };

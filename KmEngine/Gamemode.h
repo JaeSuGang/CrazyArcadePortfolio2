@@ -8,7 +8,10 @@ class AGamemode : public AActor
 	friend class UEngine;
 
 protected:
-	virtual void Tick(float fDeltaTime) override = 0;
-	virtual void BeginPlay() override = 0;
+
+	// AActor을(를) 통해 상속됨
+	void Initialize() override;
+	void Tick(float fDeltaTime) override;
+	void BeginPlay() override;
 };
 

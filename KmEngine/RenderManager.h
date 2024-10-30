@@ -7,6 +7,7 @@ class URenderManager : public UEngineSubsystem
 	friend class UEngine;
 
 public:
+	HWND GetGameWindowHandle();
 	void SetWindowSize(FVector2D Size);
 	static LRESULT WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 

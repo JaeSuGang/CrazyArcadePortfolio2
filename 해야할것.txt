@@ -1,5 +1,10 @@
 
 
+1. Base에 String 관리해주는 클래스 만들기
+
+2. Image를 LoadImage해주고 unordered_map에 저장시켜주는 ImageManager만들기
+3. dc값을 가진 Image클래스 만들기
+
 
 LevelDeserializer => ULevel 객체를 리턴해줌
 
