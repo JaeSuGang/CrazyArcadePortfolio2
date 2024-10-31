@@ -73,15 +73,6 @@
     <ClCompile Include="Gamemode.cpp">
       <Filter>AGamemode</Filter>
     </ClCompile>
-    <ClCompile Include="TestGameInstance.cpp">
-      <Filter>GameInstance</Filter>
-    </ClCompile>
-    <ClCompile Include="TestGamemode.cpp">
-      <Filter>AGamemode</Filter>
-    </ClCompile>
-    <ClCompile Include="TestPlayer.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
     <ClCompile Include="KeyManager.cpp">
       <Filter>EngineSubsystem\KeyManager</Filter>
     </ClCompile>
@@ -128,15 +119,6 @@
     </ClInclude>
     <ClInclude Include="Gamemode.h">
       <Filter>AGamemode</Filter>
-    </ClInclude>
-    <ClInclude Include="TestGameInstance.h">
-      <Filter>GameInstance</Filter>
-    </ClInclude>
-    <ClInclude Include="TestGamemode.h">
-      <Filter>AGamemode</Filter>
-    </ClInclude>
-    <ClInclude Include="TestPlayer.h">
-      <Filter>Actor</Filter>
     </ClInclude>
     <ClInclude Include="KeyManager.h">
       <Filter>EngineSubsystem\KeyManager</Filter>

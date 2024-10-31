@@ -1,5 +1,6 @@
 #pragma once
-#include "Gamemode.h"
+#include "KmEngine/Gamemode.h"
+
 class ATestGamemode : public AGamemode
 {
 	typedef AGamemode Super;

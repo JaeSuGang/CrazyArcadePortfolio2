@@ -1,9 +1,7 @@
 
 우선순위
 
-1. ULevel을 상속받는 UGameStage을 게임 콘텐츠 단계에서
-BeginPlay에 actor배치를 시킨다.
-
+1. 릭 잡기
 
 
 

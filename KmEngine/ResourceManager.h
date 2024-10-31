@@ -8,6 +8,7 @@ class UImage
 
 public:
 	void LoadFile(const char* lpszPath);
+	BITMAP m_BitmapInfo;
 	HDC getDC() const { return m_hDC; }
 
 public:

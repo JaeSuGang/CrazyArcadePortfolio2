@@ -75,6 +75,7 @@ void UImage::LoadFile(const char* lpszPath)
 	HDC TempDC = GetDC(m_hGameWindow);
 	m_hDC = CreateCompatibleDC(TempDC);
 	m_hBitmap = (HBITMAP)LoadImageA(0, lpszPath, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
+	GetObjectA(m_hBitmap, sizeof(BITMAP), &m_BitmapInfo);
 
 	if (m_hBitmap == 0)
 	{

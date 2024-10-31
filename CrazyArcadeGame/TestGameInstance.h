@@ -1,5 +1,5 @@
 #pragma once
-#include "GameInstance.h"
+#include "KmEngine/GameInstance.h"
 class UTestGameInstance : public UGameInstance
 {
 	typedef UGameInstance Super;

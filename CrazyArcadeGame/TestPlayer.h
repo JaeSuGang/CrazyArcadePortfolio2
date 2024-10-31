@@ -4,6 +4,9 @@
 
 class ATestPlayer : public AActor
 {
-	void Foo();
+public:
+	void Initialize() override;
+	void Tick(float fDeltaTime) override;
+	void BeginPlay() override;
 };
 

@@ -39,16 +39,16 @@ public:
 	}
 
 	template <typename T>
-	void AddComponent()
+	T* AddComponent()
 	{
 		static_assert(std::is_base_of<UActorComponent, T>::value);
 
-		if (GetComponentByClass<T>())
+		if (T* ExistedComponent = GetComponentByClass<T>())
 		{
-			return;
+			return ExistedComponent;
 		}
 
-		UActorComponent* Component = new T{};
+		T* Component = new T{};
 		Component->m_Owner = this;
 		Component->Initialize();
 		Component->BeginPlay();
@@ -57,26 +57,30 @@ public:
 		pair<string, UActorComponent*> PairToInsert = { ClassName, Component };
 
 		m_OwnedComponents.insert(PairToInsert);
+
+		return Component;
 	}
 
 	template <typename T>
-	void EmplaceComponent()
+	T* InitializeComponentForPlay()
 	{
 		static_assert(std::is_base_of<UActorComponent, T>::value);
 
-		if (GetComponentByClass<T>())
+		if (T* ExistedComponent = GetComponentByClass<T>())
 		{
-			return nullptr;
+			return ExistedComponent;
 		}
 
-		UActorComponent* Component = new T{};
+		T* Component = new T{};
 		Component->m_Owner = this;
 		Component->Initialize();
 
 		string ClassName = typeid(T).name();
-		pair<string, UActorComponent> PairToInsert = { ClassName, Component };
+		pair<string, UActorComponent*> PairToInsert = { ClassName, Component };
 
 		m_OwnedComponents.insert(PairToInsert);
+
+		return Component;
 	}
 
 public:

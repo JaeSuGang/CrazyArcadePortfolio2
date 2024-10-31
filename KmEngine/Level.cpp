@@ -58,3 +58,8 @@ void ULevel::BeginPlay()
 		++ActorIter;
 	}
 }
+
+void ULevel::Initialize()
+{
+
+}

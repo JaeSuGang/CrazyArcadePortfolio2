@@ -8,5 +8,6 @@ class UTestLevel : public ULevel
 public:
 	void Tick(float fDeltaTime) override;
 	void BeginPlay() override;
+	void Initialize() override;
 };
 

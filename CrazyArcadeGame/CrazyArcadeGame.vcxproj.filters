@@ -14,6 +14,12 @@
     <ClCompile Include="TestPlayer.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
+    <ClCompile Include="TestGameInstance.cpp">
+      <Filter>GameInstance</Filter>
+    </ClCompile>
+    <ClCompile Include="TestGamemode.cpp">
+      <Filter>Gamemode</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -27,6 +33,12 @@
     </Filter>
     <Filter Include="Actor">
       <UniqueIdentifier>{9546b771-bdd7-4790-881c-8cbdef5e7226}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameInstance">
+      <UniqueIdentifier>{63a53791-41d7-4467-aaf5-6725dafd7d19}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Gamemode">
+      <UniqueIdentifier>{a5181da4-895f-4b96-b1b0-a2ab95b90dd4}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -44,6 +56,12 @@
     </ClInclude>
     <ClInclude Include="TestPlayer.h">
       <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="TestGameInstance.h">
+      <Filter>GameInstance</Filter>
+    </ClInclude>
+    <ClInclude Include="TestGamemode.h">
+      <Filter>Gamemode</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

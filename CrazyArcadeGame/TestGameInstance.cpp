@@ -1,9 +1,9 @@
 #include "stdafx.h"
 #include "TestGameInstance.h"
 #include "TestGamemode.h"
-#include "Level.h"
-#include "Engine.h"
-#include "ResourceManager.h"
+#include "KmEngine/Level.h"
+#include "KmEngine/Engine.h"
+#include "KmEngine/ResourceManager.h"
 
 void UTestGameInstance::Tick(float fDeltaTime)
 {
@@ -23,4 +23,6 @@ void UTestGameInstance::Initialize()
 	Super::Initialize();
 
 	GEngine->GetEngineSubsystem<UResourceManager>()->LoadFile("resources\\bazzi.BMP");
+
+	this->OpenLevel<UTestLevel>();
 }

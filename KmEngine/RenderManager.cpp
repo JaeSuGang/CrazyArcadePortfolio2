@@ -48,13 +48,16 @@ void URenderManager::Tick()
 	while (ActorIter != ActiveLevel->m_Actors.end())
 	{
 		AActor* Actor = *ActorIter;
-		FVector2D Position2D = Actor->GetPositionVector2D();
+		FVector2D ActorPos = Actor->GetPositionVector2D();
 		URenderComponent* RenderComponent = Actor->GetComponentByClass<URenderComponent>();
 		if (UImage* StaticImage = RenderComponent->GetStaticImage())
 		{
-			StaticImage->getDC();
-		}
+			int nWidth = StaticImage->m_BitmapInfo.bmWidth;
+			int nHeight = StaticImage->m_BitmapInfo.bmHeight;
 
+			GdiTransparentBlt(m_hBackBufferDC, ActorPos.X, ActorPos.Y,
+				nWidth, nHeight, StaticImage->getDC(), 0, 0, nWidth, nHeight, RGB(255, 0, 255));
+		}
 
 		++ActorIter;
 	}
