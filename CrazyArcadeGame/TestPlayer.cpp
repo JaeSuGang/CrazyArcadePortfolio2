@@ -5,7 +5,7 @@
 void ATestPlayer::Initialize()
 {
 	URenderComponent* RenderComponent = InitializeComponentForPlay<URenderComponent>();
-	RenderComponent->SetStaticImage("ResouRces\\Bazzi.BMP");
+	RenderComponent->SetStaticImage("ResouRces\\blackballoon.BMP");
 }
 
 void ATestPlayer::Tick(float fDeltaTime)

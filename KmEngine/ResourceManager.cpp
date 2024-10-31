@@ -87,6 +87,11 @@ void UImage::LoadFile(const char* lpszPath)
 	ReleaseDC(m_hGameWindow, TempDC);
 }
 
+HDC UImage::getDC() const
+{
+	return m_hDC;
+}
+
 void UImage::Release()
 {
 	DeleteObject(m_hBitmap);

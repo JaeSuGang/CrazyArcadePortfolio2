@@ -15,10 +15,13 @@ private:
 	void Tick();
 	void Initialize(const char* lpszTitle);
 
-private:
+public:
+	void Release();
 	URenderManager();
+	~URenderManager();
 
 private:
+	FVector2D m_WindowSize;
 	HWND m_hGameWindow;
 	HDC m_hGameWindowDC;
 	HDC m_hBackBufferDC;

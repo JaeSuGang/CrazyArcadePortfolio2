@@ -13,6 +13,7 @@ HWND URenderManager::GetGameWindowHandle()
 
 void URenderManager::SetWindowSize(FVector2D Size)
 {
+	m_WindowSize = Size;
 	SetWindowPos(m_hGameWindow, 0, 0, 0, (int)Size.X, (int)Size.Y, SWP_NOMOVE);
 }
 
@@ -42,6 +43,9 @@ void URenderManager::Tick()
 		DispatchMessage(&msg);
 	}
 
+	// 백버퍼 청소
+	Rectangle(m_hBackBufferDC, -1, -1, m_WindowSize.X + 2, m_WindowSize.Y + 2);
+
 	// 액터 bitblt
 	ULevel* ActiveLevel = GEngine->GetGameInstance()->GetActiveLevel();
 	auto ActorIter = ActiveLevel->m_Actors.begin();
@@ -63,7 +67,7 @@ void URenderManager::Tick()
 	}
 
 	// 백버퍼 bitblt
-	
+	BitBlt(m_hGameWindowDC, 0, 0, m_WindowSize.X, m_WindowSize.Y, m_hBackBufferDC, 0, 0, SRCCOPY);
 }
 
 void URenderManager::Initialize(const char* lpszTitle)
@@ -95,14 +99,32 @@ void URenderManager::Initialize(const char* lpszTitle)
 		SHOW_ERROR("MakeWindow()의 CreateWindowA()가 false를 리턴함");
 	}
 
+	m_hGameWindowDC = GetDC(m_hGameWindow);
+	m_hBackBufferDC = CreateCompatibleDC(m_hGameWindowDC);
+	HBITMAP hBackBufferBitmap = CreateCompatibleBitmap(m_hGameWindowDC, 800, 600);
+	SelectObject(m_hBackBufferDC, hBackBufferBitmap);
+
+
 	ShowWindow(m_hGameWindow, SW_SHOW);
 	UpdateWindow(m_hGameWindow);
+}
+
+void URenderManager::Release()
+{
+	ReleaseDC(m_hGameWindow, m_hGameWindowDC);
+	DeleteDC(m_hBackBufferDC);
 }
 
 URenderManager::URenderManager()
 	:
 	m_hGameWindow{},
 	m_hBackBufferDC{},
-	m_hGameWindowDC{}
+	m_hGameWindowDC{},
+	m_WindowSize{}
 {
+}
+
+URenderManager::~URenderManager()
+{
+	this->Release();
 }

@@ -4,7 +4,7 @@
 
 void UGameInstance::Release()
 {
-
+	SAFE_DELETE(m_ActiveLevel);
 }
 
 UGameInstance::UGameInstance()
