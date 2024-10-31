@@ -22,7 +22,7 @@ void UTestGameInstance::Initialize()
 {
 	Super::Initialize();
 
-	GEngine->GetEngineSubsystem<UResourceManager>()->LoadFile("Resources\\BlackBalloon.bmp");
+	GEngine->GetEngineSubsystem<UResourceManager>()->LoadFile("bazzidownidle.bmp");
 
 	this->OpenLevel<UTestLevel>();
 }

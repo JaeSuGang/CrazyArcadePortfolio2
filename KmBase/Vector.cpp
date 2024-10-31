@@ -1,6 +1,12 @@
 #include "stdafx.h"
 #include "Vector.h"
 
+const FVector2D FVector2D::Zero = FVector2D{ 0.0f, 0.0f };
+const FVector2D FVector2D::Up = FVector2D{ 0.0f, -1.0f };
+const FVector2D FVector2D::Down = FVector2D{ 0.0f, 1.0f };
+const FVector2D FVector2D::Left = FVector2D{ -1.0f, 0.0f };
+const FVector2D FVector2D::Right = FVector2D{ 0.0f, 1.0f };
+
 FVector2D::FVector2D(float _X, float _Y)
 {
 	X = _X;
@@ -18,5 +24,20 @@ FVector2D& FVector2D::operator=(const FVector2D& Other)
 	X = Other.X;
 	Y = Other.Y;
 
+	return *this;
+}
+
+FVector2D& FVector2D::operator+=(const FVector2D& Other)
+{
+	X += Other.X;
+	Y += Other.Y;
+
+	return *this;
+}
+
+FVector2D& FVector2D::operator*(float fValue)
+{
+	X *= fValue;
+	Y *= fValue;
 	return *this;
 }

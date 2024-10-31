@@ -7,7 +7,7 @@ class UKeyManager : public UEngineSubsystem
 	friend class UEngine;
 
 public:
-	enum class EKeyState
+	enum class EKeyState : unsigned short
 	{
 		None = 0x0000,
 		KeyUp = 0x0001,
