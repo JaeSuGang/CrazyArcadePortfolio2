@@ -5,7 +5,7 @@
 class AActor;
 class AGamemode;
 
-class ULevel final : public UObject
+class ULevel : public UObject
 {
 	friend class UEngine;
 	friend class UGameInstance;
@@ -14,8 +14,9 @@ class ULevel final : public UObject
 
 public:
 	// BeginPlay()가 없이 Actor를 m_Actors에 넣음
+	// 원래는 UWorld::InitializeActorsForPlay
 	template <typename T>
-	void EmplaceActor()
+	void InitializeActorForPlay()
 	{
 		static_assert(std::is_base_of<AActor, T>::value);
 
@@ -37,7 +38,7 @@ public:
 	}
 
 	template <typename T>
-	void EmplaceGamemode()
+	void InitializeGamemodeForPlay()
 	{
 		static_assert(std::is_base_of<AGamemode, T>::value);
 
@@ -50,13 +51,13 @@ public:
 
 
 public:
+	virtual void Tick(float fDeltaTime) = 0;
+	virtual void BeginPlay() = 0;
+
+public:
 	void Release();
 	ULevel();
 	~ULevel();
-
-private:
-	void Tick(float fDeltaTime);
-	void BeginPlay();
 
 // 차후수정
 public:

@@ -1,9 +1,22 @@
 
-1. BeginPlay는 SpawnActor과 AddComponent 방식으로만 호출되게 하기
-Level이 beginplay를 하지 않음.
+우선순위
 
-2. LoadedLevels는 ULevel* 컨테이너가 아님. 삭제한 후,
-OpenLevel에서 직접 파일 역직렬화 및 FLevelData에서 정보 읽어서
-새로운 레벨 생성하기.
+1. ULevel을 상속받는 UGameStage을 게임 콘텐츠 단계에서
+BeginPlay에 actor배치를 시킨다.
+
+
+
 
 3. 렌더 순서를 ordered_map 형태로 렌더하게 구성하기
+충돌 체크 -> 움직이는 대상이 움직일때만
+렌더링 순서 변경 -> 움직이는 대상이 움직일때만
+
+
+4. URenderComponent가 가진 UImage* StaticImage의 UImage주소를 변경시켜주는게
+Animation의 역할 ★되도록이면 면접 대비를 위해 FSM으로 구현
+
+5. FLevelData라는 직렬화가능 구조체를 만들고,
+이 구조체를 받아서 게임 스테이지에 맞게 SpawnActor해주는 BeginPlay() 오버로드된 함수 생성 
+
+6. 멈춰도 바로 멈추는 것이 아니라 여러 상태와 조건에 따라 
+어떻게 animation이 바뀔지를 결정할 수 있는 FSM모델 구현

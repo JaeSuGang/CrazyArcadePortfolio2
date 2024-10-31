@@ -26,7 +26,7 @@ void CLevelDeserializer::EmplaceActor(ULevel* Level, EActorType ActorType)
 	switch (ActorType)
 	{
 	case EActorType::Player:
-		Level->EmplaceActor<ATestPlayer>();
+		Level->InitializeActorForPlay<ATestPlayer>();
 		break;
 
 	default:
@@ -39,7 +39,7 @@ void CLevelDeserializer::EmplaceGamemode(ULevel* Level, EGamemodeType GamemodeTy
 	switch (GamemodeType)
 	{
 	case EGamemodeType::Test:
-		Level->EmplaceGamemode<ATestGamemode>();
+		Level->InitializeGamemodeForPlay<ATestGamemode>();
 		break;
 
 	default:

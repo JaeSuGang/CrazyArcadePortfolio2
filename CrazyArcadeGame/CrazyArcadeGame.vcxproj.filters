@@ -8,6 +8,12 @@
     <ClCompile Include="LevelDeserializer.cpp">
       <Filter>LevelDeserializer</Filter>
     </ClCompile>
+    <ClCompile Include="TestLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="TestPlayer.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -15,6 +21,12 @@
     </Filter>
     <Filter Include="LevelDeserializer">
       <UniqueIdentifier>{79572b0a-d501-495d-93aa-18442d1035f8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{be8dad4b-0b6c-4dc9-98a8-bda49bee66b7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Actor">
+      <UniqueIdentifier>{9546b771-bdd7-4790-881c-8cbdef5e7226}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -26,6 +38,12 @@
     </ClInclude>
     <ClInclude Include="LevelDeserializer.h">
       <Filter>LevelDeserializer</Filter>
+    </ClInclude>
+    <ClInclude Include="TestLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="TestPlayer.h">
+      <Filter>Actor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

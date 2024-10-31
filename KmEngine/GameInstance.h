@@ -1,6 +1,7 @@
 #pragma once
 #include "stdafx.h"
 #include "Object.h"
+#include "CrazyArcadeGame/TestPlayer.h"
 
 class ULevel;
 
@@ -10,8 +11,14 @@ class UGameInstance : public UObject
 	
 public:
 	ULevel* GetActiveLevel() const;
-	void LoadLevel(const char* lpszLevelName, ULevel* Level);
-	void OpenLevel(const char* lpszLevelName);
+	typedef ATestPlayer T;
+	//template <typename T>
+	T* OpenLevel()
+	{
+		SAFE_DELETE(m_ActiveLevel);
+		T NewLevel = new T{};
+	}
+
 
 public:
 	void Release();
@@ -26,6 +33,5 @@ public:
 // 접근 제한 차후 수정
 public:
 	ULevel* m_ActiveLevel;
-	unordered_map<string, ULevel*> m_LoadedLevels;
 };
 

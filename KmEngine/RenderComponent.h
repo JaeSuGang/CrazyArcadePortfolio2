@@ -23,6 +23,7 @@ public:
 
 private:
 	// ResourceManager가 삭제함. Release하지 말것
+	int m_RenderOrder;
 	UImage* m_StaticImage;
 };
 
