@@ -33,6 +33,11 @@ void UGameInstance::BeginPlay()
 	m_ActiveLevel->BeginPlay();
 }
 
+void UGameInstance::Initialize()
+{
+
+}
+
 void UGameInstance::OpenLevel(const char* lpszLevelName)
 {
 	auto LevelIter = m_LoadedLevels.find(string(lpszLevelName));

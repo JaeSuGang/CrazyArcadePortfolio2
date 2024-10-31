@@ -1,11 +1,12 @@
 #include "stdafx.h"
 #include "TestPlayer.h"
+#include "RenderComponent.h"
 
 void ATestPlayer::Initialize()
 {
 	Super::Initialize();
 
-
+	AddComponent<URenderComponent>();
 }
 
 void ATestPlayer::Tick(float fDeltaTime)
@@ -19,6 +20,6 @@ void ATestPlayer::BeginPlay()
 {
 	Super::BeginPlay();
 
-
-	// 할것 : KeyEvent에 입력 bind 한 후 테스트
+	URenderComponent* RenderComponent = GetComponentByClass<URenderComponent>();
+	RenderComponent->SetStaticImage("reSouRcEs\\baZzi.BMP");
 }

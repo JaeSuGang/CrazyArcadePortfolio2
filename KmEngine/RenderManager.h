@@ -19,6 +19,8 @@ private:
 	URenderManager();
 
 private:
-	HWND m_hWnd;
+	HWND m_hGameWindow;
+	HDC m_hGameWindowDC;
+	HDC m_hBackBufferDC;
 };
 

@@ -32,6 +32,8 @@ class UResourceManager : public UEngineSubsystem
 	friend class UEngine;
 
 public:
+	HDC GetImageDC(string strKey);
+	UImage* GetImage(string strKey);
 	void LoadFile(const char* lpszPath);
 
 public:

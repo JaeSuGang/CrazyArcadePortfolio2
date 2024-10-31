@@ -40,6 +40,9 @@
     <Filter Include="EngineSubsystem\ResourceManager">
       <UniqueIdentifier>{89fdc9c2-9360-4aa2-8326-a48372f1fd42}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ActorComponent\RenderComponent">
+      <UniqueIdentifier>{3895fa7a-491b-4975-b49f-8e34248a2fed}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -90,6 +93,9 @@
     </ClCompile>
     <ClCompile Include="ResourceManager.cpp">
       <Filter>EngineSubsystem\ResourceManager</Filter>
+    </ClCompile>
+    <ClCompile Include="RenderComponent.cpp">
+      <Filter>ActorComponent\RenderComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -143,6 +149,9 @@
     </ClInclude>
     <ClInclude Include="ResourceManager.h">
       <Filter>EngineSubsystem\ResourceManager</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderComponent.h">
+      <Filter>ActorComponent\RenderComponent</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

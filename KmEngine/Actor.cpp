@@ -29,6 +29,21 @@ void AActor::BeginPlay()
 	}
 }
 
+void AActor::Release()
+{
+	auto ComponentIter = m_OwnedComponents.begin();
+	while (ComponentIter != m_OwnedComponents.end())
+	{
+		SAFE_DELETE((ComponentIter->second));
+		++ComponentIter;
+	}
+}
+
+AActor::~AActor()
+{
+	this->Release();
+}
+
 FVector2D AActor::GetPositionVector2D() const
 {
 	return m_Position;

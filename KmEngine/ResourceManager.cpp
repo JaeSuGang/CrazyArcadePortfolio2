@@ -1,6 +1,30 @@
 #include "stdafx.h"
 #include "ResourceManager.h"
 
+HDC UResourceManager::GetImageDC(string strKey)
+{
+	LOWER_STRING(strKey);
+
+	auto ImageIter = m_Images.find(strKey);
+	if (ImageIter == m_Images.end())
+	{
+		SHOW_ERROR(("UResourceManager::GetImageDC, 존재하지 않는 Key입니다, " + strKey).data());
+	}
+	return ImageIter->second->getDC();
+}
+
+UImage* UResourceManager::GetImage(string strKey)
+{
+	LOWER_STRING(strKey);
+
+	auto ImageIter = m_Images.find(strKey);
+	if (ImageIter == m_Images.end())
+	{
+		SHOW_ERROR(("UResourceManager::GetImage, 존재하지 않는 Key입니다, " + strKey).data());
+	}
+	return ImageIter->second;
+}
+
 void UResourceManager::LoadFile(const char* lpszPath)
 {
 	string strPath = lpszPath;
@@ -50,7 +74,7 @@ void UImage::LoadFile(const char* lpszPath)
 {
 	HDC TempDC = GetDC(m_hGameWindow);
 	m_hDC = CreateCompatibleDC(TempDC);
-	m_hBitmap = (HBITMAP)LoadImage(0, lpszPath, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
+	m_hBitmap = (HBITMAP)LoadImageA(0, lpszPath, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
 
 	if (m_hBitmap == 0)
 	{

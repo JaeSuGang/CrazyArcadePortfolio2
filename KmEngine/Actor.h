@@ -45,7 +45,7 @@ public:
 
 		if (GetComponentByClass<T>())
 		{
-			return nullptr;
+			return;
 		}
 
 		UActorComponent* Component = new T{};
@@ -54,7 +54,7 @@ public:
 		Component->BeginPlay();
 
 		string ClassName = typeid(T).name();
-		pair<string, UActorComponent> PairToInsert = { ClassName, Component };
+		pair<string, UActorComponent*> PairToInsert = { ClassName, Component };
 
 		m_OwnedComponents.insert(PairToInsert);
 	}
@@ -79,10 +79,12 @@ public:
 		m_OwnedComponents.insert(PairToInsert);
 	}
 
-protected:
-	unordered_map<string, UActorComponent*> m_OwnedComponents;
+public:
+	void Release();
+	~AActor();
 
 protected:
+	unordered_map<string, UActorComponent*> m_OwnedComponents;
 	FVector2D m_Position;
 };
 
