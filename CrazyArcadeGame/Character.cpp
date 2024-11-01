@@ -67,7 +67,7 @@ void ACharacter::Initialize()
 {
 	Super::Initialize();
 
-	m_strCharacterName = "Bazzi";
+	m_strCharacterName = "Cappi";
 
 	URenderComponent* RenderComponent = InitializeComponentForPlay<URenderComponent>();
 	UPhysicsComponent* PhysicsComponent = InitializeComponentForPlay<UPhysicsComponent>();
