@@ -1,7 +1,6 @@
-
-
-
 충돌 체크 -> 움직이는 대상이 움직일때만
-
 렌더링 순서 변경 -> 움직이는 대상이 움직일때만
 
+
+Move()함수에서 애니메이션 호출까지 함
+RenderComponent->PlayAnimation("WalkRight");

@@ -10,6 +10,11 @@ void UTestLevel::Tick(float fDeltaTime)
 
 }
 
+void UTestLevel::LateTick(float fDeltaTime)
+{
+	Super::LateTick(fDeltaTime);
+}
+
 void UTestLevel::BeginPlay()
 {
 	Super::BeginPlay();

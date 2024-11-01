@@ -16,9 +16,9 @@ public:
 
 // 사용자가 일일히 Subsystem을 Create해야 합니다
 public:
-	void CreateResourceManager(HWND hGameWindow);
+	UResourceManager* CreateResourceManager(HWND hGameWindow);
 	void CreateDebugManager(HDC hGameWindowDC);
-	void CreateRenderManager(const char* lpszTitle);
+	URenderManager* CreateRenderManager(const char* lpszTitle);
 	void CreateTimeManager();
 	void CreateKeyManager();
 	void CreatePhysicsManager();

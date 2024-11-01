@@ -45,6 +45,20 @@ void ULevel::Tick(float fDeltaTime)
 	}
 }
 
+void ULevel::LateTick(float fDeltaTime)
+{
+	m_Gamemode->LateTick(fDeltaTime);
+
+	auto ActorIter = m_Actors.begin();
+
+	while (ActorIter != m_Actors.end())
+	{
+		(*ActorIter)->LateTick(fDeltaTime);
+
+		++ActorIter;
+	}
+}
+
 void ULevel::BeginPlay()
 {
 	auto ActorIter = m_Actors.begin();

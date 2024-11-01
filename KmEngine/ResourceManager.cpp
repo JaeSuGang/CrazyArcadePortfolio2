@@ -25,9 +25,8 @@ UImage* UResourceManager::GetImage(string strKey)
 	return ImageIter->second;
 }
 
-void UResourceManager::LoadFile(const char* lpszPath)
+void UResourceManager::LoadFile(string strPath)
 {
-	string strPath = lpszPath;
 	LOWER_STRING(strPath);
 	std::filesystem::path Path = strPath;
 	
@@ -35,12 +34,44 @@ void UResourceManager::LoadFile(const char* lpszPath)
 	{
 		UImage* Image = new UImage{};
 		Image->Initialize(m_hWnd);
-		Image->LoadFile(lpszPath);
+		Image->LoadFile(strPath);
 
 		pair<string, UImage*> PairToInsert{strPath, Image};
 		m_Images.insert(PairToInsert);
 		return;
 	}
+}
+
+void UResourceManager::LoadFolder(string strPath)
+{
+	LOWER_STRING(strPath);
+	std::filesystem::path WorkingDirectory = std::filesystem::current_path();
+	std::filesystem::path Path{ strPath };
+	Path = std::filesystem::relative(Path, WorkingDirectory);
+	std::filesystem::directory_iterator DirIter{ Path };
+
+	while (!DirIter._At_end())
+	{
+		std::filesystem::path ChildPath = *DirIter;
+		ChildPath = std::filesystem::relative(ChildPath, WorkingDirectory);
+
+		if (DirIter->is_directory())
+		{
+			LoadFolder(ChildPath.string());
+		}
+
+		if (ChildPath.extension().string() == ".bmp")
+		{
+			LoadFile(ChildPath.string());
+		}
+
+		++DirIter;
+	}
+}
+
+void UResourceManager::LoadAll()
+{
+
 }
 
 void UResourceManager::Release()
@@ -65,21 +96,29 @@ void UResourceManager::Initialize(HWND hGameWindow)
 	m_hWnd = hGameWindow;
 }
 
+UResourceManager::UResourceManager()
+	:
+	m_hWnd{},
+	m_Images{},
+	m_Sounds{}
+{
+}
+
 UResourceManager::~UResourceManager()
 {
 	this->Release();
 }
 
-void UImage::LoadFile(const char* lpszPath)
+void UImage::LoadFile(string strPath)
 {
 	HDC TempDC = GetDC(m_hGameWindow);
 	m_hDC = CreateCompatibleDC(TempDC);
-	m_hBitmap = (HBITMAP)LoadImageA(0, lpszPath, IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
+	m_hBitmap = (HBITMAP)LoadImageA(0, strPath.data(), IMAGE_BITMAP, 0, 0, LR_LOADFROMFILE | LR_CREATEDIBSECTION);
 	GetObjectA(m_hBitmap, sizeof(BITMAP), &m_BitmapInfo);
 
 	if (m_hBitmap == 0)
 	{
-		SHOW_ERROR(("UImage::LoadFile, 존재하지 않는 경로입니다, " + string(lpszPath)).c_str());
+		SHOW_ERROR(("UImage::LoadFile, 존재하지 않는 경로입니다, " + strPath).c_str());
 	}
 
 	SelectObject(m_hDC, m_hBitmap);

@@ -52,6 +52,7 @@ public:
 
 public:
 	virtual void Tick(float fDeltaTime) = 0;
+	virtual void LateTick(float fDeltaTime) = 0;
 	virtual void BeginPlay() = 0;
 	virtual void Initialize() = 0;
 

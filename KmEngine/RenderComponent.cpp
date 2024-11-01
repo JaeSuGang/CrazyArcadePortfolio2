@@ -3,6 +3,11 @@
 #include "RenderComponent.h"
 #include "ResourceManager.h"
 
+void URenderComponent::PlayAnimation(string strKey)
+{
+
+}
+
 void URenderComponent::SetStaticImage(UImage* Image)
 {
 	m_StaticImage = Image;

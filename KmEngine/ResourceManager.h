@@ -7,7 +7,7 @@ class UImage
 	friend class UResourceManager;
 
 public:
-	void LoadFile(const char* lpszPath);
+	void LoadFile(string strPath);
 	BITMAP m_BitmapInfo;
 	HDC getDC() const;
 
@@ -35,11 +35,14 @@ class UResourceManager : public UEngineSubsystem
 public:
 	HDC GetImageDC(string strKey);
 	UImage* GetImage(string strKey);
-	void LoadFile(const char* lpszPath);
+	void LoadFile(string strPath);
+	void LoadFolder(string strPath);
+	void LoadAll();
 
 public:
 	void Release();
 	void Initialize(HWND hGameWindow);
+	UResourceManager();
 	~UResourceManager();
 
 private:

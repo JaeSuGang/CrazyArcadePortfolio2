@@ -30,11 +30,13 @@ void UEngine::Tick()
 
 		GameInstance->Tick(fDeltaTime);
 
+		GameInstance->LateTick(fDeltaTime);
+
 		RenderManager->Tick();
 
-		#ifdef _DEBUG:
+#ifdef _DEBUG:
 		DebugManager->Tick(fDeltaTime);
-		#endif
+#endif
 
 		TimeManager->ResetDeltaTime();
 	}
@@ -65,7 +67,7 @@ UGameInstance* UEngine::GetGameInstance() const
 	return m_ActiveGameInstance;
 }
 
-void UEngine::CreateResourceManager(HWND hGameWindow)
+UResourceManager* UEngine::CreateResourceManager(HWND hGameWindow)
 {
 	UResourceManager* Subsystem = new UResourceManager{};
 	Subsystem->Initialize(hGameWindow);
@@ -73,6 +75,8 @@ void UEngine::CreateResourceManager(HWND hGameWindow)
 	string ClassName = typeid(UResourceManager).name();
 	pair<string, UEngineSubsystem*> PairToInsert{ ClassName, Subsystem };
 	m_Subsystems.insert(PairToInsert);
+
+	return Subsystem;
 }
 
 void UEngine::CreateDebugManager(HDC hGameWindowDC)
@@ -85,7 +89,7 @@ void UEngine::CreateDebugManager(HDC hGameWindowDC)
 	m_Subsystems.insert(PairToInsert);
 }
 
-void UEngine::CreateRenderManager(const char* lpszTitle)
+URenderManager* UEngine::CreateRenderManager(const char* lpszTitle)
 {
 	URenderManager* Subsystem = new URenderManager{};
 	Subsystem->Initialize(lpszTitle);
@@ -93,6 +97,7 @@ void UEngine::CreateRenderManager(const char* lpszTitle)
 	string ClassName = typeid(URenderManager).name();
 	pair<string, UEngineSubsystem*> PairToInsert{ClassName, Subsystem};
 	m_Subsystems.insert(PairToInsert);
+	return Subsystem;
 }
 
 void UEngine::CreateTimeManager()

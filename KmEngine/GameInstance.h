@@ -31,6 +31,7 @@ public:
 
 public:
 	virtual void Tick(float fDeltaTime) = 0;
+	virtual void LateTick(float fDeltaTime) = 0;
 	virtual void BeginPlay() = 0;
 	// 자식 Initialize에서 OpenLevel호출할것
 	// OpenLevel에서 Level의 initialize()를 호출하는것이지,

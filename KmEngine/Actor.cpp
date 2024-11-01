@@ -15,6 +15,11 @@ void AActor::Tick(float fDeltaTime)
 	}
 }
 
+void AActor::LateTick(float fDeltaTime)
+{
+
+}
+
 void AActor::BeginPlay()
 {
 	auto ComponentIter = m_OwnedComponents.begin();

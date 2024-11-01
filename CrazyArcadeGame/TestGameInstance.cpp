@@ -12,6 +12,11 @@ void UTestGameInstance::Tick(float fDeltaTime)
 
 }
 
+void UTestGameInstance::LateTick(float fDeltaTime)
+{
+	Super::LateTick(fDeltaTime);
+}
+
 void UTestGameInstance::BeginPlay()
 {
 	Super::BeginPlay();
@@ -22,7 +27,7 @@ void UTestGameInstance::Initialize()
 {
 	Super::Initialize();
 
-	GEngine->GetEngineSubsystem<UResourceManager>()->LoadFile("bazzidownidle.bmp");
+	// GEngine->GetEngineSubsystem<UResourceManager>()->LoadFile("bazzidownidle.bmp");
 
 	this->OpenLevel<UTestLevel>();
 }

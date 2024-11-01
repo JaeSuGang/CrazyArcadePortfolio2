@@ -24,6 +24,11 @@ void UGameInstance::Tick(float fDeltaTime)
 	m_ActiveLevel->Tick(fDeltaTime);
 }
 
+void UGameInstance::LateTick(float fDeltaTime)
+{
+	m_ActiveLevel->LateTick(fDeltaTime);
+}
+
 void UGameInstance::BeginPlay()
 {
 

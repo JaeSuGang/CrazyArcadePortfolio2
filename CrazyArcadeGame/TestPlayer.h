@@ -4,15 +4,19 @@
 
 class ATestPlayer : public AActor
 {
+	typedef AActor Super;
+
 public:
 	void Move(FVector2D Direction);
 
 public:
 	void Initialize() override;
 	void Tick(float fDeltaTime) override;
+	void LateTick(float fDeltaTime) override;
 	void BeginPlay() override;
 
 private:
-	bool bIsAlreadyMoving;
+	bool m_bIsAlreadyMoving;
+
 };
 
