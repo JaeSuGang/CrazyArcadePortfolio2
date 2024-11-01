@@ -18,6 +18,8 @@ public:
 	FVector2D(const FVector2D& Other);
 	FVector2D& operator=(const FVector2D& Other);
 	FVector2D& operator+=(const FVector2D& Other);
+	FVector2D operator+(FVector2D Other);
+	FVector2D operator-(FVector2D Other);
 	FVector2D operator*(float fValue);
 	FVector2D operator/(float fValue);
 

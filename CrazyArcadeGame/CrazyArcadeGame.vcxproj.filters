@@ -40,6 +40,9 @@
     <Filter Include="Gamemode">
       <UniqueIdentifier>{a5181da4-895f-4b96-b1b0-a2ab95b90dd4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Resources">
+      <UniqueIdentifier>{5bd923ab-c5c2-4844-b97e-0156cc7ce447}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -63,5 +66,10 @@
     <ClInclude Include="TestGamemode.h">
       <Filter>Gamemode</Filter>
     </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="..\Bin\x64\Debug\BazziDownIdle.bmp">
+      <Filter>Resources</Filter>
+    </Image>
   </ItemGroup>
 </Project>

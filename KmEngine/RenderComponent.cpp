@@ -38,3 +38,10 @@ void URenderComponent::TickComponent(float fDeltaTime)
 
 
 }
+
+URenderComponent::URenderComponent()
+	:
+	m_RenderOrder{},
+	m_StaticImage{}
+{
+}

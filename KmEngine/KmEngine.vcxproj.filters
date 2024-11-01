@@ -49,6 +49,9 @@
     <Filter Include="ActorComponent\PhysicsComponent">
       <UniqueIdentifier>{6d05d95f-d5be-4c33-924f-bd708a824c98}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EngineSubsystem\DebugManager">
+      <UniqueIdentifier>{df4e49f6-8f62-4159-9078-88a46bb043a1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -99,6 +102,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PhysicsComponent.cpp">
       <Filter>ActorComponent\PhysicsComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="DebugManager.cpp">
+      <Filter>EngineSubsystem\DebugManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -152,6 +158,9 @@
     </ClInclude>
     <ClInclude Include="PhysicsComponent.h">
       <Filter>ActorComponent\PhysicsComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="DebugManager.h">
+      <Filter>EngineSubsystem\DebugManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -2,19 +2,25 @@
 #include "TestPlayer.h"
 #include "KmEngine/Engine.h"
 #include "KmEngine/RenderComponent.h"
+#include "KmEngine/KeyManager.h"
 #include "KmEngine/TimeManager.h"
 #include "KmEngine/KeyManager.h"
+#include "KmEngine/PhysicsComponent.h"
 
 void ATestPlayer::Move(FVector2D Direction)
 {
+	UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
 	UTimeManager* TimeManager = GEngine->GetEngineSubsystem<UTimeManager>();
-	m_Position +=  Direction * TimeManager->GetDeltaTime() * 300.0f;
+	UPhysicsComponent* PhysicsComponent = GetComponentByClass<UPhysicsComponent>();
+	PhysicsComponent->AddVelocity(Direction * TimeManager->GetDeltaTime() * 200.0f);
 }
 
 void ATestPlayer::Initialize()
 {
 	URenderComponent* RenderComponent = InitializeComponentForPlay<URenderComponent>();
+	UPhysicsComponent* PhysicsComponent = InitializeComponentForPlay<UPhysicsComponent>();
 	RenderComponent->SetStaticImage("bazzidownidle.BMP");
+	PhysicsComponent->SetMaxSpeed(200.0f);
 }
 
 void ATestPlayer::Tick(float fDeltaTime)

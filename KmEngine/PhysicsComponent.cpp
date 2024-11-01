@@ -6,6 +6,11 @@ void UPhysicsComponent::AddVelocity(FVector2D AddedVelocity)
 	m_Velocity += AddedVelocity;
 }
 
+void UPhysicsComponent::SetVelocity(FVector2D Velocity)
+{
+	m_Velocity = Velocity;
+}
+
 FVector2D UPhysicsComponent::GetVelocity()
 {
 	return m_Velocity;

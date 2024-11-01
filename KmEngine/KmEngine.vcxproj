@@ -21,6 +21,7 @@
   <ItemGroup>
     <ClInclude Include="Actor.h" />
     <ClInclude Include="ActorComponent.h" />
+    <ClInclude Include="DebugManager.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="Engine.h" />
     <ClInclude Include="EngineSubsystem.h" />
@@ -40,6 +41,7 @@
   <ItemGroup>
     <ClCompile Include="Actor.cpp" />
     <ClCompile Include="ActorComponent.cpp" />
+    <ClCompile Include="DebugManager.cpp" />
     <ClCompile Include="Engine.cpp" />
     <ClCompile Include="EngineSubsystem.cpp" />
     <ClCompile Include="GameInstance.cpp" />

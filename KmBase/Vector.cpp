@@ -40,16 +40,35 @@ FVector2D& FVector2D::operator+=(const FVector2D& Other)
 	return *this;
 }
 
+FVector2D FVector2D::operator+(FVector2D Other)
+{
+	FVector2D NewVector{};
+	NewVector.X = X + Other.X;
+	NewVector.Y = Y + Other.Y;
+	return NewVector;
+}
+
+FVector2D FVector2D::operator-(FVector2D Other)
+{
+	FVector2D NewVector{};
+	NewVector.X = X - Other.X;
+	NewVector.Y = Y - Other.Y;
+	return NewVector;
+}
+
+
 FVector2D FVector2D::operator*(float fValue)
 {
 	FVector2D NewVector{};
-	NewVector.X =  * fValue;
+	NewVector.X = X * fValue;
+	NewVector.Y = Y * fValue;
 	return NewVector;
 }
 
 FVector2D FVector2D::operator/(float fValue)
 {
-	X /= fValue;
-	Y /= fValue;
+	FVector2D NewVector{};
+	NewVector.X = X / fValue;
+	NewVector.Y = Y / fValue;
 	return NewVector;
 }

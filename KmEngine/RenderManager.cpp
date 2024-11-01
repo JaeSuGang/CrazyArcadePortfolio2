@@ -11,6 +11,11 @@ HWND URenderManager::GetGameWindowHandle()
 	return m_hGameWindow;
 }
 
+HDC URenderManager::GetGameWindowDCHandle()
+{
+	return m_hGameWindowDC;
+}
+
 void URenderManager::SetWindowSize(FVector2D Size)
 {
 	m_WindowSize = Size;
@@ -44,7 +49,7 @@ void URenderManager::Tick()
 	}
 
 	// 백버퍼 청소
-	Rectangle(m_hBackBufferDC, -1, -1, m_WindowSize.X + 2, m_WindowSize.Y + 2);
+	Rectangle(m_hBackBufferDC, -1, -1, (int)m_WindowSize.X + 2, (int)m_WindowSize.Y + 2);
 
 	// 액터 bitblt
 	ULevel* ActiveLevel = GEngine->GetGameInstance()->GetActiveLevel();
@@ -59,7 +64,7 @@ void URenderManager::Tick()
 			int nWidth = StaticImage->m_BitmapInfo.bmWidth;
 			int nHeight = StaticImage->m_BitmapInfo.bmHeight;
 
-			GdiTransparentBlt(m_hBackBufferDC, ActorPos.X, ActorPos.Y,
+			GdiTransparentBlt(m_hBackBufferDC, (int)ActorPos.X, (int)ActorPos.Y,
 				nWidth, nHeight, StaticImage->getDC(), 0, 0, nWidth, nHeight, RGB(255, 0, 255));
 		}
 
@@ -67,7 +72,7 @@ void URenderManager::Tick()
 	}
 
 	// 백버퍼 bitblt
-	BitBlt(m_hGameWindowDC, 0, 0, m_WindowSize.X, m_WindowSize.Y, m_hBackBufferDC, 0, 0, SRCCOPY);
+	BitBlt(m_hGameWindowDC, 0, 0, (int)m_WindowSize.X, (int)m_WindowSize.Y, m_hBackBufferDC, 0, 0, SRCCOPY);
 }
 
 void URenderManager::Initialize(const char* lpszTitle)

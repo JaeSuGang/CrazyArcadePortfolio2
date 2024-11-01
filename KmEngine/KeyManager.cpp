@@ -75,18 +75,24 @@ void UKeyManager::BroadcastKeyEvent()
 			{
 				KeyEvent.Event();
 			}
+			break;
 
 		case EKeyState::KeyDown:
 			if (m_KeyStates[KeyEvent.VirtualKey] == 0x8001)
 			{
 				KeyEvent.Event();
 			}
+			break;
 
 		case EKeyState::KeyUp:
 			if (m_KeyStates[KeyEvent.VirtualKey] == 0x0001)
 			{
 				KeyEvent.Event();
 			}
+			break;
+
+		default:
+			break;
 		}
 	}
 }

@@ -7,6 +7,7 @@
 #include "TimeManager.h"
 #include "Gamemode.h"
 #include "PhysicsManager.h"
+#include "DebugManager.h"
 
 using std::pair;
 
@@ -16,6 +17,7 @@ void UEngine::Tick()
 	UTimeManager* TimeManager = GetEngineSubsystem<UTimeManager>();
 	URenderManager* RenderManager = GetEngineSubsystem<URenderManager>();
 	UPhysicsManager* PhysicsManager = GetEngineSubsystem<UPhysicsManager>();
+	UDebugManager* DebugManager = GetEngineSubsystem<UDebugManager>();
 	UGameInstance* GameInstance = GetGameInstance();
 
 	float fDeltaTime = TimeManager->GetDeltaTime();
@@ -29,6 +31,10 @@ void UEngine::Tick()
 		GameInstance->Tick(fDeltaTime);
 
 		RenderManager->Tick();
+
+		#ifdef _DEBUG:
+		DebugManager->Tick(fDeltaTime);
+		#endif
 
 		TimeManager->ResetDeltaTime();
 	}
@@ -65,6 +71,16 @@ void UEngine::CreateResourceManager(HWND hGameWindow)
 	Subsystem->Initialize(hGameWindow);
 
 	string ClassName = typeid(UResourceManager).name();
+	pair<string, UEngineSubsystem*> PairToInsert{ ClassName, Subsystem };
+	m_Subsystems.insert(PairToInsert);
+}
+
+void UEngine::CreateDebugManager(HDC hGameWindowDC)
+{
+	UDebugManager* Subsystem = new UDebugManager{};
+	Subsystem->Initialize(hGameWindowDC);
+
+	string ClassName = typeid(UDebugManager).name();
 	pair<string, UEngineSubsystem*> PairToInsert{ ClassName, Subsystem };
 	m_Subsystems.insert(PairToInsert);
 }

@@ -7,6 +7,7 @@ class UPhysicsComponent : public UActorComponent
 
 public:
 	void AddVelocity(FVector2D AddedVelocity);
+	void SetVelocity(FVector2D Velocity);
 	FVector2D GetVelocity();
 	float GetMaxSpeed() const;
 	void SetMaxSpeed(float fValue);

@@ -18,10 +18,12 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	GEngine->CreateRenderManager("CrazyArcade");
 	HWND hGameWindow = GEngine->GetEngineSubsystem<URenderManager>()->GetGameWindowHandle();
+	HDC hGameWindowDC = GEngine->GetEngineSubsystem<URenderManager>()->GetGameWindowDCHandle();
 	GEngine->CreateTimeManager();
 	GEngine->CreateKeyManager();
 	GEngine->CreatePhysicsManager();
 	GEngine->CreateResourceManager(hGameWindow);
+	GEngine->CreateDebugManager(hGameWindowDC);
 
 	GEngine->GetEngineSubsystem<URenderManager>()->SetWindowSize(FVector2D(800.0f, 600.0f));
 	GEngine->SetTargetFPS(240.0f);
