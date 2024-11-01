@@ -48,7 +48,7 @@ void UResourceManager::LoadFolder(string strPath)
 	std::filesystem::path WorkingDirectory = std::filesystem::current_path();
 	std::filesystem::path Path{ strPath };
 	Path = std::filesystem::relative(Path, WorkingDirectory);
-	std::filesystem::directory_iterator DirIter{ Path };
+	std::filesystem::directory_iterator DirIter{ WorkingDirectory.string()+ "\\" + Path.string()};
 
 	while (!DirIter._At_end())
 	{
@@ -71,7 +71,8 @@ void UResourceManager::LoadFolder(string strPath)
 
 void UResourceManager::LoadAll()
 {
-
+	std::filesystem::path WorkingDirectory = std::filesystem::current_path();
+	LoadFolder(WorkingDirectory.string() + "\\Resources");
 }
 
 void UResourceManager::Release()

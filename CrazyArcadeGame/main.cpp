@@ -24,7 +24,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	GEngine->CreateKeyManager();
 	GEngine->CreatePhysicsManager();
 	UResourceManager* ResourceManager = GEngine->CreateResourceManager(hGameWindow);
-	ResourceManager->LoadFolder("..\\");
+	ResourceManager->LoadAll();
 	GEngine->CreateDebugManager(hGameWindowDC);
 
 	GEngine->GetEngineSubsystem<URenderManager>()->SetWindowSize(FVector2D(800.0f, 600.0f));
