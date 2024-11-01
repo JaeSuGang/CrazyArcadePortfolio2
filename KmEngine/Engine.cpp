@@ -6,6 +6,7 @@
 #include "RenderManager.h"
 #include "TimeManager.h"
 #include "Gamemode.h"
+#include "PhysicsManager.h"
 
 using std::pair;
 
@@ -14,12 +15,15 @@ void UEngine::Tick()
 	UKeyManager* KeyManager = GetEngineSubsystem<UKeyManager>();
 	UTimeManager* TimeManager = GetEngineSubsystem<UTimeManager>();
 	URenderManager* RenderManager = GetEngineSubsystem<URenderManager>();
+	UPhysicsManager* PhysicsManager = GetEngineSubsystem<UPhysicsManager>();
 	UGameInstance* GameInstance = GetGameInstance();
 
 	float fDeltaTime = TimeManager->GetDeltaTime();
 
 	if (fDeltaTime >= 1 / GetTargetFPS())
 	{
+		PhysicsManager->Tick(fDeltaTime);
+
 		KeyManager->Tick(fDeltaTime);
 
 		GameInstance->Tick(fDeltaTime);
@@ -91,6 +95,16 @@ void UEngine::CreateKeyManager()
 	Subsystem->Initialize();
 
 	string ClassName = typeid(UKeyManager).name();
+	pair<string, UEngineSubsystem*> PairToInsert{ ClassName, Subsystem };
+	m_Subsystems.insert(PairToInsert);
+}
+
+void UEngine::CreatePhysicsManager()
+{
+	UPhysicsManager* Subsystem = new UPhysicsManager{};
+	Subsystem->Initialize();
+
+	string ClassName = typeid(UPhysicsManager).name();
 	pair<string, UEngineSubsystem*> PairToInsert{ ClassName, Subsystem };
 	m_Subsystems.insert(PairToInsert);
 }

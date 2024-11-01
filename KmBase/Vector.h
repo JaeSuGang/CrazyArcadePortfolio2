@@ -3,6 +3,9 @@
 struct FVector2D
 {
 public:
+	float GetLength();
+
+public:
 	static const FVector2D Zero;
 	static const FVector2D Up;
 	static const FVector2D Down;
@@ -15,7 +18,8 @@ public:
 	FVector2D(const FVector2D& Other);
 	FVector2D& operator=(const FVector2D& Other);
 	FVector2D& operator+=(const FVector2D& Other);
-	FVector2D& operator*(float fValue);
+	FVector2D operator*(float fValue);
+	FVector2D operator/(float fValue);
 
 public:
 	float X;

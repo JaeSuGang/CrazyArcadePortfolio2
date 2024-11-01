@@ -11,5 +11,8 @@ public:
 	void Initialize() override;
 	void Tick(float fDeltaTime) override;
 	void BeginPlay() override;
+
+private:
+	bool bIsAlreadyMoving;
 };
 

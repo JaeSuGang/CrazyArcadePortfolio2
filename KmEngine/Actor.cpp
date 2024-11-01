@@ -44,7 +44,12 @@ AActor::~AActor()
 	this->Release();
 }
 
-FVector2D AActor::GetPositionVector2D() const
+void AActor::SetPosition(FVector2D NewPosition)
+{
+	m_Position = NewPosition;
+}
+
+FVector2D AActor::GetPosition() const
 {
 	return m_Position;
 }

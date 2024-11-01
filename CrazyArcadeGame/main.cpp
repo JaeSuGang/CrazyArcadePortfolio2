@@ -20,6 +20,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	HWND hGameWindow = GEngine->GetEngineSubsystem<URenderManager>()->GetGameWindowHandle();
 	GEngine->CreateTimeManager();
 	GEngine->CreateKeyManager();
+	GEngine->CreatePhysicsManager();
 	GEngine->CreateResourceManager(hGameWindow);
 
 	GEngine->GetEngineSubsystem<URenderManager>()->SetWindowSize(FVector2D(800.0f, 600.0f));

@@ -20,6 +20,7 @@ public:
 	void CreateRenderManager(const char* lpszTitle);
 	void CreateTimeManager();
 	void CreateKeyManager();
+	void CreatePhysicsManager();
 
 public:
 	UGameInstance* GetGameInstance() const;

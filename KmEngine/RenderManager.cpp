@@ -52,7 +52,7 @@ void URenderManager::Tick()
 	while (ActorIter != ActiveLevel->m_Actors.end())
 	{
 		AActor* Actor = *ActorIter;
-		FVector2D ActorPos = Actor->GetPositionVector2D();
+		FVector2D ActorPos = Actor->GetPosition();
 		URenderComponent* RenderComponent = Actor->GetComponentByClass<URenderComponent>();
 		if (UImage* StaticImage = RenderComponent->GetStaticImage())
 		{

@@ -26,7 +26,7 @@ void UGameInstance::Tick(float fDeltaTime)
 
 void UGameInstance::BeginPlay()
 {
-	m_ActiveLevel->BeginPlay();
+
 }
 
 void UGameInstance::Initialize()

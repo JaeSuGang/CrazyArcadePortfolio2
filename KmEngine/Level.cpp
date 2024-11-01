@@ -47,8 +47,6 @@ void ULevel::Tick(float fDeltaTime)
 
 void ULevel::BeginPlay()
 {
-	m_Gamemode->BeginPlay();
-
 	auto ActorIter = m_Actors.begin();
 
 	while (ActorIter != m_Actors.end())

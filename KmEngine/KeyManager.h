@@ -9,10 +9,10 @@ class UKeyManager : public UEngineSubsystem
 public:
 	enum class EKeyState : unsigned short
 	{
-		None = 0x0000,
-		KeyUp = 0x0001,
-		KeyDown = 0x8000,
-		KeyPress = 0x8001,
+		None,
+		Triggered,
+		KeyDown,
+		KeyUp
 	};
 
 	struct FKeyEvent
@@ -25,7 +25,7 @@ public:
 public:
 	bool GetKeyUp(int VirtualKey);
 	bool GetKeyDown(int VirtualKey);
-	bool GetKeyPress(int VirtualKey);
+	bool GetKeyTriggered(int VirtualKey);
 	void BindKey(int VirtualKey, EKeyState KeyState, std::function<void()> Action);
 	void ClearBindKey();
 
@@ -40,6 +40,6 @@ private:
 
 private:
 	vector<FKeyEvent> m_KeyEvents;
-	vector<EKeyState> m_KeyStates;
+	vector<unsigned short> m_KeyStates;
 };
 

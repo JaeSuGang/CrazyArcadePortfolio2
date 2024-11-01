@@ -10,7 +10,10 @@ class AActor : public UObject
 	friend class ULevel;
 	friend class UEngine;
 public:
-	FVector2D GetPositionVector2D() const;
+	// 직접 호출 X. 물리 연산에서만 호출. 
+	// AActor에게 이동 명령을 주고 싶다면 PhysicsComponent에서 호출
+	void SetPosition(FVector2D NewPosition);
+	FVector2D GetPosition() const;
 
 public:
 	// 기본 Component 추가 코드

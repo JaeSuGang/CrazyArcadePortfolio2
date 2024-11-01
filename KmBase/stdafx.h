@@ -9,6 +9,7 @@
 // std
 #include <string>
 #include <typeinfo>
+#include <cmath>
 
 using std::string;
 
