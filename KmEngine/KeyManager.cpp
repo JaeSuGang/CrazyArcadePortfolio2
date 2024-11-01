@@ -50,52 +50,82 @@ void UKeyManager::ClearBindKey()
 
 void UKeyManager::Tick(float fDeltaTime)
 {
-	this->RefreshKeyState();
-	this->BroadcastKeyEvent();
+	this->RefreshKeyStateAndBroadcast();
+	//this->BroadcastKeyEvent();
 }
 
-void UKeyManager::RefreshKeyState()
+void UKeyManager::RefreshKeyStateAndBroadcast()
 {
 	for (int i = 0; i <= VK_F24; i++)
 	{
-		m_KeyStates[i] = static_cast<unsigned short>(GetAsyncKeyState(i));
-	}
-}
-
-void UKeyManager::BroadcastKeyEvent()
-{
-	for (int i = 0; i < m_KeyEvents.size(); i++)
-	{
-		FKeyEvent& KeyEvent = m_KeyEvents[i];
-
-		switch (KeyEvent.KeyState)
+		unsigned short CurrentState = static_cast<unsigned short>(GetAsyncKeyState(i));
+		if (m_KeyStates[i] != 0x0000 && CurrentState != 0x0000)
 		{
-		case EKeyState::Triggered:
-			if (m_KeyStates[KeyEvent.VirtualKey] == 0x8000 || m_KeyStates[KeyEvent.VirtualKey] == 0x8001)
+			for (int j = 0; j < m_KeyEvents.size(); j++)
 			{
-				KeyEvent.Event();
+				FKeyEvent& KeyEvent = m_KeyEvents[j];
+				if (KeyEvent.VirtualKey == i && KeyEvent.KeyState == EKeyState::Triggered)
+				{
+					KeyEvent.Event();
+				}
 			}
-			break;
+		}
 
-		case EKeyState::KeyDown:
-			if (m_KeyStates[KeyEvent.VirtualKey] == 0x8001)
+		if (m_KeyStates[i] != 0x0000 && CurrentState == 0x0000)
+		{
+			for (int j = 0; j < m_KeyEvents.size(); j++)
 			{
-				KeyEvent.Event();
+				FKeyEvent& KeyEvent = m_KeyEvents[j];
+				if (KeyEvent.VirtualKey == i && KeyEvent.KeyState == EKeyState::KeyUp)
+				{
+					KeyEvent.Event();
+				}
 			}
-			break;
+		}
 
-		case EKeyState::KeyUp:
-			if (m_KeyStates[KeyEvent.VirtualKey] == 0x0001)
-			{
-				KeyEvent.Event();
-			}
-			break;
+		m_KeyStates[i] = CurrentState;
 
-		default:
-			break;
+		if (CurrentState != 0x0000 && i == VK_DOWN)
+		{
+			int a = 0;
 		}
 	}
 }
+
+//void UKeyManager::BroadcastKeyEvent()
+//{
+//	for (int i = 0; i < m_KeyEvents.size(); i++)
+//	{
+//		FKeyEvent& KeyEvent = m_KeyEvents[i];
+//
+//		switch (KeyEvent.KeyState)
+//		{
+//		case EKeyState::Triggered:
+//			if (m_KeyStates[KeyEvent.VirtualKey] == 0x8000 || m_KeyStates[KeyEvent.VirtualKey] == 0x8001)
+//			{
+//				KeyEvent.Event();
+//			}
+//			break;
+//
+//		case EKeyState::KeyDown:
+//			if (m_KeyStates[KeyEvent.VirtualKey] == 0x8001)
+//			{
+//				KeyEvent.Event();
+//			}
+//			break;
+//
+//		case EKeyState::KeyUp:
+//			if (m_KeyStates[KeyEvent.VirtualKey] == 0x0001)
+//			{
+//				KeyEvent.Event();
+//			}
+//			break;
+//
+//		default:
+//			break;
+//		}
+//	}
+//}
 
 void UKeyManager::Initialize()
 {

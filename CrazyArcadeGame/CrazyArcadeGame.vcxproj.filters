@@ -68,7 +68,64 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Image Include="..\Bin\x64\Debug\BazziDownIdle.bmp">
+    <Image Include="..\Resources\Bazzi\BazziDownIdle.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\BazziDownWalk_0.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\BazziDownWalk_1.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\BazziDownWalk_2.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\BazziDownWalk_3.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\BazziLeftIdle.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\BazziLeftWalk_0.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\BazziLeftWalk_1.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\BazziLeftWalk_2.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\BazziLeftWalk_3.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\BazziRightIdle.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\BazziRightWalk_0.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\BazziRightWalk_1.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\BazziRightWalk_2.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\BazziRightWalk_3.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\BazziUpIdle.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\BazziUpWalk_0.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\BazziUpWalk_1.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\BazziUpWalk_2.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\BazziUpWalk_3.bmp">
       <Filter>Resources</Filter>
     </Image>
   </ItemGroup>

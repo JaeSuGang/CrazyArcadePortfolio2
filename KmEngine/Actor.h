@@ -89,6 +89,7 @@ public:
 
 public:
 	void Release();
+	AActor();
 	~AActor();
 
 protected:

@@ -8,6 +8,7 @@ class ATestPlayer : public AActor
 
 public:
 	void Move(FVector2D Direction);
+	void Idle(FVector2D Direction);
 
 public:
 	void Initialize() override;

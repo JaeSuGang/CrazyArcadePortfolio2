@@ -44,6 +44,13 @@ void AActor::Release()
 	}
 }
 
+AActor::AActor()
+	:
+	m_OwnedComponents{},
+	m_Position{}
+{
+}
+
 AActor::~AActor()
 {
 	this->Release();

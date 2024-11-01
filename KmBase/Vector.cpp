@@ -32,6 +32,18 @@ FVector2D& FVector2D::operator=(const FVector2D& Other)
 	return *this;
 }
 
+bool FVector2D::operator==(const FVector2D& Other)
+{
+	if (X == Other.X && Y == Other.Y)
+	{
+		return true;
+	}
+	else
+	{
+		return false;
+	}
+}
+
 FVector2D& FVector2D::operator+=(const FVector2D& Other)
 {
 	X += Other.X;

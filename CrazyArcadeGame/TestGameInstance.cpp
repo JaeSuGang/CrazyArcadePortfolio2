@@ -27,7 +27,5 @@ void UTestGameInstance::Initialize()
 {
 	Super::Initialize();
 
-	// GEngine->GetEngineSubsystem<UResourceManager>()->LoadFile("bazzidownidle.bmp");
-
 	this->OpenLevel<UTestLevel>();
 }

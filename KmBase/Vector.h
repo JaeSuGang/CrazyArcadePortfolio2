@@ -17,6 +17,7 @@ public:
 	FVector2D(float _X, float _Y);
 	FVector2D(const FVector2D& Other);
 	FVector2D& operator=(const FVector2D& Other);
+	bool operator==(const FVector2D& Other);
 	FVector2D& operator+=(const FVector2D& Other);
 	FVector2D operator+(FVector2D Other);
 	FVector2D operator-(FVector2D Other);
