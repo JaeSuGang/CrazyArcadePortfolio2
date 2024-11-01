@@ -11,7 +11,7 @@
     <ClCompile Include="TestLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
-    <ClCompile Include="TestPlayer.cpp">
+    <ClCompile Include="Character.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
     <ClCompile Include="TestGameInstance.cpp">
@@ -57,7 +57,7 @@
     <ClInclude Include="TestLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
-    <ClInclude Include="TestPlayer.h">
+    <ClInclude Include="Character.h">
       <Filter>Actor</Filter>
     </ClInclude>
     <ClInclude Include="TestGameInstance.h">
@@ -126,6 +126,66 @@
       <Filter>Resources</Filter>
     </Image>
     <Image Include="..\Resources\Bazzi\BazziUpWalk_3.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\DownIdle.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\DownWalk_0.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\DownWalk_1.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\DownWalk_2.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\DownWalk_3.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\LeftIdle.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\LeftWalk_0.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\LeftWalk_1.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\LeftWalk_2.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\LeftWalk_3.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\RightIdle.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\RightWalk_0.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\RightWalk_1.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\RightWalk_2.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\RightWalk_3.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\UpIdle.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\UpWalk_0.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\UpWalk_1.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\UpWalk_2.bmp">
+      <Filter>Resources</Filter>
+    </Image>
+    <Image Include="..\Resources\Bazzi\UpWalk_3.bmp">
       <Filter>Resources</Filter>
     </Image>
   </ItemGroup>

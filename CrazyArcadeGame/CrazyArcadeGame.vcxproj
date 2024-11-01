@@ -154,7 +154,7 @@
     <ClCompile Include="TestGameInstance.cpp" />
     <ClCompile Include="TestGamemode.cpp" />
     <ClCompile Include="TestLevel.cpp" />
-    <ClCompile Include="TestPlayer.cpp" />
+    <ClCompile Include="Character.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h" />
@@ -163,7 +163,7 @@
     <ClInclude Include="TestGameInstance.h" />
     <ClInclude Include="TestGamemode.h" />
     <ClInclude Include="TestLevel.h" />
-    <ClInclude Include="TestPlayer.h" />
+    <ClInclude Include="Character.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Resources\Bazzi\BazziDownIdle.bmp" />
@@ -186,6 +186,26 @@
     <Image Include="..\Resources\Bazzi\BazziUpWalk_1.bmp" />
     <Image Include="..\Resources\Bazzi\BazziUpWalk_2.bmp" />
     <Image Include="..\Resources\Bazzi\BazziUpWalk_3.bmp" />
+    <Image Include="..\Resources\Bazzi\DownIdle.bmp" />
+    <Image Include="..\Resources\Bazzi\DownWalk_0.bmp" />
+    <Image Include="..\Resources\Bazzi\DownWalk_1.bmp" />
+    <Image Include="..\Resources\Bazzi\DownWalk_2.bmp" />
+    <Image Include="..\Resources\Bazzi\DownWalk_3.bmp" />
+    <Image Include="..\Resources\Bazzi\LeftIdle.bmp" />
+    <Image Include="..\Resources\Bazzi\LeftWalk_0.bmp" />
+    <Image Include="..\Resources\Bazzi\LeftWalk_1.bmp" />
+    <Image Include="..\Resources\Bazzi\LeftWalk_2.bmp" />
+    <Image Include="..\Resources\Bazzi\LeftWalk_3.bmp" />
+    <Image Include="..\Resources\Bazzi\RightIdle.bmp" />
+    <Image Include="..\Resources\Bazzi\RightWalk_0.bmp" />
+    <Image Include="..\Resources\Bazzi\RightWalk_1.bmp" />
+    <Image Include="..\Resources\Bazzi\RightWalk_2.bmp" />
+    <Image Include="..\Resources\Bazzi\RightWalk_3.bmp" />
+    <Image Include="..\Resources\Bazzi\UpIdle.bmp" />
+    <Image Include="..\Resources\Bazzi\UpWalk_0.bmp" />
+    <Image Include="..\Resources\Bazzi\UpWalk_1.bmp" />
+    <Image Include="..\Resources\Bazzi\UpWalk_2.bmp" />
+    <Image Include="..\Resources\Bazzi\UpWalk_3.bmp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -2,7 +2,7 @@
 #include "KmEngine/Actor.h"
 
 
-class ATestPlayer : public AActor
+class ACharacter : public AActor
 {
 	typedef AActor Super;
 
@@ -17,6 +17,7 @@ public:
 	void BeginPlay() override;
 
 private:
+	string m_strCharacterName;
 	bool m_bIsAlreadyMoving;
 
 };
