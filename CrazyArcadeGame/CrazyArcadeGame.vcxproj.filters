@@ -20,6 +20,7 @@
     <ClCompile Include="TestGamemode.cpp">
       <Filter>Gamemode</Filter>
     </ClCompile>
+    <ClCompile Include="GameGUI1.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -66,6 +67,7 @@
     <ClInclude Include="TestGamemode.h">
       <Filter>Gamemode</Filter>
     </ClInclude>
+    <ClInclude Include="GameGUI1.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Resources\Bazzi\BazziDownIdle.bmp">

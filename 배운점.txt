@@ -6,3 +6,4 @@
 프로그래밍을 이해할 수 있었으며, 핸들, DC, 백버퍼, RGBA 등 렌더의 기초를 배울 수 있었음.
 4. actors에는 unordered_set을, LoadedLevels에는 unordered_map을,
 렌더링 순서에는 을 목적에 맞는 자료구조를 선택하는 법을 배울 수 있었음
+5. deltatime은 한 프레임 내에서는 같은 값을 가져야 오류가 나지 않음.

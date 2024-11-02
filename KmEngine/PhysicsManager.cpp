@@ -18,9 +18,10 @@ void UPhysicsManager::Tick(float fDeltaTime)
 		{
 			// 물리 계산 시작
 			UTimeManager* TimeManager = GEngine->GetEngineSubsystem<UTimeManager>();
+			float fDeltaTime = TimeManager->GetDeltaTime();
 			FVector2D LoopedActorPos = LoopedActor->GetPosition();
-			FVector2D CurrentVelocity = PhysicsComponent->GetVelocity();
-			float MaxSpeed = PhysicsComponent->GetMaxSpeed() * TimeManager->GetDeltaTime();
+			FVector2D CurrentVelocity = PhysicsComponent->GetVelocity() * fDeltaTime;
+			float MaxSpeed = PhysicsComponent->GetMaxSpeed() * fDeltaTime;
 			float CurrentSpeed = CurrentVelocity.GetLength();
 
 			GEngine->GetEngineSubsystem<UDebugManager>()->AddDebugText("Current Speed : " + std::to_string(CurrentSpeed));

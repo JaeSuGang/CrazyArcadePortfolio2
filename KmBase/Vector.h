@@ -28,11 +28,3 @@ public:
 	float X;
 	float Y;
 };
-
-struct FVector3D
-{
-public:
-	float X;
-	float Y;
-	float Z;
-};

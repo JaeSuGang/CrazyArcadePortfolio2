@@ -14,7 +14,7 @@ public:
 
 private:
 	void Tick();
-	void Initialize(const char* lpszTitle);
+	void Initialize(const char* lpszTitle, FVector2D WindowSize);
 
 public:
 	void Release();

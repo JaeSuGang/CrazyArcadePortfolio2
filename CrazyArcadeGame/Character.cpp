@@ -12,12 +12,9 @@ void ACharacter::Move(FVector2D DirectionVector)
 	if (m_bIsAlreadyMoving == false)
 	{
 		m_bIsAlreadyMoving = true;
-
-		UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
-		UTimeManager* TimeManager = GEngine->GetEngineSubsystem<UTimeManager>();
 		UPhysicsComponent* PhysicsComponent = GetComponentByClass<UPhysicsComponent>();
 		URenderComponent* RenderComponent = GetComponentByClass<URenderComponent>();
-		PhysicsComponent->AddVelocity(DirectionVector * TimeManager->GetDeltaTime() * 300.0f);
+		PhysicsComponent->AddVelocity(DirectionVector * 300.0f);
 		if (DirectionVector == FVector2D::Up)
 		{
 			string strAnimationName{ m_strCharacterName + "UpWalk"};
@@ -67,7 +64,7 @@ void ACharacter::Initialize()
 {
 	Super::Initialize();
 
-	m_strCharacterName = "Cappi";
+	m_strCharacterName = "Bazzi";
 
 	URenderComponent* RenderComponent = InitializeComponentForPlay<URenderComponent>();
 	UPhysicsComponent* PhysicsComponent = InitializeComponentForPlay<UPhysicsComponent>();

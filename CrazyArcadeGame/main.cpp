@@ -16,7 +16,9 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
 	//_CrtSetBreakAlloc(305);
 
-	URenderManager* RenderManager = GEngine->CreateRenderManager("CrazyArcade");
+	FVector2D WindowSize{ 1215.0f, 935.0f };
+
+	URenderManager* RenderManager = GEngine->CreateRenderManager("CrazyArcade", WindowSize);
 	HWND hGameWindow = GEngine->GetEngineSubsystem<URenderManager>()->GetGameWindowHandle();
 	HDC hGameWindowDC = GEngine->GetEngineSubsystem<URenderManager>()->GetGameWindowDCHandle();
 
@@ -27,8 +29,8 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	ResourceManager->LoadAll();
 	GEngine->CreateDebugManager(hGameWindowDC);
 
-	GEngine->GetEngineSubsystem<URenderManager>()->SetWindowSize(FVector2D(800.0f, 600.0f));
-	GEngine->SetTargetFPS(240.0f);
+	GEngine->GetEngineSubsystem<URenderManager>()->SetWindowSize(WindowSize);
+	GEngine->SetTargetFPS(500000.0f);
 
 	// Editor 구현해서 CLevelDeserializer의 Deserialize함수를 path인자로 받도록 오버로딩
 	GEngine->OpenGameInstance<UTestGameInstance>();

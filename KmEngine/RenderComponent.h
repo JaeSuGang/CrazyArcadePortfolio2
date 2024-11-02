@@ -42,6 +42,7 @@ private:
 	UAnimation* m_CurrentAnimation;
 	unordered_map<string, UAnimation*> m_Animations;
 	UImage* m_StaticImage;
+	FVector2D m_ImageOffset;
 	float m_fAccumulatedTime;
 	int m_nAnimationFrameIndex;
 	int m_nRenderOrder;

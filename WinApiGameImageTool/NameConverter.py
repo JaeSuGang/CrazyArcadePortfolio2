@@ -21,5 +21,5 @@ class CNameConverter:
 
 if __name__ == "__main__":
     NameConverter = CNameConverter()
-    NameConverter.SetDirectory(r"F:\Resources\Test\Marid")
-    NameConverter.ConvertAll("Marid", "")
+    NameConverter.SetDirectory(r"F:\CppProject\CrazyArcadePortfolio2\CrazyArcadeGame\Resources\GUI")
+    NameConverter.ConvertAll("Bazzi", "")

@@ -1,30 +1,26 @@
 #include "stdafx.h"
 #include "TimeManager.h"
 
-float UTimeManager::ResetDeltaTime()
+void UTimeManager::AssignDeltaTime()
 {
-	LARGE_INTEGER CurrentCounter{};
-	QueryPerformanceCounter(&CurrentCounter);
+	LONGLONG dCounterDifference = m_LastPerformanceCounter.QuadPart - m_StartPerformanceCounter.QuadPart;
 
-	LONGLONG dCounterDifference = CurrentCounter.QuadPart - m_LastPerformanceCounter.QuadPart;
-
-	float fDeltaTime = (float)dCounterDifference / (float)m_PerformanceFrequency.QuadPart;
-
-	m_LastPerformanceCounter = CurrentCounter;
-
-	return fDeltaTime;
+	m_fDeltaTime = (float)dCounterDifference / (float)m_PerformanceFrequency.QuadPart;
 }
 
-float UTimeManager::GetDeltaTime()
+void UTimeManager::SetLastCounter()
 {
-	LARGE_INTEGER CurrentCounter{};
-	QueryPerformanceCounter(&CurrentCounter);
+	QueryPerformanceCounter(&m_LastPerformanceCounter);
+}
 
-	LONGLONG dCounterDifference = CurrentCounter.QuadPart - m_LastPerformanceCounter.QuadPart;
+void UTimeManager::ResetStartCounter()
+{
+	QueryPerformanceCounter(&m_StartPerformanceCounter);
+}
 
-	float fDeltaTime = (float)dCounterDifference / (float)m_PerformanceFrequency.QuadPart;
-
-	return fDeltaTime;
+float UTimeManager::GetDeltaTime() const
+{
+	return m_fDeltaTime;
 }
 
 void UTimeManager::Initialize()

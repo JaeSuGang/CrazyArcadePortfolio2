@@ -20,10 +20,14 @@ void UEngine::Tick()
 	UDebugManager* DebugManager = GetEngineSubsystem<UDebugManager>();
 	UGameInstance* GameInstance = GetGameInstance();
 
+	TimeManager->SetLastCounter();
+	TimeManager->AssignDeltaTime();
 	float fDeltaTime = TimeManager->GetDeltaTime();
 
 	if (fDeltaTime >= 1 / GetTargetFPS())
 	{
+		TimeManager->ResetStartCounter();
+
 		PhysicsManager->Tick(fDeltaTime);
 
 		KeyManager->Tick(fDeltaTime);
@@ -38,7 +42,6 @@ void UEngine::Tick()
 		DebugManager->Tick(fDeltaTime);
 #endif
 
-		TimeManager->ResetDeltaTime();
 	}
 
 
@@ -89,10 +92,10 @@ void UEngine::CreateDebugManager(HDC hGameWindowDC)
 	m_Subsystems.insert(PairToInsert);
 }
 
-URenderManager* UEngine::CreateRenderManager(const char* lpszTitle)
+URenderManager* UEngine::CreateRenderManager(const char* lpszTitle, FVector2D WindowSize)
 {
 	URenderManager* Subsystem = new URenderManager{};
-	Subsystem->Initialize(lpszTitle);
+	Subsystem->Initialize(lpszTitle, WindowSize);
 
 	string ClassName = typeid(URenderManager).name();
 	pair<string, UEngineSubsystem*> PairToInsert{ClassName, Subsystem};

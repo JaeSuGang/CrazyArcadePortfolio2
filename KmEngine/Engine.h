@@ -18,7 +18,7 @@ public:
 public:
 	UResourceManager* CreateResourceManager(HWND hGameWindow);
 	void CreateDebugManager(HDC hGameWindowDC);
-	URenderManager* CreateRenderManager(const char* lpszTitle);
+	URenderManager* CreateRenderManager(const char* lpszTitle, FVector2D WindowSize);
 	void CreateTimeManager();
 	void CreateKeyManager();
 	void CreatePhysicsManager();

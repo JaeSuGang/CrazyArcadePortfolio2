@@ -1,6 +1,19 @@
 #pragma once
 #include "ActorComponent.h"
 
+class FCollider
+{
+	enum class EShape
+	{
+		Circle,
+		Square
+	};
+
+public:
+	EShape Shape;
+	float Radius;
+};
+
 class UPhysicsComponent : public UActorComponent
 {
 	typedef UActorComponent Super;

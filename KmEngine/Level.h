@@ -26,15 +26,16 @@ public:
 	}
 
 	template <typename T>
-	void SpawnActor()
+	T* SpawnActor()
 	{
 		static_assert(std::is_base_of<AActor, T>::value);
 
-		AActor* NewActor = new T{};
+		T* NewActor = new T{};
 		NewActor->Initialize();
 		NewActor->BeginPlay();
 
 		m_Actors.insert(NewActor);
+		return NewActor;
 	}
 
 	template <typename T>

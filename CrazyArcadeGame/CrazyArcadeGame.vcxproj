@@ -145,6 +145,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="GameGUI1.cpp" />
     <ClCompile Include="LevelDeserializer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -158,6 +159,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h" />
+    <ClInclude Include="GameGUI1.h" />
     <ClInclude Include="LevelDeserializer.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TestGameInstance.h" />

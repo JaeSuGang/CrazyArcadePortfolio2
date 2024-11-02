@@ -116,7 +116,8 @@ URenderComponent::URenderComponent()
 	m_StaticImage{},
 	m_nAnimationFrameIndex{},
 	m_CurrentAnimation{},
-	m_fAccumulatedTime{}
+	m_fAccumulatedTime{},
+	m_ImageOffset{}
 {
 }
 

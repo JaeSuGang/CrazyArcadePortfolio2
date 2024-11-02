@@ -26,6 +26,9 @@ class CBmpConverter:
         output_path = self.m_OutputDirectory + "\\" + file_name.replace(".png", ".bmp")
         img = Image.open(file_path).convert("RGBA")
         width, height = img.size
+        width = int(width * 1.5)
+        height = int(height * 1.5)
+        img = img.resize((width, height), Image.NEAREST)
 
         # 새로운 이미지 생성 (RGB 모드)
         new_img = Image.new("RGB", (width, height))
@@ -49,6 +52,6 @@ class CBmpConverter:
 
 if __name__ == "__main__":
     BmpConverter = CBmpConverter()
-    BmpConverter.SetDirectory(r"F:\Resources\Test\Marid_before")
-    BmpConverter.SetOutputDirectory(r"F:\Resources\Test\Marid")
+    BmpConverter.SetDirectory(r"F:\CppProject\CrazyArcadePortfolio2\CrazyArcadeGame\Resources\GUI")
+    BmpConverter.SetOutputDirectory(r"F:\CppProject\CrazyArcadePortfolio2\CrazyArcadeGame\Resources\GUI")
     BmpConverter.ConvertAll()

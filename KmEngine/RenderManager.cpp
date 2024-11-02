@@ -75,7 +75,7 @@ void URenderManager::Tick()
 	BitBlt(m_hGameWindowDC, 0, 0, (int)m_WindowSize.X, (int)m_WindowSize.Y, m_hBackBufferDC, 0, 0, SRCCOPY);
 }
 
-void URenderManager::Initialize(const char* lpszTitle)
+void URenderManager::Initialize(const char* lpszTitle, FVector2D WindowSize)
 {
 	WNDCLASSEXA wcex{};
     wcex.cbSize = sizeof(WNDCLASSEX);
@@ -106,7 +106,7 @@ void URenderManager::Initialize(const char* lpszTitle)
 
 	m_hGameWindowDC = GetDC(m_hGameWindow);
 	m_hBackBufferDC = CreateCompatibleDC(m_hGameWindowDC);
-	HBITMAP hBackBufferBitmap = CreateCompatibleBitmap(m_hGameWindowDC, 800, 600);
+	HBITMAP hBackBufferBitmap = CreateCompatibleBitmap(m_hGameWindowDC, (int)WindowSize.X, (int)WindowSize.Y);
 	SelectObject(m_hBackBufferDC, hBackBufferBitmap);
 
 
