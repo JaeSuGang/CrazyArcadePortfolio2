@@ -94,6 +94,20 @@ void ACharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	URenderComponent* RenderComponent = InitializeComponentForPlay<URenderComponent>();
+	UPhysicsComponent* PhysicsComponent = InitializeComponentForPlay<UPhysicsComponent>();
+	PhysicsComponent->EnableCollision();
+	PhysicsComponent->SetColliderShape(FCollider::EShape::Square);
+	PhysicsComponent->SetColliderRadius(50.0f);
+	PhysicsComponent->SetMaxSpeed(300.0f);
+
+	RenderComponent->SetStaticImage("Resources\\" + m_strCharacterName + "\\" + "DownIdle.bmp");
+	RenderComponent->CreateAnimation(m_strCharacterName + "DownWalk", "Resources\\" + m_strCharacterName + "\\DownWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation(m_strCharacterName + "LeftWalk", "Resources\\" + m_strCharacterName + "\\LeftWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation(m_strCharacterName + "RightWalk", "Resources\\" + m_strCharacterName + "\\RightWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation(m_strCharacterName + "UpWalk", "Resources\\" + m_strCharacterName + "\\UpWalk", 4, 0.1f, true);
+
+
 	UKeyManager* km = GEngine->GetEngineSubsystem<UKeyManager>();
 	km->BindKey(VK_UP, UKeyManager::EKeyState::Triggered, std::bind(&ACharacter::Move, this, FVector2D::Up));
 	km->BindKey(VK_DOWN, UKeyManager::EKeyState::Triggered, std::bind(&ACharacter::Move, this, FVector2D::Down));

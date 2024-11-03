@@ -2,7 +2,9 @@
 #include "TestLevel.h"
 #include "Character.h"
 #include "GameGUI1.h"
-#include "TestGamemode.h"
+#include "KmEngine/GameInstance.h"
+#include "KmEngine/Engine.h"
+#include "SpawnManager.h"
 
 void UTestLevel::Tick(float fDeltaTime)
 {
@@ -20,11 +22,7 @@ void UTestLevel::BeginPlay()
 {
 	Super::BeginPlay();
 
-
-}
-
-void UTestLevel::Initialize()
-{
-	InitializeGamemodeForPlay<ATestGamemode>();
-
+	USpawnManager* SpawnManager = GetGameInstance()->GetGameInstanceSubsystem<USpawnManager>();
+	SpawnManager->SpawnPlayerController();
+	SpawnManager->SpawnCharacter("Bazzi", FVector2D(300.0f, 300.0f));
 }

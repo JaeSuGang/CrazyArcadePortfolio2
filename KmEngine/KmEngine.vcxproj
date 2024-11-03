@@ -29,7 +29,6 @@
     <ClInclude Include="EngineSubsystem.h" />
     <ClInclude Include="GameInstance.h" />
     <ClInclude Include="GameInstanceSubsystem.h" />
-    <ClInclude Include="Gamemode.h" />
     <ClInclude Include="KeyManager.h" />
     <ClInclude Include="Level.h" />
     <ClInclude Include="Object.h" />
@@ -53,7 +52,6 @@
     <ClCompile Include="EngineSubsystem.cpp" />
     <ClCompile Include="GameInstance.cpp" />
     <ClCompile Include="GameInstanceSubsystem.cpp" />
-    <ClCompile Include="Gamemode.cpp" />
     <ClCompile Include="KeyManager.cpp" />
     <ClCompile Include="Level.cpp" />
     <ClCompile Include="main.cpp" />

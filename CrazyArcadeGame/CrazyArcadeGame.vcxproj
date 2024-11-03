@@ -155,7 +155,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="TestGameInstance.cpp" />
-    <ClCompile Include="TestGamemode.cpp" />
     <ClCompile Include="TestLevel.cpp" />
     <ClCompile Include="Character.cpp" />
   </ItemGroup>
@@ -167,7 +166,6 @@
     <ClInclude Include="SpawnManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TestGameInstance.h" />
-    <ClInclude Include="TestGamemode.h" />
     <ClInclude Include="TestLevel.h" />
     <ClInclude Include="Character.h" />
   </ItemGroup>

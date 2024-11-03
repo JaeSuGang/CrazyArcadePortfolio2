@@ -30,7 +30,6 @@ public:
 	{
 		SAFE_DELETE(m_ActiveGameInstance);
 		m_ActiveGameInstance = new T{};
-		m_ActiveGameInstance->Initialize();
 		m_ActiveGameInstance->BeginPlay();
 	}
 

@@ -4,13 +4,23 @@
 
 class AActor;
 class AGamemode;
+class APlayerController;
+class UGameInstance;
+class UGameInstanceSubsystem;
 
 class ULevel : public UObject
 {
-	friend class UEngine;
 	friend class UGameInstance;
-	friend class UTestGameInstance;
-	friend class CLevelDeserializer;
+
+public:
+	APlayerController* GetPlayerController() const;
+	UGameInstance* GetGameInstance() const;
+
+	//template <typename T>
+	//T* GetGameInstanceSubsystem()
+	//{
+	//	return GetGameInstance()->GetGameInstanceSubsystem<T>();
+	//}
 
 public:
 	// BeginPlay()가 없이 Actor를 m_Actors에 넣음
@@ -25,23 +35,10 @@ public:
 		return NewActor;
 	}
 
-	template <typename T>
-	void InitializeGamemodeForPlay()
-	{
-		static_assert(std::is_base_of<AGamemode, T>::value);
-
-		AGamemode* NewGamemode = new T{};
-
-		SAFE_DELETE(m_Gamemode);
-		m_Gamemode = NewGamemode;
-	}
-
-
 public:
 	virtual void Tick(float fDeltaTime) = 0;
 	virtual void LateTick(float fDeltaTime) = 0;
 	virtual void BeginPlay() = 0;
-	virtual void Initialize() = 0;
 
 public:
 	void Release();
@@ -50,7 +47,8 @@ public:
 
 // 차후수정
 public:
-	AGamemode* m_Gamemode;
+	UGameInstance* m_GameInstance;
 	unordered_set<AActor*> m_Actors;
+	APlayerController* m_PlayerController;
 };
 

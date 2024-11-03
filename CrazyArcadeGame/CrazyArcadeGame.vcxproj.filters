@@ -17,9 +17,6 @@
     <ClCompile Include="TestGameInstance.cpp">
       <Filter>GameInstance</Filter>
     </ClCompile>
-    <ClCompile Include="TestGamemode.cpp">
-      <Filter>Gamemode</Filter>
-    </ClCompile>
     <ClCompile Include="GameGUI1.cpp" />
     <ClCompile Include="MovementManager.cpp">
       <Filter>GameInstanceSubsystem</Filter>
@@ -43,9 +40,6 @@
     </Filter>
     <Filter Include="GameInstance">
       <UniqueIdentifier>{63a53791-41d7-4467-aaf5-6725dafd7d19}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Gamemode">
-      <UniqueIdentifier>{a5181da4-895f-4b96-b1b0-a2ab95b90dd4}</UniqueIdentifier>
     </Filter>
     <Filter Include="Resources">
       <UniqueIdentifier>{5bd923ab-c5c2-4844-b97e-0156cc7ce447}</UniqueIdentifier>
@@ -72,9 +66,6 @@
     </ClInclude>
     <ClInclude Include="TestGameInstance.h">
       <Filter>GameInstance</Filter>
-    </ClInclude>
-    <ClInclude Include="TestGamemode.h">
-      <Filter>Gamemode</Filter>
     </ClInclude>
     <ClInclude Include="GameGUI1.h" />
     <ClInclude Include="MovementManager.h">

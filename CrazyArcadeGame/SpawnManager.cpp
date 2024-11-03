@@ -4,15 +4,18 @@
 #include "Character.h"
 #include "KmEngine/PlayerController.h"
 
-void USpawnManager::SpawnPlayer(string strCharacterName, FVector2D PositionVector)
+ACharacter* USpawnManager::SpawnCharacter(string strCharacterName, FVector2D PositionVector)
 {
 	ACharacter* SpawnedCharacter = GetActiveLevel()->InitializeActorForPlay<ACharacter>();
 	SpawnedCharacter->SetCharacterName(strCharacterName);
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->BeginPlay();
+	return SpawnedCharacter;
 }
 
-void USpawnManager::SpawnPlayerController()
+APlayerController* USpawnManager::SpawnPlayerController()
 {
 	APlayerController* PlayerController = GetActiveLevel()->InitializeActorForPlay<APlayerController>();
+	PlayerController->BeginPlay();
+	return PlayerController;
 }

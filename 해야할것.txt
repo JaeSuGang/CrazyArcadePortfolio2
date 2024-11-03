@@ -1,9 +1,8 @@
 
 우선순위
 
-0. 실제 언리얼 엔진은 SpawnActor가 SpawnParams를 인자로 받아 이것대로 초기화 한 후,
-BeginPlay를 호출하는데, 이 방식을 구현할 수 없으니,
-모든 SpawnActor를 지워버리기. 액터 스폰은 SpawnManager를 통해서 하도록하기.
+0. SpawnCharacter를 할때 Character의 컴포넌트도 구성해주는가.
+Character의 컴포넌트를 직접 초기화 해주는가
 
 1. APlayerController, AAIController 구현하기
 

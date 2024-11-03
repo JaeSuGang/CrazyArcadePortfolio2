@@ -25,9 +25,6 @@
     <Filter Include="Level">
       <UniqueIdentifier>{0b61c5ba-624b-46d3-8da5-d26dd7b9d1d2}</UniqueIdentifier>
     </Filter>
-    <Filter Include="AGamemode">
-      <UniqueIdentifier>{a4ae33e8-9c62-4160-be81-b92024ca9ccf}</UniqueIdentifier>
-    </Filter>
     <Filter Include="EngineSubsystem\KeyManager">
       <UniqueIdentifier>{ae9a6fad-72f3-45f0-b111-3fec5253419d}</UniqueIdentifier>
     </Filter>
@@ -83,9 +80,6 @@
     </ClCompile>
     <ClCompile Include="Level.cpp">
       <Filter>Level</Filter>
-    </ClCompile>
-    <ClCompile Include="Gamemode.cpp">
-      <Filter>AGamemode</Filter>
     </ClCompile>
     <ClCompile Include="KeyManager.cpp">
       <Filter>EngineSubsystem\KeyManager</Filter>
@@ -155,9 +149,6 @@
     </ClInclude>
     <ClInclude Include="Level.h">
       <Filter>Level</Filter>
-    </ClInclude>
-    <ClInclude Include="Gamemode.h">
-      <Filter>AGamemode</Filter>
     </ClInclude>
     <ClInclude Include="KeyManager.h">
       <Filter>EngineSubsystem\KeyManager</Filter>

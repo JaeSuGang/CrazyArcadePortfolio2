@@ -1,6 +1,5 @@
 #include "stdafx.h"
 #include "TestGameInstance.h"
-#include "TestGamemode.h"
 #include "KmEngine/Level.h"
 #include "KmEngine/Engine.h"
 #include "KmEngine/ResourceManager.h"
@@ -23,13 +22,8 @@ void UTestGameInstance::BeginPlay()
 {
 	Super::BeginPlay();
 
-}
-
-void UTestGameInstance::Initialize()
-{
-	Super::Initialize();
-
 	USpawnManager* SpawnManager = CreateGameInstanceSubsystem<USpawnManager>();
 
 	this->OpenLevel<UTestLevel>();
 }
+

@@ -42,11 +42,6 @@ void UGameInstance::BeginPlay()
 
 }
 
-void UGameInstance::Initialize()
-{
-
-}
-
 ULevel* UGameInstance::GetActiveLevel() const
 {
 	return m_ActiveLevel;

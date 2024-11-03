@@ -1,13 +1,10 @@
 #include "stdafx.h"
 #include "Level.h"
 #include "Actor.h"
-#include "Gamemode.h"
 
 
 void ULevel::Release()
 {
-	SAFE_DELETE(m_Gamemode);
-
 	auto ActorIter = m_Actors.begin();
 	while (ActorIter != m_Actors.end())
 	{
@@ -21,8 +18,9 @@ void ULevel::Release()
 
 ULevel::ULevel()
 	:
+	m_GameInstance{},
 	m_Actors{},
-	m_Gamemode{}
+	m_PlayerController{}
 {
 }
 
@@ -31,10 +29,18 @@ ULevel::~ULevel()
 	this->Release();
 }
 
+APlayerController* ULevel::GetPlayerController() const
+{
+	return m_PlayerController;
+}
+
+UGameInstance* ULevel::GetGameInstance() const
+{
+	return m_GameInstance;
+}
+
 void ULevel::Tick(float fDeltaTime)
 {
-	m_Gamemode->Tick(fDeltaTime);
-
 	auto ActorIter = m_Actors.begin();
 
 	while (ActorIter != m_Actors.end())
@@ -47,8 +53,6 @@ void ULevel::Tick(float fDeltaTime)
 
 void ULevel::LateTick(float fDeltaTime)
 {
-	m_Gamemode->LateTick(fDeltaTime);
-
 	auto ActorIter = m_Actors.begin();
 
 	while (ActorIter != m_Actors.end())
@@ -69,9 +73,4 @@ void ULevel::BeginPlay()
 
 	//	++ActorIter;
 	//}
-}
-
-void ULevel::Initialize()
-{
-
 }
