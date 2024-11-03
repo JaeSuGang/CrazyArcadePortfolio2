@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "MovementManager.h"
 #include "MovableComponent.h"
+#include "KmEngine/Actor.h"
 
 void UMovementManager::Reset()
 {
@@ -20,10 +21,19 @@ void UMovementManager::Tick(float fDeltaTime)
 	auto MovableIter = m_Movables.begin();
 	while (MovableIter != m_Movables.end())
 	{
-		FVector2D Velocity = (*MovableIter)->GetVelocity();
-		if (Velocity != FVector2D::Zero)
+		UMovableComponent* MovableComponent = *MovableIter;
+		FVector2D VelocityToApply = MovableComponent->GetVelocity();
+		if (VelocityToApply != FVector2D::Zero)
 		{
-			dfasfs
+			FVector2D VelocityToApplyPerFrame = VelocityToApply * fDeltaTime;
+			FVector2D MaxVelocity = MovableComponent->GetMaxVelocity();
+			FVector2D MaxVelocityPerFrame = MaxVelocity * fDeltaTime;
+
+			if ()
+
+			AActor* MovableActor = MovableComponent->GetOwner();
+			MovableActor->AddPosition(VelocityToApplyPerFrame);
+			
 		}
 
 		++MovableIter;

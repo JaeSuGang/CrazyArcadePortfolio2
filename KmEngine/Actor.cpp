@@ -61,6 +61,11 @@ void AActor::SetPosition(FVector2D NewPosition)
 	m_Position = NewPosition;
 }
 
+void AActor::AddPosition(FVector2D PositionToAdd)
+{
+	m_Position += PositionToAdd;
+}
+
 FVector2D AActor::GetPosition() const
 {
 	return m_Position;

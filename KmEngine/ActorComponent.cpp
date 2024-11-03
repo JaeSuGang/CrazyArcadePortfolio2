@@ -2,6 +2,11 @@
 #include "ActorComponent.h"
 
 
+AActor* UActorComponent::GetOwner() const
+{
+	return m_Owner;
+}
+
 void UActorComponent::BeginPlay()
 {
 

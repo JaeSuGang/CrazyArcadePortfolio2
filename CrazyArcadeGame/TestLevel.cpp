@@ -6,6 +6,7 @@
 #include "KmEngine/PlayerController.h"
 #include "GameUI.h"
 #include "SpawnManager.h"
+#include "MovementManager.h"
 
 void UTestLevel::Tick(float fDeltaTime)
 {
@@ -31,4 +32,17 @@ void UTestLevel::BeginPlay()
 
 	ACharacter* MainCharacter = SpawnManager->SpawnCharacter("Marid", FVector2D(300.0f, 300.0f));
 	PlayerController->Possess(MainCharacter);
+}
+
+void UTestLevel::Release()
+{
+	UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
+	KeyManager->ClearBindKey();
+	UMovementManager* MovementManager = GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
+	MovementManager->Reset();
+}
+
+UTestLevel::~UTestLevel()
+{
+	this->Release();
 }

@@ -12,6 +12,16 @@ void UMovableComponent::SetVelocity(FVector2D Velocity)
 	m_Velocity = Velocity;
 }
 
+void UMovableComponent::SetMaxVelocity(FVector2D Velocity)
+{
+	m_MaxVelocity = Velocity;
+}
+
+FVector2D UMovableComponent::GetMaxVelocity()
+{
+	return m_MaxVelocity;
+}
+
 FVector2D UMovableComponent::GetVelocity()
 {
 	return m_Velocity;
@@ -36,6 +46,7 @@ void UMovableComponent::TickComponent(float fDeltaTime)
 UMovableComponent::UMovableComponent()
 	:
 	m_fRadius{},
-	m_Velocity{}
+	m_Velocity{},
+	m_MaxVelocity{}
 {
 }

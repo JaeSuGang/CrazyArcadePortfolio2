@@ -10,6 +10,8 @@ class UActorComponent : public UObject
 	friend class AActor;
 
 public:
+	AActor* GetOwner() const;
+
 	template <typename T>
 	T* GetGameInstanceSubsystem()
 	{
