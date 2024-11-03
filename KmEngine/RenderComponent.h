@@ -20,6 +20,7 @@ class URenderComponent : public UActorComponent
 	typedef UActorComponent Super;
 
 public:
+	void SetOffset(FVector2D OffsetVector);
 	void PlayAnimation(string strKey);
 	void CreateAnimation(string strAnimationKey, string strImageBaseKey, int nFileCount, float fDuration, bool bIsLoop);
 	void SetStaticImage(UImage* Image);
@@ -27,8 +28,6 @@ public:
 	UImage* GetStaticImage();
 
 public:
-	// UActorComponent을(를) 통해 상속됨
-	void Initialize() override;
 	void BeginPlay() override;
 	void TickComponent(float fDeltaTime) override;
 

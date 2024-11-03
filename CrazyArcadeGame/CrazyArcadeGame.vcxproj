@@ -145,9 +145,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="GameGUI1.cpp" />
+    <ClCompile Include="GameUI.cpp" />
     <ClCompile Include="LevelDeserializer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MovableComponent.cpp" />
     <ClCompile Include="MovementManager.cpp" />
     <ClCompile Include="SpawnManager.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -157,17 +158,20 @@
     <ClCompile Include="TestGameInstance.cpp" />
     <ClCompile Include="TestLevel.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="WallComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="define.h" />
-    <ClInclude Include="GameGUI1.h" />
+    <ClInclude Include="GameUI.h" />
     <ClInclude Include="LevelDeserializer.h" />
+    <ClInclude Include="MovableComponent.h" />
     <ClInclude Include="MovementManager.h" />
     <ClInclude Include="SpawnManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TestGameInstance.h" />
     <ClInclude Include="TestLevel.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="WallComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Resources\Bazzi\BazziDownIdle.bmp" />

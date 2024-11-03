@@ -62,11 +62,13 @@ void URenderManager::Tick()
 		{
 			if (UImage* StaticImage = RenderComponent->GetStaticImage())
 			{
-				int nWidth = StaticImage->m_BitmapInfo.bmWidth;
-				int nHeight = StaticImage->m_BitmapInfo.bmHeight;
+				FVector2D ImageSize { (float)StaticImage->m_BitmapInfo.bmWidth , (float)StaticImage->m_BitmapInfo.bmHeight };
+				FVector2D ImagePositionVector = ActorPos - ImageSize / 2;
 
-				GdiTransparentBlt(m_hBackBufferDC, (int)ActorPos.X, (int)ActorPos.Y,
-					nWidth, nHeight, StaticImage->getDC(), 0, 0, nWidth, nHeight, RGB(255, 0, 255));
+
+				GdiTransparentBlt(m_hBackBufferDC, (int)ImagePositionVector.X, (int)ImagePositionVector.Y,
+					(int)ImageSize.X, (int)ImageSize.Y, StaticImage->getDC(), 0, 0,
+					(int)ImageSize.X, (int)ImageSize.Y, RGB(255, 0, 255));
 			}
 		}
 

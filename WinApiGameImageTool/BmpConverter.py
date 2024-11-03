@@ -52,6 +52,6 @@ class CBmpConverter:
 
 if __name__ == "__main__":
     BmpConverter = CBmpConverter()
-    BmpConverter.SetDirectory(r"F:\CppProject\CrazyArcadePortfolio2\CrazyArcadeGame\Resources\GUI")
-    BmpConverter.SetOutputDirectory(r"F:\CppProject\CrazyArcadePortfolio2\CrazyArcadeGame\Resources\GUI")
+    BmpConverter.SetDirectory(r"F:\Resources\Test\Cappi1")
+    BmpConverter.SetOutputDirectory(r"F:\Resources\Test\Cappi2")
     BmpConverter.ConvertAll()

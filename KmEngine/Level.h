@@ -3,7 +3,6 @@
 #include "Object.h"
 
 class AActor;
-class AGamemode;
 class APlayerController;
 class UGameInstance;
 class UGameInstanceSubsystem;

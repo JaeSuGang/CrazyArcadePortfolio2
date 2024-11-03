@@ -17,12 +17,20 @@
     <ClCompile Include="TestGameInstance.cpp">
       <Filter>GameInstance</Filter>
     </ClCompile>
-    <ClCompile Include="GameGUI1.cpp" />
     <ClCompile Include="MovementManager.cpp">
       <Filter>GameInstanceSubsystem</Filter>
     </ClCompile>
     <ClCompile Include="SpawnManager.cpp">
       <Filter>GameInstanceSubsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="MovableComponent.cpp">
+      <Filter>ActorComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="WallComponent.cpp">
+      <Filter>ActorComponent</Filter>
+    </ClCompile>
+    <ClCompile Include="GameUI.cpp">
+      <Filter>Actor</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -47,6 +55,9 @@
     <Filter Include="GameInstanceSubsystem">
       <UniqueIdentifier>{8c26cbb9-e54d-4a49-933e-a47e37f39d0e}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ActorComponent">
+      <UniqueIdentifier>{093eac90-c662-4acf-bf46-16af3171583d}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -67,12 +78,20 @@
     <ClInclude Include="TestGameInstance.h">
       <Filter>GameInstance</Filter>
     </ClInclude>
-    <ClInclude Include="GameGUI1.h" />
     <ClInclude Include="MovementManager.h">
       <Filter>GameInstanceSubsystem</Filter>
     </ClInclude>
     <ClInclude Include="SpawnManager.h">
       <Filter>GameInstanceSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="MovableComponent.h">
+      <Filter>ActorComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="WallComponent.h">
+      <Filter>ActorComponent</Filter>
+    </ClInclude>
+    <ClInclude Include="GameUI.h">
+      <Filter>Actor</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

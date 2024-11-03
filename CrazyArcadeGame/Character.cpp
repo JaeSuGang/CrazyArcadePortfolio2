@@ -12,6 +12,11 @@ void ACharacter::SetCharacterName(string strCharacterName)
 	m_strCharacterName = strCharacterName;
 }
 
+string ACharacter::GetCharacterName()
+{
+	return m_strCharacterName;
+}
+
 void ACharacter::Move(FVector2D DirectionVector)
 {
 	if (m_bIsAlreadyMoving == false)
@@ -19,7 +24,7 @@ void ACharacter::Move(FVector2D DirectionVector)
 		m_bIsAlreadyMoving = true;
 		UPhysicsComponent* PhysicsComponent = GetComponentByClass<UPhysicsComponent>();
 		URenderComponent* RenderComponent = GetComponentByClass<URenderComponent>();
-		PhysicsComponent->AddVelocity(DirectionVector * 300.0f);
+		PhysicsComponent->AddVelocity(DirectionVector * 250.0f);
 		if (DirectionVector == FVector2D::Up)
 		{
 			string strAnimationName{ m_strCharacterName + "UpWalk"};
@@ -94,20 +99,24 @@ void ACharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	URenderComponent* RenderComponent = InitializeComponentForPlay<URenderComponent>();
-	UPhysicsComponent* PhysicsComponent = InitializeComponentForPlay<UPhysicsComponent>();
+	UPhysicsComponent* PhysicsComponent = CreateDefaultSubobject<UPhysicsComponent>();
 	PhysicsComponent->EnableCollision();
 	PhysicsComponent->SetColliderShape(FCollider::EShape::Square);
 	PhysicsComponent->SetColliderRadius(50.0f);
-	PhysicsComponent->SetMaxSpeed(300.0f);
+	PhysicsComponent->SetMaxSpeed(250.0f);
 
-	RenderComponent->SetStaticImage("Resources\\" + m_strCharacterName + "\\" + "DownIdle.bmp");
-	RenderComponent->CreateAnimation(m_strCharacterName + "DownWalk", "Resources\\" + m_strCharacterName + "\\DownWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation(m_strCharacterName + "LeftWalk", "Resources\\" + m_strCharacterName + "\\LeftWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation(m_strCharacterName + "RightWalk", "Resources\\" + m_strCharacterName + "\\RightWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation(m_strCharacterName + "UpWalk", "Resources\\" + m_strCharacterName + "\\UpWalk", 4, 0.1f, true);
+}
 
+ACharacter::ACharacter()
+	:
+	m_bIsAlreadyMoving{},
+	m_strCharacterName{}
+{
 
+}
+
+void ACharacter::SetupPlayerInput()
+{
 	UKeyManager* km = GEngine->GetEngineSubsystem<UKeyManager>();
 	km->BindKey(VK_UP, UKeyManager::EKeyState::Triggered, std::bind(&ACharacter::Move, this, FVector2D::Up));
 	km->BindKey(VK_DOWN, UKeyManager::EKeyState::Triggered, std::bind(&ACharacter::Move, this, FVector2D::Down));
@@ -118,16 +127,6 @@ void ACharacter::BeginPlay()
 	km->BindKey(VK_DOWN, UKeyManager::EKeyState::KeyUp, std::bind(&ACharacter::Idle, this, FVector2D::Down));
 	km->BindKey(VK_RIGHT, UKeyManager::EKeyState::KeyUp, std::bind(&ACharacter::Idle, this, FVector2D::Right));
 	km->BindKey(VK_LEFT, UKeyManager::EKeyState::KeyUp, std::bind(&ACharacter::Idle, this, FVector2D::Left));
-
-
-}
-
-ACharacter::ACharacter()
-	:
-	m_bIsAlreadyMoving{},
-	m_strCharacterName{}
-{
-
 }
 
 void ACharacter::LateTick(float fDeltaTime)

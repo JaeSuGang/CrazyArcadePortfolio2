@@ -32,7 +32,6 @@ public:
 	void SetMaxSpeed(float fValue);
 
 public:
-	void Initialize() override;
 	void BeginPlay() override;
 	void TickComponent(float fDeltaTime) override;
 

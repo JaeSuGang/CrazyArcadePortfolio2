@@ -46,13 +46,6 @@ void UPhysicsComponent::SetMaxSpeed(float fValue)
 	m_fMaxSpeed = fValue;
 }
 
-void UPhysicsComponent::Initialize()
-{
-	Super::Initialize();
-
-
-}
-
 void UPhysicsComponent::BeginPlay()
 {
 	Super::BeginPlay();

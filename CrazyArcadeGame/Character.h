@@ -1,17 +1,19 @@
 #pragma once
-#include "KmEngine/Actor.h"
+#include "KmEngine/Pawn.h"
 
 
-class ACharacter : public AActor
+class ACharacter : public APawn
 {
 	typedef AActor Super;
 
 public:
 	void SetCharacterName(string strCharacterName);
+	string GetCharacterName();
 	void Move(FVector2D Direction);
 	void Idle(FVector2D Direction);
 
 public:
+	void SetupPlayerInput() override;
 	void Tick(float fDeltaTime) override;
 	void LateTick(float fDeltaTime) override;
 	void BeginPlay() override;
@@ -22,6 +24,9 @@ public:
 private:
 	string m_strCharacterName;
 	bool m_bIsAlreadyMoving;
+
+
+	// APawn을(를) 통해 상속됨
 
 };
 

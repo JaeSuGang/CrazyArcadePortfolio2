@@ -53,7 +53,6 @@ public:
 
 		T* Component = new T{};
 		Component->m_Owner = this;
-		Component->Initialize();
 		Component->BeginPlay();
 
 		string ClassName = typeid(T).name();
@@ -65,7 +64,7 @@ public:
 	}
 
 	template <typename T>
-	T* InitializeComponentForPlay()
+	T* CreateDefaultSubobject()
 	{
 		static_assert(std::is_base_of<UActorComponent, T>::value);
 
@@ -76,7 +75,6 @@ public:
 
 		T* Component = new T{};
 		Component->m_Owner = this;
-		Component->Initialize();
 
 		string ClassName = typeid(T).name();
 		pair<string, UActorComponent*> PairToInsert = { ClassName, Component };

@@ -1,10 +1,5 @@
-APlayerController::Initialize()
-{
-	KeyManager::bind()
-}
 
-APlayerController::Possess(APawn PlayerPawn)
-{
 
-}
+* 모든 픽셀 bitblt시 120프레임
 
+* 타일 개수 15 x 13

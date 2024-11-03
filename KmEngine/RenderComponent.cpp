@@ -4,6 +4,11 @@
 #include "ResourceManager.h"
 #include "TimeManager.h"
 
+void URenderComponent::SetOffset(FVector2D OffsetVector)
+{
+	m_ImageOffset = OffsetVector;
+}
+
 void URenderComponent::PlayAnimation(string strKey)
 {
 	LOWER_STRING(strKey);
@@ -72,13 +77,6 @@ void URenderComponent::SetStaticImage(string strKey)
 UImage* URenderComponent::GetStaticImage()
 {
 	return m_StaticImage;
-}
-
-void URenderComponent::Initialize()
-{
-	Super::Initialize();
-
-
 }
 
 void URenderComponent::BeginPlay()
