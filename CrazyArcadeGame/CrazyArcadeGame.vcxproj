@@ -148,6 +148,8 @@
     <ClCompile Include="GameGUI1.cpp" />
     <ClCompile Include="LevelDeserializer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="MovementManager.cpp" />
+    <ClCompile Include="SpawnManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -161,6 +163,8 @@
     <ClInclude Include="define.h" />
     <ClInclude Include="GameGUI1.h" />
     <ClInclude Include="LevelDeserializer.h" />
+    <ClInclude Include="MovementManager.h" />
+    <ClInclude Include="SpawnManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TestGameInstance.h" />
     <ClInclude Include="TestGamemode.h" />

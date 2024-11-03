@@ -16,24 +16,11 @@ public:
 	// BeginPlay()가 없이 Actor를 m_Actors에 넣음
 	// 원래는 UWorld::InitializeActorsForPlay
 	template <typename T>
-	void InitializeActorForPlay()
-	{
-		static_assert(std::is_base_of<AActor, T>::value);
-
-		AActor* NewActor = new T{};
-		NewActor->Initialize();
-		m_Actors.insert(NewActor);
-	}
-
-	template <typename T>
-	T* SpawnActor()
+	T* InitializeActorForPlay()
 	{
 		static_assert(std::is_base_of<AActor, T>::value);
 
 		T* NewActor = new T{};
-		NewActor->Initialize();
-		NewActor->BeginPlay();
-
 		m_Actors.insert(NewActor);
 		return NewActor;
 	}
@@ -44,7 +31,6 @@ public:
 		static_assert(std::is_base_of<AGamemode, T>::value);
 
 		AGamemode* NewGamemode = new T{};
-		NewGamemode->Initialize();
 
 		SAFE_DELETE(m_Gamemode);
 		m_Gamemode = NewGamemode;

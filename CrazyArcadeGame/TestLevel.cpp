@@ -21,10 +21,6 @@ void UTestLevel::BeginPlay()
 	Super::BeginPlay();
 
 
-	SpawnActor<AGameGUI1>();
-
-	SpawnActor<ACharacter>();
-
 }
 
 void UTestLevel::Initialize()

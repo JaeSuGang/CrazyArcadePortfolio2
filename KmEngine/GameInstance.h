@@ -1,14 +1,40 @@
 #pragma once
 #include "stdafx.h"
 #include "Object.h"
-#include "CrazyArcadeGame/TestLevel.h"
 
 class ULevel;
+class UGameInstanceSubsystem;
 
 class UGameInstance : public UObject
 {
 	friend class UEngine;
 	
+public:
+	template <typename T>
+	T* GetGameInstanceSubsystem()
+	{
+		string ClassName = typeid(T).name();
+		auto SubsystemIter = m_Subsystems.find(ClassName);
+
+		if (SubsystemIter == m_Subsystems.end())
+		{
+			SHOW_ERROR("GetGameInstanceSubsystem, 존재하지 않는 클래스 입니다");
+		}
+
+		return SubsystemIter->second;
+	}
+
+	template <typename T>
+	T* CreateGameInstanceSubsystem()
+	{
+		static_assert(std::is_base_of<UGameInstanceSubsystem, T>::value);
+		T* Subsystem = new T{};
+		string ClassName = typeid(T).name();
+		pair<string, UGameInstanceSubsystem*> PairToInsert{ ClassName, Subsystem };
+		m_Subsystems.insert(PairToInsert);
+		return Subsystem;
+	}
+
 public:
 	ULevel* GetActiveLevel() const;
 	//typedef UTestLevel T;
@@ -40,6 +66,7 @@ public:
 
 // 접근 제한 차후 수정
 public:
+	unordered_map<string, UGameInstanceSubsystem*> m_Subsystems;
 	ULevel* m_ActiveLevel;
 };
 

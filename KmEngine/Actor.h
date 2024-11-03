@@ -17,10 +17,9 @@ public:
 
 public:
 	// 기본 Component 추가 코드
-	virtual void Initialize() = 0;
+	virtual void BeginPlay();
 	virtual void Tick(float fDeltaTime) = 0;
 	virtual void LateTick(float fDeltaTime) = 0;
-	virtual void BeginPlay() = 0;
 
 public:
 	template <typename T>

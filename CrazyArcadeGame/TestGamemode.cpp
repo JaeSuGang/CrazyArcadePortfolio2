@@ -8,11 +8,6 @@ void ATestGamemode::Tick(float fDeltaTime)
 
 }
 
-void ATestGamemode::Initialize()
-{
-	Super::Initialize();
-}
-
 void ATestGamemode::BeginPlay()
 {
 	Super::BeginPlay();

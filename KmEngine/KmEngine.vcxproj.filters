@@ -52,6 +52,12 @@
     <Filter Include="EngineSubsystem\DebugManager">
       <UniqueIdentifier>{df4e49f6-8f62-4159-9078-88a46bb043a1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Controller">
+      <UniqueIdentifier>{c6774ac2-b38c-4a83-bc53-a56675841c01}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameInstanceSubsystem">
+      <UniqueIdentifier>{5914938a-5f75-4f85-9716-00966fab2f8f}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -105,6 +111,21 @@
     </ClCompile>
     <ClCompile Include="DebugManager.cpp">
       <Filter>EngineSubsystem\DebugManager</Filter>
+    </ClCompile>
+    <ClCompile Include="Pawn.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="PlayerController.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="Controller.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="AIController.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
+    <ClCompile Include="GameInstanceSubsystem.cpp">
+      <Filter>GameInstanceSubsystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -161,6 +182,21 @@
     </ClInclude>
     <ClInclude Include="DebugManager.h">
       <Filter>EngineSubsystem\DebugManager</Filter>
+    </ClInclude>
+    <ClInclude Include="Pawn.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="PlayerController.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="Controller.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="AIController.h">
+      <Filter>Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="GameInstanceSubsystem.h">
+      <Filter>GameInstanceSubsystem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

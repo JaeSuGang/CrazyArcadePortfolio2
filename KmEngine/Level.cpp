@@ -61,14 +61,14 @@ void ULevel::LateTick(float fDeltaTime)
 
 void ULevel::BeginPlay()
 {
-	auto ActorIter = m_Actors.begin();
+	//auto ActorIter = m_Actors.begin();
 
-	while (ActorIter != m_Actors.end())
-	{
-		(*ActorIter)->BeginPlay();
+	//while (ActorIter != m_Actors.end())
+	//{
+	//	(*ActorIter)->BeginPlay();
 
-		++ActorIter;
-	}
+	//	++ActorIter;
+	//}
 }
 
 void ULevel::Initialize()

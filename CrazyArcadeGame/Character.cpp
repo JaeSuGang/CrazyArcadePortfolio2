@@ -7,6 +7,11 @@
 #include "KmEngine/KeyManager.h"
 #include "KmEngine/PhysicsComponent.h"
 
+void ACharacter::SetCharacterName(string strCharacterName)
+{
+	m_strCharacterName = strCharacterName;
+}
+
 void ACharacter::Move(FVector2D DirectionVector)
 {
 	if (m_bIsAlreadyMoving == false)
@@ -60,22 +65,23 @@ void ACharacter::Idle(FVector2D DirectionVector)
 	}
 }
 
-void ACharacter::Initialize()
-{
-	Super::Initialize();
-
-	m_strCharacterName = "Bazzi";
-
-	URenderComponent* RenderComponent = InitializeComponentForPlay<URenderComponent>();
-	UPhysicsComponent* PhysicsComponent = InitializeComponentForPlay<UPhysicsComponent>();
-	RenderComponent->SetStaticImage("Resources\\" + m_strCharacterName + "\\" + "DownIdle.bmp");
-	PhysicsComponent->SetMaxSpeed(300.0f);
-
-	RenderComponent->CreateAnimation(m_strCharacterName + "DownWalk", "Resources\\" + m_strCharacterName + "\\DownWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation(m_strCharacterName + "LeftWalk", "Resources\\" + m_strCharacterName + "\\LeftWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation( m_strCharacterName + "RightWalk", "Resources\\" + m_strCharacterName + "\\RightWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation(m_strCharacterName + "UpWalk", "Resources\\" + m_strCharacterName + "\\UpWalk", 4, 0.1f, true);
-}
+//void ACharacter::Initialize()
+//{
+//	Super::Initialize();
+//
+//	URenderComponent* RenderComponent = InitializeComponentForPlay<URenderComponent>();
+//	UPhysicsComponent* PhysicsComponent = InitializeComponentForPlay<UPhysicsComponent>();
+//	PhysicsComponent->EnableCollision();
+//	PhysicsComponent->SetColliderShape(FCollider::EShape::Square);
+//	PhysicsComponent->SetColliderRadius(50.0f);
+//	PhysicsComponent->SetMaxSpeed(300.0f);
+//
+//	RenderComponent->SetStaticImage("Resources\\" + m_strCharacterName + "\\" + "DownIdle.bmp");
+//	RenderComponent->CreateAnimation(m_strCharacterName + "DownWalk", "Resources\\" + m_strCharacterName + "\\DownWalk", 4, 0.1f, true);
+//	RenderComponent->CreateAnimation(m_strCharacterName + "LeftWalk", "Resources\\" + m_strCharacterName + "\\LeftWalk", 4, 0.1f, true);
+//	RenderComponent->CreateAnimation( m_strCharacterName + "RightWalk", "Resources\\" + m_strCharacterName + "\\RightWalk", 4, 0.1f, true);
+//	RenderComponent->CreateAnimation(m_strCharacterName + "UpWalk", "Resources\\" + m_strCharacterName + "\\UpWalk", 4, 0.1f, true);
+//}
 
 void ACharacter::Tick(float fDeltaTime)
 {
@@ -99,6 +105,14 @@ void ACharacter::BeginPlay()
 	km->BindKey(VK_RIGHT, UKeyManager::EKeyState::KeyUp, std::bind(&ACharacter::Idle, this, FVector2D::Right));
 	km->BindKey(VK_LEFT, UKeyManager::EKeyState::KeyUp, std::bind(&ACharacter::Idle, this, FVector2D::Left));
 
+
+}
+
+ACharacter::ACharacter()
+	:
+	m_bIsAlreadyMoving{},
+	m_strCharacterName{}
+{
 
 }
 

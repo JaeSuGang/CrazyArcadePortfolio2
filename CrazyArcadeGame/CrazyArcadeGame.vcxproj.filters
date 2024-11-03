@@ -21,6 +21,12 @@
       <Filter>Gamemode</Filter>
     </ClCompile>
     <ClCompile Include="GameGUI1.cpp" />
+    <ClCompile Include="MovementManager.cpp">
+      <Filter>GameInstanceSubsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="SpawnManager.cpp">
+      <Filter>GameInstanceSubsystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -43,6 +49,9 @@
     </Filter>
     <Filter Include="Resources">
       <UniqueIdentifier>{5bd923ab-c5c2-4844-b97e-0156cc7ce447}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="GameInstanceSubsystem">
+      <UniqueIdentifier>{8c26cbb9-e54d-4a49-933e-a47e37f39d0e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -68,6 +77,12 @@
       <Filter>Gamemode</Filter>
     </ClInclude>
     <ClInclude Include="GameGUI1.h" />
+    <ClInclude Include="MovementManager.h">
+      <Filter>GameInstanceSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SpawnManager.h">
+      <Filter>GameInstanceSubsystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Resources\Bazzi\BazziDownIdle.bmp">

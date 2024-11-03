@@ -7,14 +7,17 @@ class ACharacter : public AActor
 	typedef AActor Super;
 
 public:
+	void SetCharacterName(string strCharacterName);
 	void Move(FVector2D Direction);
 	void Idle(FVector2D Direction);
 
 public:
-	void Initialize() override;
 	void Tick(float fDeltaTime) override;
 	void LateTick(float fDeltaTime) override;
 	void BeginPlay() override;
+
+public:
+	ACharacter();
 
 private:
 	string m_strCharacterName;

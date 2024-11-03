@@ -1,14 +1,11 @@
 #pragma once
-#include "Actor.h"
+#include "Controller.h"
 
-class AGamemode : public AActor
+class AAIController : public AController
 {
-	typedef AActor Super;
-	friend class ULevel;
-	friend class UEngine;
+	typedef AController Super;
 
-protected:
-
+public:
 	void Tick(float fDeltaTime) override;
 	void LateTick(float fDeltaTime) override;
 	void BeginPlay() override;

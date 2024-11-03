@@ -5,7 +5,6 @@ class AGameGUI1 : public AActor
 {
 	typedef AActor Super;
 public:
-	void Initialize() override;
 	void Tick(float fDeltaTime) override;
 	void LateTick(float fDeltaTime) override;
 	void BeginPlay() override;

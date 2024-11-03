@@ -1,10 +1,18 @@
 #include "stdafx.h"
 #include "Level.h"
 #include "GameInstance.h"
+#include "GameInstanceSubsystem.h"
 
 void UGameInstance::Release()
 {
 	SAFE_DELETE(m_ActiveLevel);
+
+	auto SubsystemIter = m_Subsystems.begin();
+	while (SubsystemIter != m_Subsystems.end())
+	{
+		delete SubsystemIter->second;
+		++SubsystemIter;
+	}
 }
 
 UGameInstance::UGameInstance()

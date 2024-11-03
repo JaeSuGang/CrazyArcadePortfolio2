@@ -7,3 +7,8 @@
 4. actors에는 unordered_set을, LoadedLevels에는 unordered_map을,
 렌더링 순서에는 을 목적에 맞는 자료구조를 선택하는 법을 배울 수 있었음
 5. deltatime은 한 프레임 내에서는 같은 값을 가져야 오류가 나지 않음.
+6. Event Delegate에서 AActor의 주소를 bind할때,
+루프돌려야할 별도의 AActor 그룹을 만들때 등,
+AActor의 주소를 여기 저기서 보관해야하는 일이 생길때,
+AActor를 삭제시켜야 할때마다 이런 주소를 참조해가는 곳을 일일히 신경써주기가 매우 번거로움.
+스마트포인터의 Weak_ptr의 필요성을 느낌.

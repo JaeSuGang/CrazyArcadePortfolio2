@@ -1,6 +1,26 @@
 #include "stdafx.h"
 #include "PhysicsComponent.h"
 
+void UPhysicsComponent::SetColliderRadius(float Radius)
+{
+	m_Collider.Radius = Radius;
+}
+
+void UPhysicsComponent::SetColliderShape(FCollider::EShape Shape)
+{
+	m_Collider.Shape = Shape;
+}
+
+void UPhysicsComponent::EnableCollision()
+{
+	m_Collider.Enabled = true;
+}
+
+void UPhysicsComponent::DisableCollision()
+{
+	m_Collider.Enabled = false;
+}
+
 void UPhysicsComponent::AddVelocity(FVector2D AddedVelocity)
 {
 	m_Velocity += AddedVelocity;
@@ -49,9 +69,9 @@ void UPhysicsComponent::TickComponent(float fDeltaTime)
 
 UPhysicsComponent::UPhysicsComponent()
 	:
-	m_bHasCollision{},
+	m_Collider{},
 	m_Velocity{},
 	m_fMaxSpeed{}
 {
-
+	m_Collider.Enabled = false;
 }

@@ -66,7 +66,3 @@ FVector2D AActor::GetPosition() const
 	return m_Position;
 }
 
-void AActor::Initialize()
-{
-
-}

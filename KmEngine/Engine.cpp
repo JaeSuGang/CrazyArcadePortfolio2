@@ -38,7 +38,7 @@ void UEngine::Tick()
 
 		RenderManager->Tick();
 
-#ifdef _DEBUG:
+#ifdef _DEBUG
 		DebugManager->Tick(fDeltaTime);
 #endif
 

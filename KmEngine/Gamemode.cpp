@@ -17,8 +17,3 @@ void AGamemode::BeginPlay()
 {
 	Super::BeginPlay();
 }
-
-void AGamemode::Initialize()
-{
-	Super::Initialize();
-}

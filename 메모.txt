@@ -1,11 +1,10 @@
-충돌 체크 -> 움직이는 대상이 움직일때만
-렌더링 순서 변경 -> 움직이는 대상이 움직일때만
+APlayerController::Initialize()
+{
+	KeyManager::bind()
+}
 
-5000fps -> 1프레임당 속력 0.061
-50fps ->1프레임당 속력 6.002
+APlayerController::Possess(APawn PlayerPawn)
+{
 
-
-
-PhysicsManager에서 Tick에서 if문으로 물리를 처리하는가
-이벤트 디스패칭으로 처리하는가
+}
 

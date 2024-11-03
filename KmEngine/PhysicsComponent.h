@@ -3,6 +3,7 @@
 
 class FCollider
 {
+public:
 	enum class EShape
 	{
 		Circle,
@@ -10,6 +11,7 @@ class FCollider
 	};
 
 public:
+	bool Enabled;
 	EShape Shape;
 	float Radius;
 };
@@ -19,6 +21,10 @@ class UPhysicsComponent : public UActorComponent
 	typedef UActorComponent Super;
 
 public:
+	void SetColliderRadius(float Radius);
+	void SetColliderShape(FCollider::EShape Shape);
+	void EnableCollision();
+	void DisableCollision();
 	void AddVelocity(FVector2D AddedVelocity);
 	void SetVelocity(FVector2D Velocity);
 	FVector2D GetVelocity();
@@ -34,8 +40,8 @@ public:
 	UPhysicsComponent();
 
 private:
-	bool m_bHasCollision;
 	float m_fMaxSpeed;
+	FCollider m_Collider;
 	FVector2D m_Velocity;
 };
 
