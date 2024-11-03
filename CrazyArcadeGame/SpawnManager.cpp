@@ -27,7 +27,7 @@ ACharacter* USpawnManager::SpawnCharacter(string strCharacterName, FVector2D Pos
 	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
 	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
-
+	MovableComponent->RegisterAtMovementManager();
 
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->BeginPlay();
@@ -39,4 +39,11 @@ APlayerController* USpawnManager::SpawnPlayerController()
 	APlayerController* PlayerController = GetActiveLevel()->InitializeActorForPlay<APlayerController>();
 	PlayerController->BeginPlay();
 	return PlayerController;
+}
+
+void USpawnManager::Tick(float fDeltaTime)
+{
+	Super::Tick(fDeltaTime);
+
+
 }

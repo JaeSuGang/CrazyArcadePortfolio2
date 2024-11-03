@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ActorComponent.h"
 
+
 void UActorComponent::BeginPlay()
 {
 

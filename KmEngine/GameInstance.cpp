@@ -30,6 +30,13 @@ UGameInstance::~UGameInstance()
 void UGameInstance::Tick(float fDeltaTime)
 {
 	m_ActiveLevel->Tick(fDeltaTime);
+
+	auto SubsystemIter = m_Subsystems.begin();
+	while (SubsystemIter != m_Subsystems.end())
+	{
+		SubsystemIter->second->Tick(fDeltaTime);
+		++SubsystemIter;
+	}
 }
 
 void UGameInstance::LateTick(float fDeltaTime)

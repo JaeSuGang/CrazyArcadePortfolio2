@@ -6,3 +6,8 @@ ULevel* UGameInstanceSubsystem::GetActiveLevel()
 {
     return GEngine->GetGameInstance()->GetActiveLevel();
 }
+
+void UGameInstanceSubsystem::Tick(float fDeltaTime)
+{
+
+}

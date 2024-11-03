@@ -37,3 +37,9 @@ AController::~AController()
 {
 	this->Release();
 }
+
+AController::AController()
+	:
+	m_Pawn{}
+{
+}

@@ -4,6 +4,7 @@
 #include "KmEngine/Engine.h"
 #include "KmEngine/ResourceManager.h"
 #include "SpawnManager.h"
+#include "MovementManager.h"
 #include "TestLevel.h"
 
 void UTestGameInstance::Tick(float fDeltaTime)
@@ -23,6 +24,7 @@ void UTestGameInstance::BeginPlay()
 	Super::BeginPlay();
 
 	USpawnManager* SpawnManager = CreateGameInstanceSubsystem<USpawnManager>();
+	UMovementManager* MovementManager = CreateGameInstanceSubsystem<UMovementManager>();
 
 	this->OpenLevel<UTestLevel>();
 }

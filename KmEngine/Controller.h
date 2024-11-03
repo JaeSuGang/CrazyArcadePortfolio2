@@ -17,6 +17,7 @@ public:
 public:
 	void Release();
 	~AController();
+	AController();
 
 private:
 	APawn* m_Pawn;
