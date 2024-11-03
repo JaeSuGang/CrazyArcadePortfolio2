@@ -12,14 +12,14 @@ void UMovableComponent::SetVelocity(FVector2D Velocity)
 	m_Velocity = Velocity;
 }
 
-void UMovableComponent::SetMaxVelocity(FVector2D Velocity)
+void UMovableComponent::SetMaxSpeed(float MaxSpeed)
 {
-	m_MaxVelocity = Velocity;
+	m_MaxSpeed = MaxSpeed;
 }
 
-FVector2D UMovableComponent::GetMaxVelocity()
+float UMovableComponent::GetMaxSpeed()
 {
-	return m_MaxVelocity;
+	return m_MaxSpeed;
 }
 
 FVector2D UMovableComponent::GetVelocity()
@@ -47,6 +47,6 @@ UMovableComponent::UMovableComponent()
 	:
 	m_fRadius{},
 	m_Velocity{},
-	m_MaxVelocity{}
+	m_MaxSpeed{}
 {
 }

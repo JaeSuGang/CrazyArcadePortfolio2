@@ -2,6 +2,8 @@
 #include "stdafx.h"
 #include "EngineSubsystem.h"
 
+
+// This class is obsolete, no more used.
 class UPhysicsManager : public UEngineSubsystem
 {
 public:
@@ -12,7 +14,6 @@ public:
 	};
 
 public:
-	void AddMovePhysicsEvent(std::function<void()> Function);
 
 public:
 	void Tick(float fDeltaTime);

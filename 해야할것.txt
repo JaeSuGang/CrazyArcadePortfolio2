@@ -1,13 +1,7 @@
 우선순위
 
-0. SetupPlayerInput()함수가 MovableComponent->Move를 KeyBind 시키고, 
-MovementManager Tick에서 처리할지,
-MovementEvent를 바인드 시킬지,
-Tick에서 체크해야할 이벤트를 추가할지
-3개 방법중에 하나 선택하기
-- Tick에서 처리하기.
-MovableComponent는 생성될 때 무조건 MovementManager에 등록해야함
-이 등록된 리스트만 순환
+
+0. movement manager에 캐릭터 collider 크기 설정, 맵 밖으로 못나가게 하기
 
 
 1. UI렌더링 제외 시키는 최적화 방법 마련하기

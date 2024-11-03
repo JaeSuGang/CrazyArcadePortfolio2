@@ -9,8 +9,8 @@ class UMovableComponent : public UActorComponent
 public:
 	void AddVelocity(FVector2D Velocity);
 	void SetVelocity(FVector2D Velocity);
-	void SetMaxVelocity(FVector2D Velocity);
-	FVector2D GetMaxVelocity();
+	void SetMaxSpeed(float MaxSpeed);
+	float GetMaxSpeed();
 	FVector2D GetVelocity();
 	void RegisterAtMovementManager();
 
@@ -24,6 +24,6 @@ public:
 private:
 	float m_fRadius;
 	FVector2D m_Velocity;
-	FVector2D m_MaxVelocity;
+	float m_MaxSpeed;
 };
 

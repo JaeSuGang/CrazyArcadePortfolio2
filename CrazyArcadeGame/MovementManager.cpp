@@ -26,13 +26,19 @@ void UMovementManager::Tick(float fDeltaTime)
 		if (VelocityToApply != FVector2D::Zero)
 		{
 			FVector2D VelocityToApplyPerFrame = VelocityToApply * fDeltaTime;
-			FVector2D MaxVelocity = MovableComponent->GetMaxVelocity();
-			FVector2D MaxVelocityPerFrame = MaxVelocity * fDeltaTime;
+			float MaxSpeed = MovableComponent->GetMaxSpeed();
+			float MaxSpeedPerFrame = MaxSpeed * fDeltaTime;
+			float SpeedToApply = VelocityToApply.GetLength();
+			float SpeedToApplyPerFrame = SpeedToApply* fDeltaTime;
 
-			if ()
+			if (SpeedToApplyPerFrame > MaxSpeedPerFrame)
+			{
+				VelocityToApplyPerFrame = VelocityToApplyPerFrame / SpeedToApplyPerFrame * MaxSpeedPerFrame;
+			}
 
 			AActor* MovableActor = MovableComponent->GetOwner();
 			MovableActor->AddPosition(VelocityToApplyPerFrame);
+			MovableComponent->SetVelocity(FVector2D::Zero);
 			
 		}
 

@@ -5,7 +5,7 @@
 #include "KmEngine/KeyManager.h"
 #include "KmEngine/TimeManager.h"
 #include "KmEngine/KeyManager.h"
-#include "KmEngine/PhysicsComponent.h"
+#include "MovableComponent.h"
 
 void ACharacter::SetCharacterName(string strCharacterName)
 {
@@ -22,9 +22,9 @@ void ACharacter::Move(FVector2D DirectionVector)
 	if (m_bIsAlreadyMoving == false)
 	{
 		m_bIsAlreadyMoving = true;
-		UPhysicsComponent* PhysicsComponent = GetComponentByClass<UPhysicsComponent>();
+		UMovableComponent* MovableComponent = GetComponentByClass<UMovableComponent>();
+		MovableComponent->AddVelocity(DirectionVector * 300.0f);
 		URenderComponent* RenderComponent = GetComponentByClass<URenderComponent>();
-		PhysicsComponent->AddVelocity(DirectionVector * 250.0f);
 		if (DirectionVector == FVector2D::Up)
 		{
 			string strAnimationName{ m_strCharacterName + "UpWalk"};
@@ -98,12 +98,6 @@ void ACharacter::Tick(float fDeltaTime)
 void ACharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
-	UPhysicsComponent* PhysicsComponent = CreateDefaultSubobject<UPhysicsComponent>();
-	PhysicsComponent->EnableCollision();
-	PhysicsComponent->SetColliderShape(FCollider::EShape::Square);
-	PhysicsComponent->SetColliderRadius(50.0f);
-	PhysicsComponent->SetMaxSpeed(250.0f);
 
 }
 

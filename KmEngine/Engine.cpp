@@ -15,7 +15,6 @@ void UEngine::Tick()
 	UKeyManager* KeyManager = GetEngineSubsystem<UKeyManager>();
 	UTimeManager* TimeManager = GetEngineSubsystem<UTimeManager>();
 	URenderManager* RenderManager = GetEngineSubsystem<URenderManager>();
-	UPhysicsManager* PhysicsManager = GetEngineSubsystem<UPhysicsManager>();
 	UDebugManager* DebugManager = GetEngineSubsystem<UDebugManager>();
 	UGameInstance* GameInstance = GetGameInstance();
 
@@ -26,8 +25,6 @@ void UEngine::Tick()
 	if (fDeltaTime >= 1 / GetTargetFPS())
 	{
 		TimeManager->ResetStartCounter();
-
-		PhysicsManager->Tick(fDeltaTime);
 
 		KeyManager->Tick(fDeltaTime);
 

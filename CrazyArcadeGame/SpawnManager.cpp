@@ -28,6 +28,7 @@ ACharacter* USpawnManager::SpawnCharacter(string strCharacterName, FVector2D Pos
 	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
 	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
 	MovableComponent->RegisterAtMovementManager();
+	MovableComponent->SetMaxSpeed(300.0f);
 
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->BeginPlay();
