@@ -4,10 +4,11 @@
 2. 컴포넌트와 상속을 실제로 활용해보며 익숙해질 수 있었음.
 3. WinApi를 써보면서, .cpp의 구현없이 라이브러리와 헤더파일만을 이용한
 프로그래밍을 이해할 수 있었으며, 핸들, DC, 백버퍼, RGBA 등 렌더의 기초를 배울 수 있었음.
-4. actors에는 unordered_set을, LoadedLevels에는 unordered_map을,
-map<float, AActor*> 자료구조를 통해 특정 범위에 있는 AActor*들을  lower_bound, upper_bound를 통해
-빠르게 가져오며, 렌더 순서를 낮은 y값을 가진 actor들부터 먼저 렌더하여 가장 카메라에 가까운
-물체가 뒤에있는 물체에 가리지 않게 올바르게 렌더링 할 수있었음.
+4. 효율적인 자료구조를 실전에서 써볼 수 있었음
+actors에는 unordered_set을 사용 (순서와 정렬 필요 x, 삭제에 O(1), 1000개의 AActor*중 500개 삭제 상황)
+AActor의 m_Components에는 unordered_map을 사용함 (key값을 typeid(T).name() 하면 원하는 컴포넌트를 Get하는데에 O(1))
+렌더링 순서에는 multimap을 사용함 (정렬이 필요하므로).
+key값이 낮을수록 먼저 렌더링.
 
 5. deltatime은 한 프레임 내에서는 같은 값을 가져야 오류가 나지 않음.
 6. Event Delegate에서 AActor의 주소를 bind할때,

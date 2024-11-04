@@ -20,6 +20,8 @@ class URenderComponent : public UActorComponent
 	typedef UActorComponent Super;
 
 public:
+	void SetRenderPriority(int nPriority);
+	int GetRenderPriority();
 	void SetOffset(FVector2D OffsetVector);
 	FVector2D GetOffset();
 	void PlayAnimation(string strKey);
@@ -37,7 +39,7 @@ public:
 	~URenderComponent();
 	URenderComponent();
 
-private:
+protected:
 	// ResourceManager가 삭제함. Release하지 말것
 	UAnimation* m_CurrentAnimation;
 	unordered_map<string, UAnimation*> m_Animations;
@@ -45,6 +47,6 @@ private:
 	FVector2D m_ImageOffset;
 	float m_fAccumulatedTime;
 	int m_nAnimationFrameIndex;
-	int m_nRenderOrder;
+	int m_nRenderPriority;
 };
 

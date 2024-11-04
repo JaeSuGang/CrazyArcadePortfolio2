@@ -4,6 +4,16 @@
 #include "ResourceManager.h"
 #include "TimeManager.h"
 
+void URenderComponent::SetRenderPriority(int nPriority)
+{
+	m_nRenderPriority = nPriority;
+}
+
+int URenderComponent::GetRenderPriority()
+{
+	return m_nRenderPriority;
+}
+
 void URenderComponent::SetOffset(FVector2D OffsetVector)
 {
 	m_ImageOffset = OffsetVector;
@@ -94,8 +104,9 @@ void URenderComponent::BeginPlay()
 void URenderComponent::TickComponent(float fDeltaTime)
 {
 	Super::TickComponent(fDeltaTime);
-
-
+	
+	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
+	RenderManager->AddRender(m_nRenderPriority, this);
 }
 
 void URenderComponent::Release()
@@ -115,7 +126,7 @@ URenderComponent::~URenderComponent()
 
 URenderComponent::URenderComponent()
 	:
-	m_nRenderOrder{},
+	m_nRenderPriority{},
 	m_StaticImage{},
 	m_nAnimationFrameIndex{},
 	m_CurrentAnimation{},

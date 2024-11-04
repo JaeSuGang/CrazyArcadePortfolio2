@@ -2,11 +2,14 @@
 #include "EngineSubsystem.h"
 #include "KmBase/Vector.h"
 
+class URenderComponent;
+
 class URenderManager : public UEngineSubsystem
 {
 	friend class UEngine;
 
 public:
+	void AddRender(int nPriority, URenderComponent* RenderComponent);
 	void AddCustomRenderEvent(std::function<void()> RenderEvent);
 	void ClearCustomRenderEvents();
 	HWND GetGameWindowHandle();
@@ -25,6 +28,8 @@ public:
 	~URenderManager();
 
 private:
+	// key값에 따라 정렬, 렌더링 우선순위
+	multimap<int, URenderComponent*> m_ComponentsToRender;
 	vector<std::function<void()>> m_CustomRenderEvents;
 	FVector2D m_WindowSize;
 	HWND m_hGameWindow;

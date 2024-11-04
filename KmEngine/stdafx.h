@@ -18,6 +18,7 @@ using std::string_view;
 
 // stl, 헤더파일에서 사용시 stdafx.h를 다시 인클루드
 #include <functional>
+#include <map>
 #include <unordered_map>
 #include <unordered_set>
 #include <vector>
@@ -29,6 +30,7 @@ using std::string_view;
 using std::tuple;
 using std::pair;
 using std::unordered_map;
+using std::multimap;
 using std::unordered_set;
 using std::vector;
 

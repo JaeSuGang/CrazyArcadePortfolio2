@@ -6,6 +6,11 @@
 #include "Level.h"
 #include "RenderComponent.h"
 
+void URenderManager::AddRender(int nPriority, URenderComponent* RenderComponent)
+{
+	m_ComponentsToRender.insert(pair<int, URenderComponent*>{nPriority, RenderComponent});
+}
+
 void URenderManager::AddCustomRenderEvent(std::function<void()> RenderEvent)
 {
 	m_CustomRenderEvents.push_back(RenderEvent);
@@ -66,29 +71,24 @@ void URenderManager::Tick()
 	// 백버퍼 청소
 	Rectangle(m_hBackBufferDC, -1, -1, (int)m_WindowSize.X + 2, (int)m_WindowSize.Y + 2);
 
-	// 액터 bitblt
-	ULevel* ActiveLevel = GEngine->GetGameInstance()->GetActiveLevel();
-	auto ActorIter = ActiveLevel->m_Actors.begin();
-	while (ActorIter != ActiveLevel->m_Actors.end())
+	auto RenderIter = m_ComponentsToRender.begin();
+	while (RenderIter != m_ComponentsToRender.end())
 	{
-		AActor* Actor = *ActorIter;
-		FVector2D ActorPos = Actor->GetPosition();
-		if (URenderComponent* RenderComponent = Actor->GetComponentByClass<URenderComponent>())
+		URenderComponent* RenderComponent = RenderIter->second;
+		AActor* Owner = RenderComponent->GetOwner();
+		FVector2D ActorPos = Owner->GetPosition();
+		if (UImage* StaticImage = RenderComponent->GetStaticImage())
 		{
-			if (UImage* StaticImage = RenderComponent->GetStaticImage())
-			{
-				FVector2D ImageSize { (float)StaticImage->m_BitmapInfo.bmWidth , (float)StaticImage->m_BitmapInfo.bmHeight };
-				FVector2D ImagePositionVector = ActorPos - ImageSize / 2;
-				ImagePositionVector += RenderComponent->GetOffset();
+			FVector2D ImageSize{ (float)StaticImage->m_BitmapInfo.bmWidth , (float)StaticImage->m_BitmapInfo.bmHeight };
+			FVector2D ImagePositionVector = ActorPos - ImageSize / 2;
+			ImagePositionVector += RenderComponent->GetOffset();
 
 
-				GdiTransparentBlt(m_hBackBufferDC, (int)ImagePositionVector.X, (int)ImagePositionVector.Y,
-					(int)ImageSize.X, (int)ImageSize.Y, StaticImage->getDC(), 0, 0,
-					(int)ImageSize.X, (int)ImageSize.Y, RGB(255, 0, 255));
-			}
+			GdiTransparentBlt(m_hBackBufferDC, (int)ImagePositionVector.X, (int)ImagePositionVector.Y,
+				(int)ImageSize.X, (int)ImageSize.Y, StaticImage->getDC(), 0, 0,
+				(int)ImageSize.X, (int)ImageSize.Y, RGB(255, 0, 255));
 		}
-
-		++ActorIter;
+		++RenderIter;
 	}
 
 	// 커스텀 렌더링 이벤트
@@ -99,6 +99,8 @@ void URenderManager::Tick()
 
 	// 백버퍼 bitblt
 	BitBlt(m_hGameWindowDC, 0, 0, (int)m_WindowSize.X, (int)m_WindowSize.Y, m_hBackBufferDC, 0, 0, SRCCOPY);
+
+	m_ComponentsToRender.clear();
 }
 
 void URenderManager::Initialize(const char* lpszTitle, FVector2D WindowSize)
