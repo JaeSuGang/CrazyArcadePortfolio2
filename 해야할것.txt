@@ -1,22 +1,23 @@
 우선순위
 
 
-0. DebugMessage가 안보이는 문제 해결하기
+1. 타일맵 에디터, 타일맵 직렬화, 타일맵 역직렬화
+2. 렌더 순서 알고리즘 만들기
+렌더 순서 -> 레드블랙트리 map<float, AActor*> 로 만들기
 
-0. movement manager에 캐릭터 collider 크기 설정, 맵 밖으로 못나가게 하기
+모든 Actor가 Tick에서 자신의 Position Y밸류를 키값으로
+레드블랙 트리 map<float, AActor*>에 insert됨.
 
-0. 애니메이션 오프셋 벡터 캐릭터마다 정하게하기 spawnbazzi
-
-1. UI렌더링 제외 시키는 최적화 방법 마련하기
-
-2. 타일맵 저장하는법 구현 및 배우기
-
+3. 물풍선 터질때 물풍선 범위에 있는 actor들을 효과적으로 가져오는법?
 
 
 
-3. 렌더 순서를 ordered_map 형태로 렌더하게 구성하기
-충돌 체크 -> 움직이는 대상이 움직일때만
-렌더링 순서 변경 -> 움직이는 대상이 움직일때만
+
+
+
+
+
+
 
 
 4. URenderComponent가 가진 UImage* StaticImage의 UImage주소를 변경시켜주는게
@@ -29,3 +30,5 @@ Animation의 역할 ★되도록이면 면접 대비를 위해 FSM으로 구현
 어떻게 animation이 바뀔지를 결정할 수 있는 FSM모델 구현
 
 7. 애니메이션 PlayAnimation if문 너무 많은거 리팩토링하기
+
+8. UI렌더링 제외 시키는 최적화 방법 마련하기

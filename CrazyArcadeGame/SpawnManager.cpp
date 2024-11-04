@@ -7,6 +7,7 @@
 #include "MovableComponent.h"
 #include "SpawnManager.h"
 
+
 AGameUI* USpawnManager::SpawnGameUI(string strImagePath, FVector2D PositionVector)
 {
 	AGameUI* GameUI = GetActiveLevel()->InitializeActorForPlay<AGameUI>();
@@ -16,8 +17,75 @@ AGameUI* USpawnManager::SpawnGameUI(string strImagePath, FVector2D PositionVecto
 	return GameUI;
 }
 
-ACharacter* USpawnManager::SpawnCharacter(string strCharacterName, FVector2D PositionVector)
+ACharacter* USpawnManager::SpawnBazzi(FVector2D PositionVector)
 {
+	string strCharacterName = "Bazzi";
+	ACharacter* SpawnedCharacter = GetActiveLevel()->InitializeActorForPlay<ACharacter>();
+	SpawnedCharacter->SetCharacterName(strCharacterName);
+	URenderComponent* RenderComponent = SpawnedCharacter->CreateDefaultSubobject<URenderComponent>();
+	RenderComponent->SetOffset(FVector2D(0.0f, -12.0f));
+	RenderComponent->SetStaticImage("Resources\\" + strCharacterName + "\\" + "DownIdle.bmp");
+	RenderComponent->CreateAnimation(strCharacterName + "DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
+	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
+	MovableComponent->RegisterAtMovementManager();
+	MovableComponent->SetMaxSpeed(300.0f);
+	MovableComponent->SetRadius(30.0f);
+
+	SpawnedCharacter->SetPosition(PositionVector);
+	SpawnedCharacter->BeginPlay();
+	return SpawnedCharacter;
+}
+
+ACharacter* USpawnManager::SpawnDao(FVector2D PositionVector)
+{
+	string strCharacterName = "Dao";
+	ACharacter* SpawnedCharacter = GetActiveLevel()->InitializeActorForPlay<ACharacter>();
+	SpawnedCharacter->SetCharacterName(strCharacterName);
+	URenderComponent* RenderComponent = SpawnedCharacter->CreateDefaultSubobject<URenderComponent>();
+	RenderComponent->SetOffset(FVector2D(0.0f, -13.0f));
+	RenderComponent->SetStaticImage("Resources\\" + strCharacterName + "\\" + "DownIdle.bmp");
+	RenderComponent->CreateAnimation(strCharacterName + "DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
+	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
+	MovableComponent->RegisterAtMovementManager();
+	MovableComponent->SetMaxSpeed(300.0f);
+	MovableComponent->SetRadius(30.0f);
+
+	SpawnedCharacter->SetPosition(PositionVector);
+	SpawnedCharacter->BeginPlay();
+	return SpawnedCharacter;
+}
+
+ACharacter* USpawnManager::SpawnCappi(FVector2D PositionVector)
+{
+	string strCharacterName = "Cappi";
+	ACharacter* SpawnedCharacter = GetActiveLevel()->InitializeActorForPlay<ACharacter>();
+	SpawnedCharacter->SetCharacterName(strCharacterName);
+	URenderComponent* RenderComponent = SpawnedCharacter->CreateDefaultSubobject<URenderComponent>();
+	RenderComponent->SetOffset(FVector2D(0.0f, -12.0f));
+	RenderComponent->SetStaticImage("Resources\\" + strCharacterName + "\\" + "DownIdle.bmp");
+	RenderComponent->CreateAnimation(strCharacterName + "DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
+	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
+	MovableComponent->RegisterAtMovementManager();
+	MovableComponent->SetMaxSpeed(300.0f);
+	MovableComponent->SetRadius(30.0f);
+
+	SpawnedCharacter->SetPosition(PositionVector);
+	SpawnedCharacter->BeginPlay();
+	return SpawnedCharacter;
+}
+
+ACharacter* USpawnManager::SpawnMarid(FVector2D PositionVector)
+{
+	string strCharacterName = "Marid";
 	ACharacter* SpawnedCharacter = GetActiveLevel()->InitializeActorForPlay<ACharacter>();
 	SpawnedCharacter->SetCharacterName(strCharacterName);
 	URenderComponent* RenderComponent = SpawnedCharacter->CreateDefaultSubobject<URenderComponent>();

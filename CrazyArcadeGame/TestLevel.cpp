@@ -30,7 +30,7 @@ void UTestLevel::BeginPlay()
 
 	APlayerController* PlayerController = SpawnManager->SpawnPlayerController();
 
-	ACharacter* MainCharacter = SpawnManager->SpawnCharacter("Bazzi", FVector2D(300.0f, 300.0f));
+	ACharacter* MainCharacter = SpawnManager->SpawnBazzi(FVector2D(300.0f, 300.0f));
 	PlayerController->Possess(MainCharacter);
 }
 

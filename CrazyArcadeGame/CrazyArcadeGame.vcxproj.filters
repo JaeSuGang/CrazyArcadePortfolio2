@@ -32,6 +32,9 @@
     <ClCompile Include="GameUI.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
+    <ClCompile Include="SerializeManager.cpp">
+      <Filter>GameInstanceSubsystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -92,6 +95,9 @@
     </ClInclude>
     <ClInclude Include="GameUI.h">
       <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="SerializeManager.h">
+      <Filter>GameInstanceSubsystem</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

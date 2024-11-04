@@ -25,7 +25,7 @@ void UMovementManager::DebugRender()
 		float fRadius = MovableComponent->GetRadius();
 		Rectangle(hDC, (int)(ActorPosition.X - fRadius), (int)(ActorPosition.Y - fRadius), (int)(ActorPosition.X + fRadius), (int)(ActorPosition.Y + fRadius));
 		string strPos = "[" + std::to_string((int)(ActorPosition.X)) + ", " + std::to_string((int)(ActorPosition.Y)) + "]";
-		TextOutA(hDC, (int)(ActorPosition.X), (int)(ActorPosition.Y), strPos.data(), strPos.size());
+		TextOutA(hDC, (int)(ActorPosition.X), (int)(ActorPosition.Y), strPos.data(), (int)strPos.size());
 		++MovableIter;
 	}
 	SelectObject(hDC, hOldPen);

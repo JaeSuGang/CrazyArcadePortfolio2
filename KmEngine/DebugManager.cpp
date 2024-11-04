@@ -7,7 +7,7 @@
 void UDebugManager::ShowFPS(HDC hBackBuffer, int nIndex, float* fFPSVariable)
 {
 	string strToShow = "FPS : " + std::to_string(*fFPSVariable);
-	TextOutA(hBackBuffer, 0, nIndex * 30, strToShow.data(), strToShow.size());
+	TextOutA(hBackBuffer, 0, nIndex * 30, strToShow.data(), (int)strToShow.size());
 }
 
 void UDebugManager::EnableFPSCounter()
