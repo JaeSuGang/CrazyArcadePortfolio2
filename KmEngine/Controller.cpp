@@ -6,10 +6,7 @@
 void AController::Possess(APawn* Pawn)
 {
 	m_Pawn = Pawn;
-
-	UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
-	KeyManager->ClearBindKey();
-	m_Pawn->SetupPlayerInput();
+	m_Pawn->SetController(this);
 }
 
 void AController::Tick(float fDeltaTime)

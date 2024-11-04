@@ -6,6 +6,7 @@
 #include "KmEngine/TimeManager.h"
 #include "KmEngine/KeyManager.h"
 #include "MovableComponent.h"
+#include "AIManager.h"
 
 void ACharacter::SetCharacterName(string strCharacterName)
 {
@@ -109,8 +110,18 @@ ACharacter::ACharacter()
 
 }
 
-void ACharacter::SetupPlayerInput()
+void ACharacter::OnAIPossessed()
 {
+	Super::OnAIPossessed();
+
+	UAIManager* AIManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<UAIManager>();
+	AIManager->AddAIPawn(this);
+}
+
+void ACharacter::OnPlayerPossessed()
+{
+	Super::OnPlayerPossessed();
+
 	UKeyManager* km = GEngine->GetEngineSubsystem<UKeyManager>();
 	km->BindKey(VK_UP, UKeyManager::EKeyState::Triggered, std::bind(&ACharacter::Move, this, FVector2D::Up));
 	km->BindKey(VK_DOWN, UKeyManager::EKeyState::Triggered, std::bind(&ACharacter::Move, this, FVector2D::Down));

@@ -1,19 +1,37 @@
 우선순위
 
 
+0. OnAIPossessed() 호출시, AIManager에 등록,
+AIManager Tick에서 이동 로직 작성.
+
 1. 타일맵 에디터, 타일맵 직렬화, 타일맵 역직렬화
 2. 렌더 순서 알고리즘 만들기
 렌더 순서 -> 레드블랙트리 map<float, AActor*> 로 만들기
 
 모든 Actor가 Tick에서 자신의 Position Y밸류를 키값으로
 레드블랙 트리 map<float, AActor*>에 insert됨.
+-----------------------------------------------------------------
+매 Tick마다 렌더 컴포넌트를 위치 Y값으로 정렬되는 map에 insert한뒤,
+중위 순환으로 렌더하고,
+map을 clear하기
 
+vs
+
+Actor가 움직일때마다 map에서 찾은후 재배열 (float에 대한 ==연산자가 제대로 작동하는가)
+
+vs
+URenderComponent가 매 TickComponent마다 자신의 Y밸류를 몇번째 높이 타일인지로 치환후
+map <int, URenderComponent*>에 Insert;
+floorTile은 Key = 0
+UI의 Key = 999;
+
+---------------------------------------------------------------------
 3. 물풍선 터질때 물풍선 범위에 있는 actor들을 효과적으로 가져오는법?
 
 
 
 
-
+4. 캐릭터 애니메이션에 그림자 넣기
 
 
 

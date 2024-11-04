@@ -35,6 +35,12 @@
     <ClCompile Include="SerializeManager.cpp">
       <Filter>GameInstanceSubsystem</Filter>
     </ClCompile>
+    <ClCompile Include="AIManager.cpp">
+      <Filter>GameInstanceSubsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="CharacterAIController.cpp">
+      <Filter>Controller</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -60,6 +66,9 @@
     </Filter>
     <Filter Include="ActorComponent">
       <UniqueIdentifier>{093eac90-c662-4acf-bf46-16af3171583d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Controller">
+      <UniqueIdentifier>{259ded4e-28fc-4d2f-b883-06d523c75fe8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -98,6 +107,12 @@
     </ClInclude>
     <ClInclude Include="SerializeManager.h">
       <Filter>GameInstanceSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="AIManager.h">
+      <Filter>GameInstanceSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="CharacterAIController.h">
+      <Filter>Controller</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -3,6 +3,7 @@
 #include "KmBase/Vector.h"
 
 class APlayerController;
+class AAIController;
 class ACharacter;
 class AGameUI;
 
@@ -18,6 +19,7 @@ public:
 	ACharacter* SpawnCappi(FVector2D PositionVector);
 	ACharacter* SpawnMarid(FVector2D PositionVector);
 	APlayerController* SpawnPlayerController();
+	AAIController* SpawnCharacterAIController();
 
 public:
 	void Tick(float fDeltaTime) override;

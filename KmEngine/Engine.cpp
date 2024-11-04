@@ -50,6 +50,7 @@ float UEngine::GetDeltaTime()
 
 void UEngine::RunForever()
 {
+	srand(time(0));
 	while (m_bEngineSwitch)
 	{
 		this->Tick();

@@ -2,6 +2,7 @@
 #include "Character.h"
 #include "KmEngine/Level.h"
 #include "KmEngine/PlayerController.h"
+#include "CharacterAIController.h"
 #include "KmEngine/RenderComponent.h"
 #include "GameUI.h"
 #include "MovableComponent.h"
@@ -110,6 +111,13 @@ APlayerController* USpawnManager::SpawnPlayerController()
 	APlayerController* PlayerController = GetActiveLevel()->InitializeActorForPlay<APlayerController>();
 	PlayerController->BeginPlay();
 	return PlayerController;
+}
+
+AAIController* USpawnManager::SpawnCharacterAIController()
+{
+	ACharacterAIController* AIController = GetActiveLevel()->InitializeActorForPlay<ACharacterAIController>();
+	AIController->BeginPlay();
+	return AIController;
 }
 
 void USpawnManager::Tick(float fDeltaTime)

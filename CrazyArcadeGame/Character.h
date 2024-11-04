@@ -4,7 +4,7 @@
 
 class ACharacter : public APawn
 {
-	typedef AActor Super;
+	typedef APawn Super;
 
 public:
 	void SetCharacterName(string strCharacterName);
@@ -13,7 +13,8 @@ public:
 	void Idle(FVector2D Direction);
 
 public:
-	void SetupPlayerInput() override;
+	void OnAIPossessed() override;
+	void OnPlayerPossessed() override;
 	void Tick(float fDeltaTime) override;
 	void LateTick(float fDeltaTime) override;
 	void BeginPlay() override;

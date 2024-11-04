@@ -7,7 +7,7 @@ class AController : public AActor
 	typedef AActor Super;
 
 public:
-	void Possess(APawn* Pawn);
+	virtual void Possess(APawn* Pawn);
 
 public:
 	void Tick(float fDeltaTime) override;
@@ -19,7 +19,7 @@ public:
 	~AController();
 	AController();
 
-private:
+protected:
 	APawn* m_Pawn;
 };
 

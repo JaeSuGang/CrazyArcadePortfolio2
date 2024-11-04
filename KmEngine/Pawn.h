@@ -1,16 +1,24 @@
 #pragma once
 #include "Actor.h"
 
+class AController;
+
 class APawn : public AActor
 {
 	typedef AActor Super;
 
 public:
-	virtual void SetupPlayerInput() = 0;
+	AController* GetController();
+	void SetController(AController* Controller);
+	virtual void OnPlayerPossessed();
+	virtual void OnAIPossessed();
 
 public:
 	void Tick(float fDeltaTime) override;
 	void LateTick(float fDeltaTime) override;
 	void BeginPlay() override;
+
+protected:
+	AController* m_Controller;
 };
 
