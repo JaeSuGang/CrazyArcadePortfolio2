@@ -21,6 +21,7 @@ class URenderComponent : public UActorComponent
 
 public:
 	void SetOffset(FVector2D OffsetVector);
+	FVector2D GetOffset();
 	void PlayAnimation(string strKey);
 	void CreateAnimation(string strAnimationKey, string strImageBaseKey, int nFileCount, float fDuration, bool bIsLoop);
 	void SetStaticImage(UImage* Image);

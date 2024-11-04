@@ -7,8 +7,11 @@ class URenderManager : public UEngineSubsystem
 	friend class UEngine;
 
 public:
+	void AddCustomRenderEvent(std::function<void()> RenderEvent);
+	void ClearCustomRenderEvents();
 	HWND GetGameWindowHandle();
 	HDC GetGameWindowDCHandle();
+	HDC GetBackBufferHandle();
 	void SetWindowSize(FVector2D Size);
 	static LRESULT WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lParam);
 
@@ -22,6 +25,7 @@ public:
 	~URenderManager();
 
 private:
+	vector<std::function<void()>> m_CustomRenderEvents;
 	FVector2D m_WindowSize;
 	HWND m_hGameWindow;
 	HDC m_hGameWindowDC;

@@ -26,7 +26,7 @@ void UTestLevel::BeginPlay()
 
 	USpawnManager* SpawnManager = GetGameInstance()->GetGameInstanceSubsystem<USpawnManager>();
 
-	AGameUI* InGameUI = SpawnManager->SpawnGameUI("Resources\\GUI\\GameUI2.bmp", FVector2D(600.0f, 446.0f));
+	AGameUI* InGameUI = SpawnManager->SpawnGameUI("Resources\\GUI\\GameUI3.bmp", FVector2D(600.0f, 450.0f));
 
 	APlayerController* PlayerController = SpawnManager->SpawnPlayerController();
 

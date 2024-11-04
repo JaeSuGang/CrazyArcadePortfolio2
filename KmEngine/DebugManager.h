@@ -5,15 +5,15 @@
 class UDebugManager : public UEngineSubsystem
 {
 public:
+	void ShowFPS(HDC hBackBuffer, int nIndex, float* fFPSVariable);
+	void EnableFPSCounter();
 	void Tick(float fDeltaTime);
-	void AddDebugText(string strText);
 
 public:
-	void Initialize(HDC hWindowDC);
+	void Initialize();
 	UDebugManager();
 
 public:
-	vector<string> m_DebugText;
-	HDC m_hWindowDC;
+	int m_nDebugMessageCount;
 };
 

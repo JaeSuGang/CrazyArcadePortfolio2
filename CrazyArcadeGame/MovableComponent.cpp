@@ -22,6 +22,16 @@ float UMovableComponent::GetMaxSpeed()
 	return m_MaxSpeed;
 }
 
+float UMovableComponent::GetRadius() const
+{
+	return m_fCollisionRadius;
+}
+
+void UMovableComponent::SetRadius(float fRadius)
+{
+	m_fCollisionRadius = fRadius;
+}
+
 FVector2D UMovableComponent::GetVelocity()
 {
 	return m_Velocity;
@@ -45,7 +55,7 @@ void UMovableComponent::TickComponent(float fDeltaTime)
 
 UMovableComponent::UMovableComponent()
 	:
-	m_fRadius{},
+	m_fCollisionRadius{},
 	m_Velocity{},
 	m_MaxSpeed{}
 {

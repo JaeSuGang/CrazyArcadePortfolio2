@@ -6,6 +6,7 @@ void UTimeManager::AssignDeltaTime()
 	LONGLONG dCounterDifference = m_LastPerformanceCounter.QuadPart - m_StartPerformanceCounter.QuadPart;
 
 	m_fDeltaTime = (float)dCounterDifference / (float)m_PerformanceFrequency.QuadPart;
+	m_fCurrentFPS = 1 / m_fDeltaTime;
 }
 
 void UTimeManager::SetLastCounter()

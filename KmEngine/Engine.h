@@ -11,6 +11,7 @@ class UGameInstance;
 class UEngine : public UObject
 {
 public:
+	float GetDeltaTime();
 	void RunForever();
 	void TerminateEngine();
 

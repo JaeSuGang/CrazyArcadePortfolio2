@@ -9,6 +9,11 @@ void URenderComponent::SetOffset(FVector2D OffsetVector)
 	m_ImageOffset = OffsetVector;
 }
 
+FVector2D URenderComponent::GetOffset()
+{
+	return m_ImageOffset;
+}
+
 void URenderComponent::PlayAnimation(string strKey)
 {
 	LOWER_STRING(strKey);

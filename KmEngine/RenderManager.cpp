@@ -6,6 +6,16 @@
 #include "Level.h"
 #include "RenderComponent.h"
 
+void URenderManager::AddCustomRenderEvent(std::function<void()> RenderEvent)
+{
+	m_CustomRenderEvents.push_back(RenderEvent);
+}
+
+void URenderManager::ClearCustomRenderEvents()
+{
+	m_CustomRenderEvents.clear();
+}
+
 HWND URenderManager::GetGameWindowHandle()
 {
 	return m_hGameWindow;
@@ -14,6 +24,11 @@ HWND URenderManager::GetGameWindowHandle()
 HDC URenderManager::GetGameWindowDCHandle()
 {
 	return m_hGameWindowDC;
+}
+
+HDC URenderManager::GetBackBufferHandle()
+{
+	return m_hBackBufferDC;
 }
 
 void URenderManager::SetWindowSize(FVector2D Size)
@@ -64,6 +79,7 @@ void URenderManager::Tick()
 			{
 				FVector2D ImageSize { (float)StaticImage->m_BitmapInfo.bmWidth , (float)StaticImage->m_BitmapInfo.bmHeight };
 				FVector2D ImagePositionVector = ActorPos - ImageSize / 2;
+				ImagePositionVector += RenderComponent->GetOffset();
 
 
 				GdiTransparentBlt(m_hBackBufferDC, (int)ImagePositionVector.X, (int)ImagePositionVector.Y,
@@ -73,6 +89,12 @@ void URenderManager::Tick()
 		}
 
 		++ActorIter;
+	}
+
+	// 커스텀 렌더링 이벤트
+	for (int i = 0; i < m_CustomRenderEvents.size(); i++)
+	{
+		m_CustomRenderEvents[i]();
 	}
 
 	// 백버퍼 bitblt
@@ -129,7 +151,8 @@ URenderManager::URenderManager()
 	m_hGameWindow{},
 	m_hBackBufferDC{},
 	m_hGameWindowDC{},
-	m_WindowSize{}
+	m_WindowSize{},
+	m_CustomRenderEvents{}
 {
 }
 

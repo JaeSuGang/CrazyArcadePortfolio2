@@ -1,8 +1,11 @@
 우선순위
 
 
+0. DebugMessage가 안보이는 문제 해결하기
+
 0. movement manager에 캐릭터 collider 크기 설정, 맵 밖으로 못나가게 하기
 
+0. 애니메이션 오프셋 벡터 캐릭터마다 정하게하기 spawnbazzi
 
 1. UI렌더링 제외 시키는 최적화 방법 마련하기
 

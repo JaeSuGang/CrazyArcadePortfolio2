@@ -43,6 +43,11 @@ void UEngine::Tick()
 
 }
 
+float UEngine::GetDeltaTime()
+{
+	return GetEngineSubsystem<UTimeManager>()->GetDeltaTime();
+}
+
 void UEngine::RunForever()
 {
 	while (m_bEngineSwitch)
@@ -81,7 +86,7 @@ UResourceManager* UEngine::CreateResourceManager(HWND hGameWindow)
 void UEngine::CreateDebugManager(HDC hGameWindowDC)
 {
 	UDebugManager* Subsystem = new UDebugManager{};
-	Subsystem->Initialize(hGameWindowDC);
+	Subsystem->Initialize();
 
 	string ClassName = typeid(UDebugManager).name();
 	pair<string, UEngineSubsystem*> PairToInsert{ ClassName, Subsystem };

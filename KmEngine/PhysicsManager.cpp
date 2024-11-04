@@ -28,8 +28,6 @@ void UPhysicsManager::Tick(float fDeltaTime)
 			float CurrentSpeed = CurrentVelocity.GetLength();
 			float CurrentSpeedPerFrame = CurrentVelocityPerFrame.GetLength();
 
-			GEngine->GetEngineSubsystem<UDebugManager>()->AddDebugText("Speed : " + std::to_string((int)CurrentSpeed));
-			GEngine->GetEngineSubsystem<UDebugManager>()->AddDebugText("SpeedPerFrame : " + std::to_string(CurrentSpeedPerFrame));
 			if (CurrentSpeedPerFrame > MaxSpeedPerFrame)
 			{
 				CurrentVelocityPerFrame = CurrentVelocityPerFrame / CurrentSpeedPerFrame * MaxSpeedPerFrame;

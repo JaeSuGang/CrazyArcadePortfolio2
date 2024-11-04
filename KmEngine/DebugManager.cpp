@@ -1,32 +1,37 @@
 #include "stdafx.h"
+#include "Engine.h"
 #include "DebugManager.h"
+#include "RenderManager.h"
+#include "TimeManager.h"
+
+void UDebugManager::ShowFPS(HDC hBackBuffer, int nIndex, float* fFPSVariable)
+{
+	string strToShow = "FPS : " + std::to_string(*fFPSVariable);
+	TextOutA(hBackBuffer, 0, nIndex * 30, strToShow.data(), strToShow.size());
+}
+
+void UDebugManager::EnableFPSCounter()
+{
+	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
+	UTimeManager* TimeManager = GEngine->GetEngineSubsystem<UTimeManager>();
+
+	std::function<void()> Event = std::bind(&UDebugManager::ShowFPS, this, RenderManager->GetBackBufferHandle(), m_nDebugMessageCount, &TimeManager->m_fCurrentFPS);
+	RenderManager->AddCustomRenderEvent(Event);
+	m_nDebugMessageCount++;
+}
 
 void UDebugManager::Tick(float fDeltaTime)
 {
-	AddDebugText("FPS : " + std::to_string((int)(1/fDeltaTime)));
 
-	for (int i = 0; i < m_DebugText.size(); i++)
-	{
-		TextOutA(m_hWindowDC, 0, i * 30, m_DebugText[i].data(), m_DebugText[i].length());
-	}
-
-	m_DebugText.clear();
 }
 
-void UDebugManager::AddDebugText(string strText)
+void UDebugManager::Initialize()
 {
-	m_DebugText.push_back(strText);
-}
-
-void UDebugManager::Initialize(HDC hWindowDC)
-{
-	m_DebugText.reserve(100);
-	m_hWindowDC = hWindowDC;
+	EnableFPSCounter();
 }
 
 UDebugManager::UDebugManager()
 	:
-	m_DebugText{},
-	m_hWindowDC{}
+	m_nDebugMessageCount{}
 {
 }

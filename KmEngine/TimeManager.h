@@ -11,9 +11,12 @@ public:
 	void SetLastCounter();
 	float GetDeltaTime() const;
 
-private:
+public:
 	void Initialize();
 	UTimeManager();
+
+public:
+	float m_fCurrentFPS;
 
 private:
 	LARGE_INTEGER m_StartPerformanceCounter;

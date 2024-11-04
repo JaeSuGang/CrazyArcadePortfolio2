@@ -21,6 +21,7 @@ ACharacter* USpawnManager::SpawnCharacter(string strCharacterName, FVector2D Pos
 	ACharacter* SpawnedCharacter = GetActiveLevel()->InitializeActorForPlay<ACharacter>();
 	SpawnedCharacter->SetCharacterName(strCharacterName);
 	URenderComponent* RenderComponent = SpawnedCharacter->CreateDefaultSubobject<URenderComponent>();
+	RenderComponent->SetOffset(FVector2D(0.0f, -12.0f));
 	RenderComponent->SetStaticImage("Resources\\" + strCharacterName + "\\" + "DownIdle.bmp");
 	RenderComponent->CreateAnimation(strCharacterName + "DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
@@ -29,6 +30,7 @@ ACharacter* USpawnManager::SpawnCharacter(string strCharacterName, FVector2D Pos
 	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
 	MovableComponent->RegisterAtMovementManager();
 	MovableComponent->SetMaxSpeed(300.0f);
+	MovableComponent->SetRadius(30.0f);
 
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->BeginPlay();

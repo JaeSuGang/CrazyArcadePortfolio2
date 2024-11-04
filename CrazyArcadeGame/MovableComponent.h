@@ -11,6 +11,8 @@ public:
 	void SetVelocity(FVector2D Velocity);
 	void SetMaxSpeed(float MaxSpeed);
 	float GetMaxSpeed();
+	float GetRadius() const;
+	void SetRadius(float fRadius);
 	FVector2D GetVelocity();
 	void RegisterAtMovementManager();
 
@@ -22,8 +24,8 @@ public:
 	UMovableComponent();
 
 private:
-	float m_fRadius;
 	FVector2D m_Velocity;
+	float m_fCollisionRadius;
 	float m_MaxSpeed;
 };
 
