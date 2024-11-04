@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include <crtdbg.h>
 
+#include "KmBase/Archive.h"
 #include "KmEngine/Engine.h"
 #include "CrazyArcadeGame/TestGameInstance.h"
 
@@ -37,6 +38,11 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	GEngine->RunForever();
 
 	delete GEngine;
+
+	FArchive* File = new FArchive{};
+	*File << string("fffddd");
+	File->Save("Map001.tilemap");
+	delete File;
 
 	_CrtDumpMemoryLeaks();
 }

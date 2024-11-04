@@ -10,6 +10,7 @@
 #include <string>
 #include <typeinfo>
 #include <cmath>
+#include <cstdio>
 
 using std::string;
 
