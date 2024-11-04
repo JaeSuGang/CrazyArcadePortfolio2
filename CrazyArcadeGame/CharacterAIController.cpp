@@ -31,7 +31,7 @@ void ACharacterAIController::SetRandomDirection()
 		break;
 	}
 
-	m_fChangeDirectionTime = (rand() % 90 + 10) / 100.0f;
+	m_fChangeDirectionTime = (rand() % 70 + 10) / 100.0f;
 }
 
 void ACharacterAIController::SetAccumulatedTime(float fTime)

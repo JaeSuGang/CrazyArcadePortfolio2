@@ -148,7 +148,6 @@
     <ClCompile Include="AIManager.cpp" />
     <ClCompile Include="CharacterAIController.cpp" />
     <ClCompile Include="GameUI.cpp" />
-    <ClCompile Include="LevelDeserializer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MovableComponent.cpp" />
     <ClCompile Include="MovementManager.cpp" />
@@ -168,7 +167,6 @@
     <ClInclude Include="CharacterAIController.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="GameUI.h" />
-    <ClInclude Include="LevelDeserializer.h" />
     <ClInclude Include="MovableComponent.h" />
     <ClInclude Include="MovementManager.h" />
     <ClInclude Include="SerializeManager.h" />

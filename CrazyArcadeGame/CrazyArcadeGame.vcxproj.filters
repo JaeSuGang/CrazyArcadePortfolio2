@@ -5,9 +5,6 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>pch</Filter>
     </ClCompile>
-    <ClCompile Include="LevelDeserializer.cpp">
-      <Filter>LevelDeserializer</Filter>
-    </ClCompile>
     <ClCompile Include="TestLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
@@ -46,9 +43,6 @@
     <Filter Include="pch">
       <UniqueIdentifier>{66ae917e-19e9-499f-ba29-7d3e33a66d85}</UniqueIdentifier>
     </Filter>
-    <Filter Include="LevelDeserializer">
-      <UniqueIdentifier>{79572b0a-d501-495d-93aa-18442d1035f8}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Level">
       <UniqueIdentifier>{be8dad4b-0b6c-4dc9-98a8-bda49bee66b7}</UniqueIdentifier>
     </Filter>
@@ -77,9 +71,6 @@
     </ClInclude>
     <ClInclude Include="define.h">
       <Filter>pch</Filter>
-    </ClInclude>
-    <ClInclude Include="LevelDeserializer.h">
-      <Filter>LevelDeserializer</Filter>
     </ClInclude>
     <ClInclude Include="TestLevel.h">
       <Filter>Level</Filter>

@@ -7,19 +7,12 @@ class ACharacter;
 class UMovableComponent;
 class UWallComponent;
 
-struct FMapLocation
-{
-	float Up;
-	float Down;
-	float Left;
-	float Right;
-};
-
 class UMovementManager : public UGameInstanceSubsystem
 {
 	typedef UGameInstanceSubsystem Super;
 
 public:
+	void SetMapRange(RECT Range);
 	void EnableDebugRender();
 	void DebugRender();
 	void Reset();
@@ -32,9 +25,9 @@ public:
 	UMovementManager();
 
 public:
-	FMapLocation m_MapLocation;
 
 private:
+	RECT m_MapRange;
 	unordered_set<UMovableComponent*> m_Movables;
 	unordered_set<UWallComponent*> m_Walls;
 

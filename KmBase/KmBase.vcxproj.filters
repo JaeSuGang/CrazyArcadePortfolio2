@@ -7,6 +7,9 @@
     <Filter Include="Vector">
       <UniqueIdentifier>{446984ca-3745-44d4-982e-bccc0aef3e16}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Archive">
+      <UniqueIdentifier>{bd1edfd7-77d1-47c9-8153-5601677b964b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -15,6 +18,9 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="Vector.cpp">
       <Filter>Vector</Filter>
+    </ClCompile>
+    <ClCompile Include="Archive.cpp">
+      <Filter>Archive</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -26,6 +32,9 @@
     </ClInclude>
     <ClInclude Include="Vector.h">
       <Filter>Vector</Filter>
+    </ClInclude>
+    <ClInclude Include="Archive.h">
+      <Filter>Archive</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

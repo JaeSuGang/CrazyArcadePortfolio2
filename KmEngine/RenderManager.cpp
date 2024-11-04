@@ -84,9 +84,17 @@ void URenderManager::Tick()
 			ImagePositionVector += RenderComponent->GetOffset();
 
 
-			GdiTransparentBlt(m_hBackBufferDC, (int)ImagePositionVector.X, (int)ImagePositionVector.Y,
-				(int)ImageSize.X, (int)ImageSize.Y, StaticImage->getDC(), 0, 0,
-				(int)ImageSize.X, (int)ImageSize.Y, RGB(255, 0, 255));
+			GdiTransparentBlt(m_hBackBufferDC,
+				(int)ImagePositionVector.X,
+				(int)ImagePositionVector.Y,
+				(int)ImageSize.X,
+				(int)ImageSize.Y,
+				StaticImage->getDC(),
+				0,
+				0,
+				(int)ImageSize.X,
+				(int)ImageSize.Y,
+				RGB(255, 0, 255));
 		}
 		++RenderIter;
 	}
@@ -98,11 +106,11 @@ void URenderManager::Tick()
 	}
 
 	// ¹é¹öÆÛ bitblt
-	BitBlt(m_hGameWindowDC,
+	bool a = BitBlt(m_hGameWindowDC,
 		(int)(m_RectToRender.left),
 		(int)(m_RectToRender.top),
 		(int)(m_RectToRender.right - m_RectToRender.left),
-		(int)(m_RectToRender.top - m_RectToRender.bottom),
+		(int)(m_RectToRender.bottom - m_RectToRender.top),
 		m_hBackBufferDC,
 		(int)(m_RectToRender.left),
 		(int)(m_RectToRender.top),

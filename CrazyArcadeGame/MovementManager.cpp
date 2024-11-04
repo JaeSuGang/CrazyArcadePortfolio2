@@ -4,6 +4,11 @@
 #include "KmEngine/Actor.h"
 #include "KmEngine/RenderComponent.h"
 
+void UMovementManager::SetMapRange(RECT Range)
+{
+	m_MapRange = Range;
+}
+
 void UMovementManager::EnableDebugRender()
 {
 	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
@@ -73,10 +78,10 @@ void UMovementManager::Tick(float fDeltaTime)
 			float fRadius = MovableComponent->GetRadius();
 			
 			FVector2D NewPosition = MovableActor->GetPosition();
-			NewPosition.X = (NewPosition.X < m_MapLocation.Left + fRadius) ? m_MapLocation.Left + fRadius : NewPosition.X;
-			NewPosition.X = (NewPosition.X > m_MapLocation.Right - fRadius) ? m_MapLocation.Right - fRadius : NewPosition.X;
-			NewPosition.Y = (NewPosition.Y < m_MapLocation.Up + fRadius) ? m_MapLocation.Up + fRadius : NewPosition.Y;
-			NewPosition.Y = (NewPosition.Y > m_MapLocation.Down - fRadius) ? m_MapLocation.Down - fRadius : NewPosition.Y;
+			NewPosition.X = (NewPosition.X < m_MapRange.left + fRadius) ? m_MapRange.left + fRadius : NewPosition.X;
+			NewPosition.X = (NewPosition.X > m_MapRange.right - fRadius) ? m_MapRange.right - fRadius : NewPosition.X;
+			NewPosition.Y = (NewPosition.Y < m_MapRange.top + fRadius) ? m_MapRange.top + fRadius : NewPosition.Y;
+			NewPosition.Y = (NewPosition.Y > m_MapRange.bottom - fRadius) ? m_MapRange.bottom - fRadius : NewPosition.Y;
 			MovableActor->SetPosition(NewPosition);
 
 			if (URenderComponent* RenderComponent = MovableActor->GetComponentByClass<URenderComponent>())
@@ -91,7 +96,7 @@ void UMovementManager::Tick(float fDeltaTime)
 
 UMovementManager::UMovementManager()
 	:
-	m_MapLocation{},
+	m_MapRange{},
 	m_Movables{},
 	m_Walls{}
 {

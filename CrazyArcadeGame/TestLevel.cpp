@@ -26,10 +26,12 @@ void UTestLevel::BeginPlay()
 	Super::BeginPlay();
 
 	USpawnManager* SpawnManager = GetGameInstance()->GetGameInstanceSubsystem<USpawnManager>();
-
-	AGameUI* InGameUI = SpawnManager->SpawnGameUI("Resources\\GUI\\GameUI3.bmp", FVector2D(600.0f, 450.0f));
-
+	UMovementManager* MovementManager = GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
 	APlayerController* PlayerController = SpawnManager->SpawnPlayerController();
+
+	MovementManager->SetMapRange(RECT{30, 60, 930, 840});
+
+	AGameUI* InGameUI = SpawnManager->SpawnGameUI("Resources\\UI\\GameUI3.bmp", FVector2D(600.0f, 450.0f));
 
 	ACharacter* MainCharacter = SpawnManager->SpawnBazzi(FVector2D(300.0f, 300.0f));
 	PlayerController->Possess(MainCharacter);
