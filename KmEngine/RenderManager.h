@@ -32,6 +32,7 @@ private:
 	multimap<int, URenderComponent*> m_ComponentsToRender;
 	vector<std::function<void()>> m_CustomRenderEvents;
 	FVector2D m_WindowSize;
+	RECT m_RectToRender;
 	HWND m_hGameWindow;
 	HDC m_hGameWindowDC;
 	HDC m_hBackBufferDC;

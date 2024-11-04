@@ -2,6 +2,7 @@
 #include "MovementManager.h"
 #include "MovableComponent.h"
 #include "KmEngine/Actor.h"
+#include "KmEngine/RenderComponent.h"
 
 void UMovementManager::EnableDebugRender()
 {
@@ -77,6 +78,11 @@ void UMovementManager::Tick(float fDeltaTime)
 			NewPosition.Y = (NewPosition.Y < m_MapLocation.Up + fRadius) ? m_MapLocation.Up + fRadius : NewPosition.Y;
 			NewPosition.Y = (NewPosition.Y > m_MapLocation.Down - fRadius) ? m_MapLocation.Down - fRadius : NewPosition.Y;
 			MovableActor->SetPosition(NewPosition);
+
+			if (URenderComponent* RenderComponent = MovableActor->GetComponentByClass<URenderComponent>())
+			{
+				RenderComponent->SetRenderPriority((int)(NewPosition.Y / 60.0f));
+			}
 		}
 
 		++MovableIter;

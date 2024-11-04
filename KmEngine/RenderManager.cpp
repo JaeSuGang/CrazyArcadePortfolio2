@@ -98,7 +98,17 @@ void URenderManager::Tick()
 	}
 
 	// ¹é¹öÆÛ bitblt
-	BitBlt(m_hGameWindowDC, 0, 0, (int)m_WindowSize.X, (int)m_WindowSize.Y, m_hBackBufferDC, 0, 0, SRCCOPY);
+	BitBlt(m_hGameWindowDC,
+		(int)(m_RectToRender.left),
+		(int)(m_RectToRender.top),
+		(int)(m_RectToRender.right - m_RectToRender.left),
+		(int)(m_RectToRender.top - m_RectToRender.bottom),
+		m_hBackBufferDC,
+		(int)(m_RectToRender.left),
+		(int)(m_RectToRender.top),
+		SRCCOPY);
+	// ¡Ú Obsolete
+	/*BitBlt(m_hGameWindowDC, 0, 0, (int)m_WindowSize.X, (int)m_WindowSize.Y, m_hBackBufferDC, 0, 0, SRCCOPY);*/
 
 	m_ComponentsToRender.clear();
 }
@@ -140,6 +150,8 @@ void URenderManager::Initialize(const char* lpszTitle, FVector2D WindowSize)
 
 	ShowWindow(m_hGameWindow, SW_SHOW);
 	UpdateWindow(m_hGameWindow);
+
+	m_RectToRender = {0, 0, (long)WindowSize.X, (long)WindowSize.Y };
 }
 
 void URenderManager::Release()
@@ -154,7 +166,8 @@ URenderManager::URenderManager()
 	m_hBackBufferDC{},
 	m_hGameWindowDC{},
 	m_WindowSize{},
-	m_CustomRenderEvents{}
+	m_CustomRenderEvents{},
+	m_RectToRender{}
 {
 }
 
