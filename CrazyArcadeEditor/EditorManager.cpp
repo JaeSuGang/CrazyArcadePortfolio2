@@ -23,6 +23,7 @@ void UEditorManager::LoadGroundTilePalette()
 				URenderComponent* RenderComponent = Tile->CreateDefaultSubobject<URenderComponent>();
 				RenderComponent->SetStaticImage(Image);
 				RenderComponent->SetRenderPriority(1);
+				RenderComponent->BeginPlay();
 			}
 			else
 			{
@@ -50,6 +51,7 @@ void UEditorManager::LoadWallTilePalette()
 				URenderComponent* RenderComponent = Tile->CreateDefaultSubobject<URenderComponent>();
 				RenderComponent->SetStaticImage(Image);
 				RenderComponent->SetRenderPriority(1);
+				RenderComponent->BeginPlay();
 			}
 			else
 			{
@@ -66,6 +68,7 @@ AGameUI* UEditorManager::SpawnEditorUI(string strImagePath, FVector2D PositionVe
 	URenderComponent* RenderComponent = GameUI->CreateDefaultSubobject<URenderComponent>();
 	RenderComponent->SetStaticImage(strImagePath);
 	RenderComponent->SetRenderPriority(0);
+	RenderComponent->BeginPlay();
 	GameUI->SetPosition(PositionVector);
 	return GameUI;
 }
@@ -119,6 +122,7 @@ void UEditorManager::OnLeftClick()
 					string strImagePath = "Resources\\Tiles\\GroundTiles\\";
 					strImagePath += std::to_string(i * 3 + j + 1) + ".bmp";
 					RenderComponent->SetStaticImage(strImagePath);
+					RenderComponent->BeginPlay();
 				}
 			}
 		}
@@ -140,6 +144,7 @@ void UEditorManager::OnLeftClick()
 					string strImagePath = "Resources\\Tiles\\WallTiles\\";
 					strImagePath += std::to_string(i * 3 + j + 1) + ".bmp";
 					RenderComponent->SetStaticImage(strImagePath);
+					RenderComponent->BeginPlay();
 				}
 			}
 		}

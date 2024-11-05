@@ -23,14 +23,24 @@ __interface ISerializable
 	virtual void Serialize(FArchive& Ar) = 0;
 };
 
+__interface IDeserializable
+{
+	virtual void Deserialize(FArchive& Ar) = 0;
+};
+
 class FArchive
 {
 public:
-	FArchive& operator<<(ISerializable* Serializable);
+	FArchive& operator<<(ISerializable& Serializable);
+	FArchive& operator>>(IDeserializable& Deserializable);
 	FArchive& operator<<(string strData);
 	FArchive& operator<<(unsigned char InputData);
+	FArchive& operator<<(unsigned short InputData);
+	FArchive& operator>>(unsigned char& InputData);
+	FArchive& operator>>(unsigned short& InputData);
 	FArchive& operator<<(int nData);
 	void SafeWriteMemory(void* pInput, int nSize);
+	void ReadMemory(void* pOutput, int nSize);
 	void ReserveMemory(int nSize);
 	void Load(string strRelativePath);
 	void Save(string strRelativePath);
@@ -40,5 +50,6 @@ public:
 
 public:
 	vector<unsigned char> m_Data;
+	int m_nDeserializeIndex;
 };
 

@@ -47,7 +47,9 @@
     <ClCompile Include="TilemapData.cpp">
       <Filter>TilemapData</Filter>
     </ClCompile>
-    <ClCompile Include="TileInfoManager.cpp" />
+    <ClCompile Include="TileInfoManager.cpp">
+      <Filter>GameInstanceSubsystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -127,7 +129,9 @@
     <ClInclude Include="TilemapData.h">
       <Filter>TilemapData</Filter>
     </ClInclude>
-    <ClInclude Include="TileInfoManager.h" />
+    <ClInclude Include="TileInfoManager.h">
+      <Filter>GameInstanceSubsystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Resources\Bazzi\BazziDownIdle.bmp">

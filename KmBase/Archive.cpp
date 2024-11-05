@@ -10,9 +10,16 @@ void FArchive::ReserveMemory(int nSize)
 	m_Data.resize(m_Data.size() + nSize);
 }
 
-FArchive& FArchive::operator<<(ISerializable* Serializable)
+FArchive& FArchive::operator<<(ISerializable& Serializable)
 {
-	Serializable->Serialize(*this);
+	Serializable.Serialize(*this);
+
+	return *this;
+}
+
+FArchive& FArchive::operator>>(IDeserializable& Deserializable)
+{
+	Deserializable.Deserialize(*this);
 
 	return *this;
 }
@@ -39,6 +46,24 @@ FArchive& FArchive::operator<<(unsigned char InputData)
 	return *this;
 }
 
+FArchive& FArchive::operator<<(unsigned short InputData)
+{
+	SafeWriteMemory(&InputData, sizeof(InputData));
+	return *this;
+}
+
+FArchive& FArchive::operator>>(unsigned char& InputData)
+{
+	this->ReadMemory(&InputData, sizeof(InputData));
+	return *this;
+}
+
+FArchive& FArchive::operator>>(unsigned short& InputData)
+{
+	this->ReadMemory(&InputData, sizeof(InputData));
+	return *this;
+}
+
 FArchive& FArchive::operator<<(int InputData)
 {
 	SafeWriteMemory(&InputData, sizeof(InputData));
@@ -52,6 +77,15 @@ void FArchive::SafeWriteMemory(void* pInput, int nSize)
 	ReserveMemory(nSize);
 
 	memcpy_s(MemoryAddressToStartWriting, nSize, pInput, nSize);
+}
+
+void FArchive::ReadMemory(void* pOutput, int nSize)
+{
+	void* MemoryAddressToStartReading = m_Data.data() + m_nDeserializeIndex;
+
+	memcpy_s(pOutput, nSize, MemoryAddressToStartReading, nSize);
+
+	m_nDeserializeIndex += nSize;
 }
 
 void FArchive::Load(string strRelativePath)
@@ -96,7 +130,8 @@ void FArchive::Save(string strRelativePath)
 
 FArchive::FArchive()
 	:
-	m_Data{}
+	m_Data{},
+	m_nDeserializeIndex{}
 {
 	m_Data.reserve(1024);
 }
