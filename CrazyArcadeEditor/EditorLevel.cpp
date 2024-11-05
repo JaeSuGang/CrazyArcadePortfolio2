@@ -19,4 +19,5 @@ void UEditorLevel::BeginPlay()
 {
 	UEditorManager* EditorManager = GetGameInstance()->GetGameInstanceSubsystem<UEditorManager>();
 	EditorManager->SpawnEditorUI("Resources\\UI\\EditorUI.bmp", FVector2D(600.0f, 450.0f));
+	EditorManager->LoadGroundTilePalette(0);
 }

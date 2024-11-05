@@ -20,7 +20,7 @@ UImage* UResourceManager::GetImage(string strKey)
 	auto ImageIter = m_Images.find(strKey);
 	if (ImageIter == m_Images.end())
 	{
-		SHOW_ERROR(("UResourceManager::GetImage, 존재하지 않는 Key입니다, " + strKey).data());
+		return nullptr;
 	}
 	return ImageIter->second;
 }

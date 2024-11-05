@@ -162,6 +162,7 @@
     <ClCompile Include="AIManager.cpp" />
     <ClCompile Include="CharacterAIController.cpp" />
     <ClCompile Include="GameUI.cpp" />
+    <ClCompile Include="GroundTile.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MovableComponent.cpp" />
     <ClCompile Include="MovementManager.cpp" />
@@ -175,12 +176,14 @@
     <ClCompile Include="TestLevel.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="WallComponent.cpp" />
+    <ClCompile Include="WallTile.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIManager.h" />
     <ClInclude Include="CharacterAIController.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="GameUI.h" />
+    <ClInclude Include="GroundTile.h" />
     <ClInclude Include="MovableComponent.h" />
     <ClInclude Include="MovementManager.h" />
     <ClInclude Include="SerializeManager.h" />
@@ -190,6 +193,7 @@
     <ClInclude Include="TestLevel.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="WallComponent.h" />
+    <ClInclude Include="WallTile.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Resources\Bazzi\BazziDownIdle.bmp" />

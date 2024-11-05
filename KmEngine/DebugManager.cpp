@@ -6,7 +6,7 @@
 
 void UDebugManager::ShowFPS(HDC hBackBuffer, int nIndex, float* fFPSVariable)
 {
-	string strToShow = "FPS : " + std::to_string(*fFPSVariable);
+	string strToShow = "FPS : " + std::to_string((int)*fFPSVariable);
 	TextOutA(hBackBuffer, 0, nIndex * 30, strToShow.data(), (int)strToShow.size());
 }
 
