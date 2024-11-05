@@ -25,13 +25,16 @@ class CBmpConverter:
         file_path = file_directory + "\\" + file_name
         output_path = self.m_OutputDirectory + "\\" + file_name
         img = Image.open(file_path)
-
-        new_img = img.resize((60, 60), Image.NEAREST)
+        original_width, original_height = img.size
+        new_width = int(60)
+        new_height = int(original_height / original_width * 60)
+        new_size = (new_width, new_height)
+        new_img = img.resize(new_size, Image.NEAREST)
         new_img.save(output_path)
 
 
 if __name__ == "__main__":
     BmpConverter = CBmpConverter()
-    BmpConverter.SetDirectory(r"F:\Resources\Test\Cappi1")
-    BmpConverter.SetOutputDirectory(r"F:\Resources\Test\Cappi2")
+    BmpConverter.SetDirectory(r"D:\CppProjects\CrazyArcadePortfolio2\Resources\Tiles\WallTiles2")
+    BmpConverter.SetOutputDirectory(r"D:\CppProjects\CrazyArcadePortfolio2\Resources\Tiles\WallTiles")
     BmpConverter.ConvertAll()

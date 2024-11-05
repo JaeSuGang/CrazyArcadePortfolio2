@@ -59,6 +59,19 @@ void UKeyManager::RefreshKeyStateAndBroadcast()
 	for (int i = 0; i <= VK_F24; i++)
 	{
 		unsigned short CurrentState = static_cast<unsigned short>(GetAsyncKeyState(i));
+
+		if (CurrentState != 0x0000 && m_KeyStates[i] == 0x0000)
+		{
+			for (int j = 0; j < m_KeyEvents.size(); j++)
+			{
+				FKeyEvent& KeyEvent = m_KeyEvents[j];
+				if (KeyEvent.VirtualKey == i && KeyEvent.KeyState == EKeyState::KeyDown)
+				{
+					KeyEvent.Event();
+				}
+			}
+		}
+
 		if (m_KeyStates[i] != 0x0000 && CurrentState != 0x0000)
 		{
 			for (int j = 0; j < m_KeyEvents.size(); j++)
@@ -84,11 +97,6 @@ void UKeyManager::RefreshKeyStateAndBroadcast()
 		}
 
 		m_KeyStates[i] = CurrentState;
-
-		if (CurrentState != 0x0000 && i == VK_DOWN)
-		{
-			int a = 0;
-		}
 	}
 }
 

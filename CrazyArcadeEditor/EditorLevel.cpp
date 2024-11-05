@@ -18,6 +18,8 @@ void UEditorLevel::LateTick(float fDeltaTime)
 void UEditorLevel::BeginPlay()
 {
 	UEditorManager* EditorManager = GetGameInstance()->GetGameInstanceSubsystem<UEditorManager>();
+	EditorManager->BindEditorKeys();
 	EditorManager->SpawnEditorUI("Resources\\UI\\EditorUI.bmp", FVector2D(600.0f, 450.0f));
-	EditorManager->LoadGroundTilePalette(0);
+	EditorManager->LoadGroundTilePalette();
+	EditorManager->LoadWallTilePalette();
 }

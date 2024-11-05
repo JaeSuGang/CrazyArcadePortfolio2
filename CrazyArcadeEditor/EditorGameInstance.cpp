@@ -20,5 +20,6 @@ void UEditorGameInstance::BeginPlay()
 
 	UEditorManager* EditorManager = CreateGameInstanceSubsystem<UEditorManager>();
 
+
 	OpenLevel<UEditorLevel>();
 }
