@@ -93,6 +93,9 @@ void UEditorManager::BindEditorKeys()
 
 void UEditorManager::OnLeftClick()
 {
+	// AStart 좀더 정밀한데 연산량이 높다.
+	// JPS 빠른데 
+
 
 	FVector2D CursorVector = GetRelativeMousePosition();
 

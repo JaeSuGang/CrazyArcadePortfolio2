@@ -9,8 +9,13 @@
 4. 효율적인 자료구조를 실전에서 써볼 수 있었음
 actors에는 unordered_set을 사용 (순서와 정렬 필요 x, 삭제에 O(1), 1000개의 AActor*중 500개 삭제 상황)
 AActor의 m_Components에는 unordered_map을 사용함 (key값을 typeid(T).name() 하면 원하는 컴포넌트를 Get하는데에 O(1))
-렌더링 순서에는 multimap<int, URenderComponent*>을 사용함 (정렬이 필요하므로).
-key값이 낮을수록 먼저 렌더링.
+렌더링 순서에는 연결리스트를 사용. 렌더링 순서에 사용할 자료구조는,
+요소 내에 객체가 가진 값들에 따라 요소가 재정렬되야할 수 있음.
+단순한 int 자료구조는 한번 정렬하면 끝이지만, 포인터나 객체 자료구조는 그것이 가진 값에 따라
+다르게 재정렬이 이루어져야 할 수 있음. 그러므로 map은 부적잘함.
+vector의 중간 삭제를 swipe_and_pop 방식을 사용하며, 매 프레임마다 일정 시기에 한번씩 정렬한다는 조건하에
+std::vector가 제일 적합함.
+
 
 5. deltatime은 한 프레임 내에서는 같은 값을 가져야 오류가 나지 않음.
 6. Event Delegate에서 AActor의 주소를 bind할때,

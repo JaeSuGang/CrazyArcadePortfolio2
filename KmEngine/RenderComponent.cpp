@@ -1,17 +1,18 @@
 #include "stdafx.h"
 #include "Engine.h"
+#include "RenderManager.h"
 #include "RenderComponent.h"
 #include "ResourceManager.h"
 #include "TimeManager.h"
 
 void URenderComponent::SetRenderPriority(int nPriority)
 {
-	m_nRenderPriority = nPriority;
+	m_fRenderPriority = nPriority;
 }
 
 int URenderComponent::GetRenderPriority()
 {
-	return m_nRenderPriority;
+	return m_fRenderPriority;
 }
 
 void URenderComponent::SetOffset(FVector2D OffsetVector)
@@ -98,15 +99,14 @@ void URenderComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
-
+	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
+	RenderManager->AddRender(this);
 }
 
 void URenderComponent::TickComponent(float fDeltaTime)
 {
 	Super::TickComponent(fDeltaTime);
 	
-	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
-	RenderManager->AddRender(m_nRenderPriority, this);
 }
 
 void URenderComponent::Release()
@@ -117,6 +117,9 @@ void URenderComponent::Release()
 		SAFE_DELETE((AnimationIter->second));
 		++AnimationIter;
 	}
+
+	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
+	RenderManager->RemoveRender(this);
 }
 
 URenderComponent::~URenderComponent()
@@ -126,7 +129,7 @@ URenderComponent::~URenderComponent()
 
 URenderComponent::URenderComponent()
 	:
-	m_nRenderPriority{},
+	m_fRenderPriority{},
 	m_StaticImage{},
 	m_nAnimationFrameIndex{},
 	m_CurrentAnimation{},

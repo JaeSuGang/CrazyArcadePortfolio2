@@ -38,6 +38,7 @@ public:
 	void Release();
 	~URenderComponent();
 	URenderComponent();
+	float m_fRenderPriority;
 
 protected:
 	// ResourceManager가 삭제함. Release하지 말것
@@ -47,6 +48,5 @@ protected:
 	FVector2D m_ImageOffset;
 	float m_fAccumulatedTime;
 	int m_nAnimationFrameIndex;
-	int m_nRenderPriority;
 };
 

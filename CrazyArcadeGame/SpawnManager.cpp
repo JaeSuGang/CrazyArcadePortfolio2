@@ -15,6 +15,7 @@ AGameUI* USpawnManager::SpawnGameUI(string strImagePath, FVector2D PositionVecto
 	URenderComponent* RenderComponent = GameUI->CreateDefaultSubobject<URenderComponent>();
 	RenderComponent->SetStaticImage(strImagePath);
 	RenderComponent->SetRenderPriority(0);
+	RenderComponent->BeginPlay();
 	GameUI->SetPosition(PositionVector);
 	return GameUI;
 }
@@ -32,6 +33,7 @@ ACharacter* USpawnManager::SpawnBazzi(FVector2D PositionVector)
 	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
+	RenderComponent->BeginPlay();
 	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
 	MovableComponent->RegisterAtMovementManager();
 	MovableComponent->SetMaxSpeed(300.0f);
@@ -55,6 +57,7 @@ ACharacter* USpawnManager::SpawnDao(FVector2D PositionVector)
 	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
+	RenderComponent->BeginPlay();
 	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
 	MovableComponent->RegisterAtMovementManager();
 	MovableComponent->SetMaxSpeed(300.0f);
@@ -78,6 +81,7 @@ ACharacter* USpawnManager::SpawnCappi(FVector2D PositionVector)
 	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
+	RenderComponent->BeginPlay();
 	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
 	MovableComponent->RegisterAtMovementManager();
 	MovableComponent->SetMaxSpeed(300.0f);
@@ -101,6 +105,7 @@ ACharacter* USpawnManager::SpawnMarid(FVector2D PositionVector)
 	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
+	RenderComponent->BeginPlay();
 	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
 	MovableComponent->RegisterAtMovementManager();
 	MovableComponent->SetMaxSpeed(300.0f);

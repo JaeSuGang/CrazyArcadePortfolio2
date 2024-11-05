@@ -6,9 +6,33 @@
 #include "Level.h"
 #include "RenderComponent.h"
 
-void URenderManager::AddRender(int nPriority, URenderComponent* RenderComponent)
+void URenderManager::RemoveRender(URenderComponent* RenderComponent)
 {
-	m_ComponentsToRender.insert(pair<int, URenderComponent*>{nPriority, RenderComponent});
+	for (int i = 0; i < m_ComponentsToRender.size(); i++)
+	{
+		if (m_ComponentsToRender[i] == RenderComponent)
+		{
+			m_ComponentsToRender[i] = m_ComponentsToRender[m_ComponentsToRender.size()-1];
+			m_ComponentsToRender.pop_back();
+			break;
+		}
+	}
+}
+
+void URenderManager::AddRender(URenderComponent* RenderComponent)
+{
+	m_ComponentsToRender.push_back(RenderComponent);
+}
+
+void URenderManager::SortRender()
+{
+	auto lambda = [](URenderComponent* a, URenderComponent* b) { return a->m_fRenderPriority < b->m_fRenderPriority; };
+	std::sort(m_ComponentsToRender.begin(), m_ComponentsToRender.end(), lambda);
+}
+
+void URenderManager::ClearRender()
+{
+	m_ComponentsToRender.clear();
 }
 
 void URenderManager::AddCustomRenderEvent(std::function<void()> RenderEvent)
@@ -71,10 +95,41 @@ void URenderManager::Tick()
 	// 백버퍼 청소
 	Rectangle(m_hBackBufferDC, -1, -1, (int)m_WindowSize.X + 2, (int)m_WindowSize.Y + 2);
 
-	auto RenderIter = m_ComponentsToRender.begin();
-	while (RenderIter != m_ComponentsToRender.end())
+	// Obsolete 한 컴포넌트 렌더
+	// 
+	//auto RenderIter = m_ComponentsToRender.begin();
+	//while (RenderIter != m_ComponentsToRender.end())
+	//{
+	//	URenderComponent* RenderComponent = RenderIter->second;
+	//	AActor* Owner = RenderComponent->GetOwner();
+	//	FVector2D ActorPos = Owner->GetPosition();
+	//	if (UImage* StaticImage = RenderComponent->GetStaticImage())
+	//	{
+	//		FVector2D ImageSize{ (float)StaticImage->m_BitmapInfo.bmWidth , (float)StaticImage->m_BitmapInfo.bmHeight };
+	//		FVector2D ImagePositionVector = ActorPos - ImageSize / 2;
+	//		ImagePositionVector += RenderComponent->GetOffset();
+
+
+	//		GdiTransparentBlt(m_hBackBufferDC,
+	//			(int)ImagePositionVector.X,
+	//			(int)ImagePositionVector.Y,
+	//			(int)ImageSize.X,
+	//			(int)ImageSize.Y,
+	//			StaticImage->getDC(),
+	//			0,
+	//			0,
+	//			(int)ImageSize.X,
+	//			(int)ImageSize.Y,
+	//			RGB(255, 0, 255));
+	//	}
+	//	++RenderIter;
+	//}
+
+	this->SortRender();
+
+	for (int i = 0; i < m_ComponentsToRender.size(); i++)
 	{
-		URenderComponent* RenderComponent = RenderIter->second;
+		URenderComponent* RenderComponent = m_ComponentsToRender[i];
 		AActor* Owner = RenderComponent->GetOwner();
 		FVector2D ActorPos = Owner->GetPosition();
 		if (UImage* StaticImage = RenderComponent->GetStaticImage())
@@ -82,7 +137,6 @@ void URenderManager::Tick()
 			FVector2D ImageSize{ (float)StaticImage->m_BitmapInfo.bmWidth , (float)StaticImage->m_BitmapInfo.bmHeight };
 			FVector2D ImagePositionVector = ActorPos - ImageSize / 2;
 			ImagePositionVector += RenderComponent->GetOffset();
-
 
 			GdiTransparentBlt(m_hBackBufferDC,
 				(int)ImagePositionVector.X,
@@ -96,7 +150,6 @@ void URenderManager::Tick()
 				(int)ImageSize.Y,
 				RGB(255, 0, 255));
 		}
-		++RenderIter;
 	}
 
 	// 커스텀 렌더링 이벤트
@@ -115,10 +168,7 @@ void URenderManager::Tick()
 		(int)(m_RectToRender.left),
 		(int)(m_RectToRender.top),
 		SRCCOPY);
-	// ★ Obsolete
-	/*BitBlt(m_hGameWindowDC, 0, 0, (int)m_WindowSize.X, (int)m_WindowSize.Y, m_hBackBufferDC, 0, 0, SRCCOPY);*/
 
-	m_ComponentsToRender.clear();
 }
 
 void URenderManager::Initialize(const char* lpszTitle, FVector2D WindowSize)

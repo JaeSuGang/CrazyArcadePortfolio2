@@ -12,6 +12,7 @@
 #include <typeinfo>
 #include <filesystem>
 #include <cctype>
+#include <algorithm>
 
 using std::string;
 using std::string_view;
