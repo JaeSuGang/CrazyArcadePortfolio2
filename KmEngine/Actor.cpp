@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Actor.h"
+#include "Level.h"
 
 void AActor::Tick(float fDeltaTime)
 {
@@ -18,6 +19,11 @@ void AActor::Tick(float fDeltaTime)
 void AActor::LateTick(float fDeltaTime)
 {
 
+}
+
+void AActor::Destroy()
+{
+	m_Level->m_ActorsToDestroy.push_back(this);
 }
 
 void AActor::BeginPlay()

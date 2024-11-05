@@ -175,6 +175,7 @@
     <ClCompile Include="TestGameInstance.cpp" />
     <ClCompile Include="TestLevel.cpp" />
     <ClCompile Include="Character.cpp" />
+    <ClCompile Include="TilemapData.cpp" />
     <ClCompile Include="WallComponent.cpp" />
     <ClCompile Include="WallTile.cpp" />
   </ItemGroup>
@@ -192,6 +193,7 @@
     <ClInclude Include="TestGameInstance.h" />
     <ClInclude Include="TestLevel.h" />
     <ClInclude Include="Character.h" />
+    <ClInclude Include="TilemapData.h" />
     <ClInclude Include="WallComponent.h" />
     <ClInclude Include="WallTile.h" />
   </ItemGroup>

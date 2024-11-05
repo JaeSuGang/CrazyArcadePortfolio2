@@ -39,6 +39,16 @@ UGameInstance* ULevel::GetGameInstance() const
 	return m_GameInstance;
 }
 
+void ULevel::InitiateDestroy()
+{
+	for (AActor* ActorToDestroy : m_ActorsToDestroy)
+	{
+		m_Actors.erase(ActorToDestroy);
+		delete ActorToDestroy;
+	}
+	m_ActorsToDestroy.clear();
+}
+
 void ULevel::Tick(float fDeltaTime)
 {
 	auto ActorIter = m_Actors.begin();

@@ -44,6 +44,9 @@
     <ClCompile Include="WallTile.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
+    <ClCompile Include="TilemapData.cpp">
+      <Filter>TilemapData</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -69,6 +72,9 @@
     </Filter>
     <Filter Include="Controller">
       <UniqueIdentifier>{259ded4e-28fc-4d2f-b883-06d523c75fe8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TilemapData">
+      <UniqueIdentifier>{c6a2fc69-c3d3-419b-8d3f-d76601d5f54c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -116,6 +122,9 @@
     </ClInclude>
     <ClInclude Include="WallTile.h">
       <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="TilemapData.h">
+      <Filter>TilemapData</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -1,5 +1,6 @@
 #pragma once
 #include "KmEngine/GameInstanceSubsystem.h"
+#include "CrazyArcadeGame/TilemapData.h"
 
 class AWallTile;
 class AGroundTile;
@@ -10,7 +11,6 @@ class UEditorManager : public UGameInstanceSubsystem
 {
 	typedef UGameInstanceSubsystem Super;
 
-
 public:
 	void LoadGroundTilePalette();
 	void LoadWallTilePalette();
@@ -19,16 +19,22 @@ public:
 	AGroundTile* SpawnGroundTile();
 
 public:
+	FVector2D GetRelativeMousePosition();
+
+public:
 	void BindEditorKeys();
 
 public:
 	void OnLeftClick();
+	void OnRightClick();
 
 public:
 	void Tick(float fDeltaTime) override;
 
 private:
+	FTilemapData m_CurrentTilemapData;
 	AActor* m_SelectedTile;
+
 	int m_nCurrentPaletteIndex;
 };
 

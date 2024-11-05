@@ -23,6 +23,8 @@ public:
 	virtual void LateTick(float fDeltaTime) = 0;
 
 public:
+	void Destroy();
+
 	template <typename T>
 	T* GetComponentByClass()
 	{
@@ -91,6 +93,7 @@ public:
 	~AActor();
 
 protected:
+	ULevel* m_Level;
 	unordered_map<string, UActorComponent*> m_OwnedComponents;
 	FVector2D m_Position;
 };

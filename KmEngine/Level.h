@@ -30,9 +30,11 @@ public:
 		static_assert(std::is_base_of<AActor, T>::value);
 
 		T* NewActor = new T{};
+		NewActor->m_Level = this;
 		m_Actors.insert(NewActor);
 		return NewActor;
 	}
+	void InitiateDestroy();
 
 public:
 	virtual void Tick(float fDeltaTime) = 0;
@@ -48,6 +50,7 @@ public:
 public:
 	UGameInstance* m_GameInstance;
 	unordered_set<AActor*> m_Actors;
+	vector<AActor*> m_ActorsToDestroy;
 	APlayerController* m_PlayerController;
 };
 

@@ -37,7 +37,7 @@ void UEngine::Tick()
 #ifdef _DEBUG
 		DebugManager->Tick(fDeltaTime);
 #endif
-
+		GameInstance->GetActiveLevel()->InitiateDestroy();
 	}
 
 
