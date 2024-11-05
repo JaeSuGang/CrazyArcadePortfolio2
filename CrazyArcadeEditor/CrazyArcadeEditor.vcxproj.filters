@@ -4,12 +4,24 @@
     <Filter Include="pch">
       <UniqueIdentifier>{eb39be61-e8e3-4f64-84c7-b94772fe8519}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameInstance">
+      <UniqueIdentifier>{97f33f69-be9e-4904-8123-b69b1fd02ea7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Level">
+      <UniqueIdentifier>{3514af35-368f-42e4-a693-6bd976e066b1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
       <Filter>pch</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="EditorGameInstance.cpp">
+      <Filter>GameInstance</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -17,6 +29,12 @@
     </ClInclude>
     <ClInclude Include="define.h">
       <Filter>pch</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorGameInstance.h">
+      <Filter>GameInstance</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorLevel.h">
+      <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

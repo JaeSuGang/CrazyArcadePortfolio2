@@ -39,10 +39,5 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	delete GEngine;
 
-	FArchive* File = new FArchive{};
-	*File << string("fffddd");
-	File->Save("Map001.tilemap");
-	delete File;
-
 	_CrtDumpMemoryLeaks();
 }

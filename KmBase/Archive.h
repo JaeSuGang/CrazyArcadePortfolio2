@@ -38,7 +38,7 @@ public:
 public:
 	FArchive();
 
-private:
+public:
 	vector<unsigned char> m_Data;
 };
 

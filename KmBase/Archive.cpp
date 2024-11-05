@@ -3,7 +3,7 @@
 
 void FArchive::ReserveMemory(int nSize)
 {
-	if (m_Data.size() + nSize > m_Data.capacity())
+	while (m_Data.size() + nSize > m_Data.capacity())
 	{
 		m_Data.reserve(m_Data.capacity() * 2);
 	}
@@ -27,6 +27,9 @@ FArchive& FArchive::operator<<(string strData)
 		SafeWriteMemory(&c, sizeof(c));
 	}
 
+	char null = 0;
+	SafeWriteMemory(&null, 1);
+
 	return *this;
 }
 
@@ -44,7 +47,7 @@ FArchive& FArchive::operator<<(int InputData)
 
 void FArchive::SafeWriteMemory(void* pInput, int nSize)
 {
-	void* MemoryAddressToStartWriting = &m_Data[m_Data.size()-1] + 1;
+	void* MemoryAddressToStartWriting = m_Data.data() + m_Data.size();
 
 	ReserveMemory(nSize);
 
@@ -53,6 +56,25 @@ void FArchive::SafeWriteMemory(void* pInput, int nSize)
 
 void FArchive::Load(string strRelativePath)
 {
+	FILE* pFile;
+	errno_t err = fopen_s(&pFile, strRelativePath.data(), "rb");
+
+	if (pFile)
+	{
+		fseek(pFile, 0, SEEK_END);
+		long nFileSize = ftell(pFile);
+		rewind(pFile);
+
+		ReserveMemory(nFileSize);
+
+		fread_s(m_Data.data(), nFileSize, 1, nFileSize, pFile);
+	}
+	else
+	{
+		SHOW_ERROR("fopen_s가 실패했습니다. errno_t를 확인하세요");
+	}
+
+	fclose(pFile);
 }
 
 void FArchive::Save(string strRelativePath)
@@ -62,12 +84,14 @@ void FArchive::Save(string strRelativePath)
 
 	if (pFile)
 	{
-		fwrite(&m_Data[0], 1, m_Data.size(), pFile);
+		fwrite(m_Data.data(), 1, m_Data.size(), pFile);
 	}
 	else
 	{
 		SHOW_ERROR("fopen_s가 실패했습니다. errno_t를 확인하세요");
 	}
+
+	fclose(pFile);
 }
 
 FArchive::FArchive()
@@ -75,5 +99,4 @@ FArchive::FArchive()
 	m_Data{}
 {
 	m_Data.reserve(1024);
-	m_Data.push_back(0);
 }
