@@ -1,17 +1,22 @@
 #include "stdafx.h"
 #include "EditorLevel.h"
+#include "KmEngine/RenderComponent.h"
 #include "CrazyArcadeGame/GameUI.h"
+#include "EditorManager.h"
+
 
 void UEditorLevel::Tick(float fDeltaTime)
 {
+	Super::Tick(fDeltaTime);
 }
 
 void UEditorLevel::LateTick(float fDeltaTime)
 {
+	Super::LateTick(fDeltaTime);
 }
 
 void UEditorLevel::BeginPlay()
 {
-	AGameUI* UI1 = InitializeActorForPlay<AGameUI>();
-	UI1->SetPosition(FVector2D(600.0f, 400.0f));
+	UEditorManager* EditorManager = GetGameInstance()->GetGameInstanceSubsystem<UEditorManager>();
+	EditorManager->SpawnEditorUI("Resources\\UI\\EditorUI.bmp", FVector2D(600.0f, 450.0f));
 }

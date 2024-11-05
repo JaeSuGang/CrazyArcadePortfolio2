@@ -19,7 +19,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	FVector2D WindowSize{ 1215.0f, 935.0f };
 
-	URenderManager* RenderManager = GEngine->CreateRenderManager("CrazyArcade", WindowSize);
+	URenderManager* RenderManager = GEngine->CreateRenderManager("CrazyArcadeEditor", WindowSize);
 	HWND hGameWindow = GEngine->GetEngineSubsystem<URenderManager>()->GetGameWindowHandle();
 	HDC hGameWindowDC = GEngine->GetEngineSubsystem<URenderManager>()->GetGameWindowDCHandle();
 

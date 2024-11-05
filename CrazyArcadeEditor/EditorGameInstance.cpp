@@ -1,4 +1,6 @@
 #include "stdafx.h"
+#include "KmEngine/Engine.h"
+#include "EditorManager.h"
 #include "EditorGameInstance.h"
 #include "EditorLevel.h"
 
@@ -15,6 +17,8 @@ void UEditorGameInstance::LateTick(float fDeltaTime)
 void UEditorGameInstance::BeginPlay()
 {
 	Super::BeginPlay();
+
+	UEditorManager* EditorManager = CreateGameInstanceSubsystem<UEditorManager>();
 
 	OpenLevel<UEditorLevel>();
 }

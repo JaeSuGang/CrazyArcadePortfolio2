@@ -125,6 +125,10 @@
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
     </Lib>
+    <PostBuildEvent>
+      <Command>lib /OUT:"$(OutDir)$(ProjectName).lib" "$(IntDir)*.obj"
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
@@ -149,6 +153,10 @@
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
     </Lib>
+    <PostBuildEvent>
+      <Command>lib /OUT:"$(OutDir)$(ProjectName).lib" "$(IntDir)*.obj"
+</Command>
+    </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AIManager.cpp" />

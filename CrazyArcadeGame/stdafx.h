@@ -20,3 +20,6 @@ using std::string;
 using std::unordered_map;
 using std::unordered_set;
 using std::vector;
+
+// Base
+#include "KmBase/Vector.h"

@@ -22,11 +22,13 @@
     <ClInclude Include="define.h" />
     <ClInclude Include="EditorGameInstance.h" />
     <ClInclude Include="EditorLevel.h" />
+    <ClInclude Include="EditorManager.h" />
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="EditorGameInstance.cpp" />
     <ClCompile Include="EditorLevel.cpp" />
+    <ClCompile Include="EditorManager.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

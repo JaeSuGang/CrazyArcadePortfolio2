@@ -31,7 +31,7 @@ void UTestLevel::BeginPlay()
 
 	MovementManager->SetMapRange(RECT{30, 60, 930, 840});
 
-	AGameUI* InGameUI = SpawnManager->SpawnGameUI("Resources\\UI\\GameUI3.bmp", FVector2D(600.0f, 450.0f));
+	AGameUI* InGameUI = SpawnManager->SpawnGameUI("Resources\\UI\\InGameUI.bmp", FVector2D(600.0f, 450.0f));
 
 	ACharacter* MainCharacter = SpawnManager->SpawnBazzi(FVector2D(300.0f, 300.0f));
 	PlayerController->Possess(MainCharacter);

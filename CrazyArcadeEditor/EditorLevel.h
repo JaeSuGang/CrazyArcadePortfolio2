@@ -3,6 +3,8 @@
 
 class UEditorLevel : public ULevel
 {
+	typedef ULevel Super;
+
 public:
 	void Tick(float fDeltaTime) override;
 	void LateTick(float fDeltaTime) override;

@@ -10,6 +10,9 @@
     <Filter Include="Level">
       <UniqueIdentifier>{3514af35-368f-42e4-a693-6bd976e066b1}</UniqueIdentifier>
     </Filter>
+    <Filter Include="GameInstanceSubsystem">
+      <UniqueIdentifier>{b134b2d4-7f78-400c-b36e-680c57bdab0b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -21,6 +24,9 @@
     </ClCompile>
     <ClCompile Include="EditorLevel.cpp">
       <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="EditorManager.cpp">
+      <Filter>GameInstanceSubsystem</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -35,6 +41,9 @@
     </ClInclude>
     <ClInclude Include="EditorLevel.h">
       <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="EditorManager.h">
+      <Filter>GameInstanceSubsystem</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
