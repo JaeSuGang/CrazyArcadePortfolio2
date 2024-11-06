@@ -19,8 +19,8 @@ public:
 public:
 	// 기본 Component 추가 코드
 	virtual void BeginPlay();
-	virtual void Tick(float fDeltaTime) = 0;
-	virtual void LateTick(float fDeltaTime) = 0;
+	virtual void Tick(float fDeltaTime);
+	virtual void LateTick(float fDeltaTime);
 
 public:
 	void Destroy();

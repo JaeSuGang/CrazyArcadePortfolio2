@@ -5,7 +5,7 @@
     <ClCompile Include="stdafx.cpp">
       <Filter>pch</Filter>
     </ClCompile>
-    <ClCompile Include="TestLevel.cpp">
+    <ClCompile Include="GameLevelBase.cpp">
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="Character.cpp">
@@ -29,26 +29,14 @@
     <ClCompile Include="GameUI.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
-    <ClCompile Include="SerializeManager.cpp">
-      <Filter>GameInstanceSubsystem</Filter>
-    </ClCompile>
     <ClCompile Include="AIManager.cpp">
       <Filter>GameInstanceSubsystem</Filter>
     </ClCompile>
     <ClCompile Include="CharacterAIController.cpp">
       <Filter>Controller</Filter>
     </ClCompile>
-    <ClCompile Include="GroundTile.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="WallTile.cpp">
-      <Filter>Actor</Filter>
-    </ClCompile>
-    <ClCompile Include="TilemapData.cpp">
-      <Filter>TilemapData</Filter>
-    </ClCompile>
-    <ClCompile Include="TileInfoManager.cpp">
-      <Filter>GameInstanceSubsystem</Filter>
+    <ClCompile Include="Tilemap.cpp">
+      <Filter>Struct</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -76,8 +64,8 @@
     <Filter Include="Controller">
       <UniqueIdentifier>{259ded4e-28fc-4d2f-b883-06d523c75fe8}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TilemapData">
-      <UniqueIdentifier>{c6a2fc69-c3d3-419b-8d3f-d76601d5f54c}</UniqueIdentifier>
+    <Filter Include="Struct">
+      <UniqueIdentifier>{9b2e3c19-059f-4cc5-9ed2-a93cd5b17b27}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -87,7 +75,7 @@
     <ClInclude Include="define.h">
       <Filter>pch</Filter>
     </ClInclude>
-    <ClInclude Include="TestLevel.h">
+    <ClInclude Include="GameLevelBase.h">
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="Character.h">
@@ -111,26 +99,14 @@
     <ClInclude Include="GameUI.h">
       <Filter>Actor</Filter>
     </ClInclude>
-    <ClInclude Include="SerializeManager.h">
-      <Filter>GameInstanceSubsystem</Filter>
-    </ClInclude>
     <ClInclude Include="AIManager.h">
       <Filter>GameInstanceSubsystem</Filter>
     </ClInclude>
     <ClInclude Include="CharacterAIController.h">
       <Filter>Controller</Filter>
     </ClInclude>
-    <ClInclude Include="GroundTile.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="WallTile.h">
-      <Filter>Actor</Filter>
-    </ClInclude>
-    <ClInclude Include="TilemapData.h">
-      <Filter>TilemapData</Filter>
-    </ClInclude>
-    <ClInclude Include="TileInfoManager.h">
-      <Filter>GameInstanceSubsystem</Filter>
+    <ClInclude Include="Tilemap.h">
+      <Filter>Struct</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

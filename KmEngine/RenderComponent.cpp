@@ -5,24 +5,34 @@
 #include "ResourceManager.h"
 #include "TimeManager.h"
 
-void URenderComponent::SetRenderPriority(int nPriority)
+void URenderComponent::SetRenderPriority(float fPriority)
 {
-	m_fRenderPriority = nPriority;
+	m_fRenderPriority = fPriority;
 }
 
-int URenderComponent::GetRenderPriority()
+float URenderComponent::GetRenderPriority()
 {
 	return m_fRenderPriority;
 }
 
-void URenderComponent::SetOffset(FVector2D OffsetVector)
+void URenderComponent::SetStaticImageOffset(FVector2D OffsetVector)
 {
-	m_ImageOffset = OffsetVector;
+	m_StaticImageOffset = OffsetVector;
 }
 
-FVector2D URenderComponent::GetOffset()
+FVector2D URenderComponent::GetStaticImageOffset()
 {
-	return m_ImageOffset;
+	return m_StaticImageOffset;
+}
+
+void URenderComponent::SetShadowImageOffset(FVector2D OffsetVector)
+{
+	m_ShadowImageOffset = OffsetVector;
+}
+
+FVector2D URenderComponent::GetShadowImageOffset()
+{
+	return m_ShadowImageOffset;
 }
 
 void URenderComponent::PlayAnimation(string strKey)
@@ -95,6 +105,21 @@ UImage* URenderComponent::GetStaticImage()
 	return m_StaticImage;
 }
 
+void URenderComponent::SetShadowImage(UImage* Image)
+{
+	m_ShadowImage = Image;
+}
+
+void URenderComponent::SetShadowImage(string strKey)
+{
+	m_ShadowImage = GEngine->GetEngineSubsystem<UResourceManager>()->GetImage(strKey);
+}
+
+UImage* URenderComponent::GetShadowImage()
+{
+	return m_ShadowImage;
+}
+
 void URenderComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -131,10 +156,12 @@ URenderComponent::URenderComponent()
 	:
 	m_fRenderPriority{},
 	m_StaticImage{},
+	m_ShadowImage{},
 	m_nAnimationFrameIndex{},
 	m_CurrentAnimation{},
 	m_fAccumulatedTime{},
-	m_ImageOffset{}
+	m_StaticImageOffset{},
+	m_ShadowImageOffset{}
 {
 }
 

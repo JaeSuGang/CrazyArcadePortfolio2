@@ -1,7 +1,7 @@
 #pragma once
 #include "KmEngine/Level.h"
 
-class UTestLevel : public ULevel
+class UGameLevelBase : public ULevel
 {
 	typedef ULevel Super;
 
@@ -12,6 +12,6 @@ public:
 
 public:
 	void Release();
-	~UTestLevel();
+	~UGameLevelBase();
 };
 

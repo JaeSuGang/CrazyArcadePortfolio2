@@ -37,7 +37,7 @@ public:
 
 public:
 	ULevel* GetActiveLevel() const;
-	//typedef UTestLevel T;
+	//typedef UGameLevelBase T;
 	template <typename T>
 	T* OpenLevel()
 	{

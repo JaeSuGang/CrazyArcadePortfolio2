@@ -5,7 +5,7 @@
 #include "KmEngine/ResourceManager.h"
 #include "SpawnManager.h"
 #include "MovementManager.h"
-#include "TestLevel.h"
+#include "GameLevelBase.h"
 #include "AIManager.h"
 
 void UTestGameInstance::Tick(float fDeltaTime)
@@ -32,6 +32,6 @@ void UTestGameInstance::BeginPlay()
 
 #endif 
 
-	this->OpenLevel<UTestLevel>();
+	this->OpenLevel<UGameLevelBase>();
 }
 

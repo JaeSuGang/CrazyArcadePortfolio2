@@ -1,5 +1,5 @@
 #include "stdafx.h"
-#include "TestLevel.h"
+#include "GameLevelBase.h"
 #include "Character.h"
 #include "KmEngine/Engine.h"
 #include "KmEngine/GameInstance.h"
@@ -9,19 +9,19 @@
 #include "MovementManager.h"
 #include "CharacterAIController.h"
 
-void UTestLevel::Tick(float fDeltaTime)
+void UGameLevelBase::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
 
 
 }
 
-void UTestLevel::LateTick(float fDeltaTime)
+void UGameLevelBase::LateTick(float fDeltaTime)
 {
 	Super::LateTick(fDeltaTime);
 }
 
-void UTestLevel::BeginPlay()
+void UGameLevelBase::BeginPlay()
 {
 	Super::BeginPlay();
 
@@ -44,7 +44,7 @@ void UTestLevel::BeginPlay()
 	SpawnManager->SpawnCharacterAIController()->Possess(Cappi);
 }
 
-void UTestLevel::Release()
+void UGameLevelBase::Release()
 {
 	UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
 	KeyManager->ClearBindKey();
@@ -52,7 +52,7 @@ void UTestLevel::Release()
 	MovementManager->Reset();
 }
 
-UTestLevel::~UTestLevel()
+UGameLevelBase::~UGameLevelBase()
 {
 	this->Release();
 }

@@ -13,6 +13,39 @@
 					930, 840
 
 
+렌더 위계
+0 - 타일
+1 - 그림자
+
+10 - 타일 Y = 60.0f ~ 120.0f
+11 - 타일 Y = 120.0f ~ 180.0f
+22 - 마지막 타일 Y = 780.0f ~ 840.0f
+즉 (y / 60) + 9
+
+
+100 - UI
+
+
+					
+
+
+TileObjectComponent
+-void Move(FVector2D(x, y));
+-FVector2D m_TilePosition 1.0f, 1.0f
+
+
+vs
+
+
+
+
+
+
+
+
+
+
+
 저장이 가능한 클래스 객체는 ISerializeObject를 상속받음.
 
 Data <<(ISerializeObject* _Object)를 했을때,

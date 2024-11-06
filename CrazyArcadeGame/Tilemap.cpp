@@ -1,14 +1,7 @@
 #include "stdafx.h"
-#include "TileInfoManager.h"
+#include "Tilemap.h"
 
-void UTileInfoManager::Tick(float fDeltaTime)
-{
-	Super::Tick(fDeltaTime);
-
-
-}
-
-void FTilemapInfo::Serialize(FArchive& Ar)
+void FTilemap::Serialize(FArchive& Ar)
 {
 	for (int i = 0; i < 15 * 13; i++)
 	{
@@ -21,7 +14,7 @@ void FTilemapInfo::Serialize(FArchive& Ar)
 	}
 }
 
-void FTilemapInfo::Save(string strFilePath)
+void FTilemap::Save(string strFilePath)
 {
 	FArchive* File = new FArchive{};
 	*File << *this;
@@ -29,7 +22,7 @@ void FTilemapInfo::Save(string strFilePath)
 	delete File;
 }
 
-void FTilemapInfo::Load(string strFilePath)
+void FTilemap::Load(string strFilePath)
 {
 	FArchive* File = new FArchive{};
 	File->Load(strFilePath);
@@ -37,7 +30,7 @@ void FTilemapInfo::Load(string strFilePath)
 	delete File;
 }
 
-void FTilemapInfo::Deserialize(FArchive& Ar)
+void FTilemap::Deserialize(FArchive& Ar)
 {
 	for (int i = 0; i < 15 * 13; i++)
 	{

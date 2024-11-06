@@ -13,6 +13,9 @@
     <Filter Include="GameInstanceSubsystem">
       <UniqueIdentifier>{b134b2d4-7f78-400c-b36e-680c57bdab0b}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ActorComponent">
+      <UniqueIdentifier>{bd59c26e-2b7f-420a-a59e-182c485fe544}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -27,6 +30,9 @@
     </ClCompile>
     <ClCompile Include="EditorManager.cpp">
       <Filter>GameInstanceSubsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ClickableUIComponent.cpp">
+      <Filter>ActorComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -44,6 +50,9 @@
     </ClInclude>
     <ClInclude Include="EditorManager.h">
       <Filter>GameInstanceSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ClickableUIComponent.h">
+      <Filter>ActorComponent</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

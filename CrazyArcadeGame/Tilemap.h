@@ -4,7 +4,7 @@
 
 class AActor;
 
-class FTilemapInfo : public ISerializable, public IDeserializable
+class FTilemap : public ISerializable, public IDeserializable
 {
 public:
 	void Deserialize(FArchive& Ar) override;
@@ -13,20 +13,8 @@ public:
 	void Load(string strFilePath);
 
 public:
-	vector<AActor*> m_ActorsOnTile[15 * 13];
 	unsigned short m_WallTiles[15 * 13];
 	unsigned short m_GroundTiles[15 * 13];
 
-};
-
-class UTileInfoManager : public UGameInstanceSubsystem
-{
-	typedef UGameInstanceSubsystem Super;
-
-public:
-	void Tick(float fDeltaTime) override;
-
-private:
-	FTilemapInfo* m_CurrentGameTileInfo;
 };
 

@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ClickableUIComponent.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="EditorGameInstance.h" />
     <ClInclude Include="EditorLevel.h" />
@@ -26,6 +27,7 @@
     <ClInclude Include="stdafx.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="ClickableUIComponent.cpp" />
     <ClCompile Include="EditorGameInstance.cpp" />
     <ClCompile Include="EditorLevel.cpp" />
     <ClCompile Include="EditorManager.cpp" />

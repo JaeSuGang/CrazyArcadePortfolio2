@@ -95,36 +95,6 @@ void URenderManager::Tick()
 	// 백버퍼 청소
 	Rectangle(m_hBackBufferDC, -1, -1, (int)m_WindowSize.X + 2, (int)m_WindowSize.Y + 2);
 
-	// Obsolete 한 컴포넌트 렌더
-	// 
-	//auto RenderIter = m_ComponentsToRender.begin();
-	//while (RenderIter != m_ComponentsToRender.end())
-	//{
-	//	URenderComponent* RenderComponent = RenderIter->second;
-	//	AActor* Owner = RenderComponent->GetOwner();
-	//	FVector2D ActorPos = Owner->GetPosition();
-	//	if (UImage* StaticImage = RenderComponent->GetStaticImage())
-	//	{
-	//		FVector2D ImageSize{ (float)StaticImage->m_BitmapInfo.bmWidth , (float)StaticImage->m_BitmapInfo.bmHeight };
-	//		FVector2D ImagePositionVector = ActorPos - ImageSize / 2;
-	//		ImagePositionVector += RenderComponent->GetOffset();
-
-
-	//		GdiTransparentBlt(m_hBackBufferDC,
-	//			(int)ImagePositionVector.X,
-	//			(int)ImagePositionVector.Y,
-	//			(int)ImageSize.X,
-	//			(int)ImageSize.Y,
-	//			StaticImage->getDC(),
-	//			0,
-	//			0,
-	//			(int)ImageSize.X,
-	//			(int)ImageSize.Y,
-	//			RGB(255, 0, 255));
-	//	}
-	//	++RenderIter;
-	//}
-
 	this->SortRender();
 
 	for (int i = 0; i < m_ComponentsToRender.size(); i++)
@@ -136,7 +106,7 @@ void URenderManager::Tick()
 		{
 			FVector2D ImageSize{ (float)StaticImage->m_BitmapInfo.bmWidth , (float)StaticImage->m_BitmapInfo.bmHeight };
 			FVector2D ImagePositionVector = ActorPos - ImageSize / 2;
-			ImagePositionVector += RenderComponent->GetOffset();
+			ImagePositionVector += RenderComponent->GetStaticImageOffset();
 
 			GdiTransparentBlt(m_hBackBufferDC,
 				(int)ImagePositionVector.X,
@@ -144,6 +114,25 @@ void URenderManager::Tick()
 				(int)ImageSize.X,
 				(int)ImageSize.Y,
 				StaticImage->getDC(),
+				0,
+				0,
+				(int)ImageSize.X,
+				(int)ImageSize.Y,
+				RGB(255, 0, 255));
+		}
+
+		if (UImage* ShadowImage = RenderComponent->GetShadowImage())
+		{
+			FVector2D ImageSize{ (float)ShadowImage->m_BitmapInfo.bmWidth , (float)ShadowImage->m_BitmapInfo.bmHeight };
+			FVector2D ImagePositionVector = ActorPos - ImageSize / 2;
+			ImagePositionVector += RenderComponent->GetShadowImageOffset();
+
+			GdiTransparentBlt(m_hBackBufferDC,
+				(int)ImagePositionVector.X,
+				(int)ImagePositionVector.Y,
+				(int)ImageSize.X,
+				(int)ImageSize.Y,
+				ShadowImage->getDC(),
 				0,
 				0,
 				(int)ImageSize.X,

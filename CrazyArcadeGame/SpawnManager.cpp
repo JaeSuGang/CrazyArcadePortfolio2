@@ -26,8 +26,10 @@ ACharacter* USpawnManager::SpawnBazzi(FVector2D PositionVector)
 	ACharacter* SpawnedCharacter = GetActiveLevel()->InitializeActorForPlay<ACharacter>();
 	SpawnedCharacter->SetCharacterName(strCharacterName);
 	URenderComponent* RenderComponent = SpawnedCharacter->CreateDefaultSubobject<URenderComponent>();
-	RenderComponent->SetOffset(FVector2D(0.0f, -12.0f));
+	RenderComponent->SetStaticImageOffset(FVector2D(0.0f, -12.0f));
 	RenderComponent->SetStaticImage("Resources\\" + strCharacterName + "\\" + "DownIdle.bmp");
+	RenderComponent->SetShadowImageOffset(FVector2D(0.0f, 30.0f));
+	RenderComponent->SetShadowImage("Resources\\Shadows\\CharacterShadow.bmp");
 	RenderComponent->SetRenderPriority(1);
 	RenderComponent->CreateAnimation(strCharacterName + "DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
@@ -50,8 +52,10 @@ ACharacter* USpawnManager::SpawnDao(FVector2D PositionVector)
 	ACharacter* SpawnedCharacter = GetActiveLevel()->InitializeActorForPlay<ACharacter>();
 	SpawnedCharacter->SetCharacterName(strCharacterName);
 	URenderComponent* RenderComponent = SpawnedCharacter->CreateDefaultSubobject<URenderComponent>();
-	RenderComponent->SetOffset(FVector2D(0.0f, -13.0f));
+	RenderComponent->SetStaticImageOffset(FVector2D(0.0f, -12.0f));
 	RenderComponent->SetStaticImage("Resources\\" + strCharacterName + "\\" + "DownIdle.bmp");
+	RenderComponent->SetShadowImageOffset(FVector2D(0.0f, 30.0f));
+	RenderComponent->SetShadowImage("Resources\\Shadows\\CharacterShadow.bmp");
 	RenderComponent->SetRenderPriority(1);
 	RenderComponent->CreateAnimation(strCharacterName + "DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
@@ -74,8 +78,10 @@ ACharacter* USpawnManager::SpawnCappi(FVector2D PositionVector)
 	ACharacter* SpawnedCharacter = GetActiveLevel()->InitializeActorForPlay<ACharacter>();
 	SpawnedCharacter->SetCharacterName(strCharacterName);
 	URenderComponent* RenderComponent = SpawnedCharacter->CreateDefaultSubobject<URenderComponent>();
-	RenderComponent->SetOffset(FVector2D(0.0f, -12.0f));
+	RenderComponent->SetStaticImageOffset(FVector2D(0.0f, -12.0f));
 	RenderComponent->SetStaticImage("Resources\\" + strCharacterName + "\\" + "DownIdle.bmp");
+	RenderComponent->SetShadowImageOffset(FVector2D(0.0f, 30.0f));
+	RenderComponent->SetShadowImage("Resources\\Shadows\\CharacterShadow.bmp");
 	RenderComponent->SetRenderPriority(1);
 	RenderComponent->CreateAnimation(strCharacterName + "DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
@@ -98,8 +104,10 @@ ACharacter* USpawnManager::SpawnMarid(FVector2D PositionVector)
 	ACharacter* SpawnedCharacter = GetActiveLevel()->InitializeActorForPlay<ACharacter>();
 	SpawnedCharacter->SetCharacterName(strCharacterName);
 	URenderComponent* RenderComponent = SpawnedCharacter->CreateDefaultSubobject<URenderComponent>();
-	RenderComponent->SetOffset(FVector2D(0.0f, -12.0f));
+	RenderComponent->SetStaticImageOffset(FVector2D(0.0f, -12.0f));
 	RenderComponent->SetStaticImage("Resources\\" + strCharacterName + "\\" + "DownIdle.bmp");
+	RenderComponent->SetShadowImageOffset(FVector2D(0.0f, 30.0f));
+	RenderComponent->SetShadowImage("Resources\\Shadows\\CharacterShadow.bmp");
 	RenderComponent->SetRenderPriority(1);
 	RenderComponent->CreateAnimation(strCharacterName + "DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
