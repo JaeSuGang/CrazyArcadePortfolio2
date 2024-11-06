@@ -1,6 +1,8 @@
 #pragma once
 #include "KmEngine/Level.h"
 
+class FTilemap;
+
 class UGameLevelBase : public ULevel
 {
 	typedef ULevel Super;
@@ -13,5 +15,8 @@ public:
 public:
 	void Release();
 	~UGameLevelBase();
+
+private:
+	FTilemap* m_Tilemap;
 };
 

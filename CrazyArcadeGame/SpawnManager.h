@@ -6,13 +6,16 @@ class APlayerController;
 class AAIController;
 class ACharacter;
 class AGameUI;
+class FTilemap;
 
 class USpawnManager : public UGameInstanceSubsystem
 {
 	typedef UGameInstanceSubsystem Super;
 
 public:
-	//void GenerateTilemap();
+	void GenerateWallTile(int nTileIndex, int nValue);
+	void GenerateGroundTile(int nTileIndex, int nValue);
+	void GenerateTilemap(FTilemap* TilemapStruct);
 	AGameUI* SpawnGameUI(string strImagePath, FVector2D PositionVector);
 	ACharacter* SpawnBazzi(FVector2D PositionVector);
 	ACharacter* SpawnDao(FVector2D PositionVector);

@@ -86,7 +86,7 @@ void UMovementManager::Tick(float fDeltaTime)
 
 			if (URenderComponent* RenderComponent = MovableActor->GetComponentByClass<URenderComponent>())
 			{
-				RenderComponent->SetRenderPriority(NewPosition.Y);
+				RenderComponent->SetRenderPriority(10 + (NewPosition.Y - 60) / 60);
 			}
 		}
 

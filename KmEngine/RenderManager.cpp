@@ -104,6 +104,24 @@ void URenderManager::Tick()
 		FVector2D ActorPos = Owner->GetPosition();
 		if (UImage* StaticImage = RenderComponent->GetStaticImage())
 		{
+			if (UImage* ShadowImage = RenderComponent->GetShadowImage())
+			{
+				FVector2D ImageSize{ (float)ShadowImage->m_BitmapInfo.bmWidth , (float)ShadowImage->m_BitmapInfo.bmHeight };
+				FVector2D ImagePositionVector = ActorPos - ImageSize / 2;
+				ImagePositionVector += RenderComponent->GetShadowImageOffset();
+
+				GdiTransparentBlt(m_hBackBufferDC,
+					(int)ImagePositionVector.X,
+					(int)ImagePositionVector.Y,
+					(int)ImageSize.X,
+					(int)ImageSize.Y,
+					ShadowImage->getDC(),
+					0,
+					0,
+					(int)ImageSize.X,
+					(int)ImageSize.Y,
+					RGB(255, 0, 255));
+			}
 			FVector2D ImageSize{ (float)StaticImage->m_BitmapInfo.bmWidth , (float)StaticImage->m_BitmapInfo.bmHeight };
 			FVector2D ImagePositionVector = ActorPos - ImageSize / 2;
 			ImagePositionVector += RenderComponent->GetStaticImageOffset();
@@ -121,24 +139,6 @@ void URenderManager::Tick()
 				RGB(255, 0, 255));
 		}
 
-		if (UImage* ShadowImage = RenderComponent->GetShadowImage())
-		{
-			FVector2D ImageSize{ (float)ShadowImage->m_BitmapInfo.bmWidth , (float)ShadowImage->m_BitmapInfo.bmHeight };
-			FVector2D ImagePositionVector = ActorPos - ImageSize / 2;
-			ImagePositionVector += RenderComponent->GetShadowImageOffset();
-
-			GdiTransparentBlt(m_hBackBufferDC,
-				(int)ImagePositionVector.X,
-				(int)ImagePositionVector.Y,
-				(int)ImageSize.X,
-				(int)ImageSize.Y,
-				ShadowImage->getDC(),
-				0,
-				0,
-				(int)ImageSize.X,
-				(int)ImageSize.Y,
-				RGB(255, 0, 255));
-		}
 	}
 
 	// 커스텀 렌더링 이벤트
