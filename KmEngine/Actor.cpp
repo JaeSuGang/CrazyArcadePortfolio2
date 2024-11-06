@@ -53,7 +53,8 @@ void AActor::Release()
 AActor::AActor()
 	:
 	m_OwnedComponents{},
-	m_Position{}
+	m_Position{},
+	m_Level{}
 {
 }
 

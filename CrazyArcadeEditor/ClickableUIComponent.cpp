@@ -30,3 +30,11 @@ void UClickableUIComponent::TickComponent(float fDeltaTime)
 {
 	Super::TickComponent(fDeltaTime);
 }
+
+UClickableUIComponent::UClickableUIComponent()
+	:
+	m_ClickableUIType{},
+	m_nValue{}
+{
+
+}

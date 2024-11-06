@@ -5,6 +5,7 @@
 
 // Windows API
 #include <Windows.h>
+#include <commdlg.h>
 
 // std
 #include <string>

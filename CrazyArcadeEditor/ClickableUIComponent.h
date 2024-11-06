@@ -8,8 +8,10 @@ class UClickableUIComponent : public UActorComponent
 public:
 	enum class EClickableUIType : unsigned short
 	{
+		None,
 		GroundTilePaint,
-		WallTilePaint
+		WallTilePaint,
+		SaveAndLoad
 	};
 
 public:
@@ -21,6 +23,9 @@ public:
 public:
 	void BeginPlay() override;
 	void TickComponent(float fDeltaTime) override;
+
+public:
+	UClickableUIComponent();
 
 private:
 	EClickableUIType m_ClickableUIType;

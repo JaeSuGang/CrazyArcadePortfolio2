@@ -30,6 +30,13 @@ void FTilemap::Load(string strFilePath)
 	delete File;
 }
 
+FTilemap::FTilemap()
+	:
+	m_GroundTiles{},
+	m_WallTiles{}
+{
+}
+
 void FTilemap::Deserialize(FArchive& Ar)
 {
 	for (int i = 0; i < 15 * 13; i++)

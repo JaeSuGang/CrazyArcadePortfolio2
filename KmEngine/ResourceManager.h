@@ -18,6 +18,7 @@ public:
 	~UImage();
 
 private:
+	FVector2D m_ImageOffset;
 	HWND m_hGameWindow;
 	HDC m_hDC;
 	HBITMAP m_hBitmap;
