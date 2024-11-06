@@ -42,8 +42,18 @@ void UEditorManager::LoadTilemap()
 
 	for (int i = 0; i < 15 * 13; i++)
 	{
-		PutSelectedTile(i, true, m_Tilemap->m_GroundTiles[i]);
-		PutSelectedTile(i, false, m_Tilemap->m_WallTiles[i]);
+		switch (m_Tilemap->m_GroundTiles[i])
+		{
+		default:
+			PutTile(i, true, m_Tilemap->m_GroundTiles[i]);
+			break;
+		}
+		switch (m_Tilemap->m_WallTiles[i])
+		{
+		default:
+			PutTile(i, false, m_Tilemap->m_WallTiles[i]);
+			break;
+		}
 	}
 }
 
@@ -194,7 +204,7 @@ void UEditorManager::SetSelectedTile(UClickableUIComponent::EClickableUIType Cli
 	m_SelectedTile->BeginPlay();
 }
 
-void UEditorManager::PutSelectedTile(int nlocation, bool bIsGroundTile, int nValue)
+void UEditorManager::PutTile(int nlocation, bool bIsGroundTile, int nValue)
 {
 	int nXIndex = nlocation % 15;
 	int nYIndex = nlocation / 15;
@@ -208,31 +218,44 @@ void UEditorManager::PutSelectedTile(int nlocation, bool bIsGroundTile, int nVal
 		UImage* Image = ResourceManager->GetImage("Resources\\Tiles\\GroundTiles\\" + std::to_string(nValue) + ".bmp");
 		PositionedTileRenderComponent->SetRenderPriority(0.0f);
 		PositionedTileRenderComponent->SetStaticImage(Image);
+		switch (nValue)
+		{
+		default:
+			PositionedTileRenderComponent->SetStaticImageOffset(FVector2D::Zero);
+			break;
+		}
 	}
 	else
 	{
 		UImage* Image = ResourceManager->GetImage("Resources\\Tiles\\WallTiles\\" + std::to_string(nValue) + ".bmp");
 		PositionedTileRenderComponent->SetRenderPriority(nYIndex + 10);
 		PositionedTileRenderComponent->SetStaticImage(Image);
+		switch (nValue)
+		{
+		case 1:
+		case 2:
+		case 3:
+			PositionedTileRenderComponent->SetStaticImageOffset(FVector2D(0.0f, -3.0f));
+			break;
+
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+			PositionedTileRenderComponent->SetStaticImageOffset(FVector2D(0.0f, -11.0f));
+			break;
+
+		case 8:
+			PositionedTileRenderComponent->SetStaticImageOffset(FVector2D(0.0f, -20.0f));
+			break;
+
+		default:
+			PositionedTileRenderComponent->SetStaticImageOffset(FVector2D::Zero);
+			break;
+		}
 	}
 
 	TileActor->BeginPlay();
-}
-
-void UEditorManager::PutSelectedTile(int nlocation)
-{
-	int nXIndex = nlocation % 15;
-	int nYIndex = nlocation / 15;
-	FVector2D LocationVector{(float)(60 + 60 * nXIndex), (float)(90 + 60 * nYIndex)};
-	AActor* TileActor = GetActiveLevel()->InitializeActorForPlay<AActor>();
-	URenderComponent* PositionedTileRenderComponent = TileActor->CreateDefaultSubobject<URenderComponent>();
-	PositionedTileRenderComponent->SetRenderPriority(1.0f);
-	TileActor->BeginPlay();
-	TileActor->SetPosition(LocationVector);
-
-	URenderComponent* SelectedTileRenderComponent = m_SelectedTile->GetComponentByClass<URenderComponent>();
-	UImage* ImageToUse = SelectedTileRenderComponent->GetStaticImage();
-	PositionedTileRenderComponent->SetStaticImage(ImageToUse);
 }
 
 FVector2D UEditorManager::GetRelativeMousePosition()
@@ -324,7 +347,7 @@ void UEditorManager::OnLeftClick()
 					if (m_Tilemap->m_GroundTiles[nYIndex * 15 + nXIndex] == 0)
 					{
 						m_Tilemap->m_GroundTiles[nYIndex * 15 + nXIndex] = ClickableUIComponent->GetValue();
-						this->PutSelectedTile(nYIndex * 15 + nXIndex);
+						this->PutTile(nYIndex * 15 + nXIndex, true, m_Tilemap->m_GroundTiles[nYIndex * 15 + nXIndex]);
 					}
 					break;
 
@@ -332,7 +355,7 @@ void UEditorManager::OnLeftClick()
 					if (m_Tilemap->m_WallTiles[nYIndex * 15 + nXIndex] == 0)
 					{
 						m_Tilemap->m_WallTiles[nYIndex * 15 + nXIndex] = ClickableUIComponent->GetValue();
-						this->PutSelectedTile(nYIndex * 15 + nXIndex);
+						this->PutTile(nYIndex * 15 + nXIndex, false, m_Tilemap->m_WallTiles[nYIndex * 15 + nXIndex]);
 					}
 					break;
 

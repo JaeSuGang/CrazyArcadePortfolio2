@@ -21,8 +21,7 @@ public:
 	void LoadWallTilePalette();
 	AGameUI* SpawnEditorUI(string strImagePath, FVector2D PositionVector, float fRenderPriority, UClickableUIComponent::EClickableUIType ClickableUIType, int nClickableValue);
 	void SetSelectedTile(UClickableUIComponent::EClickableUIType ClickableUIType, int nTileIndex);
-	void PutSelectedTile(int nlocation, bool bIsGroundTile, int nValue);
-	void PutSelectedTile(int nlocation);
+	void PutTile(int nlocation, bool bIsGroundTile, int nValue);
 
 public:
 	FVector2D GetRelativeMousePosition();
