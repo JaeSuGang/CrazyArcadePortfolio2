@@ -145,61 +145,31 @@ void URenderManager::Tick()
 	// 백버퍼 청소
 	Rectangle(m_hBackBufferDC, -1, -1, (int)m_WindowSize.X + 2, (int)m_WindowSize.Y + 2);
 
-	UResourceManager* ResourceManager = GEngine->GetEngineSubsystem<UResourceManager>();
-	UImage* Image = ResourceManager->GetImage("Resources\\Bazzi\\DownIdle.bmp");
-	
-
-	//BitBlt(m_hBackBufferDC, 0, 0, 66, 84, Image->getDC(), 0, 0, SRCCOPY);
-
-	HDC hTempDC = CreateCompatibleDC(m_hGameWindowDC);
-	HBITMAP hTempBitmap = CreateCompatibleBitmap(Image->getDC(), m_WindowSize.X, m_WindowSize.Y);
-	SelectObject(hTempDC, hTempBitmap);
-	HBRUSH hTempBrush = CreateSolidBrush(RGB(255, 0, 255));
-	SelectObject(hTempDC, hTempBrush);
-	Rectangle(hTempDC, -1, -1, (int)m_WindowSize.X + 2, (int)m_WindowSize.Y + 2);
-
-	TransparentBlt(hTempDC, 0, 0, 66, 84, Image->getDC(), 0, 0, 66, 84, RGB(255, 0, 255));
-	TransparentBlt(m_hBackBufferDC, 0, 0, 66, 84, hTempDC, 0, 0, 66, 84, RGB(255, 0, 255));
 	// 새 렌더 코드
 	// 1번째 레이어
 	URenderManager::CleanLayerDC(m_LayerDC[0], m_WindowSize);
 	URenderManager::SortRender(m_ComponentsToRenderFirst);
-	URenderManager::RenderComponents(m_ComponentsToRenderFirst, m_hBackBufferDC, m_WindowSize);
-	//URenderManager::CopyBitBltDC(m_hBackBufferDC, m_LayerDC[0], m_WindowSize);
+	URenderManager::RenderComponents(m_ComponentsToRenderFirst, m_LayerDC[0], m_WindowSize);
+	URenderManager::CopyBitBltDC(m_hBackBufferDC, m_LayerDC[0], m_WindowSize);
 
-	//// 2번째 레이어
-	//HDC hTemporaryDC2 = CreateCompatibleDC(m_hGameWindowDC);
-	//HBITMAP hTemporaryBitmap2 = CreateCompatibleBitmap(hTemporaryDC2, (int)m_WindowSize.X, (int)m_WindowSize.Y);
-	//SelectObject(hTemporaryDC2, hTemporaryBitmap2);
-	//URenderManager::InitializeTransparentDC(hTemporaryDC2, m_WindowSize);
-	//URenderManager::SortRender(m_ComponentsToRenderSecond);
-	//URenderManager::RenderShadowComponents(m_ComponentsToRenderSecond, hTemporaryDC2, m_WindowSize);
-	//URenderManager::CopyBitBltDC(m_hBackBufferDC, hTemporaryDC2, m_WindowSize);
-	//DeleteObject(hTemporaryBitmap2);
-	//DeleteDC(hTemporaryDC2);
 
-	//// 3번째 레이어
-	//HDC hTemporaryDC3 = CreateCompatibleDC(m_hGameWindowDC);
-	//HBITMAP hTemporaryBitmap3 = CreateCompatibleBitmap(hTemporaryDC3, (int)m_WindowSize.X, (int)m_WindowSize.Y);
-	//SelectObject(hTemporaryDC3, hTemporaryBitmap3);
-	//URenderManager::InitializeTransparentDC(hTemporaryDC3, m_WindowSize);
-	//URenderManager::SortRender(m_ComponentsToRenderThird);
-	//URenderManager::RenderComponents(m_ComponentsToRenderThird, hTemporaryDC3, m_WindowSize);
-	//URenderManager::CopyBitBltDC(m_hBackBufferDC, hTemporaryDC3, m_WindowSize);
-	//DeleteObject(hTemporaryBitmap3);
-	//DeleteDC(hTemporaryDC3);
+	// 2번째 레이어
+	URenderManager::CleanLayerDC(m_LayerDC[1], m_WindowSize);
+	URenderManager::SortRender(m_ComponentsToRenderSecond);
+	URenderManager::RenderShadowComponents(m_ComponentsToRenderSecond, m_LayerDC[1], m_WindowSize);
+	URenderManager::CopyBitBltDC(m_hBackBufferDC, m_LayerDC[1], m_WindowSize);
 
-	//// 4번째 레이어
-	//HDC hTemporaryDC4 = CreateCompatibleDC(m_hGameWindowDC);
-	//HBITMAP hTemporaryBitmap4 = CreateCompatibleBitmap(hTemporaryDC4, (int)m_WindowSize.X, (int)m_WindowSize.Y);
-	//SelectObject(hTemporaryDC4, hTemporaryBitmap4);
-	//URenderManager::InitializeTransparentDC(hTemporaryDC4, m_WindowSize);
-	//URenderManager::SortRender(m_ComponentsToRenderFourth);
-	//URenderManager::RenderComponents(m_ComponentsToRenderFourth, hTemporaryDC4, m_WindowSize);
-	//URenderManager::CopyBitBltDC(m_hBackBufferDC, hTemporaryDC4, m_WindowSize);
-	//DeleteObject(hTemporaryBitmap4);
-	//DeleteDC(hTemporaryDC4);
+	// 3번째 레이어
+	URenderManager::CleanLayerDC(m_LayerDC[2], m_WindowSize);
+	URenderManager::SortRender(m_ComponentsToRenderThird);
+	URenderManager::RenderComponents(m_ComponentsToRenderThird, m_LayerDC[2], m_WindowSize);
+	URenderManager::CopyBitBltDC(m_hBackBufferDC, m_LayerDC[2], m_WindowSize);
 
+	// 4번째 레이어
+	URenderManager::CleanLayerDC(m_LayerDC[3], m_WindowSize);
+	URenderManager::SortRender(m_ComponentsToRenderFourth);
+	URenderManager::RenderComponents(m_ComponentsToRenderFourth, m_LayerDC[3], m_WindowSize);
+	URenderManager::CopyBitBltDC(m_hBackBufferDC, m_LayerDC[3], m_WindowSize);
 
 	// 커스텀 렌더링 이벤트
 	for (int i = 0; i < m_CustomRenderEvents.size(); i++)
@@ -220,6 +190,8 @@ void URenderManager::Tick()
 
 void URenderManager::Initialize(const char* lpszTitle, FVector2D WindowSize)
 {
+
+	m_WindowSize = WindowSize;
 	WNDCLASSEXA wcex{};
     wcex.cbSize = sizeof(WNDCLASSEX);
     wcex.style = CS_HREDRAW | CS_VREDRAW;
@@ -257,7 +229,7 @@ void URenderManager::Initialize(const char* lpszTitle, FVector2D WindowSize)
 	for (size_t i = 0; i < 4; i++)
 	{
 		HDC LayerDC = CreateCompatibleDC(m_hBackBufferDC);
-		HBITMAP hLayerBitmap = CreateCompatibleBitmap(m_hBackBufferDC, (int)m_WindowSize.X, (int)m_WindowSize.Y);
+		HBITMAP hLayerBitmap = CreateCompatibleBitmap(m_hBackBufferDC, (int)WindowSize.X, (int)WindowSize.Y);
 		SelectObject(LayerDC, hLayerBitmap);
 		SelectObject(LayerDC, m_hMagentaPen);
 		SelectObject(LayerDC, m_hMagentaBrush);
