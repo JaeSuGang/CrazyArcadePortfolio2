@@ -141,6 +141,93 @@ LRESULT URenderManager::WndProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM l
 	return 0;
 }
 
+void URenderManager::RenderF()
+{
+	for (const URenderComponent* ComponentToRender : m_ComponentsToRenderFirst)
+	{
+		const AActor* Owner = ComponentToRender->GetOwner();
+		if (const UImage* Image = ComponentToRender->GetStaticImage())
+		{
+			FVector2D ImageSize = { (float)Image->m_BitmapInfo.bmWidth , (float)Image->m_BitmapInfo.bmHeight };
+			FVector2D ImagePosition = Owner->GetPosition() - ImageSize / 2;
+			ImagePosition += ComponentToRender->GetStaticImageOffset();
+
+			TransparentBlt(m_hLayer[0], ImagePosition.X, ImagePosition.Y, ImageSize.X, ImageSize.Y,
+				Image->getDC(), 0, 0, ImageSize.X, ImageSize.Y, RGB(255, 0, 255));
+		}
+	}
+
+	IsRender[0] = true;
+}
+
+void URenderManager::RenderS()
+{
+
+	for (const URenderComponent* ComponentToRender : m_ComponentsToRenderSecond)
+	{
+		const AActor* Owner = ComponentToRender->GetOwner();
+		if (const UImage* Image = ComponentToRender->GetShadowImage())
+		{
+			FVector2D ImageSize = { (float)Image->m_BitmapInfo.bmWidth , (float)Image->m_BitmapInfo.bmHeight };
+			FVector2D ImagePosition = Owner->GetPosition() - ImageSize / 2;
+			ImagePosition += ComponentToRender->GetStaticImageOffset();
+
+			TransparentBlt(m_hLayer[1], ImagePosition.X, ImagePosition.Y, ImageSize.X, ImageSize.Y,
+				Image->getDC(), 0, 0, ImageSize.X, ImageSize.Y, RGB(255, 0, 255));
+		}
+	}
+
+	IsRender[1] = true;
+}
+
+void URenderManager::RenderT()
+{
+	for (const URenderComponent* ComponentToRender : m_ComponentsToRenderThird)
+	{
+		const AActor* Owner = ComponentToRender->GetOwner();
+		if (const UImage* Image = ComponentToRender->GetStaticImage())
+		{
+			FVector2D ImageSize = { (float)Image->m_BitmapInfo.bmWidth , (float)Image->m_BitmapInfo.bmHeight };
+			FVector2D ImagePosition = Owner->GetPosition() - ImageSize / 2;
+			ImagePosition += ComponentToRender->GetStaticImageOffset();
+
+			TransparentBlt(m_hLayer[2], ImagePosition.X, ImagePosition.Y, ImageSize.X, ImageSize.Y,
+				Image->getDC(), 0, 0, ImageSize.X, ImageSize.Y, RGB(255, 0, 255));
+		}
+	}
+
+	IsRender[2] = true;
+
+}
+
+void URenderManager::RenderFo()
+{
+
+
+	for (const URenderComponent* ComponentToRender : m_ComponentsToRenderFourth)
+	{
+		const AActor* Owner = ComponentToRender->GetOwner();
+		if (const UImage* Image = ComponentToRender->GetStaticImage())
+		{
+			FVector2D ImageSize = { (float)Image->m_BitmapInfo.bmWidth , (float)Image->m_BitmapInfo.bmHeight };
+			FVector2D ImagePosition = Owner->GetPosition() - ImageSize / 2;
+			ImagePosition += ComponentToRender->GetStaticImageOffset();
+
+			// 쓰레드에 과연 안전한 함수인가.
+			// TransparentBlt
+			TransparentBlt(m_hLayer[3], ImagePosition.X, ImagePosition.Y, ImageSize.X, ImageSize.Y,
+				Image->getDC(), 0, 0, ImageSize.X, ImageSize.Y, RGB(255, 0, 255));
+		}
+	}
+
+	IsRender[3] = true;
+}
+
+void ThreadFunction(std::function<void()> _Test)
+{
+	_Test();
+}
+
 void URenderManager::Tick()
 {
 	// 일반 윈도우 처리
@@ -156,49 +243,57 @@ void URenderManager::Tick()
 
 	// 새 렌더 코드
 
-	// 1번째 레이어
-	//HDC hTemporaryDC1 = CreateCompatibleDC(m_hGameWindowDC);
-	//HBITMAP hTemporaryBitmap1 = CreateCompatibleBitmap(hTemporaryDC1, (int)m_WindowSize.X, (int)m_WindowSize.Y);
-	//SelectObject(hTemporaryDC1, hTemporaryBitmap1);
-	//URenderManager::InitializeTransparentDC(hTemporaryDC1, m_WindowSize);
-	//URenderManager::SortRender(m_ComponentsToRenderFirst);
-	////URenderManager::RenderComponents(m_ComponentsToRenderFirst, hTemporaryDC1, m_WindowSize);
-	//URenderManager::CopyBitBltDC(m_hBackBufferDC, hTemporaryDC1, m_WindowSize);
-	//DeleteObject(hTemporaryBitmap1);
-	//DeleteDC(hTemporaryDC1);
+	UResourceManager* ResourceManager = GEngine->GetEngineSubsystem<UResourceManager>();
+	HDC hImage = ResourceManager->GetImageDC("Resources\\MagentaBack.bmp");
 
-	//// 2번째 레이어
-	//HDC hTemporaryDC2 = CreateCompatibleDC(m_hGameWindowDC);
-	//HBITMAP hTemporaryBitmap2 = CreateCompatibleBitmap(hTemporaryDC2, (int)m_WindowSize.X, (int)m_WindowSize.Y);
-	//SelectObject(hTemporaryDC2, hTemporaryBitmap2);
-	//URenderManager::InitializeTransparentDC(hTemporaryDC2, m_WindowSize);
-	//URenderManager::SortRender(m_ComponentsToRenderSecond);
-	//URenderManager::RenderShadowComponents(m_ComponentsToRenderSecond, hTemporaryDC2, m_WindowSize);
-	//URenderManager::CopyBitBltDC(m_hBackBufferDC, hTemporaryDC2, m_WindowSize);
-	//DeleteObject(hTemporaryBitmap2);
-	//DeleteDC(hTemporaryDC2);
+	// 투명값 초기화
+	for (size_t i = 0; i < 4; i++)
+	{
+		BitBlt(m_hLayer[i], 0, 0, (int)m_WindowSize.X, (int)m_WindowSize.Y, hImage, 0, 0, SRCCOPY);
+	}
 
-	//// 3번째 레이어
-	//HDC hTemporaryDC3 = CreateCompatibleDC(m_hGameWindowDC);
-	//HBITMAP hTemporaryBitmap3 = CreateCompatibleBitmap(hTemporaryDC3, (int)m_WindowSize.X, (int)m_WindowSize.Y);
-	//SelectObject(hTemporaryDC3, hTemporaryBitmap3);
-	//URenderManager::InitializeTransparentDC(hTemporaryDC3, m_WindowSize);
-	//URenderManager::SortRender(m_ComponentsToRenderThird);
-	//URenderManager::RenderComponents(m_ComponentsToRenderThird, hTemporaryDC3, m_WindowSize);
-	//URenderManager::CopyBitBltDC(m_hBackBufferDC, hTemporaryDC3, m_WindowSize);
-	//DeleteObject(hTemporaryBitmap3);
-	//DeleteDC(hTemporaryDC3);
 
-	//// 4번째 레이어
-	//HDC hTemporaryDC4 = CreateCompatibleDC(m_hGameWindowDC);
-	//HBITMAP hTemporaryBitmap4 = CreateCompatibleBitmap(hTemporaryDC4, (int)m_WindowSize.X, (int)m_WindowSize.Y);
-	//SelectObject(hTemporaryDC4, hTemporaryBitmap4);
-	//URenderManager::InitializeTransparentDC(hTemporaryDC4, m_WindowSize);
-	//URenderManager::SortRender(m_ComponentsToRenderFourth);
-	//URenderManager::RenderComponents(m_ComponentsToRenderFourth, hTemporaryDC4, m_WindowSize);
-	//URenderManager::CopyBitBltDC(m_hBackBufferDC, hTemporaryDC4, m_WindowSize);
-	//DeleteObject(hTemporaryBitmap4);
-	//DeleteDC(hTemporaryDC4);
+	//for (URenderComponent* ComponentToRender : m_ComponentsToRenderFirst)
+	//{
+	//	AActor* Actor = ComponentToRender->GetOwner();
+	//	FVector2D ActorPos = Actor->GetPosition() ;
+	//	if (UImage* Image = ComponentToRender->GetStaticImage())
+	//	{
+	//		TransparentBlt(m_hLayer[0], ActorPos.X, )
+	//	}
+	//}
+
+
+	IsRender[0] = false;
+	IsRender[1] = false;
+	IsRender[2] = false;
+	IsRender[3] = false;
+
+	// 쓰레드를 만드는 것도 비용이기 
+	std::thread Thread0 = std::thread(std::bind(&URenderManager::RenderF, this));
+	std::thread Thread1 = std::thread(std::bind(&URenderManager::RenderS, this));
+	std::thread Thread2 = std::thread(std::bind(&URenderManager::RenderT, this));
+	std::thread Thread3 = std::thread(std::bind(&URenderManager::RenderFo, this));
+
+	// while (true == IsRender[0] && true == IsRender[1] && true == IsRender[1]);
+
+	// 쓰레드는 한개 쓸꺼면 더 안좋다.
+	
+
+
+	for (size_t i = 0; i < 4; i++)
+	{
+		TransparentBlt(m_hBackBufferDC,
+			0, 0,
+			(int)m_WindowSize.X, (int)m_WindowSize.Y,
+			m_hLayer[i],
+			0, 0,
+			(int)m_WindowSize.X, (int)m_WindowSize.Y,
+			RGB(255, 0, 255));
+	}
+
+
+
 
 
 	// 커스텀 렌더링 이벤트
@@ -255,6 +350,18 @@ void URenderManager::Initialize(const char* lpszTitle, FVector2D WindowSize)
 
 	ShowWindow(m_hGameWindow, SW_SHOW);
 	UpdateWindow(m_hGameWindow);
+
+	
+
+	for (size_t i = 0; i < 4; i++)
+	{
+		HDC NewDC = CreateCompatibleDC(m_hGameWindowDC);
+		HBITMAP hBackBufferBitmap = CreateCompatibleBitmap(m_hGameWindowDC, (int)WindowSize.X, (int)WindowSize.Y);
+		SelectObject(NewDC, hBackBufferBitmap);
+		m_hLayer[i] = NewDC;
+	}
+
+	
 
 }
 

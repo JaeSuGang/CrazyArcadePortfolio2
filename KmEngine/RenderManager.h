@@ -1,6 +1,7 @@
 #pragma once
 #include "EngineSubsystem.h"
 #include "KmBase/Vector.h"
+#include <thread>
 
 class URenderComponent;
 
@@ -38,6 +39,13 @@ public:
 	static void AddRender(URenderComponent* ComponentToAdd, vector<URenderComponent*>& RenderComponents);
 	static void RemoveRender(URenderComponent* ComponentToRemove, vector<URenderComponent*>& RenderComponents);
 
+	void RenderF();
+	void RenderS();
+	void RenderT();
+	void RenderFo();
+
+	std::atomic<bool> IsRender[4];
+
 	vector<URenderComponent*> m_ComponentsToRenderFirst;
 	vector<URenderComponent*> m_ComponentsToRenderSecond;
 	vector<URenderComponent*> m_ComponentsToRenderThird;
@@ -49,6 +57,9 @@ private:
 	HWND m_hGameWindow;
 	HDC m_hGameWindowDC;
 	HDC m_hBackBufferDC;
+
+	// std::thread Threads[4];
+
 
 	HDC m_hLayer[4];
 };
