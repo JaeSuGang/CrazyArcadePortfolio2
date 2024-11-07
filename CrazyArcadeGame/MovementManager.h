@@ -17,6 +17,7 @@ public:
 	void DebugRender();
 	void Reset();
 	void AddMovable(UMovableComponent* MovableComponent);
+	void AddWall(UWallComponent* WallComponent);
 
 public:
 	void Tick(float fDeltaTime) override;

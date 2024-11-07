@@ -6,6 +6,7 @@
 #include "KmEngine/RenderComponent.h"
 #include "GameUI.h"
 #include "MovableComponent.h"
+#include "WallComponent.h"
 #include "SpawnManager.h"
 #include "Tilemap.h"
 
@@ -19,6 +20,8 @@ void USpawnManager::GenerateWallTile(int nTileIndex, int nValue, int nGroundTile
 	FVector2D LocationVector{ (float)(60 + 60 * nXIndex), (float)(90 + 60 * nYIndex) };
 	AActor* TileActor = GetActiveLevel()->InitializeActorForPlay<AActor>();
 	URenderComponent* PositionedTileRenderComponent = TileActor->CreateDefaultSubobject<URenderComponent>();
+	UWallComponent* PositionedTileWallComponent = TileActor->CreateDefaultSubobject<UWallComponent>();
+	PositionedTileWallComponent->RegisterAtMovementManager();
 
 	TileActor->SetPosition(LocationVector);
 	PositionedTileRenderComponent->SetRenderPriority(nYIndex + 10.0f);
@@ -138,7 +141,7 @@ ACharacter* USpawnManager::SpawnBazzi(FVector2D PositionVector)
 	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
 	RenderComponent->BeginPlay();
 	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
-	MovableComponent->RegisterAtMovementManager();
+	MovableComponent->RegisterMovableAtMovementManager();
 	MovableComponent->SetMaxSpeed(300.0f);
 	MovableComponent->SetRadius(30.0f);
 
@@ -165,7 +168,7 @@ ACharacter* USpawnManager::SpawnDao(FVector2D PositionVector)
 	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
 	RenderComponent->BeginPlay();
 	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
-	MovableComponent->RegisterAtMovementManager();
+	MovableComponent->RegisterMovableAtMovementManager();
 	MovableComponent->SetMaxSpeed(300.0f);
 	MovableComponent->SetRadius(30.0f);
 
@@ -192,7 +195,7 @@ ACharacter* USpawnManager::SpawnCappi(FVector2D PositionVector)
 	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
 	RenderComponent->BeginPlay();
 	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
-	MovableComponent->RegisterAtMovementManager();
+	MovableComponent->RegisterMovableAtMovementManager();
 	MovableComponent->SetMaxSpeed(300.0f);
 	MovableComponent->SetRadius(30.0f);
 
@@ -219,7 +222,7 @@ ACharacter* USpawnManager::SpawnMarid(FVector2D PositionVector)
 	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
 	RenderComponent->BeginPlay();
 	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
-	MovableComponent->RegisterAtMovementManager();
+	MovableComponent->RegisterMovableAtMovementManager();
 	MovableComponent->SetMaxSpeed(300.0f);
 	MovableComponent->SetRadius(30.0f);
 

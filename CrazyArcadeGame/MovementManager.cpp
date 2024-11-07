@@ -50,6 +50,11 @@ void UMovementManager::AddMovable(UMovableComponent* MovableComponent)
 	m_Movables.insert(MovableComponent);
 }
 
+void UMovementManager::AddWall(UWallComponent* WallComponent)
+{
+	m_Walls.insert(WallComponent);
+}
+
 void UMovementManager::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
@@ -78,6 +83,11 @@ void UMovementManager::Tick(float fDeltaTime)
 			float fRadius = MovableComponent->GetRadius();
 			
 			FVector2D NewPosition = MovableActor->GetPosition();
+
+			NewPosition.X = (NewPosition.X < m_MapRange.left + fRadius) ? m_MapRange.left + fRadius : NewPosition.X;
+
+
+
 			NewPosition.X = (NewPosition.X < m_MapRange.left + fRadius) ? m_MapRange.left + fRadius : NewPosition.X;
 			NewPosition.X = (NewPosition.X > m_MapRange.right - fRadius) ? m_MapRange.right - fRadius : NewPosition.X;
 			NewPosition.Y = (NewPosition.Y < m_MapRange.top + fRadius) ? m_MapRange.top + fRadius : NewPosition.Y;

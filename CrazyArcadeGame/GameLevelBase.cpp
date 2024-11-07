@@ -43,15 +43,15 @@ void UGameLevelBase::BeginPlay()
 	SpawnManager->GenerateTilemap(m_Tilemap);
 
 	// 메인 플레이어 생성
-	ACharacter* MainCharacter = SpawnManager->SpawnBazzi(FVector2D(300.0f, 300.0f));
+	ACharacter* MainCharacter = SpawnManager->SpawnBazzi(FVector2D(120.0f, 750.0f));
 	PlayerController->Possess(MainCharacter);
 
 	// AI 봇 생성
-	ACharacter* Dao = SpawnManager->SpawnDao(FVector2D(700.0f, 120.0f));
+	ACharacter* Dao = SpawnManager->SpawnDao(FVector2D(900.0f, 810.0f));
 	SpawnManager->SpawnCharacterAIController()->Possess(Dao);
-	ACharacter* Marid = SpawnManager->SpawnMarid(FVector2D(100.0f, 600.0f));
+	ACharacter* Marid = SpawnManager->SpawnMarid(FVector2D(60.0f, 150.0f));
 	SpawnManager->SpawnCharacterAIController()->Possess(Marid);
-	ACharacter* Cappi = SpawnManager->SpawnCappi(FVector2D(790.0f, 720.0f));
+	ACharacter* Cappi = SpawnManager->SpawnCappi(FVector2D(840.0f, 150.0f));
 	SpawnManager->SpawnCharacterAIController()->Possess(Cappi);
 }
 

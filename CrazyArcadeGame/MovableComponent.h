@@ -14,7 +14,7 @@ public:
 	float GetRadius() const;
 	void SetRadius(float fRadius);
 	FVector2D GetVelocity();
-	void RegisterAtMovementManager();
+	void RegisterMovableAtMovementManager();
 
 public:
 	void BeginPlay() override;

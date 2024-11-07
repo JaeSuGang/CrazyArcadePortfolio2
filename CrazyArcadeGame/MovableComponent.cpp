@@ -37,7 +37,7 @@ FVector2D UMovableComponent::GetVelocity()
 	return m_Velocity;
 }
 
-void UMovableComponent::RegisterAtMovementManager()
+void UMovableComponent::RegisterMovableAtMovementManager()
 {
 	UMovementManager* MovementManager = GetGameInstanceSubsystem<UMovementManager>();
 	MovementManager->AddMovable(this);
