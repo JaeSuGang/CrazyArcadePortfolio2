@@ -7,6 +7,7 @@
 #include <Windows.h>
 
 // std
+#include <cmath>
 #include <string>
 #include <typeinfo>
 

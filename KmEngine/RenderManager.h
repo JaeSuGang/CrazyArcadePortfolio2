@@ -9,6 +9,7 @@ class URenderManager : public UEngineSubsystem
 	friend class UEngine;
 
 public:
+	void SetbShouldGenerateFloorTiles(bool bValue);
 	void AddCustomRenderEvent(std::function<void()> RenderEvent);
 	void ClearCustomRenderEvents();
 	HWND GetGameWindowHandle();
@@ -51,7 +52,7 @@ private:
 	HPEN m_hMagentaPen;
 	HBRUSH m_hMagentaBrush;
 	vector<HDC> m_LayerDC;
-	bool m_bAlreadyGeneratedFloorTiles;
+	bool m_bShouldGenerateFloorTiles;
 
 	vector<std::function<void()>> m_CustomRenderEvents;
 	FVector2D m_WindowSize;

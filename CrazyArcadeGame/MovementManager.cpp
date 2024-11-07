@@ -3,6 +3,7 @@
 #include "MovableComponent.h"
 #include "KmEngine/Actor.h"
 #include "KmEngine/RenderComponent.h"
+#include "WallComponent.h"
 
 void UMovementManager::SetMapRange(RECT Range)
 {
@@ -84,8 +85,25 @@ void UMovementManager::Tick(float fDeltaTime)
 			
 			FVector2D NewPosition = MovableActor->GetPosition();
 
-			NewPosition.X = (NewPosition.X < m_MapRange.left + fRadius) ? m_MapRange.left + fRadius : NewPosition.X;
+			for (UWallComponent* WallComponent : m_Walls)
+			{
+				AActor* Wall = WallComponent->GetOwner();
+				FVector2D WallPos = Wall->GetPosition();
+				FVector2D PositionDifference = NewPosition - WallPos;
+				if (PositionDifference.GetLength() > 60)
+					continue;
 
+				if (std::abs(PositionDifference.X) < 60)
+				{
+					// 캐릭터가 벽보다 오른쪽
+					NewPosition.X = PositionDifference.X > 0 ? WallPos.X + 60 : WallPos.X - 60;
+				}
+				if (std::abs(PositionDifference.Y) < 60)
+				{
+					// 캐릭터가 벽보다 위쪽
+					NewPosition.Y = PositionDifference.Y > 0 ? WallPos.Y + 60 : WallPos.Y - 60;
+				}
+			}
 
 
 			NewPosition.X = (NewPosition.X < m_MapRange.left + fRadius) ? m_MapRange.left + fRadius : NewPosition.X;

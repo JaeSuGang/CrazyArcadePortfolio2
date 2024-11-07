@@ -115,6 +115,7 @@ void UEditorManager::LoadGroundTilePalette()
 				ClickableUIComponent->SetValue(i * 3 + j + 1);
 				RenderComponent->SetStaticImage(Image);
 				RenderComponent->SetRenderPriority(1.0f);
+				RenderComponent->SetRenderType(URenderComponent::ERenderType::UI);
 				Tile->BeginPlay();
 			}
 			else
@@ -146,6 +147,7 @@ void UEditorManager::LoadWallTilePalette()
 				ClickableUIComponent->SetValue(i * 3 + j + 1);
 				RenderComponent->SetStaticImage(Image);
 				RenderComponent->SetRenderPriority(1);
+				RenderComponent->SetRenderType(URenderComponent::ERenderType::UI);
 				RenderComponent->BeginPlay();
 				ClickableUIComponent->BeginPlay();
 			}
@@ -165,6 +167,7 @@ AGameUI* UEditorManager::SpawnEditorUI(string strImagePath, FVector2D PositionVe
 	UClickableUIComponent* ClickableUIComponent = GameUI->CreateDefaultSubobject<UClickableUIComponent>();
 	RenderComponent->SetStaticImage(strImagePath);
 	RenderComponent->SetRenderPriority(fRenderPriority);
+	RenderComponent->SetRenderType(URenderComponent::ERenderType::UI);
 	ClickableUIComponent->SetClickableUIType(ClickableUIType);
 	ClickableUIComponent->SetValue(nClickableValue);
 	GameUI->SetPosition(PositionVector);
@@ -200,6 +203,7 @@ void UEditorManager::SetSelectedTile(UClickableUIComponent::EClickableUIType Cli
 		ClickableUIComponent->SetClickableUIType(UClickableUIComponent::EClickableUIType::GroundTilePaint);
 	}
 	RenderComponent->SetRenderPriority(1.0f);
+	RenderComponent->SetRenderType(URenderComponent::ERenderType::UI);
 	ClickableUIComponent->SetValue(nTileIndex);
 	m_SelectedTile->BeginPlay();
 }
@@ -216,7 +220,8 @@ void UEditorManager::PutTile(int nlocation, bool bIsGroundTile, int nValue)
 	if (bIsGroundTile)
 	{
 		UImage* Image = ResourceManager->GetImage("Resources\\Tiles\\GroundTiles\\" + std::to_string(nValue) + ".bmp");
-		PositionedTileRenderComponent->SetRenderPriority(0.0f);
+		PositionedTileRenderComponent->SetRenderPriority(1.0f);
+		PositionedTileRenderComponent->SetRenderType(URenderComponent::ERenderType::FloorTile);
 		PositionedTileRenderComponent->SetStaticImage(Image);
 		switch (nValue)
 		{
@@ -229,6 +234,7 @@ void UEditorManager::PutTile(int nlocation, bool bIsGroundTile, int nValue)
 	{
 		UImage* Image = ResourceManager->GetImage("Resources\\Tiles\\WallTiles\\" + std::to_string(nValue) + ".bmp");
 		PositionedTileRenderComponent->SetRenderPriority(nYIndex + 10.0f);
+		PositionedTileRenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
 		PositionedTileRenderComponent->SetStaticImage(Image);
 		switch (nValue)
 		{
@@ -254,7 +260,6 @@ void UEditorManager::PutTile(int nlocation, bool bIsGroundTile, int nValue)
 			break;
 		}
 	}
-
 	TileActor->BeginPlay();
 }
 
@@ -416,6 +421,9 @@ void UEditorManager::Tick(float fDeltaTime)
 		FVector2D MouseVector = GetRelativeMousePosition();
 		m_SelectedTile->SetPosition(MouseVector);
 	}
+
+	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
+	RenderManager->SetbShouldGenerateFloorTiles(true);
 }
 
 void UEditorManager::Release()

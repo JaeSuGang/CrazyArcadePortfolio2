@@ -24,7 +24,7 @@ void ACharacter::Move(FVector2D DirectionVector)
 	{
 		m_bIsAlreadyMoving = true;
 		UMovableComponent* MovableComponent = GetComponentByClass<UMovableComponent>();
-		MovableComponent->AddVelocity(DirectionVector * 300.0f);
+		MovableComponent->AddVelocity(DirectionVector * 200.0f);
 		URenderComponent* RenderComponent = GetComponentByClass<URenderComponent>();
 		if (DirectionVector == FVector2D::Up)
 		{

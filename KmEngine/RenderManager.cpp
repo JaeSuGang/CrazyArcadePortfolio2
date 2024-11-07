@@ -85,6 +85,11 @@ void URenderManager::RemoveRender(URenderComponent* ComponentToRemove, vector<UR
 	}
 }
 
+void URenderManager::SetbShouldGenerateFloorTiles(bool bValue)
+{
+	m_bShouldGenerateFloorTiles = bValue;
+}
+
 void URenderManager::AddCustomRenderEvent(std::function<void()> RenderEvent)
 {
 	m_CustomRenderEvents.push_back(RenderEvent);
@@ -243,8 +248,9 @@ URenderManager::URenderManager()
 	m_WindowSize{},
 	m_CustomRenderEvents{},
 	m_LayerDC{},
-	m_bAlreadyGeneratedFloorTiles{}
+	m_bShouldGenerateFloorTiles{}
 {
+	m_bShouldGenerateFloorTiles = true;
 }
 
 URenderManager::~URenderManager()
@@ -254,12 +260,12 @@ URenderManager::~URenderManager()
 
 void URenderManager::RenderProcess1()
 {
-	if (!m_bAlreadyGeneratedFloorTiles)
+	if (m_bShouldGenerateFloorTiles)
 	{
 		URenderManager::CleanLayerDC(m_LayerDC[0], m_WindowSize);
 		URenderManager::SortRender(m_ComponentsToRenderFirst);
 		URenderManager::RenderComponents(m_ComponentsToRenderFirst, m_LayerDC[0], m_WindowSize);
-		m_bAlreadyGeneratedFloorTiles = true;
+		m_bShouldGenerateFloorTiles = false;
 	}
 
 	URenderManager::CopyBitBltDC(m_hBackBufferDC, m_LayerDC[0], m_WindowSize);
