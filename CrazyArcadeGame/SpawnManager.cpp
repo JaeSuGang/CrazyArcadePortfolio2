@@ -10,7 +10,7 @@
 #include "Tilemap.h"
 
 
-void USpawnManager::GenerateWallTile(int nTileIndex, int nValue)
+void USpawnManager::GenerateWallTile(int nTileIndex, int nValue, int nGroundTileIndex)
 {
 	int nXIndex = nTileIndex % 15;
 	int nYIndex = nTileIndex / 15;
@@ -21,10 +21,38 @@ void USpawnManager::GenerateWallTile(int nTileIndex, int nValue)
 	URenderComponent* PositionedTileRenderComponent = TileActor->CreateDefaultSubobject<URenderComponent>();
 
 	TileActor->SetPosition(LocationVector);
-	UImage* Image = ResourceManager->GetImage("Resources\\Tiles\\WallTiles\\" + std::to_string(nValue) + ".bmp");
 	PositionedTileRenderComponent->SetRenderPriority(nYIndex + 10.0f);
 	PositionedTileRenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
-	PositionedTileRenderComponent->SetStaticImage(Image);
+	PositionedTileRenderComponent->SetStaticImage("Resources\\Tiles\\WallTiles\\" + std::to_string(nValue) + ".bmp");
+
+	switch (nValue)
+	{
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+	case 5:
+	case 6:
+		switch (nGroundTileIndex)
+		{
+		case 1:
+		case 2:
+			PositionedTileRenderComponent->SetShadowImage("Resources\\Shadows\\WallGreenShadow.bmp");
+			PositionedTileRenderComponent->SetShadowImageOffset(FVector2D(-2.0f, 2.0f));
+			break;
+
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+			PositionedTileRenderComponent->SetShadowImage("Resources\\Shadows\\WallGrayShadow.bmp");
+			PositionedTileRenderComponent->SetShadowImageOffset(FVector2D(-3.0f, 2.0f));
+			break;
+		}
+		break;
+	}
+
 	switch (nValue)
 	{
 	case 1:
@@ -76,7 +104,7 @@ void USpawnManager::GenerateTilemap(FTilemap* TilemapStruct)
 	for (int i = 0; i < 15 * 13; i++)
 	{
 		this->GenerateGroundTile(i, TilemapStruct->m_GroundTiles[i]);
-		this->GenerateWallTile(i, TilemapStruct->m_WallTiles[i]);
+		this->GenerateWallTile(i, TilemapStruct->m_WallTiles[i], TilemapStruct->m_GroundTiles[i]);
 	}
 }
 
