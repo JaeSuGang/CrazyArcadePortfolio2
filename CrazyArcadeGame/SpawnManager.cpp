@@ -22,7 +22,7 @@ void USpawnManager::GenerateWallTile(int nTileIndex, int nValue)
 
 	TileActor->SetPosition(LocationVector);
 	UImage* Image = ResourceManager->GetImage("Resources\\Tiles\\WallTiles\\" + std::to_string(nValue) + ".bmp");
-	PositionedTileRenderComponent->SetRenderPriority(nYIndex + 10);
+	PositionedTileRenderComponent->SetRenderPriority(nYIndex + 10.0f);
 	PositionedTileRenderComponent->SetStaticImage(Image);
 	switch (nValue)
 	{

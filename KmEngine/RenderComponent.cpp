@@ -20,7 +20,7 @@ void URenderComponent::SetStaticImageOffset(FVector2D OffsetVector)
 	m_StaticImageOffset = OffsetVector;
 }
 
-FVector2D URenderComponent::GetStaticImageOffset()
+FVector2D URenderComponent::GetStaticImageOffset() const
 {
 	return m_StaticImageOffset;
 }
@@ -100,7 +100,7 @@ void URenderComponent::SetStaticImage(string strKey)
 	m_StaticImage = GEngine->GetEngineSubsystem<UResourceManager>()->GetImage(strKey);
 }
 
-UImage* URenderComponent::GetStaticImage()
+UImage* URenderComponent::GetStaticImage() const
 {
 	return m_StaticImage;
 }

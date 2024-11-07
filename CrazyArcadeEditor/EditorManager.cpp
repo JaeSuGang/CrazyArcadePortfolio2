@@ -228,7 +228,7 @@ void UEditorManager::PutTile(int nlocation, bool bIsGroundTile, int nValue)
 	else
 	{
 		UImage* Image = ResourceManager->GetImage("Resources\\Tiles\\WallTiles\\" + std::to_string(nValue) + ".bmp");
-		PositionedTileRenderComponent->SetRenderPriority(nYIndex + 10);
+		PositionedTileRenderComponent->SetRenderPriority(nYIndex + 10.0f);
 		PositionedTileRenderComponent->SetStaticImage(Image);
 		switch (nValue)
 		{
@@ -333,8 +333,8 @@ void UEditorManager::OnLeftClick()
 
 	if (CursorVector.X < 900)
 	{
-		int nXIndex = (CursorVector.X - 30) / 60;
-		int nYIndex = (CursorVector.Y - 60) / 60;
+		int nXIndex = (int)((CursorVector.X - 30) / 60);
+		int nYIndex = (int)((CursorVector.Y - 60) / 60);
 
 		if (nXIndex >= 0 && nXIndex < 15 && nYIndex >= 0 && nYIndex < 13)
 		{
@@ -379,8 +379,8 @@ void UEditorManager::OnRightClick()
 		FVector2D CursorVector = this->GetRelativeMousePosition();
 		if (CursorVector.X < 900.0f)
 		{
-			int nXIndex = (CursorVector.X - 30) / 60;
-			int nYIndex = (CursorVector.Y - 60) / 60;
+			int nXIndex = (int)((CursorVector.X - 30) / 60);
+			int nYIndex = (int)((CursorVector.Y - 60) / 60);
 
 			if (nXIndex >= 0 && nXIndex < 15 && nYIndex >= 0 && nYIndex < 13)
 			{

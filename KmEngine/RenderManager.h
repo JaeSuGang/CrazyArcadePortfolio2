@@ -32,12 +32,25 @@ public:
 private:
 	void SortRender();
 
+public:
+	static void RenderComponents(const vector<URenderComponent*>& ComponentsToRender, const HDC hMemoryDCToRender, const FVector2D ScreenSize);
+	static void TrasparentBitBlt(HDC hDest, HDC hSource, FVector2D ImagePosition, FVector2D ImageSize);
+	static void SortRender(vector<URenderComponent*>& RenderComponents);
+	static void AddRender(vector<URenderComponent*>& RenderComponents, URenderComponent* ComponentToAdd);
+	static void RemoveRender(vector<URenderComponent*>& RenderComponents, URenderComponent* ComponentToRemove);
+
+	vector<URenderComponent*> m_ComponentsToRenderFirst;
+	vector<URenderComponent*> m_ComponentsToRenderSecond;
+	vector<URenderComponent*> m_ComponentsToRenderThird;
+	vector<URenderComponent*> m_ComponentsToRenderFourth;
+
 private:
-	// key값에 따라 정렬, 렌더링 우선순위
 	vector<URenderComponent*> m_ComponentsToRender;
 	vector<std::function<void()>> m_CustomRenderEvents;
 	FVector2D m_WindowSize;
 	RECT m_RectToRender;
+	FVector2D m_CameraPosition;
+	FVector2D m_CameraRange;
 	HWND m_hGameWindow;
 	HDC m_hGameWindowDC;
 	HDC m_hBackBufferDC;

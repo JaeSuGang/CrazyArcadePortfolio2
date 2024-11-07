@@ -1,0 +1,5 @@
+
+
+
+1. Camera와 RenderToRect 개념이 없는 것으로 설계 WindowSize 크기 그대로가 World의 전체
+

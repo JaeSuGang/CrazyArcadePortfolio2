@@ -23,14 +23,14 @@ public:
 	void SetRenderPriority(float fPriority);
 	float GetRenderPriority();
 	void SetStaticImageOffset(FVector2D OffsetVector);
-	FVector2D GetStaticImageOffset();
+	FVector2D GetStaticImageOffset() const;
 	void SetShadowImageOffset(FVector2D OffsetVector);
 	FVector2D GetShadowImageOffset();
 	void PlayAnimation(string strKey);
 	void CreateAnimation(string strAnimationKey, string strImageBaseKey, int nFileCount, float fDuration, bool bIsLoop);
 	void SetStaticImage(UImage* Image);
 	void SetStaticImage(string strKey);
-	UImage* GetStaticImage();
+	UImage* GetStaticImage() const;
 	void SetShadowImage(UImage* Image);
 	void SetShadowImage(string strKey);
 	UImage* GetShadowImage();

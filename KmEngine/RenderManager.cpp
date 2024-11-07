@@ -30,6 +30,56 @@ void URenderManager::SortRender()
 	std::sort(m_ComponentsToRender.begin(), m_ComponentsToRender.end(), lambda);
 }
 
+void URenderManager::RenderComponents(const vector<URenderComponent*>& ComponentsToRender, const HDC hMemoryDCToRender, const FVector2D ScreenSize)
+{
+	for (const URenderComponent* ComponentToRender : ComponentsToRender)
+	{
+		const AActor* Owner = ComponentToRender->GetOwner();
+		const UImage* Image = ComponentToRender->GetStaticImage();
+		FVector2D ImageSize = { (float)Image->m_BitmapInfo.bmWidth , (float)Image->m_BitmapInfo.bmHeight };
+		FVector2D ImagePosition = Owner->GetPosition() - ImageSize / 2;
+		ImagePosition += ComponentToRender->GetStaticImageOffset();
+
+		URenderManager::TrasparentBitBlt(hMemoryDCToRender, Image->getDC(), ImagePosition, ImageSize);
+	}
+}
+
+void URenderManager::TrasparentBitBlt(HDC hDest, HDC hSource, FVector2D ImagePosition, FVector2D ImageSize)
+{
+	GdiTransparentBlt(
+		hDest,
+		(int)ImagePosition.X, (int)ImagePosition.Y,
+		(int)ImageSize.X, (int)ImageSize.Y,
+		hSource,
+		0, 0,
+		(int)ImageSize.X, (int)ImageSize.Y,
+		RGB(255, 0, 255));
+}
+
+void URenderManager::SortRender(vector<URenderComponent*>& RenderComponents)
+{
+	auto lambda = [](URenderComponent* a, URenderComponent* b) { return a->GetRenderPriority() < b->GetRenderPriority(); };
+	std::sort(RenderComponents.begin(), RenderComponents.end(), lambda);
+}
+
+void URenderManager::AddRender(vector<URenderComponent*>& RenderComponents, URenderComponent* ComponentToAdd)
+{
+	RenderComponents.push_back(ComponentToAdd);
+}
+
+void URenderManager::RemoveRender(vector<URenderComponent*>& RenderComponents, URenderComponent* ComponentToRemove)
+{
+	for (int i = 0; i < RenderComponents.size(); i++)
+	{
+		if (RenderComponents[i] != ComponentToRemove)
+			continue;
+
+		RenderComponents[i] = RenderComponents[RenderComponents.size() - 1];
+		RenderComponents.pop_back();
+		break;
+	}
+}
+
 void URenderManager::ClearRender()
 {
 	m_ComponentsToRender.clear();
@@ -95,6 +145,37 @@ void URenderManager::Tick()
 	// 백버퍼 청소
 	Rectangle(m_hBackBufferDC, -1, -1, (int)m_WindowSize.X + 2, (int)m_WindowSize.Y + 2);
 
+	// 1번째 렌더
+	{
+		this->SortRender(m_ComponentsToRenderFirst);
+
+		// Parameter
+		vector<URenderComponent*> ComponentsToRender{ m_ComponentsToRenderFirst };
+		HDC hBackBufferDC{ m_hBackBufferDC };
+		FVector2D CameraPosition{ m_CameraPosition };
+		FVector2D CameraRange{ m_CameraRange };
+
+		// Code
+		HDC hTemporaryDC = CreateCompatibleDC(hBackBufferDC);
+		HBITMAP hTemporaryBitmap = CreateCompatibleBitmap(hBackBufferDC, (int)CameraRange.X, (int)CameraRange.Y);
+		SelectObject(hTemporaryDC, hTemporaryBitmap);
+
+		for (URenderComponent* ComponentToRender : m_ComponentsToRenderFirst)
+		{
+			AActor* Owner = ComponentToRender->GetOwner();
+			UImage* Image = ComponentToRender->GetStaticImage();
+			FVector2D ImageSize = { (float)Image->m_BitmapInfo.bmWidth , (float)Image->m_BitmapInfo.bmHeight };
+			FVector2D ImagePosition = Owner->GetPosition() - ImageSize / 2;
+			ImagePosition += ComponentToRender->GetStaticImageOffset();
+
+			URenderManager::TrasparentBitBlt(hTemporaryDC, Image->getDC(), ImagePosition, ImageSize);
+		}
+
+		DeleteObject(hTemporaryBitmap);
+		DeleteDC(hTemporaryDC);
+	}
+
+	// Obsolete 기존 코드 시작
 	this->SortRender();
 
 	for (int i = 0; i < m_ComponentsToRender.size(); i++)
@@ -146,6 +227,7 @@ void URenderManager::Tick()
 	{
 		m_CustomRenderEvents[i]();
 	}
+	// Obsolete 기존 코드 끝
 
 	// 백버퍼 bitblt
 	bool a = BitBlt(m_hGameWindowDC,
@@ -214,7 +296,8 @@ URenderManager::URenderManager()
 	m_hGameWindowDC{},
 	m_WindowSize{},
 	m_CustomRenderEvents{},
-	m_RectToRender{}
+	m_RectToRender{},
+	m_CameraPosition{}
 {
 }
 
