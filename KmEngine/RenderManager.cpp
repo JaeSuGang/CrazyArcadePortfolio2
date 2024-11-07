@@ -150,8 +150,16 @@ void URenderManager::Tick()
 	
 
 	//BitBlt(m_hBackBufferDC, 0, 0, 66, 84, Image->getDC(), 0, 0, SRCCOPY);
-	TransparentBlt(m_hBackBufferDC, 0, 0, 66, 84, Image->getDC(), 0, 0, 66, 84, RGB(255, 0, 255));
 
+	HDC hTempDC = CreateCompatibleDC(m_hGameWindowDC);
+	HBITMAP hTempBitmap = CreateCompatibleBitmap(Image->getDC(), m_WindowSize.X, m_WindowSize.Y);
+	SelectObject(hTempDC, hTempBitmap);
+	HBRUSH hTempBrush = CreateSolidBrush(RGB(255, 0, 255));
+	SelectObject(hTempDC, hTempBrush);
+	Rectangle(hTempDC, -1, -1, (int)m_WindowSize.X + 2, (int)m_WindowSize.Y + 2);
+
+	TransparentBlt(hTempDC, 0, 0, 66, 84, Image->getDC(), 0, 0, 66, 84, RGB(255, 0, 255));
+	TransparentBlt(m_hBackBufferDC, 0, 0, 66, 84, hTempDC, 0, 0, 66, 84, RGB(255, 0, 255));
 	// 새 렌더 코드
 	// 1번째 레이어
 	URenderManager::CleanLayerDC(m_LayerDC[0], m_WindowSize);
@@ -279,7 +287,8 @@ URenderManager::URenderManager()
 	m_hBackBufferDC{},
 	m_hGameWindowDC{},
 	m_WindowSize{},
-	m_CustomRenderEvents{}
+	m_CustomRenderEvents{},
+	m_LayerDC{}
 {
 }
 
