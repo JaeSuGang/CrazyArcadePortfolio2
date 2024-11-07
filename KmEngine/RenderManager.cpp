@@ -147,29 +147,15 @@ void URenderManager::Tick()
 
 	// 새 렌더 코드
 	// 1번째 레이어
-	URenderManager::CleanLayerDC(m_LayerDC[0], m_WindowSize);
-	URenderManager::SortRender(m_ComponentsToRenderFirst);
-	URenderManager::RenderComponents(m_ComponentsToRenderFirst, m_LayerDC[0], m_WindowSize);
-	URenderManager::CopyBitBltDC(m_hBackBufferDC, m_LayerDC[0], m_WindowSize);
+	std::thread process1(std::bind(&URenderManager::RenderProcess1, this));
+	std::thread process2(std::bind(&URenderManager::RenderProcess2, this, std::ref(process1)));
+	std::thread process3(std::bind(&URenderManager::RenderProcess3, this));
+	std::thread process4(std::bind(&URenderManager::RenderProcess4, this, std::ref(process3)));
 
-
-	// 2번째 레이어
-	URenderManager::CleanLayerDC(m_LayerDC[1], m_WindowSize);
-	URenderManager::SortRender(m_ComponentsToRenderSecond);
-	URenderManager::RenderShadowComponents(m_ComponentsToRenderSecond, m_LayerDC[1], m_WindowSize);
-	URenderManager::CopyBitBltDC(m_hBackBufferDC, m_LayerDC[1], m_WindowSize);
-
-	// 3번째 레이어
-	URenderManager::CleanLayerDC(m_LayerDC[2], m_WindowSize);
-	URenderManager::SortRender(m_ComponentsToRenderThird);
-	URenderManager::RenderComponents(m_ComponentsToRenderThird, m_LayerDC[2], m_WindowSize);
+	process2.join();
+	process4.join();
 	URenderManager::CopyBitBltDC(m_hBackBufferDC, m_LayerDC[2], m_WindowSize);
 
-	// 4번째 레이어
-	URenderManager::CleanLayerDC(m_LayerDC[3], m_WindowSize);
-	URenderManager::SortRender(m_ComponentsToRenderFourth);
-	URenderManager::RenderComponents(m_ComponentsToRenderFourth, m_LayerDC[3], m_WindowSize);
-	URenderManager::CopyBitBltDC(m_hBackBufferDC, m_LayerDC[3], m_WindowSize);
 
 	// 커스텀 렌더링 이벤트
 	for (int i = 0; i < m_CustomRenderEvents.size(); i++)
@@ -260,11 +246,50 @@ URenderManager::URenderManager()
 	m_hGameWindowDC{},
 	m_WindowSize{},
 	m_CustomRenderEvents{},
-	m_LayerDC{}
+	m_LayerDC{},
+	m_bAlreadyGeneratedFloorTiles{}
 {
 }
 
 URenderManager::~URenderManager()
 {
 	this->Release();
+}
+
+void URenderManager::RenderProcess1()
+{
+	if (!m_bAlreadyGeneratedFloorTiles)
+	{
+		URenderManager::CleanLayerDC(m_LayerDC[0], m_WindowSize);
+		URenderManager::SortRender(m_ComponentsToRenderFirst);
+		URenderManager::RenderComponents(m_ComponentsToRenderFirst, m_LayerDC[0], m_WindowSize);
+		m_bAlreadyGeneratedFloorTiles = true;
+	}
+
+	URenderManager::CopyBitBltDC(m_hBackBufferDC, m_LayerDC[0], m_WindowSize);
+}
+
+void URenderManager::RenderProcess2(std::thread& PutRenderProcess1)
+{
+	URenderManager::CleanLayerDC(m_LayerDC[1], m_WindowSize);
+	URenderManager::SortRender(m_ComponentsToRenderSecond);
+	URenderManager::RenderShadowComponents(m_ComponentsToRenderSecond, m_LayerDC[1], m_WindowSize);
+	PutRenderProcess1.join();
+	URenderManager::CopyBitBltDC(m_hBackBufferDC, m_LayerDC[1], m_WindowSize);
+}
+
+void URenderManager::RenderProcess3()
+{
+	URenderManager::CleanLayerDC(m_LayerDC[2], m_WindowSize);
+	URenderManager::SortRender(m_ComponentsToRenderThird);
+	URenderManager::RenderComponents(m_ComponentsToRenderThird, m_LayerDC[2], m_WindowSize);
+}
+
+void URenderManager::RenderProcess4(std::thread& PutRenderProcess3)
+{
+	URenderManager::CleanLayerDC(m_LayerDC[3], m_WindowSize);
+	URenderManager::SortRender(m_ComponentsToRenderFourth);
+	URenderManager::RenderComponents(m_ComponentsToRenderFourth, m_LayerDC[3], m_WindowSize);
+	PutRenderProcess3.join();
+	URenderManager::CopyBitBltDC(m_LayerDC[2], m_LayerDC[3], m_WindowSize);
 }

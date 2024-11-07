@@ -27,6 +27,10 @@ public:
 	~URenderManager();
 	
 private:
+	void RenderProcess1();
+	void RenderProcess2(std::thread& PutRenderProcess1);
+	void RenderProcess3();
+	void RenderProcess4(std::thread& PutRenderProcess3);
 
 public:
 	static void CleanLayerDC(HDC hDC, FVector2D Size);
@@ -47,6 +51,7 @@ private:
 	HPEN m_hMagentaPen;
 	HBRUSH m_hMagentaBrush;
 	vector<HDC> m_LayerDC;
+	bool m_bAlreadyGeneratedFloorTiles;
 
 	vector<std::function<void()>> m_CustomRenderEvents;
 	FVector2D m_WindowSize;
