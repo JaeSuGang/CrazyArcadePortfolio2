@@ -7,6 +7,7 @@
 
 #pragma comment (lib, "KmBase.lib")
 #pragma comment (lib, "KmEngine.lib")
+#pragma comment (lib, "Msimg32.lib")
 
 int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	_In_opt_ HINSTANCE hPrevInstance,

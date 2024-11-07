@@ -23,6 +23,7 @@ void USpawnManager::GenerateWallTile(int nTileIndex, int nValue)
 	TileActor->SetPosition(LocationVector);
 	UImage* Image = ResourceManager->GetImage("Resources\\Tiles\\WallTiles\\" + std::to_string(nValue) + ".bmp");
 	PositionedTileRenderComponent->SetRenderPriority(nYIndex + 10.0f);
+	PositionedTileRenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
 	PositionedTileRenderComponent->SetStaticImage(Image);
 	switch (nValue)
 	{
@@ -63,15 +64,10 @@ void USpawnManager::GenerateGroundTile(int nTileIndex, int nValue)
 
 	TileActor->SetPosition(LocationVector);
 	UImage* Image = ResourceManager->GetImage("Resources\\Tiles\\GroundTiles\\" + std::to_string(nValue) + ".bmp");
+	PositionedTileRenderComponent->SetRenderType(URenderComponent::ERenderType::FloorTile);
 	PositionedTileRenderComponent->SetRenderPriority(0.0f);
 	PositionedTileRenderComponent->SetStaticImage(Image);
-	switch (nValue)
-	{
-	default:
-		PositionedTileRenderComponent->SetStaticImageOffset(FVector2D::Zero);
-		break;
-	}
-
+	PositionedTileRenderComponent->SetStaticImageOffset(FVector2D::Zero);
 	TileActor->BeginPlay();
 }
 
@@ -89,6 +85,7 @@ AGameUI* USpawnManager::SpawnGameUI(string strImagePath, FVector2D PositionVecto
 	AGameUI* GameUI = GetActiveLevel()->InitializeActorForPlay<AGameUI>();
 	URenderComponent* RenderComponent = GameUI->CreateDefaultSubobject<URenderComponent>();
 	RenderComponent->SetStaticImage(strImagePath);
+	RenderComponent->SetRenderType(URenderComponent::ERenderType::UI);
 	RenderComponent->SetRenderPriority(0);
 	RenderComponent->BeginPlay();
 	GameUI->SetPosition(PositionVector);
@@ -106,6 +103,7 @@ ACharacter* USpawnManager::SpawnBazzi(FVector2D PositionVector)
 	RenderComponent->SetShadowImageOffset(FVector2D(0.0f, 25.0f));
 	RenderComponent->SetShadowImage("Resources\\Shadows\\CharacterShadow.bmp");
 	RenderComponent->SetRenderPriority(1);
+	RenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
 	RenderComponent->CreateAnimation(strCharacterName + "DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
@@ -132,6 +130,7 @@ ACharacter* USpawnManager::SpawnDao(FVector2D PositionVector)
 	RenderComponent->SetShadowImageOffset(FVector2D(0.0f, 25.0f));
 	RenderComponent->SetShadowImage("Resources\\Shadows\\CharacterShadow.bmp");
 	RenderComponent->SetRenderPriority(1);
+	RenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
 	RenderComponent->CreateAnimation(strCharacterName + "DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
@@ -158,6 +157,7 @@ ACharacter* USpawnManager::SpawnCappi(FVector2D PositionVector)
 	RenderComponent->SetShadowImageOffset(FVector2D(0.0f, 25.0f));
 	RenderComponent->SetShadowImage("Resources\\Shadows\\CharacterShadow.bmp");
 	RenderComponent->SetRenderPriority(1);
+	RenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
 	RenderComponent->CreateAnimation(strCharacterName + "DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
@@ -184,6 +184,7 @@ ACharacter* USpawnManager::SpawnMarid(FVector2D PositionVector)
 	RenderComponent->SetShadowImageOffset(FVector2D(0.0f, 25.0f));
 	RenderComponent->SetShadowImage("Resources\\Shadows\\CharacterShadow.bmp");
 	RenderComponent->SetRenderPriority(1);
+	RenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
 	RenderComponent->CreateAnimation(strCharacterName + "DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);

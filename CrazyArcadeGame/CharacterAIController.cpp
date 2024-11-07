@@ -65,3 +65,11 @@ void ACharacterAIController::BeginPlay()
 {
 	Super::BeginPlay();
 }
+
+ACharacterAIController::ACharacterAIController()
+	:
+	m_Direction{},
+	m_fChangeDirectionTime{},
+	m_fAccumulatedTime{}
+{
+}

@@ -5,6 +5,16 @@
 #include "ResourceManager.h"
 #include "TimeManager.h"
 
+URenderComponent::ERenderType URenderComponent::GetRenderType() const
+{
+	return m_RenderType;
+}
+
+void URenderComponent::SetRenderType(ERenderType RenderType)
+{
+	m_RenderType = RenderType;
+}
+
 void URenderComponent::SetRenderPriority(float fPriority)
 {
 	m_fRenderPriority = fPriority;
@@ -15,24 +25,29 @@ float URenderComponent::GetRenderPriority()
 	return m_fRenderPriority;
 }
 
+void URenderComponent::SetImageDataset(FImageDataset ImageDataset)
+{
+	m_ImageDataset = m_ImageDataset;
+}
+
 void URenderComponent::SetStaticImageOffset(FVector2D OffsetVector)
 {
-	m_StaticImageOffset = OffsetVector;
+	m_ImageDataset.StaticImageOffset = OffsetVector;
 }
 
 FVector2D URenderComponent::GetStaticImageOffset() const
 {
-	return m_StaticImageOffset;
+	return m_ImageDataset.StaticImageOffset;
 }
 
 void URenderComponent::SetShadowImageOffset(FVector2D OffsetVector)
 {
-	m_ShadowImageOffset = OffsetVector;
+	m_ImageDataset.ShadowImageOffset = OffsetVector;
 }
 
-FVector2D URenderComponent::GetShadowImageOffset()
+FVector2D URenderComponent::GetShadowImageOffset() const
 {
-	return m_ShadowImageOffset;
+	return m_ImageDataset.ShadowImageOffset;
 }
 
 void URenderComponent::PlayAnimation(string strKey)
@@ -55,7 +70,7 @@ void URenderComponent::PlayAnimation(string strKey)
 		m_fAccumulatedTime = 0.0f;
 	}
 
-	m_StaticImage = m_CurrentAnimation->m_Images[m_nAnimationFrameIndex];
+	m_ImageDataset.StaticImage = m_CurrentAnimation->m_Images[m_nAnimationFrameIndex];
 	m_fAccumulatedTime += GEngine->GetEngineSubsystem<UTimeManager>()->GetDeltaTime();
 	if (m_fAccumulatedTime > m_CurrentAnimation->m_fFrameDuration)
 	{
@@ -92,32 +107,32 @@ void URenderComponent::CreateAnimation(string strAnimationKey, string strImageBa
 
 void URenderComponent::SetStaticImage(UImage* Image)
 {
-	m_StaticImage = Image;
+	m_ImageDataset.StaticImage = Image;
 }
 
 void URenderComponent::SetStaticImage(string strKey)
 {
-	m_StaticImage = GEngine->GetEngineSubsystem<UResourceManager>()->GetImage(strKey);
+	m_ImageDataset.StaticImage = GEngine->GetEngineSubsystem<UResourceManager>()->GetImage(strKey);
 }
 
 UImage* URenderComponent::GetStaticImage() const
 {
-	return m_StaticImage;
+	return m_ImageDataset.StaticImage;
 }
 
 void URenderComponent::SetShadowImage(UImage* Image)
 {
-	m_ShadowImage = Image;
+	m_ImageDataset.ShadowImage = Image;
 }
 
 void URenderComponent::SetShadowImage(string strKey)
 {
-	m_ShadowImage = GEngine->GetEngineSubsystem<UResourceManager>()->GetImage(strKey);
+	m_ImageDataset.ShadowImage = GEngine->GetEngineSubsystem<UResourceManager>()->GetImage(strKey);
 }
 
-UImage* URenderComponent::GetShadowImage()
+UImage* URenderComponent::GetShadowImage() const
 {
-	return m_ShadowImage;
+	return m_ImageDataset.ShadowImage;
 }
 
 void URenderComponent::BeginPlay()
@@ -125,7 +140,22 @@ void URenderComponent::BeginPlay()
 	Super::BeginPlay();
 
 	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
-	RenderManager->AddRender(this);
+	switch (m_RenderType)
+	{
+	case ERenderType::FloorTile:
+		RenderManager->AddRender(this, RenderManager->m_ComponentsToRenderFirst);
+		break;
+	case ERenderType::ShadowObject:
+		RenderManager->AddRender(this, RenderManager->m_ComponentsToRenderSecond);
+		RenderManager->AddRender(this, RenderManager->m_ComponentsToRenderThird);
+		break;
+	case ERenderType::NonShadowObject:
+		RenderManager->AddRender(this, RenderManager->m_ComponentsToRenderThird);
+		break;
+	case ERenderType::UI:
+		RenderManager->AddRender(this, RenderManager->m_ComponentsToRenderFourth);
+		break;
+	}
 }
 
 void URenderComponent::TickComponent(float fDeltaTime)
@@ -142,9 +172,24 @@ void URenderComponent::Release()
 		SAFE_DELETE((AnimationIter->second));
 		++AnimationIter;
 	}
-
 	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
-	RenderManager->RemoveRender(this);
+
+	switch (m_RenderType)
+	{
+	case ERenderType::FloorTile:
+		RenderManager->RemoveRender(this, RenderManager->m_ComponentsToRenderFirst);
+		break;
+	case ERenderType::ShadowObject:
+		RenderManager->RemoveRender(this, RenderManager->m_ComponentsToRenderSecond);
+		RenderManager->RemoveRender(this, RenderManager->m_ComponentsToRenderThird);
+		break;
+	case ERenderType::NonShadowObject:
+		RenderManager->RemoveRender(this, RenderManager->m_ComponentsToRenderThird);
+		break;
+	case ERenderType::UI:
+		RenderManager->RemoveRender(this, RenderManager->m_ComponentsToRenderFourth);
+		break;
+	}
 }
 
 URenderComponent::~URenderComponent()
@@ -155,13 +200,11 @@ URenderComponent::~URenderComponent()
 URenderComponent::URenderComponent()
 	:
 	m_fRenderPriority{},
-	m_StaticImage{},
-	m_ShadowImage{},
 	m_nAnimationFrameIndex{},
 	m_CurrentAnimation{},
 	m_fAccumulatedTime{},
-	m_StaticImageOffset{},
-	m_ShadowImageOffset{}
+	m_ImageDataset{},
+	m_RenderType{}
 {
 }
 

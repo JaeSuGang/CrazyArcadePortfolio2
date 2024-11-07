@@ -20,6 +20,9 @@ public:
 	void LateTick(float fDeltaTime) override;
 	void BeginPlay() override;
 
+public:
+	ACharacterAIController();
+
 protected:
 	float m_fChangeDirectionTime;
 	float m_fAccumulatedTime;

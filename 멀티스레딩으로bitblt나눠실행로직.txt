@@ -3,3 +3,14 @@
 
 1. Camera와 RenderToRect 개념이 없는 것으로 설계 WindowSize 크기 그대로가 World의 전체
 
+
+
+2. RenderComponent는 int RenderType 값과 float RenderOrder 값을 가짐
+
+RenderType::Tile = 1번째 렌더 레이어 리스트에 this를 넣음
+RenderType::ShadowObject = 2번째, 3번째 렌더 레이어 리스트에 둘다 넣음
+RenderType::NonShadowObject = 3번째 렌더 레이어 리스트에 넣음
+RenderType::UI = 4번쨰 렌더 레이어 리스트에 넣음
+
+
+

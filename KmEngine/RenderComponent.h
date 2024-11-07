@@ -4,6 +4,23 @@
 
 class UImage;
 
+enum class ERenderType : unsigned short
+{
+	Tile,
+	ShadowObject,
+	NonShadowObject,
+	UI
+};
+
+class FImageDataset
+{
+public:
+	UImage* StaticImage;
+	UImage* ShadowImage;
+	FVector2D StaticImageOffset;
+	FVector2D ShadowImageOffset;
+};
+
 class UAnimation
 {
 public:
@@ -20,20 +37,32 @@ class URenderComponent : public UActorComponent
 	typedef UActorComponent Super;
 
 public:
+	enum class ERenderType : unsigned short
+	{
+		FloorTile,
+		ShadowObject,
+		NonShadowObject,
+		UI
+	};
+
+public:
+	ERenderType GetRenderType() const;
+	void SetRenderType(ERenderType RenderType);
 	void SetRenderPriority(float fPriority);
 	float GetRenderPriority();
+	void SetImageDataset(FImageDataset ImageDataset);
 	void SetStaticImageOffset(FVector2D OffsetVector);
-	FVector2D GetStaticImageOffset() const;
 	void SetShadowImageOffset(FVector2D OffsetVector);
-	FVector2D GetShadowImageOffset();
 	void PlayAnimation(string strKey);
 	void CreateAnimation(string strAnimationKey, string strImageBaseKey, int nFileCount, float fDuration, bool bIsLoop);
 	void SetStaticImage(UImage* Image);
 	void SetStaticImage(string strKey);
-	UImage* GetStaticImage() const;
 	void SetShadowImage(UImage* Image);
 	void SetShadowImage(string strKey);
-	UImage* GetShadowImage();
+	FVector2D GetStaticImageOffset() const;
+	FVector2D GetShadowImageOffset() const;
+	UImage* GetStaticImage() const;
+	UImage* GetShadowImage() const;
 
 public:
 	void BeginPlay() override;
@@ -49,10 +78,8 @@ protected:
 	// ResourceManager가 삭제함. Release하지 말것
 	UAnimation* m_CurrentAnimation;
 	unordered_map<string, UAnimation*> m_Animations;
-	UImage* m_StaticImage;
-	UImage* m_ShadowImage;
-	FVector2D m_StaticImageOffset;
-	FVector2D m_ShadowImageOffset;
+	ERenderType m_RenderType;
+	FImageDataset m_ImageDataset;
 	float m_fAccumulatedTime;
 	int m_nAnimationFrameIndex;
 };
