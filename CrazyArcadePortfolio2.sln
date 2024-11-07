@@ -32,8 +32,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "메모장", "메모장", "{7BBD5724-2DE7-42AE-9E98-8A06254AF9CB}"
 	ProjectSection(SolutionItems) = preProject
 		게임기획.txt = 게임기획.txt
-		멀티스레딩으로bitblt나눠실행로직.txt = 멀티스레딩으로bitblt나눠실행로직.txt
 		메모.txt = 메모.txt
+		렌더최적화메모.txt = 렌더최적화메모.txt
 		배운점.txt = 배운점.txt
 		코딩원칙.txt = 코딩원칙.txt
 		해야할것.txt = 해야할것.txt

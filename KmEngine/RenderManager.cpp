@@ -145,14 +145,12 @@ void URenderManager::Tick()
 	// 백버퍼 청소
 	Rectangle(m_hBackBufferDC, -1, -1, (int)m_WindowSize.X + 2, (int)m_WindowSize.Y + 2);
 
-	// 새 렌더 코드
-	// 1번째 레이어
+	std::thread process3(std::bind(&URenderManager::RenderProcess3, this));
 	std::thread process1(std::bind(&URenderManager::RenderProcess1, this));
 	std::thread process2(std::bind(&URenderManager::RenderProcess2, this, std::ref(process1)));
-	std::thread process3(std::bind(&URenderManager::RenderProcess3, this));
-	std::thread process4(std::bind(&URenderManager::RenderProcess4, this, std::ref(process3)));
+	std::thread process4(std::bind(&URenderManager::RenderProcess4, this, std::ref(process2)));
 
-	process2.join();
+	process3.join();
 	process4.join();
 	URenderManager::CopyBitBltDC(m_hBackBufferDC, m_LayerDC[2], m_WindowSize);
 
@@ -162,7 +160,6 @@ void URenderManager::Tick()
 	{
 		m_CustomRenderEvents[i]();
 	}
-	// Obsolete 기존 코드 끝
 
 	// 백버퍼 bitblt
 	bool a = BitBlt(m_hGameWindowDC,
@@ -171,7 +168,6 @@ void URenderManager::Tick()
 		m_hBackBufferDC,
 		0, 0,
 		SRCCOPY);
-
 }
 
 void URenderManager::Initialize(const char* lpszTitle, FVector2D WindowSize)
@@ -285,11 +281,11 @@ void URenderManager::RenderProcess3()
 	URenderManager::RenderComponents(m_ComponentsToRenderThird, m_LayerDC[2], m_WindowSize);
 }
 
-void URenderManager::RenderProcess4(std::thread& PutRenderProcess3)
+void URenderManager::RenderProcess4(std::thread& PutRenderProcess2)
 {
 	URenderManager::CleanLayerDC(m_LayerDC[3], m_WindowSize);
 	URenderManager::SortRender(m_ComponentsToRenderFourth);
 	URenderManager::RenderComponents(m_ComponentsToRenderFourth, m_LayerDC[3], m_WindowSize);
-	PutRenderProcess3.join();
-	URenderManager::CopyBitBltDC(m_LayerDC[2], m_LayerDC[3], m_WindowSize);
+	PutRenderProcess2.join();
+	URenderManager::CopyBitBltDC(m_hBackBufferDC, m_LayerDC[3], m_WindowSize);
 }

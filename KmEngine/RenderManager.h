@@ -29,8 +29,8 @@ public:
 private:
 	void RenderProcess1();
 	void RenderProcess2(std::thread& PutRenderProcess1);
-	void RenderProcess3();
 	void RenderProcess4(std::thread& PutRenderProcess3);
+	void RenderProcess3();
 
 public:
 	static void CleanLayerDC(HDC hDC, FVector2D Size);
