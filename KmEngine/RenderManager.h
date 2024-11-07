@@ -29,7 +29,7 @@ public:
 private:
 
 public:
-	static void InitializeTransparentDC(HDC hDC, FVector2D Size);
+	static void CleanLayerDC(HDC hDC, FVector2D Size);
 	static void CopyBitBltDC(HDC dest, HDC source, FVector2D ScreenSize);
 	static void RenderComponents(const vector<URenderComponent*>& ComponentsToRender, const HDC hMemoryDCToRender, const FVector2D ScreenSize);
 	static void RenderShadowComponents(const vector<URenderComponent*>& ComponentsToRender, const HDC hMemoryDCToRender, const FVector2D ScreenSize);
@@ -44,12 +44,14 @@ public:
 	vector<URenderComponent*> m_ComponentsToRenderFourth;
 
 private:
+	HPEN m_hMagentaPen;
+	HBRUSH m_hMagentaBrush;
+	vector<HDC> m_LayerDC;
+
 	vector<std::function<void()>> m_CustomRenderEvents;
 	FVector2D m_WindowSize;
 	HWND m_hGameWindow;
 	HDC m_hGameWindowDC;
 	HDC m_hBackBufferDC;
-
-	HDC m_hLayer[4];
 };
 

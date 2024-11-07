@@ -6,18 +6,9 @@
 #include "Level.h"
 #include "RenderComponent.h"
 
-void URenderManager::InitializeTransparentDC(HDC hDC, FVector2D Size)
+void URenderManager::CleanLayerDC(HDC hDC, FVector2D Size)
 {
-	HPEN hPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 255));
-	HBRUSH hBrush = CreateSolidBrush(RGB(255, 0, 255));
-	HBRUSH hOldBrush = (HBRUSH)SelectObject(hDC, hBrush);
-	HPEN hOldPen = (HPEN)SelectObject(hDC, hPen);
-
 	Rectangle(hDC, 0, 0, (int)Size.X, (int)Size.Y);
-	SelectObject(hDC, hOldBrush);
-	SelectObject(hDC, hOldPen);
-	DeleteObject(hBrush);
-	DeleteObject(hPen);
 }
 
 void URenderManager::CopyBitBltDC(HDC dest, HDC source, FVector2D ScreenSize)
@@ -154,18 +145,19 @@ void URenderManager::Tick()
 	// 백버퍼 청소
 	Rectangle(m_hBackBufferDC, -1, -1, (int)m_WindowSize.X + 2, (int)m_WindowSize.Y + 2);
 
-	// 새 렌더 코드
+	UResourceManager* ResourceManager = GEngine->GetEngineSubsystem<UResourceManager>();
+	UImage* Image = ResourceManager->GetImage("Resources\\Bazzi\\DownIdle.bmp");
+	
 
+	//BitBlt(m_hBackBufferDC, 0, 0, 66, 84, Image->getDC(), 0, 0, SRCCOPY);
+	TransparentBlt(m_hBackBufferDC, 0, 0, 66, 84, Image->getDC(), 0, 0, 66, 84, RGB(255, 0, 255));
+
+	// 새 렌더 코드
 	// 1번째 레이어
-	//HDC hTemporaryDC1 = CreateCompatibleDC(m_hGameWindowDC);
-	//HBITMAP hTemporaryBitmap1 = CreateCompatibleBitmap(hTemporaryDC1, (int)m_WindowSize.X, (int)m_WindowSize.Y);
-	//SelectObject(hTemporaryDC1, hTemporaryBitmap1);
-	//URenderManager::InitializeTransparentDC(hTemporaryDC1, m_WindowSize);
-	//URenderManager::SortRender(m_ComponentsToRenderFirst);
-	////URenderManager::RenderComponents(m_ComponentsToRenderFirst, hTemporaryDC1, m_WindowSize);
-	//URenderManager::CopyBitBltDC(m_hBackBufferDC, hTemporaryDC1, m_WindowSize);
-	//DeleteObject(hTemporaryBitmap1);
-	//DeleteDC(hTemporaryDC1);
+	URenderManager::CleanLayerDC(m_LayerDC[0], m_WindowSize);
+	URenderManager::SortRender(m_ComponentsToRenderFirst);
+	URenderManager::RenderComponents(m_ComponentsToRenderFirst, m_hBackBufferDC, m_WindowSize);
+	//URenderManager::CopyBitBltDC(m_hBackBufferDC, m_LayerDC[0], m_WindowSize);
 
 	//// 2번째 레이어
 	//HDC hTemporaryDC2 = CreateCompatibleDC(m_hGameWindowDC);
@@ -252,6 +244,18 @@ void URenderManager::Initialize(const char* lpszTitle, FVector2D WindowSize)
 	HBITMAP hBackBufferBitmap = CreateCompatibleBitmap(m_hGameWindowDC, (int)WindowSize.X, (int)WindowSize.Y);
 	SelectObject(m_hBackBufferDC, hBackBufferBitmap);
 
+	m_hMagentaPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 255));
+	m_hMagentaBrush = CreateSolidBrush(RGB(255, 0, 255));
+	for (size_t i = 0; i < 4; i++)
+	{
+		HDC LayerDC = CreateCompatibleDC(m_hBackBufferDC);
+		HBITMAP hLayerBitmap = CreateCompatibleBitmap(m_hBackBufferDC, (int)m_WindowSize.X, (int)m_WindowSize.Y);
+		SelectObject(LayerDC, hLayerBitmap);
+		SelectObject(LayerDC, m_hMagentaPen);
+		SelectObject(LayerDC, m_hMagentaBrush);
+		m_LayerDC.push_back(LayerDC);
+	}
+
 
 	ShowWindow(m_hGameWindow, SW_SHOW);
 	UpdateWindow(m_hGameWindow);
@@ -262,6 +266,11 @@ void URenderManager::Release()
 {
 	ReleaseDC(m_hGameWindow, m_hGameWindowDC);
 	DeleteDC(m_hBackBufferDC);
+
+	for (HDC hDC : m_LayerDC)
+	{
+		DeleteDC(hDC);
+	}
 }
 
 URenderManager::URenderManager()
