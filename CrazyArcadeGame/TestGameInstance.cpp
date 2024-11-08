@@ -7,6 +7,7 @@
 #include "MovementManager.h"
 #include "GameLevelBase.h"
 #include "AIManager.h"
+#include "BombManager.h"
 
 void UTestGameInstance::Tick(float fDeltaTime)
 {
@@ -26,6 +27,7 @@ void UTestGameInstance::BeginPlay()
 
 	USpawnManager* SpawnManager = CreateGameInstanceSubsystem<USpawnManager>();
 	UMovementManager* MovementManager = CreateGameInstanceSubsystem<UMovementManager>();
+	UBombManager* BombManager = CreateGameInstanceSubsystem<UBombManager>();
 	UAIManager* AIManager = CreateGameInstanceSubsystem<UAIManager>();
 #ifdef _DEBUG 
 	MovementManager->EnableDebugRender();

@@ -4,40 +4,43 @@
 #include "KmEngine/Actor.h"
 #include "KmEngine/RenderComponent.h"
 #include "WallComponent.h"
+#include "AxisAlignedBoundingBox.h"
 
 void UMovementManager::SetMapRange(RECT Range)
 {
-	m_MapRange = Range;
+	m_MapRange.left = (float)Range.right;
+	m_MapRange.right = (float)Range.left;
+	m_MapRange.top = (float)Range.bottom;
+	m_MapRange.bottom = (float)Range.top;
 }
 
 void UMovementManager::EnableDebugRender()
 {
 	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
 	RenderManager->AddCustomRenderEvent(std::bind(&UMovementManager::DebugRender, this));
+
+	HDC hDC = RenderManager->GetBackBufferHandle();
+	HPEN hGreenPen = CreatePen(PS_SOLID, 3, RGB(0, 255, 0));
+	HBRUSH hHollowBrush = (HBRUSH)GetStockObject(HOLLOW_BRUSH);
+
+	HPEN hOldPen = (HPEN)SelectObject(hDC, hGreenPen);
+	HBRUSH hOldBrush = (HBRUSH)SelectObject(hDC, hHollowBrush);
 }
 
 void UMovementManager::DebugRender()
 {
 	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
 	HDC hDC = RenderManager->GetBackBufferHandle();
-	HBRUSH hOldBrush = (HBRUSH)SelectObject(hDC, GetStockObject(HOLLOW_BRUSH));
-	HPEN hGreenPen = CreatePen(PS_SOLID, 3, RGB(0, 255, 0));
-	HPEN hOldPen = (HPEN)SelectObject(hDC, hGreenPen);
-	auto MovableIter = m_Movables.begin();
-	while (MovableIter != m_Movables.end())
-	{
-		UMovableComponent* MovableComponent = *MovableIter;
 
+	for (UMovableComponent* MovableComponent : m_Movables)
+	{
 		FVector2D ActorPosition = MovableComponent->GetOwner()->GetPosition();
-		float fRadius = MovableComponent->GetRadius();
-		Rectangle(hDC, (int)(ActorPosition.X - fRadius), (int)(ActorPosition.Y - fRadius), (int)(ActorPosition.X + fRadius), (int)(ActorPosition.Y + fRadius));
+		FAxisAlignedBoundingBox MovableAABB{};
+		MovableAABB.SetCoordinatesByActorAndSize(ActorPosition, MovableComponent->GetCollisionSize());
+		Rectangle(hDC, (int)(MovableAABB.left), (int)(MovableAABB.top), (int)(MovableAABB.right), (int)(MovableAABB.bottom));
 		string strPos = "[" + std::to_string((int)(ActorPosition.X)) + ", " + std::to_string((int)(ActorPosition.Y)) + "]";
 		TextOutA(hDC, (int)(ActorPosition.X), (int)(ActorPosition.Y), strPos.data(), (int)strPos.size());
-		++MovableIter;
 	}
-	SelectObject(hDC, hOldPen);
-	SelectObject(hDC, hOldBrush);
-	DeleteObject(hGreenPen);
 }
 
 void UMovementManager::Reset()
@@ -56,69 +59,68 @@ void UMovementManager::AddWall(UWallComponent* WallComponent)
 	m_Walls.insert(WallComponent);
 }
 
+unordered_set<UWallComponent*>& UMovementManager::GetWalls()
+{
+	return m_Walls;
+}
+
 void UMovementManager::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
 
-	auto MovableIter = m_Movables.begin();
-	while (MovableIter != m_Movables.end())
+	for (UMovableComponent* MovableComponent : m_Movables)
 	{
-		UMovableComponent* MovableComponent = *MovableIter;
 		FVector2D VelocityToApply = MovableComponent->GetVelocity();
-		if (VelocityToApply != FVector2D::Zero)
+		if (VelocityToApply == FVector2D::Zero)
+			continue;
+
+		FVector2D VelocityToApplyPerFrame = VelocityToApply * fDeltaTime;
+		AActor* MovableActor = MovableComponent->GetOwner();
+		FVector2D ActorPos = MovableActor->GetPosition();
+		float MaxSpeed = MovableComponent->GetMaxSpeed();
+		float MaxSpeedPerFrame = MaxSpeed * fDeltaTime;
+		float SpeedToApply = VelocityToApply.GetLength();
+		float SpeedToApplyPerFrame = SpeedToApply* fDeltaTime;
+
+		if (SpeedToApplyPerFrame > MaxSpeedPerFrame)
 		{
-			FVector2D VelocityToApplyPerFrame = VelocityToApply * fDeltaTime;
-			float MaxSpeed = MovableComponent->GetMaxSpeed();
-			float MaxSpeedPerFrame = MaxSpeed * fDeltaTime;
-			float SpeedToApply = VelocityToApply.GetLength();
-			float SpeedToApplyPerFrame = SpeedToApply* fDeltaTime;
-
-			if (SpeedToApplyPerFrame > MaxSpeedPerFrame)
-			{
-				VelocityToApplyPerFrame = VelocityToApplyPerFrame / SpeedToApplyPerFrame * MaxSpeedPerFrame;
-			}
-
-			AActor* MovableActor = MovableComponent->GetOwner();
-			MovableActor->AddPosition(VelocityToApplyPerFrame);
-			MovableComponent->SetVelocity(FVector2D::Zero);
-			float fRadius = MovableComponent->GetRadius();
-			
-			FVector2D NewPosition = MovableActor->GetPosition();
-
-			for (UWallComponent* WallComponent : m_Walls)
-			{
-				AActor* Wall = WallComponent->GetOwner();
-				FVector2D WallPos = Wall->GetPosition();
-				FVector2D PositionDifference = NewPosition - WallPos;
-				if (PositionDifference.GetLength() > 60)
-					continue;
-
-				if (std::abs(PositionDifference.X) < 60)
-				{
-					// 캐릭터가 벽보다 오른쪽
-					NewPosition.X = PositionDifference.X > 0 ? WallPos.X + 60 : WallPos.X - 60;
-				}
-				if (std::abs(PositionDifference.Y) < 60)
-				{
-					// 캐릭터가 벽보다 위쪽
-					NewPosition.Y = PositionDifference.Y > 0 ? WallPos.Y + 60 : WallPos.Y - 60;
-				}
-			}
-
-
-			NewPosition.X = (NewPosition.X < m_MapRange.left + fRadius) ? m_MapRange.left + fRadius : NewPosition.X;
-			NewPosition.X = (NewPosition.X > m_MapRange.right - fRadius) ? m_MapRange.right - fRadius : NewPosition.X;
-			NewPosition.Y = (NewPosition.Y < m_MapRange.top + fRadius) ? m_MapRange.top + fRadius : NewPosition.Y;
-			NewPosition.Y = (NewPosition.Y > m_MapRange.bottom - fRadius) ? m_MapRange.bottom - fRadius : NewPosition.Y;
-			MovableActor->SetPosition(NewPosition);
-
-			if (URenderComponent* RenderComponent = MovableActor->GetComponentByClass<URenderComponent>())
-			{
-				RenderComponent->SetRenderPriority(10 + (NewPosition.Y - 60) / 60);
-			}
+			VelocityToApplyPerFrame = VelocityToApplyPerFrame / SpeedToApplyPerFrame * MaxSpeedPerFrame;
 		}
 
-		++MovableIter;
+		FVector2D ActorPositionToSettle = ActorPos + VelocityToApplyPerFrame;
+
+		//for (UWallComponent* WallComponent : m_Walls)
+		//{
+		//	if (VelocityToApplyPerFrame.X > 0.0f)
+		//	{
+		//		AActor* WallActor = WallComponent->GetOwner();
+
+		//		//상하로 조금 이동해서라도 우측 이동이 안될때
+		//		if (WallActor->GetPosition().X - (ActorPositionToSettle.X + 60.0f) <= 0)
+		//		{
+		//			VelocityToApplyPerFrame.X = (WallActor->GetPosition().X - 60) - ActorPos.X;
+		//		}
+		//	}
+		//}
+
+
+
+
+
+
+
+
+
+		ActorPositionToSettle = ActorPos + VelocityToApplyPerFrame;
+		MovableActor->SetPosition(ActorPositionToSettle);
+		MovableComponent->SetVelocity(FVector2D::Zero);
+
+
+		if (URenderComponent* RenderComponent = MovableActor->GetComponentByClass<URenderComponent>())
+		{
+			RenderComponent->SetRenderPriority(10 + (ActorPositionToSettle.Y - 60) / 60);
+		}
+
 	}
 }
 

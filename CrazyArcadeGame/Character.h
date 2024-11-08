@@ -11,6 +11,7 @@ public:
 	string GetCharacterName();
 	void Move(FVector2D Direction);
 	void Idle(FVector2D Direction);
+	void TryPutBomb();
 
 public:
 	void OnAIPossessed() override;

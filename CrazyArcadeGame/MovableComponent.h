@@ -7,12 +7,12 @@ class UMovableComponent : public UActorComponent
 	typedef UActorComponent Super;
 
 public:
+	FVector2D GetCollisionSize() const;
+	void SetCollisionSize(FVector2D Size);
 	void AddVelocity(FVector2D Velocity);
 	void SetVelocity(FVector2D Velocity);
 	void SetMaxSpeed(float MaxSpeed);
 	float GetMaxSpeed();
-	float GetRadius() const;
-	void SetRadius(float fRadius);
 	FVector2D GetVelocity();
 	void RegisterMovableAtMovementManager();
 
@@ -24,8 +24,9 @@ public:
 	UMovableComponent();
 
 private:
+	bool m_bFlying;
 	FVector2D m_Velocity;
-	float m_fCollisionRadius;
+	FVector2D m_CollisionSize;
 	float m_MaxSpeed;
 };
 

@@ -21,6 +21,7 @@ public:
 	ACharacter* SpawnDao(FVector2D PositionVector);
 	ACharacter* SpawnCappi(FVector2D PositionVector);
 	ACharacter* SpawnMarid(FVector2D PositionVector);
+	AActor* SpawnBomb(FVector2D PositionVector);
 	APlayerController* SpawnPlayerController();
 	AAIController* SpawnCharacterAIController();
 

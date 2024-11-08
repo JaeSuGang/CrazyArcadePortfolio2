@@ -33,9 +33,9 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "메모장", "메모장", "{
 	ProjectSection(SolutionItems) = preProject
 		게임기획.txt = 게임기획.txt
 		메모.txt = 메모.txt
-		렌더최적화메모.txt = 렌더최적화메모.txt
 		배운점.txt = 배운점.txt
 		코딩원칙.txt = 코딩원칙.txt
+		충돌체크법.txt = 충돌체크법.txt
 		해야할것.txt = 해야할것.txt
 	EndProjectSection
 EndProject

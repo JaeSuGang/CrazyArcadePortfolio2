@@ -1,0 +1,16 @@
+
+
+
+사각형 vs 원형
+원형 vs 원형
+사각형 vs 사각형
+원형 vs 사각형
+
+각 충돌체를 인자로 받는
+
+bool CheckCollision 함수 만들기
+
+
+rect1.right > rect2.left || rect1.left < rect2.right
+&&
+rect1.up < rect2.down || rect1.down > rect2.up

@@ -6,6 +6,7 @@
 #include "KmEngine/TimeManager.h"
 #include "KmEngine/KeyManager.h"
 #include "MovableComponent.h"
+#include "BombManager.h"
 #include "AIManager.h"
 
 void ACharacter::SetCharacterName(string strCharacterName)
@@ -71,6 +72,12 @@ void ACharacter::Idle(FVector2D DirectionVector)
 	}
 }
 
+void ACharacter::TryPutBomb()
+{
+	UBombManager* BombManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
+	BombManager->TryPutBomb(this->GetPosition());
+}
+
 //void ACharacter::Initialize()
 //{
 //	Super::Initialize();
@@ -132,6 +139,10 @@ void ACharacter::OnPlayerPossessed()
 	km->BindKey(VK_DOWN, UKeyManager::EKeyState::KeyUp, std::bind(&ACharacter::Idle, this, FVector2D::Down));
 	km->BindKey(VK_RIGHT, UKeyManager::EKeyState::KeyUp, std::bind(&ACharacter::Idle, this, FVector2D::Right));
 	km->BindKey(VK_LEFT, UKeyManager::EKeyState::KeyUp, std::bind(&ACharacter::Idle, this, FVector2D::Left));
+
+	km->BindKey(VK_SPACE, UKeyManager::EKeyState::KeyDown, std::bind(&ACharacter::TryPutBomb, this));
+
+
 }
 
 void ACharacter::LateTick(float fDeltaTime)

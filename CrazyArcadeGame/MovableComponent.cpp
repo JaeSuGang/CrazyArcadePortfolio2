@@ -2,6 +2,16 @@
 #include "MovableComponent.h"
 #include "MovementManager.h"
 
+FVector2D UMovableComponent::GetCollisionSize() const
+{
+	return m_CollisionSize;
+}
+
+void UMovableComponent::SetCollisionSize(FVector2D Size)
+{
+	m_CollisionSize = Size;
+}
+
 void UMovableComponent::AddVelocity(FVector2D Velocity)
 {
 	m_Velocity += Velocity;
@@ -20,16 +30,6 @@ void UMovableComponent::SetMaxSpeed(float MaxSpeed)
 float UMovableComponent::GetMaxSpeed()
 {
 	return m_MaxSpeed;
-}
-
-float UMovableComponent::GetRadius() const
-{
-	return m_fCollisionRadius;
-}
-
-void UMovableComponent::SetRadius(float fRadius)
-{
-	m_fCollisionRadius = fRadius;
 }
 
 FVector2D UMovableComponent::GetVelocity()
@@ -55,8 +55,9 @@ void UMovableComponent::TickComponent(float fDeltaTime)
 
 UMovableComponent::UMovableComponent()
 	:
-	m_fCollisionRadius{},
 	m_Velocity{},
-	m_MaxSpeed{}
+	m_MaxSpeed{},
+	m_bFlying{},
+	m_CollisionSize{}
 {
 }

@@ -1,7 +1,8 @@
 #pragma once
+#include "stdafx.h"
 #include "KmEngine/GameInstanceSubsystem.h"
 #include "KmBase/Vector.h"
-#include "stdafx.h"
+#include "AxisAlignedBoundingBox.h"
 
 class ACharacter;
 class UMovableComponent;
@@ -18,6 +19,7 @@ public:
 	void Reset();
 	void AddMovable(UMovableComponent* MovableComponent);
 	void AddWall(UWallComponent* WallComponent);
+	unordered_set<UWallComponent*>& GetWalls();
 
 public:
 	void Tick(float fDeltaTime) override;
@@ -28,7 +30,9 @@ public:
 public:
 
 private:
-	RECT m_MapRange;
+	HPEN m_hPen;
+	HBRUSH m_hBrush;
+	FAxisAlignedBoundingBox m_MapRange;
 	unordered_set<UMovableComponent*> m_Movables;
 	unordered_set<UWallComponent*> m_Walls;
 

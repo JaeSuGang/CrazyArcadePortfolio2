@@ -160,6 +160,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AIManager.cpp" />
+    <ClCompile Include="AxisAlignedBoundingBox.cpp" />
+    <ClCompile Include="BombManager.cpp" />
     <ClCompile Include="CharacterAIController.cpp" />
     <ClCompile Include="GameUI.cpp" />
     <ClCompile Include="main.cpp" />
@@ -178,6 +180,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIManager.h" />
+    <ClInclude Include="AxisAlignedBoundingBox.h" />
+    <ClInclude Include="BombManager.h" />
     <ClInclude Include="CharacterAIController.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="GameUI.h" />

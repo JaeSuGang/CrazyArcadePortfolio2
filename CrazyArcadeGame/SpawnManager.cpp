@@ -21,7 +21,21 @@ void USpawnManager::GenerateWallTile(int nTileIndex, int nValue, int nGroundTile
 	AActor* TileActor = GetActiveLevel()->InitializeActorForPlay<AActor>();
 	URenderComponent* PositionedTileRenderComponent = TileActor->CreateDefaultSubobject<URenderComponent>();
 	UWallComponent* PositionedTileWallComponent = TileActor->CreateDefaultSubobject<UWallComponent>();
-	PositionedTileWallComponent->RegisterAtMovementManager();
+	PositionedTileWallComponent->SetCollisionSize(FVector2D(30.0f, 30.0f));
+	switch (nValue)
+	{
+	case 1:
+	case 2:
+	case 3:
+	case 7:
+		PositionedTileWallComponent->RegisterAtMovementManager(true);
+		break;
+
+	default:
+		PositionedTileWallComponent->RegisterAtMovementManager(false);
+		break;
+
+	}
 
 	TileActor->SetPosition(LocationVector);
 	PositionedTileRenderComponent->SetRenderPriority(nYIndex + 10.0f);
@@ -143,7 +157,7 @@ ACharacter* USpawnManager::SpawnBazzi(FVector2D PositionVector)
 	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
 	MovableComponent->RegisterMovableAtMovementManager();
 	MovableComponent->SetMaxSpeed(300.0f);
-	MovableComponent->SetRadius(30.0f);
+	MovableComponent->SetCollisionSize(FVector2D(25.0f, 25.0f));
 
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->BeginPlay();
@@ -170,7 +184,7 @@ ACharacter* USpawnManager::SpawnDao(FVector2D PositionVector)
 	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
 	MovableComponent->RegisterMovableAtMovementManager();
 	MovableComponent->SetMaxSpeed(300.0f);
-	MovableComponent->SetRadius(30.0f);
+	MovableComponent->SetCollisionSize(FVector2D(30.0f, 30.0f));
 
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->BeginPlay();
@@ -197,7 +211,7 @@ ACharacter* USpawnManager::SpawnCappi(FVector2D PositionVector)
 	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
 	MovableComponent->RegisterMovableAtMovementManager();
 	MovableComponent->SetMaxSpeed(300.0f);
-	MovableComponent->SetRadius(30.0f);
+	MovableComponent->SetCollisionSize(FVector2D(30.0f, 30.0f));
 
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->BeginPlay();
@@ -224,11 +238,27 @@ ACharacter* USpawnManager::SpawnMarid(FVector2D PositionVector)
 	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
 	MovableComponent->RegisterMovableAtMovementManager();
 	MovableComponent->SetMaxSpeed(300.0f);
-	MovableComponent->SetRadius(30.0f);
+	MovableComponent->SetCollisionSize(FVector2D(30.0f, 30.0f));
 
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->BeginPlay();
 	return SpawnedCharacter;
+}
+
+AActor* USpawnManager::SpawnBomb(FVector2D PositionVector)
+{
+	AActor* Bomb = GetActiveLevel()->InitializeActorForPlay<AActor>();
+	Bomb->SetPosition(PositionVector);
+	URenderComponent* RenderComponent = Bomb->CreateDefaultSubobject<URenderComponent>();
+	RenderComponent->SetStaticImageOffset(FVector2D(0.0f, 0.0f));
+	RenderComponent->SetStaticImage("Resources\\Dao\\UpWalk_3.bmp");
+	RenderComponent->SetShadowImageOffset(FVector2D(0.0f, 0.0f));
+	RenderComponent->SetShadowImage("Resources\\Shadows\\CharacterShadow.bmp");
+	RenderComponent->SetRenderPriority(VectorToRenderPriority(PositionVector));
+	RenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
+
+	Bomb->BeginPlay();
+	return Bomb;
 }
 
 APlayerController* USpawnManager::SpawnPlayerController()

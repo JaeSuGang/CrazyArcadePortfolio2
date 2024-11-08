@@ -3,7 +3,8 @@
 struct FVector2D
 {
 public:
-	float GetLength();
+	float GetLength() const;
+	FVector2D GetNormalized() const;
 
 public:
 	static const FVector2D Zero;

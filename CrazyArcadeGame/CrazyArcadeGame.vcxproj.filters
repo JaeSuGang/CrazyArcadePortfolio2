@@ -38,6 +38,10 @@
     <ClCompile Include="Tilemap.cpp">
       <Filter>Struct</Filter>
     </ClCompile>
+    <ClCompile Include="AxisAlignedBoundingBox.cpp">
+      <Filter>Struct</Filter>
+    </ClCompile>
+    <ClCompile Include="BombManager.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -108,6 +112,10 @@
     <ClInclude Include="Tilemap.h">
       <Filter>Struct</Filter>
     </ClInclude>
+    <ClInclude Include="AxisAlignedBoundingBox.h">
+      <Filter>Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="BombManager.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Resources\Bazzi\BazziDownIdle.bmp">

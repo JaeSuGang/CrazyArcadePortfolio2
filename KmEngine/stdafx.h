@@ -13,6 +13,7 @@
 #include <filesystem>
 #include <cctype>
 #include <algorithm>
+#include <thread>
 
 using std::string;
 using std::string_view;
