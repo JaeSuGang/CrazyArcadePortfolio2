@@ -21,6 +21,9 @@ public:
 	void AddWall(UWallComponent* WallComponent);
 	unordered_set<UWallComponent*>& GetWalls();
 
+private:
+	static bool GetIsBlocked(FVector2D Velocity, FVector2D ActorPosition, FVector2D WallPosition);
+
 public:
 	void Tick(float fDeltaTime) override;
 

@@ -41,7 +41,9 @@
     <ClCompile Include="AxisAlignedBoundingBox.cpp">
       <Filter>Struct</Filter>
     </ClCompile>
-    <ClCompile Include="BombManager.cpp" />
+    <ClCompile Include="BombManager.cpp">
+      <Filter>GameInstanceSubsystem</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -115,7 +117,9 @@
     <ClInclude Include="AxisAlignedBoundingBox.h">
       <Filter>Struct</Filter>
     </ClInclude>
-    <ClInclude Include="BombManager.h" />
+    <ClInclude Include="BombManager.h">
+      <Filter>GameInstanceSubsystem</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Resources\Bazzi\BazziDownIdle.bmp">

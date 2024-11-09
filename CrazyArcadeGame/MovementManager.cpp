@@ -64,6 +64,35 @@ unordered_set<UWallComponent*>& UMovementManager::GetWalls()
 	return m_Walls;
 }
 
+bool UMovementManager::GetIsBlocked(FVector2D Velocity, FVector2D ActorPosition, FVector2D WallPosition)
+{
+	if (Velocity.X > 0)
+	{
+		if (ActorPosition.Y < PositionOfWall.Y + 30.0f &&
+			ActorPosition.Y > PositionOfWall.Y - 30.0f &&
+			ActorPosition.X + 60.0f >= PositionOfWall.X &&
+			ActorPosition.X + 60.0f < PositionOfWall.X + 30.0f)
+		{
+
+		}
+	}
+
+	else if (Velocity.X < 0)
+	{
+
+	}
+
+	else if (Velocity.Y > 0)
+	{
+
+	}
+
+	else if (Velocity.Y < 0)
+	{
+
+	}
+}
+
 void UMovementManager::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
@@ -89,23 +118,22 @@ void UMovementManager::Tick(float fDeltaTime)
 
 		FVector2D ActorPositionToSettle = ActorPos + VelocityToApplyPerFrame;
 
-		//for (UWallComponent* WallComponent : m_Walls)
-		//{
-		//	if (VelocityToApplyPerFrame.X > 0.0f)
-		//	{
-		//		AActor* WallActor = WallComponent->GetOwner();
-
-		//		//상하로 조금 이동해서라도 우측 이동이 안될때
-		//		if (WallActor->GetPosition().X - (ActorPositionToSettle.X + 60.0f) <= 0)
-		//		{
-		//			VelocityToApplyPerFrame.X = (WallActor->GetPosition().X - 60) - ActorPos.X;
-		//		}
-		//	}
-		//}
-
-
-
-
+		for (UWallComponent* WallComponent : m_Walls)
+		{
+			if (VelocityToApplyPerFrame.X > 0.0f)
+			{
+				AActor* WallActor = WallComponent->GetOwner();
+				// 벽을 15, 30, 15의 픽셀로 나눔 
+				// 벽때문에 못지나갈때
+				if (ActorPositionToSettle.Y < WallActor->GetPosition().Y + 15.0f &&
+					ActorPositionToSettle.Y > WallActor->GetPosition().Y - 15.0f &&
+					ActorPositionToSettle.X + 60.0f > WallActor->GetPosition().X &&
+					ActorPositionToSettle.X + 60.0f < WallActor->GetPosition().X + 30.0f)
+				{
+					VelocityToApplyPerFrame.X = 0.0f;
+				}
+			}
+		}
 
 
 

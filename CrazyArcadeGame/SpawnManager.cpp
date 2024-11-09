@@ -17,7 +17,7 @@ void USpawnManager::GenerateWallTile(int nTileIndex, int nValue, int nGroundTile
 	int nYIndex = nTileIndex / 15;
 
 	UResourceManager* ResourceManager = GEngine->GetEngineSubsystem<UResourceManager>();
-	FVector2D LocationVector{ (float)(60 + 60 * nXIndex), (float)(90 + 60 * nYIndex) };
+	FVector2D LocationVector{ (float)(59.5f + 60 * nXIndex), (float)(89.5 + 60 * nYIndex) };
 	AActor* TileActor = GetActiveLevel()->InitializeActorForPlay<AActor>();
 	URenderComponent* PositionedTileRenderComponent = TileActor->CreateDefaultSubobject<URenderComponent>();
 	UWallComponent* PositionedTileWallComponent = TileActor->CreateDefaultSubobject<UWallComponent>();
@@ -103,7 +103,7 @@ void USpawnManager::GenerateGroundTile(int nTileIndex, int nValue)
 	int nYIndex = nTileIndex / 15;
 
 	UResourceManager* ResourceManager = GEngine->GetEngineSubsystem<UResourceManager>();
-	FVector2D LocationVector{ (float)(60 + 60 * nXIndex), (float)(90 + 60 * nYIndex) };
+	FVector2D LocationVector{ (float)(59.5f + 60 * nXIndex), (float)(89.5f + 60 * nYIndex) };
 	AActor* TileActor = GetActiveLevel()->InitializeActorForPlay<AActor>();
 	URenderComponent* PositionedTileRenderComponent = TileActor->CreateDefaultSubobject<URenderComponent>();
 
@@ -157,7 +157,7 @@ ACharacter* USpawnManager::SpawnBazzi(FVector2D PositionVector)
 	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
 	MovableComponent->RegisterMovableAtMovementManager();
 	MovableComponent->SetMaxSpeed(300.0f);
-	MovableComponent->SetCollisionSize(FVector2D(25.0f, 25.0f));
+	MovableComponent->SetCollisionSize(FVector2D(30.0f, 30.0f));
 
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->BeginPlay();
