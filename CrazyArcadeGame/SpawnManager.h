@@ -13,7 +13,7 @@ class USpawnManager : public UGameInstanceSubsystem
 	typedef UGameInstanceSubsystem Super;
 
 public:
-	void GenerateWallTile(int nTileIndex, int nValue, int nGroundTileIndex);
+	void GenerateWallTile(int nTileIndex, int nValue, int nGroundTileValue);
 	void GenerateGroundTile(int nTileIndex, int nValue);
 	void GenerateTilemap(FTilemap* TilemapStruct);
 	AGameUI* SpawnGameUI(string strImagePath, FVector2D PositionVector);
@@ -27,5 +27,8 @@ public:
 
 public:
 	void Tick(float fDeltaTime) override;
+
+private:
+	FTilemap* m_Tilemap;
 };
 

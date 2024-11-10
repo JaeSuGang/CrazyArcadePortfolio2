@@ -20,6 +20,8 @@ void USpawnManager::GenerateWallTile(int nTileLocationIndex, int nTileValue, int
 	AActor* TileActor = GetActiveLevel()->InitializeActorForPlay<AActor>();
 	URenderComponent* PositionedTileRenderComponent = TileActor->CreateDefaultSubobject<URenderComponent>();
 	UInGameObjectComponent* InGameObjectComponent = TileActor->CreateDefaultSubobject<UInGameObjectComponent>();
+
+	// 벽 이미지
 	switch (nTileValue)
 	{
 	case 1:
@@ -50,10 +52,43 @@ void USpawnManager::GenerateWallTile(int nTileLocationIndex, int nTileValue, int
 
 	}
 
+	// 그림자 이미지
+	switch (nTileValue)
+	{
+	case 1:
+	case 2:
+	case 3:
+	case 4:
+	case 5:
+	case 6:
+		switch (nGroundTileValue)
+		{
+		case 1:
+		case 2:
+			PositionedTileRenderComponent->SetShadowImage("Resources\\Shadows\\WallGreenShadow.bmp");
+			PositionedTileRenderComponent->SetShadowImageOffset(FVector2D(-2.0f, 2.0f));
+			break;
+		case 3:
+		case 4:
+		case 5:
+		case 6:
+		case 7:
+			PositionedTileRenderComponent->SetShadowImage("Resources\\Shadows\\WallGrayShadow.bmp");
+			PositionedTileRenderComponent->SetShadowImageOffset(FVector2D(-3.0f, 2.0f));
+			break;
+		}
+		break;
+
+	default:
+		break;
+	}
+
 	TileActor->SetPosition(LocationVector);
 	PositionedTileRenderComponent->SetRenderPriority(nYIndex + 10.0f);
 	PositionedTileRenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
 	PositionedTileRenderComponent->SetStaticImage("Resources\\Tiles\\WallTiles\\" + std::to_string(nTileValue) + ".bmp");
+
+
 
 	TileActor->BeginPlay();
 }
@@ -79,10 +114,12 @@ void USpawnManager::GenerateGroundTile(int nTileLocationIndex, int nTileValue)
 
 void USpawnManager::GenerateTilemap(FTilemap* TilemapStruct)
 {
+	m_Tilemap = TilemapStruct;
+
 	for (int i = 0; i < 15 * 13; i++)
 	{
-		this->GenerateGroundTile(i, TilemapStruct->m_GroundTiles[i]);
-		this->GenerateWallTile(i, TilemapStruct->m_WallTiles[i], TilemapStruct->m_GroundTiles[i]);
+		this->GenerateGroundTile(i, m_Tilemap->m_GroundTiles[i]);
+		this->GenerateWallTile(i, m_Tilemap->m_WallTiles[i], m_Tilemap->m_GroundTiles[i]);
 	}
 
 	// 
