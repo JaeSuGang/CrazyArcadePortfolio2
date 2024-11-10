@@ -11,3 +11,6 @@
 
 #define SAFE_DELETE(p) if (p) {delete p; p = nullptr;}
 
+#define TileWidth 60.0f
+#define TileHeight 60.0f
+

@@ -26,12 +26,12 @@ public:
 	UMovementManager();
 
 public:
+	unordered_set<AActor*> m_Movables;
+	unordered_set<AActor*> m_Walls;
 
 private:
 	HPEN m_hPen;
 	HBRUSH m_hBrush;
-	unordered_set<AActor*> m_Movables;
-	unordered_set<AActor*> m_Walls;
 
 };
 

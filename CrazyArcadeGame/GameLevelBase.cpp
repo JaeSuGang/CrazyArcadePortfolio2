@@ -38,7 +38,7 @@ void UGameLevelBase::BeginPlay()
 
 	// 타일맵 생성
 	m_Tilemap = new FTilemap{};
-	m_Tilemap->Load("Resources\\TilemapData\\test.tilemap");
+	m_Tilemap->Load("Resources\\TilemapData\\stage1.tilemap");
 	SpawnManager->GenerateTilemap(m_Tilemap);
 
 	// 메인 플레이어 생성

@@ -9,6 +9,16 @@
 #include "AIManager.h"
 #include "InGameObjectComponent.h"
 
+void ACharacter::SetBombCount(int nValue)
+{
+	m_nBombCount = nValue;
+}
+
+int ACharacter::GetBombCount() const
+{
+	return m_nBombCount;
+}
+
 void ACharacter::SetCharacterName(string strCharacterName)
 {
 	m_strCharacterName = strCharacterName;
@@ -75,8 +85,12 @@ void ACharacter::Idle(FVector2D DirectionVector)
 
 void ACharacter::TryPutBomb()
 {
+	if (m_nBombCount <= 0)
+		return;
+
 	UBombManager* BombManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
-	BombManager->TryPutBomb(this->GetPosition());
+	if (BombManager->TryPutBomb(VectorToTileIndex(this->GetPosition())))
+		m_nBombCount--;
 }
 
 void ACharacter::Tick(float fDeltaTime)

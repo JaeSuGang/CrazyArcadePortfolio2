@@ -5,6 +5,7 @@ struct FInGameObjectProperty
 {
 public:
 	static const FInGameObjectProperty Character;
+	static const FInGameObjectProperty Bomb;
 	static const FInGameObjectProperty HidableWall;
 	static const FInGameObjectProperty MovableWall;
 	static const FInGameObjectProperty ExplodableWall;
@@ -15,6 +16,9 @@ public:
 	FVector2D m_MaxVelocity;
 	FVector2D m_Velocity;
 
+	float m_fTimer;
+
+	bool m_bIsBomb;
 	bool m_bIsFlying;
 	bool m_bBlockCharacter;
 	bool m_bCanBeFliedOver;
@@ -38,6 +42,10 @@ public:
 public:
 	void BeginPlay() override;
 	void TickComponent(float fDeltaTime) override;
+
+public:
+	void Release();
+	~UInGameObjectComponent();
 
 public:
 	FInGameObjectProperty m_InGameObjectProperty;

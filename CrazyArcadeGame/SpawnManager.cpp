@@ -146,9 +146,9 @@ ACharacter* USpawnManager::SpawnBazzi(FVector2D PositionVector)
 	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
-	RenderComponent->BeginPlay();
 	UInGameObjectComponent* InGameObjectComponent = SpawnedCharacter->CreateDefaultSubobject<UInGameObjectComponent>();
 	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Character;
+	SpawnedCharacter->SetBombCount(1);
 
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->BeginPlay();
@@ -171,7 +171,6 @@ ACharacter* USpawnManager::SpawnDao(FVector2D PositionVector)
 	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
-	RenderComponent->BeginPlay();
 	UInGameObjectComponent* InGameObjectComponent = SpawnedCharacter->CreateDefaultSubobject<UInGameObjectComponent>();
 	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Character;
 
@@ -196,7 +195,6 @@ ACharacter* USpawnManager::SpawnCappi(FVector2D PositionVector)
 	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
-	RenderComponent->BeginPlay();
 	UInGameObjectComponent* InGameObjectComponent = SpawnedCharacter->CreateDefaultSubobject<UInGameObjectComponent>();
 	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Character;
 
@@ -221,7 +219,6 @@ ACharacter* USpawnManager::SpawnMarid(FVector2D PositionVector)
 	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
-	RenderComponent->BeginPlay();
 	UInGameObjectComponent* InGameObjectComponent = SpawnedCharacter->CreateDefaultSubobject<UInGameObjectComponent>();
 	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Character;
 
@@ -232,18 +229,21 @@ ACharacter* USpawnManager::SpawnMarid(FVector2D PositionVector)
 
 AActor* USpawnManager::SpawnBomb(FVector2D PositionVector)
 {
-	AActor* Bomb = GetActiveLevel()->InitializeActorForPlay<AActor>();
-	Bomb->SetPosition(PositionVector);
-	URenderComponent* RenderComponent = Bomb->CreateDefaultSubobject<URenderComponent>();
+	AActor* BombActor = GetActiveLevel()->InitializeActorForPlay<AActor>();
+	BombActor->SetPosition(PositionVector);
+	URenderComponent* RenderComponent = BombActor->CreateDefaultSubobject<URenderComponent>();
 	RenderComponent->SetStaticImageOffset(FVector2D(0.0f, 0.0f));
-	RenderComponent->SetStaticImage("Resources\\Dao\\UpWalk_3.bmp");
+	RenderComponent->SetStaticImage("Resources\\Bomb\\bomb_0.bmp");
 	RenderComponent->SetShadowImageOffset(FVector2D(0.0f, 0.0f));
 	RenderComponent->SetShadowImage("Resources\\Shadows\\CharacterShadow.bmp");
 	RenderComponent->SetRenderPriority(VectorToRenderPriority(PositionVector));
 	RenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
+	RenderComponent->CreateAnimation("Bomb\\bomb", "Resources\\Bomb\\bomb", 4, 0.2f, true);
+	UInGameObjectComponent* InGameObjectComponent = BombActor->CreateDefaultSubobject<UInGameObjectComponent>();
+	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Bomb;
 
-	Bomb->BeginPlay();
-	return Bomb;
+	BombActor->BeginPlay();
+	return BombActor;
 }
 
 APlayerController* USpawnManager::SpawnPlayerController()

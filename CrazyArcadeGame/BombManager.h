@@ -6,11 +6,13 @@ class UBombManager : public UGameInstanceSubsystem
 	typedef UGameInstanceSubsystem Super;
 
 public:
-	void TryPutBomb(FVector2D BombPosition);
-	void PutBomb(int nTileIndex);
+	bool TryPutBomb(int nTileIndex);
+	void ForcePutBomb(int nTileIndex);
 
 public:
 	void Tick(float fDeltaTime) override;
 
+public:
+	unordered_set<AActor*> m_Bombs;
 };
 
