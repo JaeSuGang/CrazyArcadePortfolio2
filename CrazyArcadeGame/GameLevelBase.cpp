@@ -46,12 +46,12 @@ void UGameLevelBase::BeginPlay()
 	PlayerController->Possess(MainCharacter);
 
 	// AI º¿ »ý¼º
-	//ACharacter* Dao = SpawnManager->SpawnDao(FVector2D(900.0f, 810.0f));
-	//SpawnManager->SpawnCharacterAIController()->Possess(Dao);
-	//ACharacter* Marid = SpawnManager->SpawnMarid(FVector2D(60.0f, 150.0f));
-	//SpawnManager->SpawnCharacterAIController()->Possess(Marid);
-	//ACharacter* Cappi = SpawnManager->SpawnCappi(FVector2D(840.0f, 150.0f));
-	//SpawnManager->SpawnCharacterAIController()->Possess(Cappi);
+	ACharacter* Dao = SpawnManager->SpawnDao(FVector2D(900.0f, 810.0f));
+	SpawnManager->SpawnCharacterAIController()->Possess(Dao);
+	ACharacter* Marid = SpawnManager->SpawnMarid(FVector2D(60.0f, 150.0f));
+	SpawnManager->SpawnCharacterAIController()->Possess(Marid);
+	ACharacter* Cappi = SpawnManager->SpawnCappi(FVector2D(840.0f, 150.0f));
+	SpawnManager->SpawnCharacterAIController()->Possess(Cappi);
 }
 
 void UGameLevelBase::Release()

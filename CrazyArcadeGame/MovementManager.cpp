@@ -80,31 +80,33 @@ void UMovementManager::Tick(float fDeltaTime)
 		if (InGameObjectProperty.m_Velocity != FVector2D::Zero)
 		{
 			FVector2D VelocityToApplyInFrame = InGameObjectProperty.m_Velocity;
-			VelocityToApplyInFrame.X = VelocityToApplyInFrame.X > InGameObjectProperty.m_MaxVelocity.X ? InGameObjectProperty.m_MaxVelocity.X : VelocityToApplyInFrame.X;
-			VelocityToApplyInFrame.Y = VelocityToApplyInFrame.Y > InGameObjectProperty.m_MaxVelocity.Y ? InGameObjectProperty.m_MaxVelocity.Y : VelocityToApplyInFrame.Y;
-
 			VelocityToApplyInFrame = VelocityToApplyInFrame * fDeltaTime;
+			VelocityToApplyInFrame.X = VelocityToApplyInFrame.X > InGameObjectProperty.m_MaxVelocity.X * fDeltaTime ? InGameObjectProperty.m_MaxVelocity.X * fDeltaTime : VelocityToApplyInFrame.X;
+			VelocityToApplyInFrame.Y = VelocityToApplyInFrame.Y > InGameObjectProperty.m_MaxVelocity.Y * fDeltaTime ? InGameObjectProperty.m_MaxVelocity.Y * fDeltaTime : VelocityToApplyInFrame.Y;
+
 
 			FAxisAlignedBoundingBox DestinationAABB = {
 				OriginalPos + VelocityToApplyInFrame,
 				InGameObjectProperty.m_CollisionSize.X / 2,
 				InGameObjectProperty.m_CollisionSize.Y / 2 };
 
+
 			for (AActor* WallActor : m_Walls)
 			{
 				UInGameObjectComponent* WallInGameObjectComponent = WallActor->GetComponentByClass<UInGameObjectComponent>();
 				FAxisAlignedBoundingBox WallAABB = {
 					WallActor->GetPosition(),
-					InGameObjectProperty.m_CollisionSize.X / 2,
-					InGameObjectProperty.m_CollisionSize.Y / 2 };
+					WallInGameObjectComponent->m_InGameObjectProperty.m_CollisionSize.X / 2,
+					WallInGameObjectComponent->m_InGameObjectProperty.m_CollisionSize.Y / 2 };
 
 				if (DestinationAABB.GetIsCollidedWith(WallAABB))
 				{
-					DestinationAABB.SetToCorrectPos(OriginalPos, WallAABB);
+					DestinationAABB = DestinationAABB.CalculateCorrectPos(OriginalPos, WallAABB);
 				}
 			}
 
 			MovableActor->SetPosition(DestinationAABB.m_Center);
+			MovableActor->GetComponentByClass<URenderComponent>()->SetRenderPriority(VectorToRenderPriority(MovableActor->GetPosition()));
 			MovableInGameObjectComponent->m_InGameObjectProperty.m_Velocity = FVector2D::Zero;
 		}
 	}

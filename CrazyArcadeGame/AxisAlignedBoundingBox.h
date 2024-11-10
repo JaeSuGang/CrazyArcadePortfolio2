@@ -3,7 +3,7 @@
 struct FAxisAlignedBoundingBox
 {
 public:
-	void SetToCorrectPos(FVector2D SourcePos, const FAxisAlignedBoundingBox& OtherBox);
+	FAxisAlignedBoundingBox CalculateCorrectPos(FVector2D SourcePos, const FAxisAlignedBoundingBox& OtherBox);
 	bool GetIsCollidedWith(const FAxisAlignedBoundingBox& OtherBox) const;
 
 public:

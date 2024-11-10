@@ -84,6 +84,38 @@ void USpawnManager::GenerateTilemap(FTilemap* TilemapStruct)
 		this->GenerateGroundTile(i, TilemapStruct->m_GroundTiles[i]);
 		this->GenerateWallTile(i, TilemapStruct->m_WallTiles[i], TilemapStruct->m_GroundTiles[i]);
 	}
+
+	// 
+	AActor* UpBoundary = GetActiveLevel()->InitializeActorForPlay<AActor>();
+	UInGameObjectComponent* InGameObjectComponent1 = UpBoundary->CreateDefaultSubobject<UInGameObjectComponent>();
+	InGameObjectComponent1->m_InGameObjectProperty = FInGameObjectProperty::NonExplodableWall;
+	InGameObjectComponent1->m_InGameObjectProperty.m_CollisionSize = FVector2D(900.0f, 60.0f);
+	UpBoundary->SetPosition(FVector2D(480.0f, 30.0f));
+	UpBoundary->BeginPlay();
+
+	// 
+	AActor* DownBoundary = GetActiveLevel()->InitializeActorForPlay<AActor>();
+	UInGameObjectComponent* InGameObjectComponent2 = DownBoundary->CreateDefaultSubobject<UInGameObjectComponent>();
+	InGameObjectComponent2->m_InGameObjectProperty = FInGameObjectProperty::NonExplodableWall;
+	InGameObjectComponent2->m_InGameObjectProperty.m_CollisionSize = FVector2D(900.0f, 60.0f);
+	DownBoundary->SetPosition(FVector2D(480.0f, 870.0f));
+	DownBoundary->BeginPlay();
+
+	// 
+	AActor* LeftBoundary = GetActiveLevel()->InitializeActorForPlay<AActor>();
+	UInGameObjectComponent* InGameObjectComponent3 = LeftBoundary->CreateDefaultSubobject<UInGameObjectComponent>();
+	InGameObjectComponent3->m_InGameObjectProperty = FInGameObjectProperty::NonExplodableWall;
+	InGameObjectComponent3->m_InGameObjectProperty.m_CollisionSize = FVector2D(60.0f, 780.0f);
+	LeftBoundary->SetPosition(FVector2D(0.0f, 450.0f));
+	LeftBoundary->BeginPlay();
+
+	// 
+	AActor* RightBoundary = GetActiveLevel()->InitializeActorForPlay<AActor>();
+	UInGameObjectComponent* InGameObjectComponent4 = RightBoundary->CreateDefaultSubobject<UInGameObjectComponent>();
+	InGameObjectComponent4->m_InGameObjectProperty = FInGameObjectProperty::NonExplodableWall;
+	InGameObjectComponent4->m_InGameObjectProperty.m_CollisionSize = FVector2D(60.0f, 780.0f);
+	RightBoundary->SetPosition(FVector2D(960.0f, 450.0f));
+	RightBoundary->BeginPlay();
 }
 
 AGameUI* USpawnManager::SpawnGameUI(string strImagePath, FVector2D PositionVector)
