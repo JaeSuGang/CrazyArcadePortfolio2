@@ -18,6 +18,9 @@ public:
 
 	float m_fTimer;
 
+	int m_nBombLeft;
+
+	bool m_bIsAlreadyExploded;
 	bool m_bIsBomb;
 	bool m_bIsFlying;
 	bool m_bBlockCharacter;
@@ -38,6 +41,7 @@ public:
 
 	void AddOnExplodedEvent(std::function<void()> Event);
 	void OnExploded();
+	void OnExploded_Bomb();
 
 public:
 	void BeginPlay() override;

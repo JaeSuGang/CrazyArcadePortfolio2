@@ -43,5 +43,12 @@ void UBombManager::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
 
-
+	for (AActor* BombActor : m_Bombs)
+	{
+		UInGameObjectComponent* BombInGameObjectComponent = BombActor->GetComponentByClass<UInGameObjectComponent>();
+		if (BombInGameObjectComponent->m_InGameObjectProperty.m_fTimer < 0)
+		{
+			BombInGameObjectComponent->OnExploded();
+		}
+	}
 }

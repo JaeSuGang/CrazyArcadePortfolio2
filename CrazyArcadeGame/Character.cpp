@@ -85,12 +85,16 @@ void ACharacter::Idle(FVector2D DirectionVector)
 
 void ACharacter::TryPutBomb()
 {
-	if (m_nBombCount <= 0)
+	UInGameObjectComponent* CharacterInGameObjectComponent = GetComponentByClass<UInGameObjectComponent>();
+
+	int& nBombCountRef = CharacterInGameObjectComponent->m_InGameObjectProperty.m_nBombLeft;
+
+	if (nBombCountRef <= 0)
 		return;
 
 	UBombManager* BombManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
 	if (BombManager->TryPutBomb(VectorToTileIndex(this->GetPosition())))
-		m_nBombCount--;
+		nBombCountRef--;
 }
 
 void ACharacter::Tick(float fDeltaTime)

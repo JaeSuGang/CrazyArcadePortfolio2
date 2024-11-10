@@ -9,6 +9,7 @@ const FInGameObjectProperty FInGameObjectProperty::Character = []()
 	{
 		FInGameObjectProperty Property{};
 		Property.m_bIsCharacter = true;
+		Property.m_nBombLeft = 1;
 		Property.m_CollisionSize = { 60.0f, 60.0f };
 		Property.m_MaxVelocity = { 500.0f, 500.0f};
 		Property.m_bIsExplodable = true;
@@ -84,6 +85,15 @@ void UInGameObjectComponent::OnExploded()
 	}
 }
 
+void UInGameObjectComponent::OnExploded_Bomb()
+{
+	if (m_InGameObjectProperty.m_bIsAlreadyExploded)
+		return;
+
+	GetOwner()->Destroy();
+	
+}
+
 void UInGameObjectComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -92,14 +102,17 @@ void UInGameObjectComponent::BeginPlay()
 	UBombManager* BombManager = GetGameInstanceSubsystem<UBombManager>();
 
 	if (m_InGameObjectProperty.m_bIsCharacter)
-		MovementManager->AddMovable(GetOwner());
+		MovementManager->AddMovable(this->GetOwner());
 
 	if (m_InGameObjectProperty.m_bBlockCharacter)
-		MovementManager->AddWall(GetOwner());
+		MovementManager->AddWall(this->GetOwner());
 
 	if (m_InGameObjectProperty.m_bIsBomb)
 	{
 		MovementManager->AddWall(GetOwner());
+		BombManager->m_Bombs.insert(this->GetOwner());
+		std::function<void()> Event1 = std::bind(&UInGameObjectComponent::OnExploded_Bomb, this);
+		this->m_OnExplodedEvents.push_back(Event1);
 	}
 
 }
@@ -120,8 +133,10 @@ void UInGameObjectComponent::TickComponent(float fDeltaTime)
 void UInGameObjectComponent::Release()
 {
 	UMovementManager* MovementManager = GetGameInstanceSubsystem<UMovementManager>();
+	UBombManager* BombManager = GetGameInstanceSubsystem<UBombManager>();
 	MovementManager->m_Walls.erase(m_Owner);
 	MovementManager->m_Movables.erase(m_Owner);
+	BombManager->m_Bombs.erase(m_Owner);
 }
 
 UInGameObjectComponent::~UInGameObjectComponent()

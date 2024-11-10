@@ -234,7 +234,7 @@ AActor* USpawnManager::SpawnBomb(FVector2D PositionVector)
 	URenderComponent* RenderComponent = BombActor->CreateDefaultSubobject<URenderComponent>();
 	RenderComponent->SetStaticImageOffset(FVector2D(0.0f, 0.0f));
 	RenderComponent->SetStaticImage("Resources\\Bomb\\bomb_0.bmp");
-	RenderComponent->SetShadowImageOffset(FVector2D(0.0f, 0.0f));
+	RenderComponent->SetShadowImageOffset(FVector2D(0.0f, 25.0f));
 	RenderComponent->SetShadowImage("Resources\\Shadows\\CharacterShadow.bmp");
 	RenderComponent->SetRenderPriority(VectorToRenderPriority(PositionVector));
 	RenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
