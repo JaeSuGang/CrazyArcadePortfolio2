@@ -20,12 +20,6 @@
     <ClCompile Include="SpawnManager.cpp">
       <Filter>GameInstanceSubsystem</Filter>
     </ClCompile>
-    <ClCompile Include="MovableComponent.cpp">
-      <Filter>ActorComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="WallComponent.cpp">
-      <Filter>ActorComponent</Filter>
-    </ClCompile>
     <ClCompile Include="GameUI.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
@@ -43,6 +37,9 @@
     </ClCompile>
     <ClCompile Include="BombManager.cpp">
       <Filter>GameInstanceSubsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameObjectComponent.cpp">
+      <Filter>ActorComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -96,12 +93,6 @@
     <ClInclude Include="SpawnManager.h">
       <Filter>GameInstanceSubsystem</Filter>
     </ClInclude>
-    <ClInclude Include="MovableComponent.h">
-      <Filter>ActorComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="WallComponent.h">
-      <Filter>ActorComponent</Filter>
-    </ClInclude>
     <ClInclude Include="GameUI.h">
       <Filter>Actor</Filter>
     </ClInclude>
@@ -119,6 +110,9 @@
     </ClInclude>
     <ClInclude Include="BombManager.h">
       <Filter>GameInstanceSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameObjectComponent.h">
+      <Filter>ActorComponent</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

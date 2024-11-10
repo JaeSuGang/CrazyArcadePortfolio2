@@ -1,18 +1,12 @@
 #include "stdafx.h"
+#include "KmEngine/Level.h"
 #include "MovementManager.h"
 #include "MovableComponent.h"
 #include "KmEngine/Actor.h"
 #include "KmEngine/RenderComponent.h"
 #include "WallComponent.h"
 #include "AxisAlignedBoundingBox.h"
-
-void UMovementManager::SetMapRange(RECT Range)
-{
-	m_MapRange.left = (float)Range.right;
-	m_MapRange.right = (float)Range.left;
-	m_MapRange.top = (float)Range.bottom;
-	m_MapRange.bottom = (float)Range.top;
-}
+#include "InGameObjectComponent.h"
 
 void UMovementManager::EnableDebugRender()
 {
@@ -32,14 +26,22 @@ void UMovementManager::DebugRender()
 	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
 	HDC hDC = RenderManager->GetBackBufferHandle();
 
-	for (UMovableComponent* MovableComponent : m_Movables)
+	for (AActor* MovableActor : m_Movables)
 	{
-		FVector2D ActorPosition = MovableComponent->GetOwner()->GetPosition();
-		FAxisAlignedBoundingBox MovableAABB{};
-		MovableAABB.SetCoordinatesByActorAndSize(ActorPosition, MovableComponent->GetCollisionSize());
-		Rectangle(hDC, (int)(MovableAABB.left), (int)(MovableAABB.top), (int)(MovableAABB.right), (int)(MovableAABB.bottom));
-		string strPos = "[" + std::to_string((int)(ActorPosition.X)) + ", " + std::to_string((int)(ActorPosition.Y)) + "]";
-		TextOutA(hDC, (int)(ActorPosition.X), (int)(ActorPosition.Y), strPos.data(), (int)strPos.size());
+		UInGameObjectComponent* InGameObjectComponent = MovableActor->GetComponentByClass<UInGameObjectComponent>();
+		FAxisAlignedBoundingBox MovableAABB = {
+			MovableActor->GetPosition(),
+			InGameObjectComponent->m_InGameObjectProperty.m_CollisionSize.X / 2,
+			InGameObjectComponent->m_InGameObjectProperty.m_CollisionSize.Y / 2};
+		Rectangle(hDC, 
+			(int)(MovableAABB.m_Center.X - MovableAABB.m_WidthRadius),
+			(int)(MovableAABB.m_Center.Y - MovableAABB.m_HeightRadius),
+			(int)(MovableAABB.m_Center.X + MovableAABB.m_WidthRadius),
+			(int)(MovableAABB.m_Center.Y + MovableAABB.m_HeightRadius));
+		string strPos = "[" +
+			std::to_string((int)(MovableAABB.m_Center.X)) + ", " +
+			std::to_string((int)(MovableAABB.m_Center.Y)) + "]";
+		TextOutA(hDC, (int)(MovableAABB.m_Center.X), (int)(MovableAABB.m_Center.Y), strPos.data(), (int)strPos.size());
 	}
 }
 
@@ -49,54 +51,66 @@ void UMovementManager::Reset()
 	m_Walls.clear();
 }
 
-void UMovementManager::AddMovable(UMovableComponent* MovableComponent)
+void UMovementManager::AddMovable(AActor* Movable)
 {
-	m_Movables.insert(MovableComponent);
+	m_Movables.insert(Movable);
 }
 
-void UMovementManager::AddWall(UWallComponent* WallComponent)
+void UMovementManager::AddWall(AActor* Wall)
 {
-	m_Walls.insert(WallComponent);
-}
-
-unordered_set<UWallComponent*>& UMovementManager::GetWalls()
-{
-	return m_Walls;
-}
-
-bool UMovementManager::GetIsBlocked(FVector2D Velocity, FVector2D ActorPosition, FVector2D WallPosition)
-{
-	if (Velocity.X > 0)
-	{
-		if (ActorPosition.Y < PositionOfWall.Y + 30.0f &&
-			ActorPosition.Y > PositionOfWall.Y - 30.0f &&
-			ActorPosition.X + 60.0f >= PositionOfWall.X &&
-			ActorPosition.X + 60.0f < PositionOfWall.X + 30.0f)
-		{
-
-		}
-	}
-
-	else if (Velocity.X < 0)
-	{
-
-	}
-
-	else if (Velocity.Y > 0)
-	{
-
-	}
-
-	else if (Velocity.Y < 0)
-	{
-
-	}
+	m_Walls.insert(Wall);
 }
 
 void UMovementManager::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
 
+	ULevel* ActiveLevel = GetActiveLevel();
+
+
+	for (AActor* MovableActor : m_Movables)
+	{
+		UInGameObjectComponent* MovableInGameObjectComponent = MovableActor->GetComponentByClass<UInGameObjectComponent>();
+		if (!MovableInGameObjectComponent)
+			continue;
+
+
+		FVector2D OriginalPos = MovableActor->GetPosition();
+		FInGameObjectProperty& InGameObjectProperty = MovableInGameObjectComponent->m_InGameObjectProperty;
+		if (InGameObjectProperty.m_Velocity != FVector2D::Zero)
+		{
+			FVector2D VelocityToApplyInFrame = InGameObjectProperty.m_Velocity;
+			VelocityToApplyInFrame.X = VelocityToApplyInFrame.X > InGameObjectProperty.m_MaxVelocity.X ? InGameObjectProperty.m_MaxVelocity.X : VelocityToApplyInFrame.X;
+			VelocityToApplyInFrame.Y = VelocityToApplyInFrame.Y > InGameObjectProperty.m_MaxVelocity.Y ? InGameObjectProperty.m_MaxVelocity.Y : VelocityToApplyInFrame.Y;
+
+			VelocityToApplyInFrame = VelocityToApplyInFrame * fDeltaTime;
+
+			FAxisAlignedBoundingBox DestinationAABB = {
+				OriginalPos + VelocityToApplyInFrame,
+				InGameObjectProperty.m_CollisionSize.X / 2,
+				InGameObjectProperty.m_CollisionSize.Y / 2 };
+
+			for (AActor* WallActor : m_Walls)
+			{
+				UInGameObjectComponent* WallInGameObjectComponent = WallActor->GetComponentByClass<UInGameObjectComponent>();
+				FAxisAlignedBoundingBox WallAABB = {
+					WallActor->GetPosition(),
+					InGameObjectProperty.m_CollisionSize.X / 2,
+					InGameObjectProperty.m_CollisionSize.Y / 2 };
+
+				if (DestinationAABB.GetIsCollidedWith(WallAABB))
+				{
+					DestinationAABB.SetToCorrectPos(OriginalPos, WallAABB);
+				}
+			}
+
+			MovableActor->SetPosition(DestinationAABB.m_Center);
+			MovableInGameObjectComponent->m_InGameObjectProperty.m_Velocity = FVector2D::Zero;
+		}
+	}
+
+	// Obsolete Physics
+	/*
 	for (UMovableComponent* MovableComponent : m_Movables)
 	{
 		FVector2D VelocityToApply = MovableComponent->GetVelocity();
@@ -150,11 +164,11 @@ void UMovementManager::Tick(float fDeltaTime)
 		}
 
 	}
+	*/
 }
 
 UMovementManager::UMovementManager()
 	:
-	m_MapRange{},
 	m_Movables{},
 	m_Walls{}
 {

@@ -38,7 +38,7 @@ FVector2D& FVector2D::operator=(const FVector2D& Other)
 	return *this;
 }
 
-bool FVector2D::operator==(const FVector2D& Other)
+bool FVector2D::operator==(const FVector2D& Other) const
 {
 	if (X == Other.X && Y == Other.Y)
 	{
@@ -58,7 +58,7 @@ FVector2D& FVector2D::operator+=(const FVector2D& Other)
 	return *this;
 }
 
-FVector2D FVector2D::operator+(FVector2D Other)
+FVector2D FVector2D::operator+(FVector2D Other) const
 {
 	FVector2D NewVector{};
 	NewVector.X = X + Other.X;
@@ -66,7 +66,7 @@ FVector2D FVector2D::operator+(FVector2D Other)
 	return NewVector;
 }
 
-FVector2D FVector2D::operator-(FVector2D Other)
+FVector2D FVector2D::operator-(FVector2D Other) const
 {
 	FVector2D NewVector{};
 	NewVector.X = X - Other.X;
@@ -75,7 +75,7 @@ FVector2D FVector2D::operator-(FVector2D Other)
 }
 
 
-FVector2D FVector2D::operator*(float fValue)
+FVector2D FVector2D::operator*(float fValue) const
 {
 	FVector2D NewVector{};
 	NewVector.X = X * fValue;
@@ -83,7 +83,7 @@ FVector2D FVector2D::operator*(float fValue)
 	return NewVector;
 }
 
-FVector2D FVector2D::operator/(float fValue)
+FVector2D FVector2D::operator/(float fValue) const
 {
 	FVector2D NewVector{};
 	NewVector.X = X / fValue;

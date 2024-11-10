@@ -1,125 +1,57 @@
 #include "stdafx.h"
 #include "AxisAlignedBoundingBox.h"
 
-void FAxisAlignedBoundingBox::SetCenter(FVector2D Center)
+void FAxisAlignedBoundingBox::SetToCorrectPos(FVector2D SourcePos, const FAxisAlignedBoundingBox& OtherBox)
 {
-	float WidthRadius = (right - left) / 2;
-	float HeightRadius = (bottom - top) / 2;
-	
-	left = Center.X - WidthRadius;
-	right = Center.X + WidthRadius;
-	top = Center.Y - HeightRadius;
-	bottom = Center.Y - HeightRadius;
-}
+	FVector2D CenterPositionDiff = (OtherBox.m_Center - this->m_Center);
+	CenterPositionDiff.X = abs(CenterPositionDiff.X);
+	CenterPositionDiff.Y = abs(CenterPositionDiff.Y);
 
-FVector2D FAxisAlignedBoundingBox::GetCenter() const
-{
-	FVector2D Center = { (right + left) / 2, (bottom + top) / 2 };
-	return Center;
-}
+	FVector2D RadiusSum = { this->m_WidthRadius + OtherBox.m_WidthRadius, this->m_HeightRadius + OtherBox.m_HeightRadius };
 
-float FAxisAlignedBoundingBox::GetWidth() const
-{
-	return right - left;
-}
+	float AbsoluteXToMove = RadiusSum.X > CenterPositionDiff.X ? RadiusSum.X - CenterPositionDiff.X : 0;
+	float AbsoluteYToMove = RadiusSum.Y > CenterPositionDiff.Y ? RadiusSum.Y - CenterPositionDiff.Y : 0;
 
-float FAxisAlignedBoundingBox::GetHeight() const
-{
-	return bottom - top;
-}
-
-void FAxisAlignedBoundingBox::TryMove(
-	const FAxisAlignedBoundingBox& StartAABB,
-	const FAxisAlignedBoundingBox& FutureAABB,
-	const FAxisAlignedBoundingBox& WallAABB)
-{
-	auto test = WallAABB.GetCenter().X;
-	auto test2 = FutureAABB.GetCenter().X;
-	float CenterXDiff = std::abs(WallAABB.GetCenter().X - FutureAABB.GetCenter().X);
-	float CenterYDiffNotAbs = (WallAABB.GetCenter().Y - FutureAABB.GetCenter().Y);
-	float XTotal = (WallAABB.GetWidth() + FutureAABB.GetWidth()) / 2;
-
-	float OverlappedWidth = XTotal - CenterXDiff;
-
-	FVector2D Direction = (FutureAABB.GetCenter() - StartAABB.GetCenter()).GetNormalized();
-	FVector2D DifferenceVector{};
-	if (Direction.X != 0)
-	{
-		DifferenceVector = { Direction.X / std::abs(Direction.X) * OverlappedWidth, Direction.Y / std::abs(Direction.X) * OverlappedWidth };
-	}
+	// 우방향 이동일 때
+	if (SourcePos.X < this->m_Center.X)
+		this->m_Center.X -= AbsoluteXToMove;
+	// 좌방향 이동일 때
 	else
-	{
-		DifferenceVector = { 0.0f, CenterYDiffNotAbs};
-	}
-
-	this->SetCenter(this->GetCenter() - DifferenceVector);
+		this->m_Center.X += AbsoluteXToMove;
+	// 하방향 이동일 때
+	if (SourcePos.Y < this->m_Center.Y)
+		this->m_Center.Y -= AbsoluteYToMove;
+	else
+		this->m_Center.Y += AbsoluteYToMove;
 }
 
-
-void FAxisAlignedBoundingBox::DontOverlapWith(const FAxisAlignedBoundingBox& OtherBox)
+bool FAxisAlignedBoundingBox::GetIsCollidedWith(const FAxisAlignedBoundingBox& OtherBox) const
 {
-	//FutureAABB = StartAABB.AddActorLocation(Dir * DeltaTime * Speed);
-	//if (FutureAABB.X + FutureAABB.Scale.X.Half() > WallAABB.Pos.X - WallAABB.Scale.half())
-	//	CorrectAABB.X = (WallAABB.Pos.X - WallAABB.Scale.half()) - (FutureAABB.X + FutureAABB.Scale.X.Half());
-	if (left < OtherBox.right)
-	{
-		left = OtherBox.right;
-		return;
-	}
-	if (right > OtherBox.left)
-	{
-		right = OtherBox.left;
-		return;
-	}
-	if (top < OtherBox.bottom)
-	{
-		top = OtherBox.bottom;
-		return;
-	}
-	if (bottom > OtherBox.top)
-	{
-		bottom = OtherBox.top;
-		return;
-	}
-}
+	FVector2D CenterPositionDiff = (OtherBox.m_Center - this->m_Center);
+	CenterPositionDiff.X = abs(CenterPositionDiff.X);
+	CenterPositionDiff.Y = abs(CenterPositionDiff.Y);
 
-void FAxisAlignedBoundingBox::SetCoordinatesByActorAndSize(FVector2D ActorPos, FVector2D Size)
-{
-	left = ActorPos.X - Size.X;
-	right = ActorPos.X + Size.X;
-	top = ActorPos.Y - Size.Y;
-	bottom = ActorPos.Y + Size.Y;
-}
+	FVector2D RadiusSum = {this->m_WidthRadius + OtherBox.m_WidthRadius, this->m_HeightRadius + OtherBox.m_HeightRadius};
 
-bool FAxisAlignedBoundingBox::CheckCollision(const FAxisAlignedBoundingBox& OtherBox) const
-{
-	if (left > OtherBox.right)
-		return false;
-	if (right < OtherBox.left)
-		return false;
-	if (top > OtherBox.bottom)
-		return false;
-	if (bottom < OtherBox.top)
-		return false;
+	if (CenterPositionDiff.X < RadiusSum.X && CenterPositionDiff.Y < RadiusSum.Y)
+		return true;
 
-	return true;
+	return false;
 }
 
 FAxisAlignedBoundingBox::FAxisAlignedBoundingBox()
 	:
-	left{},
-	top{},
-	right{},
-	bottom{}
+	m_Center{},
+	m_HeightRadius{},
+	m_WidthRadius{}
 {
 }
 
-FAxisAlignedBoundingBox::FAxisAlignedBoundingBox(float _left, float _top, float _right, float _bottom)
+FAxisAlignedBoundingBox::FAxisAlignedBoundingBox(FVector2D Center, float WidthRadius, float HeightRadius)
 	:
 	FAxisAlignedBoundingBox()
 {
-	left = _left;
-	top = _top;
-	right = _right;
-	bottom = _bottom;
+	m_Center = Center;
+	m_WidthRadius = WidthRadius;
+	m_HeightRadius = HeightRadius;
 }

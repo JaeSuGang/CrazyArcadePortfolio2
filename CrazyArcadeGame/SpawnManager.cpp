@@ -5,34 +5,47 @@
 #include "CharacterAIController.h"
 #include "KmEngine/RenderComponent.h"
 #include "GameUI.h"
-#include "MovableComponent.h"
-#include "WallComponent.h"
 #include "SpawnManager.h"
 #include "Tilemap.h"
+#include "InGameObjectComponent.h"
 
 
-void USpawnManager::GenerateWallTile(int nTileIndex, int nValue, int nGroundTileIndex)
+void USpawnManager::GenerateWallTile(int nTileLocationIndex, int nTileValue, int nGroundTileValue)
 {
-	int nXIndex = nTileIndex % 15;
-	int nYIndex = nTileIndex / 15;
+	int nXIndex = nTileLocationIndex % 15;
+	int nYIndex = nTileLocationIndex / 15;
 
 	UResourceManager* ResourceManager = GEngine->GetEngineSubsystem<UResourceManager>();
-	FVector2D LocationVector{ (float)(59.5f + 60 * nXIndex), (float)(89.5 + 60 * nYIndex) };
+	FVector2D LocationVector{ 60.0f + 60.0f * nXIndex, 90.0f + 60.0f * nYIndex };
 	AActor* TileActor = GetActiveLevel()->InitializeActorForPlay<AActor>();
 	URenderComponent* PositionedTileRenderComponent = TileActor->CreateDefaultSubobject<URenderComponent>();
-	UWallComponent* PositionedTileWallComponent = TileActor->CreateDefaultSubobject<UWallComponent>();
-	PositionedTileWallComponent->SetCollisionSize(FVector2D(30.0f, 30.0f));
-	switch (nValue)
+	UInGameObjectComponent* InGameObjectComponent = TileActor->CreateDefaultSubobject<UInGameObjectComponent>();
+	switch (nTileValue)
 	{
 	case 1:
 	case 2:
-	case 3:
-	case 7:
-		PositionedTileWallComponent->RegisterAtMovementManager(true);
+		InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::ExplodableWall;
+		PositionedTileRenderComponent->SetStaticImageOffset(FVector2D(0.0f, -3.0f));
 		break;
-
+	case 3:
+		InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::MovableWall;
+		PositionedTileRenderComponent->SetStaticImageOffset(FVector2D(0.0f, -3.0f));
+		break;
+	case 4:
+	case 5:
+	case 6:
+		InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::NonExplodableWall;
+		PositionedTileRenderComponent->SetStaticImageOffset(FVector2D(0.0f, -11.0f));
+		break;
+	case 7:
+		InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::HidableWall;
+		PositionedTileRenderComponent->SetStaticImageOffset(FVector2D(0.0f, -11.0f));
+		break;
+	case 8:
+		InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::NonExplodableWall;
+		PositionedTileRenderComponent->SetStaticImageOffset(FVector2D(0.0f, -20.0f));
+		break;
 	default:
-		PositionedTileWallComponent->RegisterAtMovementManager(false);
 		break;
 
 	}
@@ -40,67 +53,15 @@ void USpawnManager::GenerateWallTile(int nTileIndex, int nValue, int nGroundTile
 	TileActor->SetPosition(LocationVector);
 	PositionedTileRenderComponent->SetRenderPriority(nYIndex + 10.0f);
 	PositionedTileRenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
-	PositionedTileRenderComponent->SetStaticImage("Resources\\Tiles\\WallTiles\\" + std::to_string(nValue) + ".bmp");
-
-	switch (nValue)
-	{
-	case 1:
-	case 2:
-	case 3:
-	case 4:
-	case 5:
-	case 6:
-		switch (nGroundTileIndex)
-		{
-		case 1:
-		case 2:
-			PositionedTileRenderComponent->SetShadowImage("Resources\\Shadows\\WallGreenShadow.bmp");
-			PositionedTileRenderComponent->SetShadowImageOffset(FVector2D(-2.0f, 2.0f));
-			break;
-
-		case 3:
-		case 4:
-		case 5:
-		case 6:
-		case 7:
-			PositionedTileRenderComponent->SetShadowImage("Resources\\Shadows\\WallGrayShadow.bmp");
-			PositionedTileRenderComponent->SetShadowImageOffset(FVector2D(-3.0f, 2.0f));
-			break;
-		}
-		break;
-	}
-
-	switch (nValue)
-	{
-	case 1:
-	case 2:
-	case 3:
-		PositionedTileRenderComponent->SetStaticImageOffset(FVector2D(0.0f, -3.0f));
-		break;
-
-	case 4:
-	case 5:
-	case 6:
-	case 7:
-		PositionedTileRenderComponent->SetStaticImageOffset(FVector2D(0.0f, -11.0f));
-		break;
-
-	case 8:
-		PositionedTileRenderComponent->SetStaticImageOffset(FVector2D(0.0f, -20.0f));
-		break;
-
-	default:
-		PositionedTileRenderComponent->SetStaticImageOffset(FVector2D::Zero);
-		break;
-	}
+	PositionedTileRenderComponent->SetStaticImage("Resources\\Tiles\\WallTiles\\" + std::to_string(nTileValue) + ".bmp");
 
 	TileActor->BeginPlay();
 }
 
-void USpawnManager::GenerateGroundTile(int nTileIndex, int nValue)
+void USpawnManager::GenerateGroundTile(int nTileLocationIndex, int nTileValue)
 {
-	int nXIndex = nTileIndex % 15;
-	int nYIndex = nTileIndex / 15;
+	int nXIndex = nTileLocationIndex % 15;
+	int nYIndex = nTileLocationIndex / 15;
 
 	UResourceManager* ResourceManager = GEngine->GetEngineSubsystem<UResourceManager>();
 	FVector2D LocationVector{ (float)(59.5f + 60 * nXIndex), (float)(89.5f + 60 * nYIndex) };
@@ -108,7 +69,7 @@ void USpawnManager::GenerateGroundTile(int nTileIndex, int nValue)
 	URenderComponent* PositionedTileRenderComponent = TileActor->CreateDefaultSubobject<URenderComponent>();
 
 	TileActor->SetPosition(LocationVector);
-	UImage* Image = ResourceManager->GetImage("Resources\\Tiles\\GroundTiles\\" + std::to_string(nValue) + ".bmp");
+	UImage* Image = ResourceManager->GetImage("Resources\\Tiles\\GroundTiles\\" + std::to_string(nTileValue) + ".bmp");
 	PositionedTileRenderComponent->SetRenderType(URenderComponent::ERenderType::FloorTile);
 	PositionedTileRenderComponent->SetRenderPriority(0.0f);
 	PositionedTileRenderComponent->SetStaticImage(Image);
@@ -154,10 +115,8 @@ ACharacter* USpawnManager::SpawnBazzi(FVector2D PositionVector)
 	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
 	RenderComponent->BeginPlay();
-	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
-	MovableComponent->RegisterMovableAtMovementManager();
-	MovableComponent->SetMaxSpeed(300.0f);
-	MovableComponent->SetCollisionSize(FVector2D(30.0f, 30.0f));
+	UInGameObjectComponent* InGameObjectComponent = SpawnedCharacter->CreateDefaultSubobject<UInGameObjectComponent>();
+	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Character;
 
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->BeginPlay();
@@ -181,10 +140,8 @@ ACharacter* USpawnManager::SpawnDao(FVector2D PositionVector)
 	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
 	RenderComponent->BeginPlay();
-	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
-	MovableComponent->RegisterMovableAtMovementManager();
-	MovableComponent->SetMaxSpeed(300.0f);
-	MovableComponent->SetCollisionSize(FVector2D(30.0f, 30.0f));
+	UInGameObjectComponent* InGameObjectComponent = SpawnedCharacter->CreateDefaultSubobject<UInGameObjectComponent>();
+	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Character;
 
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->BeginPlay();
@@ -208,10 +165,8 @@ ACharacter* USpawnManager::SpawnCappi(FVector2D PositionVector)
 	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
 	RenderComponent->BeginPlay();
-	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
-	MovableComponent->RegisterMovableAtMovementManager();
-	MovableComponent->SetMaxSpeed(300.0f);
-	MovableComponent->SetCollisionSize(FVector2D(30.0f, 30.0f));
+	UInGameObjectComponent* InGameObjectComponent = SpawnedCharacter->CreateDefaultSubobject<UInGameObjectComponent>();
+	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Character;
 
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->BeginPlay();
@@ -235,10 +190,8 @@ ACharacter* USpawnManager::SpawnMarid(FVector2D PositionVector)
 	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
 	RenderComponent->BeginPlay();
-	UMovableComponent* MovableComponent = SpawnedCharacter->CreateDefaultSubobject<UMovableComponent>();
-	MovableComponent->RegisterMovableAtMovementManager();
-	MovableComponent->SetMaxSpeed(300.0f);
-	MovableComponent->SetCollisionSize(FVector2D(30.0f, 30.0f));
+	UInGameObjectComponent* InGameObjectComponent = SpawnedCharacter->CreateDefaultSubobject<UInGameObjectComponent>();
+	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Character;
 
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->BeginPlay();

@@ -3,30 +3,16 @@
 struct FAxisAlignedBoundingBox
 {
 public:
-	void SetCenter(FVector2D Center);
-	FVector2D GetCenter() const;
-	float GetWidth() const;
-	float GetHeight() const;
-
-	void TryMove(
-		const FAxisAlignedBoundingBox& StartAABB,
-		const FAxisAlignedBoundingBox& FutureAABB,
-		const FAxisAlignedBoundingBox& WallAABB);
-
-	void DontOverlapWith(const FAxisAlignedBoundingBox& OtherBox);
-	void SetCoordinatesByActorAndSize(FVector2D ActorPos, FVector2D Size);
-	bool CheckCollision(const FAxisAlignedBoundingBox& OtherBox) const;
-	
-	// bool CheckCollision(FVector2D OtherCirclePos, float OtherCircleRadius);
+	void SetToCorrectPos(FVector2D SourcePos, const FAxisAlignedBoundingBox& OtherBox);
+	bool GetIsCollidedWith(const FAxisAlignedBoundingBox& OtherBox) const;
 
 public:
 	FAxisAlignedBoundingBox();
-	FAxisAlignedBoundingBox(float left, float top, float right, float bottom);
+	FAxisAlignedBoundingBox(FVector2D Center, float WidthRadius, float HeightRadius);
 
 public:
-	float left;
-	float top;
-	float right;
-	float bottom;
+	FVector2D m_Center;
+	float m_WidthRadius;
+	float m_HeightRadius;
 };
 

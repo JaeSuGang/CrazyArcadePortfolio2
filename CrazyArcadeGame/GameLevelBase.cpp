@@ -33,18 +33,16 @@ void UGameLevelBase::BeginPlay()
 	UMovementManager* MovementManager = GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
 	APlayerController* PlayerController = SpawnManager->SpawnPlayerController();
 
-	MovementManager->SetMapRange(RECT{30, 60, 930, 840});
-
 	// UI 积己
 	AGameUI* InGameUI = SpawnManager->SpawnGameUI("Resources\\UI\\InGameUI.bmp", FVector2D(600.0f, 450.0f));
 
 	// 鸥老甘 积己
 	m_Tilemap = new FTilemap{};
-	m_Tilemap->Load("Resources\\TilemapData\\stage1.tilemap");
+	m_Tilemap->Load("Resources\\TilemapData\\test.tilemap");
 	SpawnManager->GenerateTilemap(m_Tilemap);
 
 	// 皋牢 敲饭捞绢 积己
-	ACharacter* MainCharacter = SpawnManager->SpawnBazzi(FVector2D(120.0f, 750.0f));
+	ACharacter* MainCharacter = SpawnManager->SpawnBazzi(FVector2D(420.0f, 330.0f));
 	PlayerController->Possess(MainCharacter);
 
 	// AI 嚎 积己

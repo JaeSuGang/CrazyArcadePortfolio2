@@ -164,8 +164,8 @@
     <ClCompile Include="BombManager.cpp" />
     <ClCompile Include="CharacterAIController.cpp" />
     <ClCompile Include="GameUI.cpp" />
+    <ClCompile Include="InGameObjectComponent.cpp" />
     <ClCompile Include="main.cpp" />
-    <ClCompile Include="MovableComponent.cpp" />
     <ClCompile Include="MovementManager.cpp" />
     <ClCompile Include="SpawnManager.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -176,7 +176,6 @@
     <ClCompile Include="GameLevelBase.cpp" />
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Tilemap.cpp" />
-    <ClCompile Include="WallComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIManager.h" />
@@ -185,7 +184,7 @@
     <ClInclude Include="CharacterAIController.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="GameUI.h" />
-    <ClInclude Include="MovableComponent.h" />
+    <ClInclude Include="InGameObjectComponent.h" />
     <ClInclude Include="MovementManager.h" />
     <ClInclude Include="SpawnManager.h" />
     <ClInclude Include="stdafx.h" />
@@ -193,7 +192,6 @@
     <ClInclude Include="GameLevelBase.h" />
     <ClInclude Include="Character.h" />
     <ClInclude Include="Tilemap.h" />
-    <ClInclude Include="WallComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Resources\Bazzi\BazziDownIdle.bmp" />

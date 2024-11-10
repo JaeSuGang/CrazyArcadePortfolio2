@@ -13,16 +13,11 @@ class UMovementManager : public UGameInstanceSubsystem
 	typedef UGameInstanceSubsystem Super;
 
 public:
-	void SetMapRange(RECT Range);
 	void EnableDebugRender();
 	void DebugRender();
 	void Reset();
-	void AddMovable(UMovableComponent* MovableComponent);
-	void AddWall(UWallComponent* WallComponent);
-	unordered_set<UWallComponent*>& GetWalls();
-
-private:
-	static bool GetIsBlocked(FVector2D Velocity, FVector2D ActorPosition, FVector2D WallPosition);
+	void AddMovable(AActor* MovableComponent);
+	void AddWall(AActor* WallComponent);
 
 public:
 	void Tick(float fDeltaTime) override;
@@ -35,9 +30,8 @@ public:
 private:
 	HPEN m_hPen;
 	HBRUSH m_hBrush;
-	FAxisAlignedBoundingBox m_MapRange;
-	unordered_set<UMovableComponent*> m_Movables;
-	unordered_set<UWallComponent*> m_Walls;
+	unordered_set<AActor*> m_Movables;
+	unordered_set<AActor*> m_Walls;
 
 };
 

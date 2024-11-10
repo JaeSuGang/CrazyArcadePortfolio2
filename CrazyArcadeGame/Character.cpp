@@ -5,9 +5,9 @@
 #include "KmEngine/KeyManager.h"
 #include "KmEngine/TimeManager.h"
 #include "KmEngine/KeyManager.h"
-#include "MovableComponent.h"
 #include "BombManager.h"
 #include "AIManager.h"
+#include "InGameObjectComponent.h"
 
 void ACharacter::SetCharacterName(string strCharacterName)
 {
@@ -24,8 +24,9 @@ void ACharacter::Move(FVector2D DirectionVector)
 	if (m_bIsAlreadyMoving == false)
 	{
 		m_bIsAlreadyMoving = true;
-		UMovableComponent* MovableComponent = GetComponentByClass<UMovableComponent>();
-		MovableComponent->AddVelocity(DirectionVector * 200.0f);
+		UInGameObjectComponent* InGameObjectComponent = GetComponentByClass<UInGameObjectComponent>();
+		InGameObjectComponent->AddVelocity(DirectionVector * 200.0f);
+
 		URenderComponent* RenderComponent = GetComponentByClass<URenderComponent>();
 		if (DirectionVector == FVector2D::Up)
 		{
@@ -77,24 +78,6 @@ void ACharacter::TryPutBomb()
 	UBombManager* BombManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
 	BombManager->TryPutBomb(this->GetPosition());
 }
-
-//void ACharacter::Initialize()
-//{
-//	Super::Initialize();
-//
-//	URenderComponent* RenderComponent = InitializeComponentForPlay<URenderComponent>();
-//	UPhysicsComponent* PhysicsComponent = InitializeComponentForPlay<UPhysicsComponent>();
-//	PhysicsComponent->EnableCollision();
-//	PhysicsComponent->SetColliderShape(FCollider::EShape::Square);
-//	PhysicsComponent->SetColliderRadius(50.0f);
-//	PhysicsComponent->SetMaxSpeed(300.0f);
-//
-//	RenderComponent->SetStaticImage("Resources\\" + m_strCharacterName + "\\" + "DownIdle.bmp");
-//	RenderComponent->CreateAnimation(m_strCharacterName + "DownWalk", "Resources\\" + m_strCharacterName + "\\DownWalk", 4, 0.1f, true);
-//	RenderComponent->CreateAnimation(m_strCharacterName + "LeftWalk", "Resources\\" + m_strCharacterName + "\\LeftWalk", 4, 0.1f, true);
-//	RenderComponent->CreateAnimation( m_strCharacterName + "RightWalk", "Resources\\" + m_strCharacterName + "\\RightWalk", 4, 0.1f, true);
-//	RenderComponent->CreateAnimation(m_strCharacterName + "UpWalk", "Resources\\" + m_strCharacterName + "\\UpWalk", 4, 0.1f, true);
-//}
 
 void ACharacter::Tick(float fDeltaTime)
 {

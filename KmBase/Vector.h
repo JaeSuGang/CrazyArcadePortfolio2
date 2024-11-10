@@ -18,12 +18,12 @@ public:
 	FVector2D(float _X, float _Y);
 	FVector2D(const FVector2D& Other);
 	FVector2D& operator=(const FVector2D& Other);
-	bool operator==(const FVector2D& Other);
 	FVector2D& operator+=(const FVector2D& Other);
-	FVector2D operator+(FVector2D Other);
-	FVector2D operator-(FVector2D Other);
-	FVector2D operator*(float fValue);
-	FVector2D operator/(float fValue);
+	bool operator==(const FVector2D& Other) const;
+	FVector2D operator+(FVector2D Other) const;
+	FVector2D operator-(FVector2D Other) const;
+	FVector2D operator*(float fValue) const;
+	FVector2D operator/(float fValue) const;
 
 public:
 	float X;

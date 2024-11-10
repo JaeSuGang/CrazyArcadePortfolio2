@@ -15,15 +15,7 @@ public:
 	APlayerController* GetPlayerController() const;
 	UGameInstance* GetGameInstance() const;
 
-	//template <typename T>
-	//T* GetGameInstanceSubsystem()
-	//{
-	//	return GetGameInstance()->GetGameInstanceSubsystem<T>();
-	//}
-
 public:
-	// BeginPlay()가 없이 Actor를 m_Actors에 넣음
-	// 원래는 UWorld::InitializeActorsForPlay
 	template <typename T>
 	T* InitializeActorForPlay()
 	{
