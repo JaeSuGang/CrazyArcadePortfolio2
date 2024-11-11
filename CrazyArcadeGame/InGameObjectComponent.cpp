@@ -13,7 +13,7 @@ const FInGameObjectProperty FInGameObjectProperty::Character = []()
 		FInGameObjectProperty Property{};
 		Property.m_bIsCharacter = true;
 		Property.m_nBombLeft = 1;
-		Property.m_nBombRange = 1;
+		Property.m_nBombRange = 2;
 		Property.m_CollisionSize = { 60.0f, 60.0f };
 		Property.m_bIsExplodable = true;
 		return Property;
@@ -23,7 +23,7 @@ const FInGameObjectProperty FInGameObjectProperty::Explosion = []()
 	{
 		FInGameObjectProperty Property{};
 		Property.m_CollisionSize = { 60.0f, 60.0f };
-		Property.m_fTimer = 0.5f;
+		Property.m_fTimer = 0.3f;
 		Property.m_bIsExplosion = true;
 		Property.m_bIsAlreadyExploded = true;
 		return Property;
@@ -155,7 +155,7 @@ void UInGameObjectComponent::TickComponent(float fDeltaTime)
 	if (m_InGameObjectProperty.m_bIsAlreadyExploded)
 		m_InGameObjectProperty.m_fElapsedTimeAfterExplosion += fDeltaTime;
 
-	if (m_InGameObjectProperty.m_fElapsedTimeAfterExplosion > 0.5f)
+	if (m_InGameObjectProperty.m_fElapsedTimeAfterExplosion > 0.3f)
 		Owner->Destroy();
 
 
@@ -170,18 +170,16 @@ void UInGameObjectComponent::TickComponent(float fDeltaTime)
 		}
 	}
 
-	else if (m_InGameObjectProperty.m_bIsExplosion)
+	if (m_InGameObjectProperty.m_bIsExplosion)
 	{
-		if (RenderComponent->m_Animations.contains("bombexplosion\\bombexplosioncenter"))
+		if (m_InGameObjectProperty.m_fTimer > 0.1)
 		{
-			RenderComponent->PlayAnimation();
-
+			RenderComponent->PlayAnimation("ExplosionLoop");
 		}
 
-		else
+		else if(m_InGameObjectProperty.m_fTimer > 0.0)
 		{
-			if (m_InGameObjectProperty.m_fTimer < 0.1f)
-				RenderComponent->PlayAnimation();
+			RenderComponent->PlayAnimation("ExplosionFade");
 		}
 	}
 }

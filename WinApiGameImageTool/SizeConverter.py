@@ -35,6 +35,6 @@ class CBmpConverter:
 
 if __name__ == "__main__":
     BmpConverter = CBmpConverter()
-    BmpConverter.SetDirectory(r"C:\Users\33kkm\Desktop\BombExplosionBefore")
-    BmpConverter.SetOutputDirectory(r"C:\Users\33kkm\Desktop\BombExplosionAfter")
+    BmpConverter.SetDirectory(r"C:\Users\33kkm\Desktop\BombExplosionAfter")
+    BmpConverter.SetOutputDirectory(r"C:\Users\33kkm\Desktop\BombExplosionAfter2")
     BmpConverter.ConvertAll()

@@ -54,53 +54,20 @@ class CAutoCutter:
 
 if __name__ == "__main__":
     AutoCutter = CAutoCutter()
-    AutoCutter.SetDirectory(r"C:\Users\33kkm\Desktop\Before")
-    AutoCutter.SetImageFileName(r"bombwater.png")
-    AutoCutter.SetOutputDirectory(r"C:\Users\33kkm\Desktop\After")
-    AutoCutter.SetImageSize(40, 41)
+    AutoCutter.SetDirectory(r"C:\Users\33kkm\Desktop\BombExplosionBefore")
+    AutoCutter.SetImageFileName(r"Balloons.png")
+    AutoCutter.SetOutputDirectory(r"C:\Users\33kkm\Desktop\BombExplosionAfter")
+    AutoCutter.SetImageSize(40, 40)
 
-    AutoCutter.AddPixelCoordinate(28, 114)
-    AutoCutter.AddPixelCoordinate(85, 114)
-    AutoCutter.AddPixelCoordinate(143, 114)
-
-    AutoCutter.AddPixelCoordinate(28, 185)
-    AutoCutter.AddPixelCoordinate(86, 185)
-    AutoCutter.AddPixelCoordinate(145, 185)
-    AutoCutter.AddPixelCoordinate(202, 185)
-
-    AutoCutter.AddPixelCoordinate(276, 185)
-    AutoCutter.AddPixelCoordinate(334, 185)
-    AutoCutter.AddPixelCoordinate(393, 185)
-    AutoCutter.AddPixelCoordinate(448, 184)
-
-    AutoCutter.AddPixelCoordinate(28, 260)
-    AutoCutter.AddPixelCoordinate(86, 260)
-    AutoCutter.AddPixelCoordinate(145, 260)
-    AutoCutter.AddPixelCoordinate(202, 260)
-
-    AutoCutter.AddPixelCoordinate(272, 260)
-    AutoCutter.AddPixelCoordinate(333, 260)
-    AutoCutter.AddPixelCoordinate(384, 260)
-    AutoCutter.AddPixelCoordinate(436, 260)
-
-    AutoCutter.AddPixelCoordinate(28, 344)
-    AutoCutter.AddPixelCoordinate(85, 344)
-    AutoCutter.AddPixelCoordinate(146, 344)
-    AutoCutter.AddPixelCoordinate(202, 344)
-
-    AutoCutter.AddPixelCoordinate(271, 344)
-    AutoCutter.AddPixelCoordinate(335, 344)
-    AutoCutter.AddPixelCoordinate(389, 344)
-    AutoCutter.AddPixelCoordinate(446, 344)
-
-    AutoCutter.AddPixelCoordinate(28, 419)
-    AutoCutter.AddPixelCoordinate(85, 419)
-    AutoCutter.AddPixelCoordinate(145, 419)
-    AutoCutter.AddPixelCoordinate(202, 419)
-
-    AutoCutter.AddPixelCoordinate(271, 419)
-    AutoCutter.AddPixelCoordinate(325, 419)
-    AutoCutter.AddPixelCoordinate(379, 419)
-    AutoCutter.AddPixelCoordinate(444, 419)
+    for i in range(0, 14):
+        AutoCutter.AddPixelCoordinate(5 + i * 40, 567)
+    for i in range(0, 14):
+        AutoCutter.AddPixelCoordinate(5 + i * 40, 607)
+    for i in range(0, 14):
+        AutoCutter.AddPixelCoordinate(5 + i * 40, 647)
+    for i in range(0, 14):
+        AutoCutter.AddPixelCoordinate(5 + i * 40, 687)
+    for i in range(0, 4):
+        AutoCutter.AddPixelCoordinate(5 + i * 40, 727)
 
     AutoCutter.InitiateCutting()

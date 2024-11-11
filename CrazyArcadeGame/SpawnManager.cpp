@@ -292,7 +292,6 @@ AActor* USpawnManager::SpawnExplosion(FVector2D PositionVector, int nDirection, 
 	ExplosionActor->SetPosition(PositionVector);
 	URenderComponent* RenderComponent = ExplosionActor->CreateDefaultSubobject<URenderComponent>();
 	UInGameObjectComponent* InGameObjectComponent = ExplosionActor->CreateDefaultSubobject<UInGameObjectComponent>();
-	RenderComponent->SetStaticImageOffset(FVector2D(0.0f, 0.0f));
 	RenderComponent->SetRenderPriority(VectorToRenderPriority(PositionVector));
 	RenderComponent->SetRenderType(URenderComponent::ERenderType::NonShadowObject);
 	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Explosion;
@@ -300,83 +299,29 @@ AActor* USpawnManager::SpawnExplosion(FVector2D PositionVector, int nDirection, 
 	switch (nDirection)
 	{
 	case 0:
-		RenderComponent->SetStaticImage("Resources\\BombExplosion\\BombExplosionCenter.bmp");
-		RenderComponent->CreateAnimation(
-			"BombExplosion\\BombExplosionCenter",
-			"Resources\\BombExplosion\\BombExplosionCenter",
-			3, 0.025f, true);
+		RenderComponent->CreateAnimation("ExplosionEndLoop", "Resources\\BombExplosion\\BombExplosionCenter", 4, 0.025f, true);
+		RenderComponent->CreateAnimation("ExplosionLoop", "Resources\\BombExplosion\\BombExplosionCenter", 4, 0.025f, true);
+		RenderComponent->CreateAnimation("ExplosionFade", "Resources\\BombExplosion\\BombExplosionCenter", 4, 0.010f, true);
 		break;
 	case 1:
-		if (!bIsEnd)
-		{
-			RenderComponent->SetStaticImage("Resources\\BombExplosion\\BombExplosionUp_0.bmp");
-			RenderComponent->CreateAnimation(
-				"BombExplosion\\BombExplosionUp",
-				"Resources\\BombExplosion\\BombExplosionUp",
-				4, 0.025f, false);
-		}
-		else
-		{
-			RenderComponent->SetStaticImage("Resources\\BombExplosion\\BombExplosionUpEnd_0.bmp");
-			RenderComponent->CreateAnimation(
-				"BombExplosion\\BombExplosionUpEnd",
-				"Resources\\BombExplosion\\BombExplosionUpEnd",
-				4, 0.025f, false);
-		}
+		RenderComponent->CreateAnimation("ExplosionLoop", "Resources\\BombExplosion\\BombExplosionUpLoop", 2, 0.025f, true);
+		RenderComponent->CreateAnimation("ExplosionEndLoop", "Resources\\BombExplosion\\BombExplosionUpEndLoop", 2, 0.025f, true);
+		RenderComponent->CreateAnimation("ExplosionFade", "Resources\\BombExplosion\\BombExplosionUpFade", 10, 0.010f, false);
 		break;
 	case 2:
-		if (!bIsEnd)
-		{
-			RenderComponent->SetStaticImage("Resources\\BombExplosion\\BombExplosionRight_0.bmp");
-			RenderComponent->CreateAnimation(
-				"BombExplosion\\BombExplosionRight",
-				"Resources\\BombExplosion\\BombExplosionRight",
-				4, 0.025f, false);
-		}
-		else
-		{
-			RenderComponent->SetStaticImage("Resources\\BombExplosion\\BombExplosionRightEnd_0.bmp");
-			RenderComponent->CreateAnimation(
-				"BombExplosion\\BombExplosionRightEnd",
-				"Resources\\BombExplosion\\BombExplosionRightEnd",
-				4, 0.025f, false);
-		}
+		RenderComponent->CreateAnimation("ExplosionLoop", "Resources\\BombExplosion\\BombExplosionRightLoop", 2, 0.025f, true);
+		RenderComponent->CreateAnimation("ExplosionEndLoop", "Resources\\BombExplosion\\BombExplosionRightEndLoop", 2, 0.025f, true);
+		RenderComponent->CreateAnimation("ExplosionFade", "Resources\\BombExplosion\\BombExplosionRightFade", 10, 0.010f, false);
 		break;
 	case 3:
-		if (!bIsEnd)
-		{
-			RenderComponent->SetStaticImage("Resources\\BombExplosion\\BombExplosionDown_0.bmp");
-			RenderComponent->CreateAnimation(
-				"BombExplosion\\BombExplosionDown",
-				"Resources\\BombExplosion\\BombExplosionDown",
-				4, 0.025f, false);
-		}
-		else
-		{
-			RenderComponent->SetStaticImage("Resources\\BombExplosion\\BombExplosionDownEnd_0.bmp");
-			RenderComponent->CreateAnimation(
-				"BombExplosion\\BombExplosionDownsEnd",
-				"Resources\\BombExplosion\\BombExplosionDownEnd",
-				4, 0.025f, false);
-		}
+		RenderComponent->CreateAnimation("ExplosionLoop", "Resources\\BombExplosion\\BombExplosionDownLoop", 2, 0.025f, true);
+		RenderComponent->CreateAnimation("ExplosionEndLoop", "Resources\\BombExplosion\\BombExplosionDownEndLoop", 2, 0.025f, true);
+		RenderComponent->CreateAnimation("ExplosionFade", "Resources\\BombExplosion\\BombExplosionDownFade", 10, 0.010f, false);
 		break;
 	case 4:
-		if (!bIsEnd)
-		{
-			RenderComponent->SetStaticImage("Resources\\BombExplosion\\BombExplosionLeft_0.bmp");
-			RenderComponent->CreateAnimation(
-				"BombExplosion\\BombExplosionLeft",
-				"Resources\\BombExplosion\\BombExplosionLeft",
-				4, 0.025f, false);
-		}
-		else
-		{
-			RenderComponent->SetStaticImage("Resources\\BombExplosion\\BombExplosionLeftEnd_0.bmp");
-			RenderComponent->CreateAnimation(
-				"BombExplosion\\BombExplosionLeftEnd",
-				"Resources\\BombExplosion\\BombExplosionLeftEnd",
-				4, 0.025f, false);
-		}
+		RenderComponent->CreateAnimation("ExplosionLoop", "Resources\\BombExplosion\\BombExplosionLeftLoop", 2, 0.025f, true);
+		RenderComponent->CreateAnimation("ExplosionEndLoop", "Resources\\BombExplosion\\BombExplosionLeftEndLoop", 2, 0.025f, true);
+		RenderComponent->CreateAnimation("ExplosionFade", "Resources\\BombExplosion\\BombExplosionLeftFade", 10, 0.010f, false);
 		break;
 	
 	}

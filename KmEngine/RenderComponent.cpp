@@ -76,7 +76,6 @@ void URenderComponent::PlayAnimation(string strKey)
 
 	else if (m_fAccumulatedTime >= 0)
 	{
-		m_fAccumulatedTime += GEngine->GetEngineSubsystem<UTimeManager>()->GetDeltaTime();
 		m_ImageDataset.StaticImage = m_CurrentAnimation->m_Images[m_nAnimationFrameIndex];
 		if (m_fAccumulatedTime > m_CurrentAnimation->m_fFrameDuration)
 		{
@@ -89,6 +88,11 @@ void URenderComponent::PlayAnimation(string strKey)
 				m_nAnimationFrameIndex = 0;
 			}
 			m_fAccumulatedTime = 0.0f;
+		}
+		else
+		{
+			m_fAccumulatedTime += GEngine->GetEngineSubsystem<UTimeManager>()->GetDeltaTime();
+
 		}
 	}
 }

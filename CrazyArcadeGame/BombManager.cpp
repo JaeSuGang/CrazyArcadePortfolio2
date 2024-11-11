@@ -50,7 +50,8 @@ void UBombManager::Explode(int nTileIndex, int nRange)
 
 	FAxisAlignedBoundingBox AABB { FVector2D::Zero, TILE_WIDTH / 2, TILE_HEIGHT / 2 };
 
-	SpawnManager->SpawnExplosion(AABB.m_Center, 0, true);
+	SpawnManager->SpawnExplosion(TileIndexToVector(nTileIndex), 0, true);
+
 	for (int i = 0; i < 4; i++)
 	{
 		for (int j = 1; j <= nRange; j++)
