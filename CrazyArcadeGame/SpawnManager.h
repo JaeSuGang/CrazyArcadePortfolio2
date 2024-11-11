@@ -23,6 +23,7 @@ public:
 	ACharacter* SpawnMarid(FVector2D PositionVector);
 	AActor* SpawnBomb(FVector2D PositionVector, AActor* Spawner);
 	AActor* SpawnExplosion(FVector2D PositionVector, int nDirection, bool bIsEnd);
+	AActor* SpawnExplosion(FVector2D PositionVector, int nDirection, float fDelayTimer, bool bIsEnd);
 	APlayerController* SpawnPlayerController();
 	AAIController* SpawnCharacterAIController();
 

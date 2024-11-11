@@ -20,5 +20,8 @@ public:
 
 public:
 	unordered_set<AActor*> m_Explosions;
+
+private:
+	float m_fAccumulatedDeltaTime;
 };
 

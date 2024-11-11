@@ -25,6 +25,7 @@ public:
 	int m_nBombLeft;
 	int m_nBombRange;
 
+	bool m_bIsHidablePlace;
 	bool m_bIsAlreadyExploded;
 	bool m_bIsExplosionCenter;
 	bool m_bIsExplosion;
@@ -52,6 +53,7 @@ public:
 private:
 	void OnExploded_Bomb();
 	void OnExploded_Block();
+	void OnExploded_Hidable();
 
 public:
 	void BeginPlay() override;

@@ -28,3 +28,7 @@ AActor를 삭제시켜야 할때마다 이런 주소를 참조해가는 곳을 일일히 신경써주기가 매�
 FArchive는 Serialize(ISerializable* Serializable)이라는 함수를 오버로딩 함으로써,
 FArchive 매우 추상적이고 원초적인 클래스 임에도 불구하고 구체적인 Concrete한 객체와의 상호작용이
 가능했음. 바이너리 데이터의 직렬화와 역직렬화, c 라이브러리 사용법에 대해서도 알게됨
+
+8. Tick으로 시간경과를 지켜봐야하는 로직의 경우, 부하를 줄이기 위해
+m_fAccumulatedDeltaTime += fDeltaTime; if (m_AccumulatedfDeltaTime > 0.05f)
+등으로 프레임을 방어할수 있었음.

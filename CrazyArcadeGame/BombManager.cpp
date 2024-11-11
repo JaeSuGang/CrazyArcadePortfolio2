@@ -88,7 +88,7 @@ void UBombManager::Explode(int nTileIndex, int nRange)
 			else
 			{
 				bool bIsEnd = (j == nRange);
-				SpawnManager->SpawnExplosion(AABB.m_Center, i+1, bIsEnd);
+				SpawnManager->SpawnExplosion(AABB.m_Center, i+1, j * 0.02f, bIsEnd);
 			}
 		}
 	}
@@ -99,24 +99,33 @@ void UBombManager::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
 
+	m_fAccumulatedDeltaTime += fDeltaTime;
 
-	for (AActor* ExplosionActor : m_Explosions)
+	if (m_fAccumulatedDeltaTime > 0.05f)
 	{
-		UInGameObjectComponent* ExplosionInGameObjectComponent = ExplosionActor->GetComponentByClass<UInGameObjectComponent>();
-		FAxisAlignedBoundingBox ExplosionAABB = {
-			ExplosionActor->GetPosition(),
-			ExplosionInGameObjectComponent->m_InGameObjectProperty.m_CollisionSize.X / 2,
-			ExplosionInGameObjectComponent->m_InGameObjectProperty.m_CollisionSize.Y / 2 };
+		m_fAccumulatedDeltaTime = 0.0f;
 
-		for (AActor* TargetActor : GetActiveLevel()->m_Actors)
+		for (AActor* ExplosionActor : m_Explosions)
 		{
-			UInGameObjectComponent* TargetInGameObjectComponent = TargetActor->GetComponentByClass<UInGameObjectComponent>();
-			if (!TargetInGameObjectComponent)
-				continue;
+			UInGameObjectComponent* ExplosionInGameObjectComponent = ExplosionActor->GetComponentByClass<UInGameObjectComponent>();
+			FAxisAlignedBoundingBox ExplosionAABB = {
+				ExplosionActor->GetPosition(),
+				ExplosionInGameObjectComponent->m_InGameObjectProperty.m_CollisionSize.X / 2,
+				ExplosionInGameObjectComponent->m_InGameObjectProperty.m_CollisionSize.Y / 2 };
 
-			if (ExplosionAABB.GetIsCollidedWith(TargetActor->GetPosition()))
+			for (AActor* TargetActor : GetActiveLevel()->m_Actors)
 			{
-				TargetInGameObjectComponent->OnExploded();
+				UInGameObjectComponent* TargetInGameObjectComponent = TargetActor->GetComponentByClass<UInGameObjectComponent>();
+				if (!TargetInGameObjectComponent)
+					continue;
+
+				if (!TargetInGameObjectComponent->m_InGameObjectProperty.m_bIsExplodable)
+					continue;
+
+				if (ExplosionAABB.GetIsCollidedWith(TargetActor->GetPosition()))
+				{
+					TargetInGameObjectComponent->OnExploded();
+				}
 			}
 		}
 	}

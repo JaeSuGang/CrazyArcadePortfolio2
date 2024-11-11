@@ -288,6 +288,11 @@ AActor* USpawnManager::SpawnBomb(FVector2D PositionVector, AActor* Spawner)
 
 AActor* USpawnManager::SpawnExplosion(FVector2D PositionVector, int nDirection, bool bIsEnd)
 {
+	return this->SpawnExplosion(PositionVector, nDirection, 0.0f, bIsEnd);
+}
+
+AActor* USpawnManager::SpawnExplosion(FVector2D PositionVector, int nDirection, float fDelayTimer, bool bIsEnd)
+{
 	AActor* ExplosionActor = GetActiveLevel()->InitializeActorForPlay<AActor>();
 	ExplosionActor->SetPosition(PositionVector);
 	URenderComponent* RenderComponent = ExplosionActor->CreateDefaultSubobject<URenderComponent>();
@@ -304,23 +309,23 @@ AActor* USpawnManager::SpawnExplosion(FVector2D PositionVector, int nDirection, 
 		RenderComponent->CreateAnimation("ExplosionFade", "Resources\\BombExplosion\\BombExplosionCenter", 4, 0.010f, true);
 		break;
 	case 1:
-		RenderComponent->CreateAnimation("ExplosionLoop", "Resources\\BombExplosion\\BombExplosionUpLoop", 2, 0.025f, true);
-		RenderComponent->CreateAnimation("ExplosionEndLoop", "Resources\\BombExplosion\\BombExplosionUpEndLoop", 2, 0.025f, true);
+		RenderComponent->CreateAnimation("ExplosionLoop", "Resources\\BombExplosion\\BombExplosionUpLoop", 2, 0.025f, fDelayTimer, true);
+		RenderComponent->CreateAnimation("ExplosionEndLoop", "Resources\\BombExplosion\\BombExplosionUpEndLoop", 2, 0.025f, fDelayTimer, true);
 		RenderComponent->CreateAnimation("ExplosionFade", "Resources\\BombExplosion\\BombExplosionUpFade", 10, 0.010f, false);
 		break;
 	case 2:
-		RenderComponent->CreateAnimation("ExplosionLoop", "Resources\\BombExplosion\\BombExplosionRightLoop", 2, 0.025f, true);
-		RenderComponent->CreateAnimation("ExplosionEndLoop", "Resources\\BombExplosion\\BombExplosionRightEndLoop", 2, 0.025f, true);
+		RenderComponent->CreateAnimation("ExplosionLoop", "Resources\\BombExplosion\\BombExplosionRightLoop", 2, 0.025f, fDelayTimer, true);
+		RenderComponent->CreateAnimation("ExplosionEndLoop", "Resources\\BombExplosion\\BombExplosionRightEndLoop", 2, 0.025f, fDelayTimer, true);
 		RenderComponent->CreateAnimation("ExplosionFade", "Resources\\BombExplosion\\BombExplosionRightFade", 10, 0.010f, false);
 		break;
 	case 3:
-		RenderComponent->CreateAnimation("ExplosionLoop", "Resources\\BombExplosion\\BombExplosionDownLoop", 2, 0.025f, true);
-		RenderComponent->CreateAnimation("ExplosionEndLoop", "Resources\\BombExplosion\\BombExplosionDownEndLoop", 2, 0.025f, true);
+		RenderComponent->CreateAnimation("ExplosionLoop", "Resources\\BombExplosion\\BombExplosionDownLoop", 2, 0.025f, fDelayTimer, true);
+		RenderComponent->CreateAnimation("ExplosionEndLoop", "Resources\\BombExplosion\\BombExplosionDownEndLoop", 2, 0.025f, fDelayTimer, true);
 		RenderComponent->CreateAnimation("ExplosionFade", "Resources\\BombExplosion\\BombExplosionDownFade", 10, 0.010f, false);
 		break;
 	case 4:
-		RenderComponent->CreateAnimation("ExplosionLoop", "Resources\\BombExplosion\\BombExplosionLeftLoop", 2, 0.025f, true);
-		RenderComponent->CreateAnimation("ExplosionEndLoop", "Resources\\BombExplosion\\BombExplosionLeftEndLoop", 2, 0.025f, true);
+		RenderComponent->CreateAnimation("ExplosionLoop", "Resources\\BombExplosion\\BombExplosionLeftLoop", 2, 0.025f, fDelayTimer, true);
+		RenderComponent->CreateAnimation("ExplosionEndLoop", "Resources\\BombExplosion\\BombExplosionLeftEndLoop", 2, 0.025f, fDelayTimer, true);
 		RenderComponent->CreateAnimation("ExplosionFade", "Resources\\BombExplosion\\BombExplosionLeftFade", 10, 0.010f, false);
 		break;
 	

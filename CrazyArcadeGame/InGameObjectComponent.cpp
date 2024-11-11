@@ -23,7 +23,7 @@ const FInGameObjectProperty FInGameObjectProperty::Explosion = []()
 	{
 		FInGameObjectProperty Property{};
 		Property.m_CollisionSize = { 60.0f, 60.0f };
-		Property.m_fTimer = 0.3f;
+		Property.m_fTimer = 0.4f;
 		Property.m_bIsExplosion = true;
 		Property.m_bIsAlreadyExploded = true;
 		return Property;
@@ -45,6 +45,7 @@ const FInGameObjectProperty FInGameObjectProperty::HidableWall = []()
 	{
 		FInGameObjectProperty Property{};
 		Property.m_bIsExplodable = true;
+		Property.m_bIsHidablePlace = true;
 		return Property;
 	}();
 
@@ -140,6 +141,11 @@ void UInGameObjectComponent::OnExploded_Block()
 
 }
 
+void UInGameObjectComponent::OnExploded_Hidable()
+{
+	GetOwner()->Destroy();
+}
+
 void UInGameObjectComponent::BeginPlay()
 {
 	Super::BeginPlay();
@@ -164,10 +170,17 @@ void UInGameObjectComponent::BeginPlay()
 		this->m_OnExplodedEvents.push_back(Event1);
 	}
 
+	if (m_InGameObjectProperty.m_bIsHidablePlace)
+	{
+		std::function<void()> Event1 = std::bind(&UInGameObjectComponent::OnExploded_Hidable, this);
+		this->m_OnExplodedEvents.push_back(Event1);
+	}
+
 	if (m_InGameObjectProperty.m_bIsExplosion)
 	{
 		BombManager->AddExplosion(GetOwner());
 	}
+
 }
 
 void UInGameObjectComponent::TickComponent(float fDeltaTime)
@@ -187,7 +200,7 @@ void UInGameObjectComponent::TickComponent(float fDeltaTime)
 		m_InGameObjectProperty.m_fElapsedTimeAfterExplosion += fDeltaTime;
 	}
 
-	if (m_InGameObjectProperty.m_fElapsedTimeAfterExplosion > 0.3f && !m_InGameObjectProperty.m_bIsCharacter)
+	if (m_InGameObjectProperty.m_fElapsedTimeAfterExplosion > 0.4f && !m_InGameObjectProperty.m_bIsCharacter)
 		Owner->Destroy();
 
 
