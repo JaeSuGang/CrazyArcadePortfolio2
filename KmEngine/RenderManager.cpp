@@ -21,6 +21,9 @@ void URenderManager::RenderComponents(const vector<URenderComponent*>& Component
 {
 	for (const URenderComponent* ComponentToRender : ComponentsToRender)
 	{
+		if (ComponentToRender->GetIsHidden())
+			continue;
+
 		const AActor* Owner = ComponentToRender->GetOwner();
 		if (const UImage* Image = ComponentToRender->GetStaticImage())
 		{
@@ -37,6 +40,9 @@ void URenderManager::RenderShadowComponents(const vector<URenderComponent*>& Com
 {
 	for (const URenderComponent* ComponentToRender : ComponentsToRender)
 	{
+		if (ComponentToRender->GetIsHidden())
+			continue;
+
 		const AActor* Owner = ComponentToRender->GetOwner();
 		if (const UImage* Image = ComponentToRender->GetShadowImage())
 		{

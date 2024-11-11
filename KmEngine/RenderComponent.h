@@ -62,6 +62,8 @@ public:
 	void SetStaticImage(string strKey);
 	void SetShadowImage(UImage* Image);
 	void SetShadowImage(string strKey);
+	bool GetIsHidden() const;
+	void SetIsHidden(bool bValue);
 	FVector2D GetStaticImageOffset() const;
 	FVector2D GetShadowImageOffset() const;
 	UImage* GetStaticImage() const;
@@ -87,5 +89,6 @@ protected:
 	FImageDataset m_ImageDataset;
 	float m_fAccumulatedTime;
 	int m_nAnimationFrameIndex;
+	bool m_bIsHidden;
 };
 

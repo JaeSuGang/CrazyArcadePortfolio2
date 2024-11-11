@@ -157,6 +157,16 @@ void URenderComponent::SetShadowImage(string strKey)
 	m_ImageDataset.ShadowImage = GEngine->GetEngineSubsystem<UResourceManager>()->GetImage(strKey);
 }
 
+bool URenderComponent::GetIsHidden() const
+{
+	return m_bIsHidden;
+}
+
+void URenderComponent::SetIsHidden(bool bValue)
+{
+	m_bIsHidden = bValue;
+}
+
 UImage* URenderComponent::GetShadowImage() const
 {
 	return m_ImageDataset.ShadowImage;
@@ -231,7 +241,8 @@ URenderComponent::URenderComponent()
 	m_CurrentAnimation{},
 	m_fAccumulatedTime{},
 	m_ImageDataset{},
-	m_RenderType{}
+	m_RenderType{},
+	m_bIsHidden{}
 {
 }
 

@@ -44,13 +44,14 @@ class UInGameObjectComponent : public UActorComponent
 	typedef UActorComponent Super;
 
 public:
+	void PlayFadeAnimation();
 	void AddVelocity(FVector2D VelocityToAdd);
-
 	void AddOnExplodedEvent(std::function<void()> Event);
 	void OnExploded();
 
 private:
 	void OnExploded_Bomb();
+	void OnExploded_Block();
 
 public:
 	void BeginPlay() override;

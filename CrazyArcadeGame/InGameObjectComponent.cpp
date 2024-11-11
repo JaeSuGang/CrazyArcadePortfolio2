@@ -12,8 +12,8 @@ const FInGameObjectProperty FInGameObjectProperty::Character = []()
 	{
 		FInGameObjectProperty Property{};
 		Property.m_bIsCharacter = true;
-		Property.m_nBombLeft = 1;
-		Property.m_nBombRange = 2;
+		Property.m_nBombLeft = 10;
+		Property.m_nBombRange = 4;
 		Property.m_CollisionSize = { 60.0f, 60.0f };
 		Property.m_bIsExplodable = true;
 		return Property;
@@ -79,6 +79,16 @@ const FInGameObjectProperty FInGameObjectProperty::NonExplodableWall = []()
 
 
 
+void UInGameObjectComponent::PlayFadeAnimation()
+{
+	int nFlicker = (int)(m_InGameObjectProperty.m_fElapsedTimeAfterExplosion / 0.02f);
+	
+	if (nFlicker % 2 == 0)
+		GetOwner()->GetComponentByClass<URenderComponent>()->SetIsHidden(true);
+	else
+		GetOwner()->GetComponentByClass<URenderComponent>()->SetIsHidden(false);
+}
+
 void UInGameObjectComponent::AddVelocity(FVector2D VelocityToAdd)
 {
 	m_InGameObjectProperty.m_Velocity += VelocityToAdd;
@@ -123,23 +133,40 @@ void UInGameObjectComponent::OnExploded_Bomb()
 	BombActor->Destroy();
 }
 
+void UInGameObjectComponent::OnExploded_Block()
+{
+	// 아이템 확률 생성 코드 추가하기
+
+
+}
+
 void UInGameObjectComponent::BeginPlay()
 {
 	Super::BeginPlay();
 
 	UMovementManager* MovementManager = GetGameInstanceSubsystem<UMovementManager>();
+	UBombManager* BombManager = GetGameInstanceSubsystem<UBombManager>();
 
 	if (m_InGameObjectProperty.m_bIsCharacter)
 		MovementManager->AddMovable(this->GetOwner());
 
 	if (m_InGameObjectProperty.m_bBlockCharacter)
+	{
 		MovementManager->AddWall(this->GetOwner());
+		std::function<void()> Event1 = std::bind(&UInGameObjectComponent::OnExploded_Block, this);
+		this->m_OnExplodedEvents.push_back(Event1);
+	}
 
 	if (m_InGameObjectProperty.m_bIsBomb)
 	{
 		MovementManager->AddWall(GetOwner());
 		std::function<void()> Event1 = std::bind(&UInGameObjectComponent::OnExploded_Bomb, this);
 		this->m_OnExplodedEvents.push_back(Event1);
+	}
+
+	if (m_InGameObjectProperty.m_bIsExplosion)
+	{
+		BombManager->AddExplosion(GetOwner());
 	}
 }
 
@@ -153,9 +180,14 @@ void UInGameObjectComponent::TickComponent(float fDeltaTime)
 		m_InGameObjectProperty.m_fTimer -= fDeltaTime;
 
 	if (m_InGameObjectProperty.m_bIsAlreadyExploded)
-		m_InGameObjectProperty.m_fElapsedTimeAfterExplosion += fDeltaTime;
+	{
+		if (m_InGameObjectProperty.m_bBlockCharacter)
+			this->PlayFadeAnimation();
 
-	if (m_InGameObjectProperty.m_fElapsedTimeAfterExplosion > 0.3f)
+		m_InGameObjectProperty.m_fElapsedTimeAfterExplosion += fDeltaTime;
+	}
+
+	if (m_InGameObjectProperty.m_fElapsedTimeAfterExplosion > 0.3f && !m_InGameObjectProperty.m_bIsCharacter)
 		Owner->Destroy();
 
 
@@ -191,6 +223,7 @@ void UInGameObjectComponent::Release()
 	MovementManager->m_Walls.erase(m_Owner);
 	MovementManager->m_Movables.erase(m_Owner);
 	MovementManager->m_Explosions.erase(m_Owner);
+	BombManager->m_Explosions.erase(m_Owner);
 }
 
 UInGameObjectComponent::~UInGameObjectComponent()

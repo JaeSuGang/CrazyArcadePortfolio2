@@ -1,12 +1,23 @@
 #include "stdafx.h"
 #include "KmEngine/Engine.h"
 #include "KmEngine/Actor.h"
+#include "KmEngine/Level.h"
 #include "BombManager.h"
 #include "SpawnManager.h"
 #include "MovementManager.h"
 #include "WallComponent.h"
 #include "AxisAlignedBoundingBox.h"
 #include "InGameObjectComponent.h"
+
+void UBombManager::AddExplosion(AActor* ExplosionActor)
+{
+	m_Explosions.insert(ExplosionActor);
+}
+
+void UBombManager::RemoveExplosion(AActor* ExplosionActor)
+{
+	m_Explosions.erase(ExplosionActor);
+}
 
 bool UBombManager::TryPutBomb(int nTileIndex, AActor* Spawner)
 {
@@ -88,4 +99,25 @@ void UBombManager::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
 
+
+	for (AActor* ExplosionActor : m_Explosions)
+	{
+		UInGameObjectComponent* ExplosionInGameObjectComponent = ExplosionActor->GetComponentByClass<UInGameObjectComponent>();
+		FAxisAlignedBoundingBox ExplosionAABB = {
+			ExplosionActor->GetPosition(),
+			ExplosionInGameObjectComponent->m_InGameObjectProperty.m_CollisionSize.X / 2,
+			ExplosionInGameObjectComponent->m_InGameObjectProperty.m_CollisionSize.Y / 2 };
+
+		for (AActor* TargetActor : GetActiveLevel()->m_Actors)
+		{
+			UInGameObjectComponent* TargetInGameObjectComponent = TargetActor->GetComponentByClass<UInGameObjectComponent>();
+			if (!TargetInGameObjectComponent)
+				continue;
+
+			if (ExplosionAABB.GetIsCollidedWith(TargetActor->GetPosition()))
+			{
+				TargetInGameObjectComponent->OnExploded();
+			}
+		}
+	}
 }
