@@ -1,7 +1,7 @@
 #pragma once
 #include "KmEngine/ActorComponent.h"
 
-class UBombComponent : public UActorComponent
+class UExplosionComponent : public UActorComponent
 {
 	typedef UActorComponent Super;
 
@@ -10,5 +10,7 @@ public:
 	void TickComponent(float fDeltaTime) override;
 
 private:
+	bool bIsCenterExplosion;
+
 };
 

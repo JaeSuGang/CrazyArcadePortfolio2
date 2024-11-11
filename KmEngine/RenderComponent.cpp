@@ -69,20 +69,27 @@ void URenderComponent::PlayAnimation(string strKey)
 		m_nAnimationFrameIndex = 0;
 		m_fAccumulatedTime = 0.0f;
 	}
-
-	m_ImageDataset.StaticImage = m_CurrentAnimation->m_Images[m_nAnimationFrameIndex];
-	m_fAccumulatedTime += GEngine->GetEngineSubsystem<UTimeManager>()->GetDeltaTime();
-	if (m_fAccumulatedTime > m_CurrentAnimation->m_fFrameDuration)
+	if (m_fAccumulatedTime < m_CurrentAnimation->m_fStartDelay)
 	{
-		if (m_nAnimationFrameIndex < m_CurrentAnimation->m_Images.size() - 1)
+		m_fAccumulatedTime += GEngine->GetEngineSubsystem<UTimeManager>()->GetDeltaTime();
+	}
+
+	else if (m_fAccumulatedTime >= 0)
+	{
+		m_fAccumulatedTime += GEngine->GetEngineSubsystem<UTimeManager>()->GetDeltaTime();
+		m_ImageDataset.StaticImage = m_CurrentAnimation->m_Images[m_nAnimationFrameIndex];
+		if (m_fAccumulatedTime > m_CurrentAnimation->m_fFrameDuration)
 		{
-			m_nAnimationFrameIndex++;
+			if (m_nAnimationFrameIndex < m_CurrentAnimation->m_Images.size() - 1)
+			{
+				m_nAnimationFrameIndex++;
+			}
+			else if (Animation->m_bIsLoop == true)
+			{
+				m_nAnimationFrameIndex = 0;
+			}
+			m_fAccumulatedTime = 0.0f;
 		}
-		else
-		{
-			m_nAnimationFrameIndex = 0;
-		}
-		m_fAccumulatedTime = 0.0f;
 	}
 }
 
@@ -96,7 +103,12 @@ void URenderComponent::PlayAnimation()
 	this->PlayAnimation(AnimationKey);
 }
 
-void URenderComponent::CreateAnimation(string strAnimationKey, string strImageBaseKey, int nFileCount, float fDuration, bool bIsLoop = true)
+void URenderComponent::CreateAnimation(string strAnimationKey, string strImageBaseKey, int nFileCount, float fDuration, bool bIsLoop)
+{
+	this->CreateAnimation(strAnimationKey, strImageBaseKey, nFileCount, fDuration, 0.0f, bIsLoop);
+}
+
+void URenderComponent::CreateAnimation(string strAnimationKey, string strImageBaseKey, int nFileCount, float fDuration, float fStartDelay, bool bIsLoop = true)
 {
 	LOWER_STRING(strAnimationKey);
 	LOWER_STRING(strImageBaseKey);
@@ -104,6 +116,7 @@ void URenderComponent::CreateAnimation(string strAnimationKey, string strImageBa
 	UAnimation* NewAnimation = new UAnimation{};
 	NewAnimation->m_bIsLoop = bIsLoop;
 	NewAnimation->m_fFrameDuration = fDuration;
+	NewAnimation->m_fStartDelay = fStartDelay;
 	for (int i = 0; i < nFileCount; i++)
 	{
 		UResourceManager* ResourceManager = GEngine->GetEngineSubsystem<UResourceManager>();

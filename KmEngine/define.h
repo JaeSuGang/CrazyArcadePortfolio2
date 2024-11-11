@@ -13,4 +13,4 @@
 
 #define SAFE_DELETE(p) if (p) {delete p; p = nullptr;}
 
-#define LOWER_STRING(str) std::transform(str.begin(), str.end(), str.begin(), [](char c){return std::tolower(c);});
+#define LOWER_STRING(str) std::transform((str).begin(), (str).end(), (str).begin(), [](char c){return std::tolower(c);});

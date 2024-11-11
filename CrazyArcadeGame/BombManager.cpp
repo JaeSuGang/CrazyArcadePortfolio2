@@ -39,16 +39,52 @@ void UBombManager::ForcePutBomb(int nTileIndex, AActor* Spawner)
 	SpawnManager->SpawnBomb(TileIndexToVector(nTileIndex), Spawner);
 }
 
+void UBombManager::Explode(int nTileIndex, int nRange)
+{
+	UMovementManager* MovementManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
+	USpawnManager* SpawnManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<USpawnManager>();
+
+	FVector2D ExplosionCenterPos = TileIndexToVector(nTileIndex);
+
+	FVector2D Directions[4] = { FVector2D::Up, FVector2D::Right, FVector2D::Down, FVector2D::Left };
+
+	FAxisAlignedBoundingBox AABB { FVector2D::Zero, TILE_WIDTH / 2, TILE_HEIGHT / 2 };
+
+	SpawnManager->SpawnExplosion(AABB.m_Center, 0, true);
+	for (int i = 0; i < 4; i++)
+	{
+		for (int j = 1; j <= nRange; j++)
+		{
+			bool bSkipThisDirection = false;
+			AABB.m_Center = ExplosionCenterPos + Directions[i] * (float)j * 60.0f;
+
+			for (AActor* WallActor : MovementManager->m_Walls)
+			{
+				UInGameObjectComponent* WallInGameObjectComponent = WallActor->GetComponentByClass<UInGameObjectComponent>();
+				if (AABB.GetIsCollidedWith(WallActor->GetPosition()))
+				{
+					bSkipThisDirection = true;
+
+					if (WallInGameObjectComponent->m_InGameObjectProperty.m_bIsExplodable)
+						WallInGameObjectComponent->OnExploded();
+					break;
+				}
+			}
+
+			if (bSkipThisDirection)
+				break;
+			else
+			{
+				bool bIsEnd = (j == nRange);
+				SpawnManager->SpawnExplosion(AABB.m_Center, i+1, bIsEnd);
+			}
+		}
+	}
+
+}
+
 void UBombManager::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
 
-	for (AActor* BombActor : m_Bombs)
-	{
-		UInGameObjectComponent* BombInGameObjectComponent = BombActor->GetComponentByClass<UInGameObjectComponent>();
-		if (BombInGameObjectComponent->m_InGameObjectProperty.m_fTimer < 0)
-		{
-			BombInGameObjectComponent->OnExploded();
-		}
-	}
 }

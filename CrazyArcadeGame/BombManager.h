@@ -11,11 +11,10 @@ class UBombManager : public UGameInstanceSubsystem
 public:
 	bool TryPutBomb(int nTileIndex, AActor* Spawner);
 	void ForcePutBomb(int nTileIndex, AActor* Spawner);
+	void Explode(int nTileIndex, int nRange);
 
 public:
 	void Tick(float fDeltaTime) override;
 
-public:
-	unordered_set<AActor*> m_Bombs;
 };
 

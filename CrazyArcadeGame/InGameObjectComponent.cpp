@@ -4,12 +4,16 @@
 #include "KmEngine/RenderComponent.h"
 #include "MovementManager.h"
 #include "BombManager.h"
+#include "SpawnManager.h"
+
+
 
 const FInGameObjectProperty FInGameObjectProperty::Character = []()
 	{
 		FInGameObjectProperty Property{};
 		Property.m_bIsCharacter = true;
 		Property.m_nBombLeft = 1;
+		Property.m_nBombRange = 1;
 		Property.m_CollisionSize = { 60.0f, 60.0f };
 		Property.m_bIsExplodable = true;
 		return Property;
@@ -19,8 +23,9 @@ const FInGameObjectProperty FInGameObjectProperty::Explosion = []()
 	{
 		FInGameObjectProperty Property{};
 		Property.m_CollisionSize = { 60.0f, 60.0f };
-		Property.m_fTimer = 0.4f;
+		Property.m_fTimer = 0.5f;
 		Property.m_bIsExplosion = true;
+		Property.m_bIsAlreadyExploded = true;
 		return Property;
 	}();
 
@@ -86,16 +91,25 @@ void UInGameObjectComponent::AddOnExplodedEvent(std::function<void()> Event)
 
 void UInGameObjectComponent::OnExploded()
 {
-	for (std::function<void()> Event : m_OnExplodedEvents)
+	if (m_InGameObjectProperty.m_bIsAlreadyExploded)
+		return;
+
+	else
+		m_InGameObjectProperty.m_bIsAlreadyExploded = true;
+
+	if (m_InGameObjectProperty.m_bIsExplodable)
 	{
-		Event();
-	}
+		for (std::function<void()> Event : m_OnExplodedEvents)
+		{
+			Event();
+		}
+ 	}
 }
 
 void UInGameObjectComponent::OnExploded_Bomb()
 {
-	if (m_InGameObjectProperty.m_bIsAlreadyExploded)
-		return;
+	AActor* BombActor = GetOwner();
+	int CorrectBombTileLocationIndex = VectorToTileIndex(BombActor->GetPosition());
 
 	if (m_InGameObjectProperty.m_Spawner)
 	{
@@ -103,7 +117,10 @@ void UInGameObjectComponent::OnExploded_Bomb()
 		SpawnerInGameObjectComponent->m_InGameObjectProperty.m_nBombLeft++;
 	}
 
-	GetOwner()->Destroy();
+	UBombManager* BombManager = GetGameInstanceSubsystem<UBombManager>();
+	BombManager->Explode(CorrectBombTileLocationIndex, m_InGameObjectProperty.m_nBombRange);
+
+	BombActor->Destroy();
 }
 
 void UInGameObjectComponent::BeginPlay()
@@ -111,7 +128,6 @@ void UInGameObjectComponent::BeginPlay()
 	Super::BeginPlay();
 
 	UMovementManager* MovementManager = GetGameInstanceSubsystem<UMovementManager>();
-	UBombManager* BombManager = GetGameInstanceSubsystem<UBombManager>();
 
 	if (m_InGameObjectProperty.m_bIsCharacter)
 		MovementManager->AddMovable(this->GetOwner());
@@ -122,14 +138,8 @@ void UInGameObjectComponent::BeginPlay()
 	if (m_InGameObjectProperty.m_bIsBomb)
 	{
 		MovementManager->AddWall(GetOwner());
-		BombManager->m_Bombs.insert(this->GetOwner());
 		std::function<void()> Event1 = std::bind(&UInGameObjectComponent::OnExploded_Bomb, this);
 		this->m_OnExplodedEvents.push_back(Event1);
-	}
-
-	if (m_InGameObjectProperty.m_bIsExplosion)
-	{
-		MovementManager->AddExplosion(GetOwner());
 	}
 }
 
@@ -139,16 +149,40 @@ void UInGameObjectComponent::TickComponent(float fDeltaTime)
 	AActor* Owner = this->GetOwner();
 	URenderComponent* RenderComponent = Owner->GetComponentByClass<URenderComponent>();
 
+	if (m_InGameObjectProperty.m_fTimer > 0)
+		m_InGameObjectProperty.m_fTimer -= fDeltaTime;
+
+	if (m_InGameObjectProperty.m_bIsAlreadyExploded)
+		m_InGameObjectProperty.m_fElapsedTimeAfterExplosion += fDeltaTime;
+
+	if (m_InGameObjectProperty.m_fElapsedTimeAfterExplosion > 0.5f)
+		Owner->Destroy();
+
+
+
 	if (m_InGameObjectProperty.m_bIsBomb)
 	{
-		m_InGameObjectProperty.m_fTimer -= fDeltaTime;
 		RenderComponent->PlayAnimation();
+
+		if (m_InGameObjectProperty.m_fTimer < 0.0f)
+		{
+			this->OnExploded();
+		}
 	}
 
 	else if (m_InGameObjectProperty.m_bIsExplosion)
 	{
-		m_InGameObjectProperty.m_fTimer -= fDeltaTime;
-		RenderComponent->PlayAnimation();
+		if (RenderComponent->m_Animations.contains("bombexplosion\\bombexplosioncenter"))
+		{
+			RenderComponent->PlayAnimation();
+
+		}
+
+		else
+		{
+			if (m_InGameObjectProperty.m_fTimer < 0.1f)
+				RenderComponent->PlayAnimation();
+		}
 	}
 }
 
@@ -159,7 +193,6 @@ void UInGameObjectComponent::Release()
 	MovementManager->m_Walls.erase(m_Owner);
 	MovementManager->m_Movables.erase(m_Owner);
 	MovementManager->m_Explosions.erase(m_Owner);
-	BombManager->m_Bombs.erase(m_Owner);
 }
 
 UInGameObjectComponent::~UInGameObjectComponent()

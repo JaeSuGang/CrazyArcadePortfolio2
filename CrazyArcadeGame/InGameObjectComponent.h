@@ -19,11 +19,15 @@ public:
 	FVector2D m_Velocity;
 
 	float m_fTimer;
+	float m_fElapsedTimeAfterExplosion;
+	float m_fSpeed;
 
 	int m_nBombLeft;
+	int m_nBombRange;
 
-	bool m_bIsExplosion;
 	bool m_bIsAlreadyExploded;
+	bool m_bIsExplosionCenter;
+	bool m_bIsExplosion;
 	bool m_bIsBomb;
 	bool m_bIsFlying;
 	bool m_bBlockCharacter;
@@ -44,6 +48,8 @@ public:
 
 	void AddOnExplodedEvent(std::function<void()> Event);
 	void OnExploded();
+
+private:
 	void OnExploded_Bomb();
 
 public:

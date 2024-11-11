@@ -11,7 +11,10 @@
 
 #define SAFE_DELETE(p) if (p) {delete p; p = nullptr;}
 
+
+// 게임 리터럴 상수
 #define TILE_WIDTH 60.0f
 #define TILE_HEIGHT 60.0f
 #define MAX_SPEED_PER_FRAME 10.0f
+
 

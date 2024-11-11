@@ -41,7 +41,7 @@
     <ClCompile Include="InGameObjectComponent.cpp">
       <Filter>ActorComponent</Filter>
     </ClCompile>
-    <ClCompile Include="BombComponent.cpp">
+    <ClCompile Include="ExplosionComponent.cpp">
       <Filter>ActorComponent</Filter>
     </ClCompile>
   </ItemGroup>
@@ -117,7 +117,7 @@
     <ClInclude Include="InGameObjectComponent.h">
       <Filter>ActorComponent</Filter>
     </ClInclude>
-    <ClInclude Include="BombComponent.h">
+    <ClInclude Include="ExplosionComponent.h">
       <Filter>ActorComponent</Filter>
     </ClInclude>
   </ItemGroup>

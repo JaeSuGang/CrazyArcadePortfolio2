@@ -276,9 +276,11 @@ AActor* USpawnManager::SpawnBomb(FVector2D PositionVector, AActor* Spawner)
 	RenderComponent->SetRenderPriority(VectorToRenderPriority(PositionVector));
 	RenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
 	RenderComponent->CreateAnimation("Bomb\\bomb", "Resources\\Bomb\\bomb", 4, 0.2f, true);
-	UInGameObjectComponent* InGameObjectComponent = BombActor->CreateDefaultSubobject<UInGameObjectComponent>();
-	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Bomb;
-	InGameObjectComponent->m_InGameObjectProperty.m_Spawner = Spawner;
+	UInGameObjectComponent* BombInGameObjectComponent = BombActor->CreateDefaultSubobject<UInGameObjectComponent>();
+	UInGameObjectComponent* SpawnerInGameObjectComponent = Spawner->GetComponentByClass<UInGameObjectComponent>();
+	BombInGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Bomb;
+	BombInGameObjectComponent->m_InGameObjectProperty.m_Spawner = Spawner;
+	BombInGameObjectComponent->m_InGameObjectProperty.m_nBombRange = SpawnerInGameObjectComponent->m_InGameObjectProperty.m_nBombRange;
 
 	BombActor->BeginPlay();
 	return BombActor;
@@ -298,63 +300,88 @@ AActor* USpawnManager::SpawnExplosion(FVector2D PositionVector, int nDirection, 
 	switch (nDirection)
 	{
 	case 0:
+		RenderComponent->SetStaticImage("Resources\\BombExplosion\\BombExplosionCenter.bmp");
 		RenderComponent->CreateAnimation(
 			"BombExplosion\\BombExplosionCenter",
 			"Resources\\BombExplosion\\BombExplosionCenter",
-			3, 0.1f, false);
-		InGameObjectComponent->m_InGameObjectProperty.m_fTimer = 0.3f;
+			3, 0.025f, true);
 		break;
 	case 1:
 		if (!bIsEnd)
+		{
+			RenderComponent->SetStaticImage("Resources\\BombExplosion\\BombExplosionUp_0.bmp");
 			RenderComponent->CreateAnimation(
 				"BombExplosion\\BombExplosionUp",
 				"Resources\\BombExplosion\\BombExplosionUp",
-				4, 0.1f, false);
+				4, 0.025f, false);
+		}
 		else
+		{
+			RenderComponent->SetStaticImage("Resources\\BombExplosion\\BombExplosionUpEnd_0.bmp");
 			RenderComponent->CreateAnimation(
 				"BombExplosion\\BombExplosionUpEnd",
 				"Resources\\BombExplosion\\BombExplosionUpEnd",
-				4, 0.1f, false);
+				4, 0.025f, false);
+		}
 		break;
 	case 2:
 		if (!bIsEnd)
+		{
+			RenderComponent->SetStaticImage("Resources\\BombExplosion\\BombExplosionRight_0.bmp");
 			RenderComponent->CreateAnimation(
 				"BombExplosion\\BombExplosionRight",
 				"Resources\\BombExplosion\\BombExplosionRight",
-				4, 0.1f, false);
+				4, 0.025f, false);
+		}
 		else
+		{
+			RenderComponent->SetStaticImage("Resources\\BombExplosion\\BombExplosionRightEnd_0.bmp");
 			RenderComponent->CreateAnimation(
 				"BombExplosion\\BombExplosionRightEnd",
 				"Resources\\BombExplosion\\BombExplosionRightEnd",
-				4, 0.1f, false);
+				4, 0.025f, false);
+		}
 		break;
 	case 3:
 		if (!bIsEnd)
+		{
+			RenderComponent->SetStaticImage("Resources\\BombExplosion\\BombExplosionDown_0.bmp");
 			RenderComponent->CreateAnimation(
 				"BombExplosion\\BombExplosionDown",
 				"Resources\\BombExplosion\\BombExplosionDown",
-				4, 0.1f, false);
+				4, 0.025f, false);
+		}
 		else
+		{
+			RenderComponent->SetStaticImage("Resources\\BombExplosion\\BombExplosionDownEnd_0.bmp");
 			RenderComponent->CreateAnimation(
 				"BombExplosion\\BombExplosionDownsEnd",
 				"Resources\\BombExplosion\\BombExplosionDownEnd",
-				4, 0.1f, false);
+				4, 0.025f, false);
+		}
 		break;
 	case 4:
 		if (!bIsEnd)
+		{
+			RenderComponent->SetStaticImage("Resources\\BombExplosion\\BombExplosionLeft_0.bmp");
 			RenderComponent->CreateAnimation(
 				"BombExplosion\\BombExplosionLeft",
 				"Resources\\BombExplosion\\BombExplosionLeft",
-				4, 0.1f, false);
+				4, 0.025f, false);
+		}
 		else
+		{
+			RenderComponent->SetStaticImage("Resources\\BombExplosion\\BombExplosionLeftEnd_0.bmp");
 			RenderComponent->CreateAnimation(
 				"BombExplosion\\BombExplosionLeftEnd",
 				"Resources\\BombExplosion\\BombExplosionLeftEnd",
-				4, 0.1f, false);
+				4, 0.025f, false);
+		}
 		break;
 	
 	}
 
+	ExplosionActor->BeginPlay();
 	return nullptr;
 }
 

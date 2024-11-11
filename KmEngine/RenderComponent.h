@@ -29,6 +29,7 @@ public:
 public:
 	vector<UImage*> m_Images;
 	float m_fFrameDuration;
+	float m_fStartDelay;
 	bool m_bIsLoop;
 };
 
@@ -56,6 +57,7 @@ public:
 	void PlayAnimation(string strKey);
 	void PlayAnimation();
 	void CreateAnimation(string strAnimationKey, string strImageBaseKey, int nFileCount, float fDuration, bool bIsLoop);
+	void CreateAnimation(string strAnimationKey, string strImageBaseKey, int nFileCount, float fDuration, float fStartDelay, bool bIsLoop);
 	void SetStaticImage(UImage* Image);
 	void SetStaticImage(string strKey);
 	void SetShadowImage(UImage* Image);
@@ -75,10 +77,12 @@ public:
 	URenderComponent();
 	float m_fRenderPriority;
 
+public:
+	unordered_map<string, UAnimation*> m_Animations;
+
 protected:
 	// ResourceManager가 삭제함. Release하지 말것
 	UAnimation* m_CurrentAnimation;
-	unordered_map<string, UAnimation*> m_Animations;
 	ERenderType m_RenderType;
 	FImageDataset m_ImageDataset;
 	float m_fAccumulatedTime;
