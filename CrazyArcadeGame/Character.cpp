@@ -35,28 +35,27 @@ void ACharacter::Move(FVector2D DirectionVector)
 	{
 		m_bIsAlreadyMoving = true;
 		UInGameObjectComponent* InGameObjectComponent = GetComponentByClass<UInGameObjectComponent>();
-		InGameObjectComponent->AddVelocity(DirectionVector * 200.0f);
+		InGameObjectComponent->AddVelocity(DirectionVector * InGameObjectComponent->m_InGameObjectProperty.m_fSpeed);
 
 		URenderComponent* RenderComponent = GetComponentByClass<URenderComponent>();
-		if (DirectionVector == FVector2D::Up)
+		if (!InGameObjectComponent->m_InGameObjectProperty.m_bIsAlreadyExploded)
 		{
-			string strAnimationName{ m_strCharacterName + "UpWalk"};
-			RenderComponent->PlayAnimation(strAnimationName);
-		}
-		else if (DirectionVector == FVector2D::Right)
-		{
-			string strAnimationName{ m_strCharacterName + "RightWalk" };
-			RenderComponent->PlayAnimation(strAnimationName);
-		}
-		else if (DirectionVector == FVector2D::Left)
-		{
-			string strAnimationName{ m_strCharacterName + "LeftWalk" };
-			RenderComponent->PlayAnimation(strAnimationName);
-		}
-		else if (DirectionVector == FVector2D::Down)
-		{
-			string strAnimationName{ m_strCharacterName + "DownWalk" };
-			RenderComponent->PlayAnimation(strAnimationName);
+			if (DirectionVector == FVector2D::Up)
+			{
+				RenderComponent->PlayAnimation("UpWalk");
+			}
+			else if (DirectionVector == FVector2D::Right)
+			{
+				RenderComponent->PlayAnimation("RightWalk");
+			}
+			else if (DirectionVector == FVector2D::Left)
+			{
+				RenderComponent->PlayAnimation("LeftWalk");
+			}
+			else if (DirectionVector == FVector2D::Down)
+			{
+				RenderComponent->PlayAnimation("DownWalk");
+			}
 		}
 	}
 }

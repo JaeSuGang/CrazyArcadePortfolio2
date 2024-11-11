@@ -51,6 +51,7 @@ public:
 	void OnExploded();
 
 private:
+	void OnExploded_Character();
 	void OnExploded_Bomb();
 	void OnExploded_Block();
 	void OnExploded_Hidable();
@@ -58,6 +59,9 @@ private:
 public:
 	void BeginPlay() override;
 	void TickComponent(float fDeltaTime) override;
+	void Tick_Explosion(float fDeltaTime);
+	void Tick_Bomb(float fDeltaTime);
+	void Tick_Character(float fDeltaTime);
 
 public:
 	void Release();

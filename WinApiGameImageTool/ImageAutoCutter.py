@@ -54,20 +54,14 @@ class CAutoCutter:
 
 if __name__ == "__main__":
     AutoCutter = CAutoCutter()
-    AutoCutter.SetDirectory(r"C:\Users\33kkm\Desktop\BombExplosionBefore")
-    AutoCutter.SetImageFileName(r"Balloons.png")
-    AutoCutter.SetOutputDirectory(r"C:\Users\33kkm\Desktop\BombExplosionAfter")
-    AutoCutter.SetImageSize(40, 40)
+    AutoCutter.SetDirectory(r"C:\Users\33kkm\Desktop\Image1")
+    AutoCutter.SetImageFileName(r"Marid.png")
+    AutoCutter.SetOutputDirectory(r"C:\Users\33kkm\Desktop\Image2")
+    AutoCutter.SetImageSize(60, 60)
 
-    for i in range(0, 14):
-        AutoCutter.AddPixelCoordinate(5 + i * 40, 567)
-    for i in range(0, 14):
-        AutoCutter.AddPixelCoordinate(5 + i * 40, 607)
-    for i in range(0, 14):
-        AutoCutter.AddPixelCoordinate(5 + i * 40, 647)
-    for i in range(0, 14):
-        AutoCutter.AddPixelCoordinate(5 + i * 40, 687)
-    for i in range(0, 4):
-        AutoCutter.AddPixelCoordinate(5 + i * 40, 727)
+    AutoCutter.AddPixelCoordinate(214, 275)
+    AutoCutter.AddPixelCoordinate(285, 275)
+    AutoCutter.AddPixelCoordinate(356, 275)
+    AutoCutter.AddPixelCoordinate(427, 275)
 
     AutoCutter.InitiateCutting()

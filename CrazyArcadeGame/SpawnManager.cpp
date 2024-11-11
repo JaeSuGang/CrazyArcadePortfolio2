@@ -179,10 +179,12 @@ ACharacter* USpawnManager::SpawnBazzi(FVector2D PositionVector)
 	RenderComponent->SetShadowImage("Resources\\Shadows\\CharacterShadow.bmp");
 	RenderComponent->SetRenderPriority(1);
 	RenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
-	RenderComponent->CreateAnimation(strCharacterName + "DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation("DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation("LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation("RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation("UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation("BubbleLoop", "Resources\\" + strCharacterName + "\\BubbleLoop", 2, 0.5f, true);
+	RenderComponent->CreateAnimation("BubbleFade", "Resources\\" + strCharacterName + "\\BubbleFade", 2, 0.5f, false);
 	UInGameObjectComponent* InGameObjectComponent = SpawnedCharacter->CreateDefaultSubobject<UInGameObjectComponent>();
 	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Character;
 	SpawnedCharacter->SetBombCount(1);
@@ -204,10 +206,12 @@ ACharacter* USpawnManager::SpawnDao(FVector2D PositionVector)
 	RenderComponent->SetShadowImage("Resources\\Shadows\\CharacterShadow.bmp");
 	RenderComponent->SetRenderPriority(1);
 	RenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
-	RenderComponent->CreateAnimation(strCharacterName + "DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation("DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation("LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation("RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation("UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation("BubbleLoop", "Resources\\" + strCharacterName + "\\BubbleLoop", 2, 0.5f, true);
+	RenderComponent->CreateAnimation("BubbleFade", "Resources\\" + strCharacterName + "\\BubbleFade", 2, 0.5f, false);
 	UInGameObjectComponent* InGameObjectComponent = SpawnedCharacter->CreateDefaultSubobject<UInGameObjectComponent>();
 	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Character;
 
@@ -228,10 +232,12 @@ ACharacter* USpawnManager::SpawnCappi(FVector2D PositionVector)
 	RenderComponent->SetShadowImage("Resources\\Shadows\\CharacterShadow.bmp");
 	RenderComponent->SetRenderPriority(1);
 	RenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
-	RenderComponent->CreateAnimation(strCharacterName + "DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation("DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation("LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation("RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation("UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation("BubbleLoop", "Resources\\" + strCharacterName + "\\BubbleLoop", 2, 0.5f, true);
+	RenderComponent->CreateAnimation("BubbleFade", "Resources\\" + strCharacterName + "\\BubbleFade", 2, 0.5f, false);
 	UInGameObjectComponent* InGameObjectComponent = SpawnedCharacter->CreateDefaultSubobject<UInGameObjectComponent>();
 	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Character;
 
@@ -252,10 +258,12 @@ ACharacter* USpawnManager::SpawnMarid(FVector2D PositionVector)
 	RenderComponent->SetShadowImage("Resources\\Shadows\\CharacterShadow.bmp");
 	RenderComponent->SetRenderPriority(1);
 	RenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
-	RenderComponent->CreateAnimation(strCharacterName + "DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation(strCharacterName + "LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation(strCharacterName + "RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation(strCharacterName + "UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation("DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation("LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation("RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation("UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
+	RenderComponent->CreateAnimation("BubbleLoop", "Resources\\" + strCharacterName + "\\BubbleLoop", 2, 0.5f, true);
+	RenderComponent->CreateAnimation("BubbleFade", "Resources\\" + strCharacterName + "\\BubbleFade", 2, 0.5f, false);
 	UInGameObjectComponent* InGameObjectComponent = SpawnedCharacter->CreateDefaultSubobject<UInGameObjectComponent>();
 	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Character;
 

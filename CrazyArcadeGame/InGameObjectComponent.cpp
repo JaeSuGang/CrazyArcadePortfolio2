@@ -14,6 +14,7 @@ const FInGameObjectProperty FInGameObjectProperty::Character = []()
 		Property.m_bIsCharacter = true;
 		Property.m_nBombLeft = 10;
 		Property.m_nBombRange = 4;
+		Property.m_fSpeed = 200.0f;
 		Property.m_CollisionSize = { 60.0f, 60.0f };
 		Property.m_bIsExplodable = true;
 		return Property;
@@ -117,6 +118,11 @@ void UInGameObjectComponent::OnExploded()
  	}
 }
 
+void UInGameObjectComponent::OnExploded_Character()
+{
+	m_InGameObjectProperty.m_fSpeed = 25.0f;
+}
+
 void UInGameObjectComponent::OnExploded_Bomb()
 {
 	AActor* BombActor = GetOwner();
@@ -154,7 +160,11 @@ void UInGameObjectComponent::BeginPlay()
 	UBombManager* BombManager = GetGameInstanceSubsystem<UBombManager>();
 
 	if (m_InGameObjectProperty.m_bIsCharacter)
+	{
 		MovementManager->AddMovable(this->GetOwner());
+		std::function<void()> Event1 = std::bind(&UInGameObjectComponent::OnExploded_Character, this);
+		this->m_OnExplodedEvents.push_back(Event1);
+	}
 
 	if (m_InGameObjectProperty.m_bBlockCharacter)
 	{
@@ -186,6 +196,7 @@ void UInGameObjectComponent::BeginPlay()
 void UInGameObjectComponent::TickComponent(float fDeltaTime)
 {
 	Super::TickComponent(fDeltaTime);
+
 	AActor* Owner = this->GetOwner();
 	URenderComponent* RenderComponent = Owner->GetComponentByClass<URenderComponent>();
 
@@ -203,28 +214,56 @@ void UInGameObjectComponent::TickComponent(float fDeltaTime)
 	if (m_InGameObjectProperty.m_fElapsedTimeAfterExplosion > 0.4f && !m_InGameObjectProperty.m_bIsCharacter)
 		Owner->Destroy();
 
-
+	if (m_InGameObjectProperty.m_bIsCharacter)
+		this->Tick_Character(fDeltaTime);
 
 	if (m_InGameObjectProperty.m_bIsBomb)
-	{
-		RenderComponent->PlayAnimation();
-
-		if (m_InGameObjectProperty.m_fTimer < 0.0f)
-		{
-			this->OnExploded();
-		}
-	}
+		this->Tick_Bomb(fDeltaTime);
 
 	if (m_InGameObjectProperty.m_bIsExplosion)
-	{
-		if (m_InGameObjectProperty.m_fTimer > 0.1)
-		{
-			RenderComponent->PlayAnimation("ExplosionLoop");
-		}
+		this->Tick_Explosion(fDeltaTime);
+}
 
-		else if(m_InGameObjectProperty.m_fTimer > 0.0)
+void UInGameObjectComponent::Tick_Explosion(float fDeltaTime)
+{
+	AActor* Owner = this->GetOwner();
+	URenderComponent* RenderComponent = Owner->GetComponentByClass<URenderComponent>();
+	if (m_InGameObjectProperty.m_fTimer > 0.1)
+	{
+		RenderComponent->PlayAnimation("ExplosionLoop");
+	}
+
+	else if (m_InGameObjectProperty.m_fTimer > 0.0)
+	{
+		RenderComponent->PlayAnimation("ExplosionFade");
+	}
+}
+
+void UInGameObjectComponent::Tick_Bomb(float fDeltaTime)
+{
+	AActor* Owner = this->GetOwner();
+	URenderComponent* RenderComponent = Owner->GetComponentByClass<URenderComponent>();
+
+	RenderComponent->PlayAnimation();
+
+	if (m_InGameObjectProperty.m_fTimer < 0.0f)
+	{
+		this->OnExploded();
+	}
+}
+
+void UInGameObjectComponent::Tick_Character(float fDeltaTime)
+{
+	if (m_InGameObjectProperty.m_bIsAlreadyExploded)
+	{
+		URenderComponent* RenderComponent = GetOwner()->GetComponentByClass<URenderComponent>();
+		if (m_InGameObjectProperty.m_fElapsedTimeAfterExplosion > 3.0f)
 		{
-			RenderComponent->PlayAnimation("ExplosionFade");
+			RenderComponent->PlayAnimation("BubbleFade");
+		}
+		else if (m_InGameObjectProperty.m_fElapsedTimeAfterExplosion > 0.0f)
+		{
+			RenderComponent->PlayAnimation("BubbleLoop");
 		}
 	}
 }
