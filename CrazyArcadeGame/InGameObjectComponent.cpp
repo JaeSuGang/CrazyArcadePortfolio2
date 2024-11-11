@@ -11,15 +11,23 @@ const FInGameObjectProperty FInGameObjectProperty::Character = []()
 		Property.m_bIsCharacter = true;
 		Property.m_nBombLeft = 1;
 		Property.m_CollisionSize = { 60.0f, 60.0f };
-		Property.m_MaxVelocity = { 500.0f, 500.0f};
 		Property.m_bIsExplodable = true;
+		return Property;
+	}();
+
+const FInGameObjectProperty FInGameObjectProperty::Explosion = []()
+	{
+		FInGameObjectProperty Property{};
+		Property.m_CollisionSize = { 60.0f, 60.0f };
+		Property.m_fTimer = 0.4f;
+		Property.m_bIsExplosion = true;
 		return Property;
 	}();
 
 const FInGameObjectProperty FInGameObjectProperty::Bomb = []()
 	{
 		FInGameObjectProperty Property{};
-		Property.m_fTimer = 2.5f;
+		Property.m_fTimer = 3.0f;
 		Property.m_bIsBomb = true;
 		Property.m_bBlockCharacter = true;
 		Property.m_bIsExplodable = true;
@@ -32,7 +40,6 @@ const FInGameObjectProperty FInGameObjectProperty::HidableWall = []()
 	{
 		FInGameObjectProperty Property{};
 		Property.m_bIsExplodable = true;
-		Property.m_bCanBeFliedOver = true;
 		return Property;
 	}();
 
@@ -90,8 +97,13 @@ void UInGameObjectComponent::OnExploded_Bomb()
 	if (m_InGameObjectProperty.m_bIsAlreadyExploded)
 		return;
 
+	if (m_InGameObjectProperty.m_Spawner)
+	{
+		UInGameObjectComponent* SpawnerInGameObjectComponent = m_InGameObjectProperty.m_Spawner->GetComponentByClass<UInGameObjectComponent>();
+		SpawnerInGameObjectComponent->m_InGameObjectProperty.m_nBombLeft++;
+	}
+
 	GetOwner()->Destroy();
-	
 }
 
 void UInGameObjectComponent::BeginPlay()
@@ -115,6 +127,10 @@ void UInGameObjectComponent::BeginPlay()
 		this->m_OnExplodedEvents.push_back(Event1);
 	}
 
+	if (m_InGameObjectProperty.m_bIsExplosion)
+	{
+		MovementManager->AddExplosion(GetOwner());
+	}
 }
 
 void UInGameObjectComponent::TickComponent(float fDeltaTime)
@@ -126,7 +142,13 @@ void UInGameObjectComponent::TickComponent(float fDeltaTime)
 	if (m_InGameObjectProperty.m_bIsBomb)
 	{
 		m_InGameObjectProperty.m_fTimer -= fDeltaTime;
-		RenderComponent->PlayAnimation("Bomb\\bomb");
+		RenderComponent->PlayAnimation();
+	}
+
+	else if (m_InGameObjectProperty.m_bIsExplosion)
+	{
+		m_InGameObjectProperty.m_fTimer -= fDeltaTime;
+		RenderComponent->PlayAnimation();
 	}
 }
 
@@ -136,6 +158,7 @@ void UInGameObjectComponent::Release()
 	UBombManager* BombManager = GetGameInstanceSubsystem<UBombManager>();
 	MovementManager->m_Walls.erase(m_Owner);
 	MovementManager->m_Movables.erase(m_Owner);
+	MovementManager->m_Explosions.erase(m_Owner);
 	BombManager->m_Bombs.erase(m_Owner);
 }
 

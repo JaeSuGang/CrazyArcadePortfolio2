@@ -8,12 +8,12 @@
 #include "AxisAlignedBoundingBox.h"
 #include "InGameObjectComponent.h"
 
-bool UBombManager::TryPutBomb(int nTileIndex)
+bool UBombManager::TryPutBomb(int nTileIndex, AActor* Spawner)
 {
 	UMovementManager* MovementManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
 
 	FVector2D BombSpawnPos = TileIndexToVector(nTileIndex);
-	FAxisAlignedBoundingBox BombSpawnAABB = { BombSpawnPos , TileWidth / 2, TileHeight / 2 };
+	FAxisAlignedBoundingBox BombSpawnAABB = { BombSpawnPos , TILE_WIDTH / 2, TILE_HEIGHT / 2 };
 
 	for (AActor* WallActor : MovementManager->m_Walls)
 	{
@@ -29,14 +29,14 @@ bool UBombManager::TryPutBomb(int nTileIndex)
 		}
 	}
 
-	this->ForcePutBomb(nTileIndex);
+	this->ForcePutBomb(nTileIndex, Spawner);
 	return true;
 }
 
-void UBombManager::ForcePutBomb(int nTileIndex)
+void UBombManager::ForcePutBomb(int nTileIndex, AActor* Spawner)
 {
 	USpawnManager* SpawnManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<USpawnManager>();
-	SpawnManager->SpawnBomb(TileIndexToVector(nTileIndex));
+	SpawnManager->SpawnBomb(TileIndexToVector(nTileIndex), Spawner);
 }
 
 void UBombManager::Tick(float fDeltaTime)

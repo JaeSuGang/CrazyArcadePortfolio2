@@ -264,7 +264,7 @@ ACharacter* USpawnManager::SpawnMarid(FVector2D PositionVector)
 	return SpawnedCharacter;
 }
 
-AActor* USpawnManager::SpawnBomb(FVector2D PositionVector)
+AActor* USpawnManager::SpawnBomb(FVector2D PositionVector, AActor* Spawner)
 {
 	AActor* BombActor = GetActiveLevel()->InitializeActorForPlay<AActor>();
 	BombActor->SetPosition(PositionVector);
@@ -278,9 +278,84 @@ AActor* USpawnManager::SpawnBomb(FVector2D PositionVector)
 	RenderComponent->CreateAnimation("Bomb\\bomb", "Resources\\Bomb\\bomb", 4, 0.2f, true);
 	UInGameObjectComponent* InGameObjectComponent = BombActor->CreateDefaultSubobject<UInGameObjectComponent>();
 	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Bomb;
+	InGameObjectComponent->m_InGameObjectProperty.m_Spawner = Spawner;
 
 	BombActor->BeginPlay();
 	return BombActor;
+}
+
+AActor* USpawnManager::SpawnExplosion(FVector2D PositionVector, int nDirection, bool bIsEnd)
+{
+	AActor* ExplosionActor = GetActiveLevel()->InitializeActorForPlay<AActor>();
+	ExplosionActor->SetPosition(PositionVector);
+	URenderComponent* RenderComponent = ExplosionActor->CreateDefaultSubobject<URenderComponent>();
+	UInGameObjectComponent* InGameObjectComponent = ExplosionActor->CreateDefaultSubobject<UInGameObjectComponent>();
+	RenderComponent->SetStaticImageOffset(FVector2D(0.0f, 0.0f));
+	RenderComponent->SetRenderPriority(VectorToRenderPriority(PositionVector));
+	RenderComponent->SetRenderType(URenderComponent::ERenderType::NonShadowObject);
+	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Explosion;
+
+	switch (nDirection)
+	{
+	case 0:
+		RenderComponent->CreateAnimation(
+			"BombExplosion\\BombExplosionCenter",
+			"Resources\\BombExplosion\\BombExplosionCenter",
+			3, 0.1f, false);
+		InGameObjectComponent->m_InGameObjectProperty.m_fTimer = 0.3f;
+		break;
+	case 1:
+		if (!bIsEnd)
+			RenderComponent->CreateAnimation(
+				"BombExplosion\\BombExplosionUp",
+				"Resources\\BombExplosion\\BombExplosionUp",
+				4, 0.1f, false);
+		else
+			RenderComponent->CreateAnimation(
+				"BombExplosion\\BombExplosionUpEnd",
+				"Resources\\BombExplosion\\BombExplosionUpEnd",
+				4, 0.1f, false);
+		break;
+	case 2:
+		if (!bIsEnd)
+			RenderComponent->CreateAnimation(
+				"BombExplosion\\BombExplosionRight",
+				"Resources\\BombExplosion\\BombExplosionRight",
+				4, 0.1f, false);
+		else
+			RenderComponent->CreateAnimation(
+				"BombExplosion\\BombExplosionRightEnd",
+				"Resources\\BombExplosion\\BombExplosionRightEnd",
+				4, 0.1f, false);
+		break;
+	case 3:
+		if (!bIsEnd)
+			RenderComponent->CreateAnimation(
+				"BombExplosion\\BombExplosionDown",
+				"Resources\\BombExplosion\\BombExplosionDown",
+				4, 0.1f, false);
+		else
+			RenderComponent->CreateAnimation(
+				"BombExplosion\\BombExplosionDownsEnd",
+				"Resources\\BombExplosion\\BombExplosionDownEnd",
+				4, 0.1f, false);
+		break;
+	case 4:
+		if (!bIsEnd)
+			RenderComponent->CreateAnimation(
+				"BombExplosion\\BombExplosionLeft",
+				"Resources\\BombExplosion\\BombExplosionLeft",
+				4, 0.1f, false);
+		else
+			RenderComponent->CreateAnimation(
+				"BombExplosion\\BombExplosionLeftEnd",
+				"Resources\\BombExplosion\\BombExplosionLeftEnd",
+				4, 0.1f, false);
+		break;
+	
+	}
+
+	return nullptr;
 }
 
 APlayerController* USpawnManager::SpawnPlayerController()

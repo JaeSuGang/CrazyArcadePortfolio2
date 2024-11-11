@@ -86,6 +86,16 @@ void URenderComponent::PlayAnimation(string strKey)
 	}
 }
 
+void URenderComponent::PlayAnimation()
+{
+	if (m_Animations.begin() == m_Animations.end())
+		return;
+
+	string AnimationKey = m_Animations.begin()->first;
+
+	this->PlayAnimation(AnimationKey);
+}
+
 void URenderComponent::CreateAnimation(string strAnimationKey, string strImageBaseKey, int nFileCount, float fDuration, bool bIsLoop = true)
 {
 	LOWER_STRING(strAnimationKey);

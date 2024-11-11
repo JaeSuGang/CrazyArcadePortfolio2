@@ -54,6 +54,7 @@ public:
 	void SetStaticImageOffset(FVector2D OffsetVector);
 	void SetShadowImageOffset(FVector2D OffsetVector);
 	void PlayAnimation(string strKey);
+	void PlayAnimation();
 	void CreateAnimation(string strAnimationKey, string strImageBaseKey, int nFileCount, float fDuration, bool bIsLoop);
 	void SetStaticImage(UImage* Image);
 	void SetStaticImage(string strKey);

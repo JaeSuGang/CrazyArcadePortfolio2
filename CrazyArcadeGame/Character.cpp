@@ -93,7 +93,7 @@ void ACharacter::TryPutBomb()
 		return;
 
 	UBombManager* BombManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
-	if (BombManager->TryPutBomb(VectorToTileIndex(this->GetPosition())))
+	if (BombManager->TryPutBomb(VectorToTileIndex(this->GetPosition()), this))
 		nBombCountRef--;
 }
 

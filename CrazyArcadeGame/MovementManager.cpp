@@ -61,6 +61,11 @@ void UMovementManager::AddWall(AActor* Wall)
 	m_Walls.insert(Wall);
 }
 
+void UMovementManager::AddExplosion(AActor* ExplosionActor)
+{
+	m_Explosions.insert(ExplosionActor);
+}
+
 void UMovementManager::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
@@ -81,8 +86,10 @@ void UMovementManager::Tick(float fDeltaTime)
 		{
 			FVector2D VelocityToApplyInFrame = InGameObjectProperty.m_Velocity;
 			VelocityToApplyInFrame = VelocityToApplyInFrame * fDeltaTime;
-			VelocityToApplyInFrame.X = VelocityToApplyInFrame.X > InGameObjectProperty.m_MaxVelocity.X * fDeltaTime ? InGameObjectProperty.m_MaxVelocity.X * fDeltaTime : VelocityToApplyInFrame.X;
-			VelocityToApplyInFrame.Y = VelocityToApplyInFrame.Y > InGameObjectProperty.m_MaxVelocity.Y * fDeltaTime ? InGameObjectProperty.m_MaxVelocity.Y * fDeltaTime : VelocityToApplyInFrame.Y;
+			VelocityToApplyInFrame.X = VelocityToApplyInFrame.X > MAX_SPEED_PER_FRAME ? MAX_SPEED_PER_FRAME : VelocityToApplyInFrame.X;
+			VelocityToApplyInFrame.X = VelocityToApplyInFrame.X < - MAX_SPEED_PER_FRAME ? - MAX_SPEED_PER_FRAME : VelocityToApplyInFrame.X;
+			VelocityToApplyInFrame.Y = VelocityToApplyInFrame.Y > MAX_SPEED_PER_FRAME ? MAX_SPEED_PER_FRAME : VelocityToApplyInFrame.Y;
+			VelocityToApplyInFrame.Y = VelocityToApplyInFrame.Y < - MAX_SPEED_PER_FRAME ? - MAX_SPEED_PER_FRAME : VelocityToApplyInFrame.Y;
 
 
 			FAxisAlignedBoundingBox DestinationAABB = {
