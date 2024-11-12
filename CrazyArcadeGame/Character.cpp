@@ -9,16 +9,6 @@
 #include "AIManager.h"
 #include "InGameObjectComponent.h"
 
-void ACharacter::SetBombCount(int nValue)
-{
-	m_nBombCount = nValue;
-}
-
-int ACharacter::GetBombCount() const
-{
-	return m_nBombCount;
-}
-
 void ACharacter::SetCharacterName(string strCharacterName)
 {
 	m_strCharacterName = strCharacterName;
@@ -31,9 +21,10 @@ string ACharacter::GetCharacterName()
 
 void ACharacter::Move(FVector2D DirectionVector)
 {
-	if (m_bIsAlreadyMoving == false)
+	UInGameObjectComponent* InGameObjectComponent = GetComponentByClass<UInGameObjectComponent>();
+	if (InGameObjectComponent->m_InGameObjectProperty.m_bIsAlreadyMoving == false)
 	{
-		m_bIsAlreadyMoving = true;
+		InGameObjectComponent->m_InGameObjectProperty.m_bIsAlreadyMoving = true;
 		UInGameObjectComponent* InGameObjectComponent = GetComponentByClass<UInGameObjectComponent>();
 		InGameObjectComponent->AddVelocity(DirectionVector * InGameObjectComponent->m_InGameObjectProperty.m_fSpeed);
 
@@ -111,7 +102,6 @@ void ACharacter::BeginPlay()
 
 ACharacter::ACharacter()
 	:
-	m_bIsAlreadyMoving{},
 	m_strCharacterName{}
 {
 
@@ -149,5 +139,7 @@ void ACharacter::LateTick(float fDeltaTime)
 {
 	Super::LateTick(fDeltaTime);
 
-	m_bIsAlreadyMoving = false;
+
+	UInGameObjectComponent* InGameObjectComponent = GetComponentByClass<UInGameObjectComponent>();
+	InGameObjectComponent->m_InGameObjectProperty.m_bIsAlreadyMoving = false;
 }

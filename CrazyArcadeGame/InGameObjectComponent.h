@@ -17,16 +17,19 @@ public:
 
 	FVector2D m_CollisionSize;
 	FVector2D m_Velocity;
+	FVector2D m_DestinationPos;
 
 	float m_fTimer;
 	float m_fElapsedTimeAfterExplosion;
+	float m_fAccumulatedPushedTime;
 	float m_fSpeed;
 
 	int m_nBombLeft;
 	int m_nBombRange;
 
-	bool m_bIsHidablePlace;
 	bool m_bIsAlreadyExploded;
+	bool m_bIsAlreadyMoving;
+	bool m_bIsHidablePlace;
 	bool m_bIsExplosionCenter;
 	bool m_bIsExplosion;
 	bool m_bIsBomb;
@@ -46,22 +49,28 @@ class UInGameObjectComponent : public UActorComponent
 
 public:
 	void PlayFadeAnimation();
+	void CheckAndHandleHidable();
+
+public:
 	void AddVelocity(FVector2D VelocityToAdd);
 	void AddOnExplodedEvent(std::function<void()> Event);
 	void OnExploded();
+	void OnPushed(FVector2D Direction);
 
 private:
+	void OnPushed_MovableBlock(FVector2D Direction);
 	void OnExploded_Character();
 	void OnExploded_Bomb();
 	void OnExploded_Block();
 	void OnExploded_Hidable();
+	void Tick_Explosion(float fDeltaTime);
+	void Tick_Bomb(float fDeltaTime);
+	void Tick_Character(float fDeltaTime);
+	void Tick_PushableBlock(float fDeltaTime);
 
 public:
 	void BeginPlay() override;
 	void TickComponent(float fDeltaTime) override;
-	void Tick_Explosion(float fDeltaTime);
-	void Tick_Bomb(float fDeltaTime);
-	void Tick_Character(float fDeltaTime);
 
 public:
 	void Release();
@@ -72,6 +81,7 @@ public:
 
 private:
 	vector<std::function<void()>> m_OnExplodedEvents;
+	vector<std::function<void(FVector2D)>> m_OnPushedEvents;
 
 };
 

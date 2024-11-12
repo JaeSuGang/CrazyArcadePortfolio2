@@ -41,6 +41,7 @@
     <ClCompile Include="InGameObjectComponent.cpp">
       <Filter>ActorComponent</Filter>
     </ClCompile>
+    <ClCompile Include="PowerUpItem.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -114,6 +115,7 @@
     <ClInclude Include="InGameObjectComponent.h">
       <Filter>ActorComponent</Filter>
     </ClInclude>
+    <ClInclude Include="PowerUpItem.h" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Resources\Bazzi\BazziDownIdle.bmp">

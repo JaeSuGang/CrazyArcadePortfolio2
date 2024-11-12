@@ -8,6 +8,70 @@
 #include "AxisAlignedBoundingBox.h"
 #include "InGameObjectComponent.h"
 
+AActor* UMovementManager::GetActorInAABB(FAxisAlignedBoundingBox AABB) const
+{
+	for (AActor* Actor : GetActiveLevel()->m_Actors)
+	{
+		if (AABB.GetIsCollidedWith(Actor->GetPosition()))
+			return Actor;
+	}
+
+	return nullptr;
+}
+
+AActor* UMovementManager::GetWallInAABB(FAxisAlignedBoundingBox AABB) const
+{
+	FAxisAlignedBoundingBox WallAABB;
+	for (AActor* Actor : m_Walls)
+	{
+		UInGameObjectComponent* InGameObjectComponent = Actor->GetComponentByClass<UInGameObjectComponent>();
+		WallAABB = { Actor->GetPosition(),
+			InGameObjectComponent->m_InGameObjectProperty.m_CollisionSize.X / 2,
+			InGameObjectComponent->m_InGameObjectProperty.m_CollisionSize.Y / 2};
+		if (AABB.GetIsCollidedWith(WallAABB))
+			return Actor;
+	}
+
+	return nullptr;
+}
+
+AActor* UMovementManager::GetMovableInAABB(FAxisAlignedBoundingBox AABB) const
+{
+	for (AActor* Actor : m_Movables)
+	{
+		if (AABB.GetIsCollidedWith(Actor->GetPosition()))
+			return Actor;
+	}
+
+	return nullptr;
+}
+
+AActor* UMovementManager::GetHidablePlaceInAABB(FAxisAlignedBoundingBox AABB) const
+{
+	for (AActor* Actor : m_HidablePlaces)
+	{
+		if (AABB.GetIsCollidedWith(Actor->GetPosition()))
+			return Actor;
+	}
+
+	return nullptr;
+}
+
+AActor* UMovementManager::GetIsInHidable(AActor* ActorToCheck)
+{
+	FVector2D ActorPos = ActorToCheck->GetPosition();
+	FAxisAlignedBoundingBox HidableAABB = { FVector2D::Zero, TILE_WIDTH / 2, TILE_HEIGHT / 2 };
+
+	for (AActor* HidablePlaceActor : m_HidablePlaces)
+	{
+		HidableAABB.m_Center = HidablePlaceActor->GetPosition();
+		if (HidableAABB.GetIsCollidedWith(ActorPos))
+			return HidablePlaceActor;
+	}
+
+	return nullptr;
+}
+
 void UMovementManager::EnableDebugRender()
 {
 	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
@@ -51,6 +115,11 @@ void UMovementManager::Reset()
 	m_Walls.clear();
 }
 
+void UMovementManager::AddHidablePlace(AActor* HidablePlaceActor)
+{
+	m_HidablePlaces.insert(HidablePlaceActor);
+}
+
 void UMovementManager::AddMovable(AActor* Movable)
 {
 	m_Movables.insert(Movable);
@@ -61,17 +130,11 @@ void UMovementManager::AddWall(AActor* Wall)
 	m_Walls.insert(Wall);
 }
 
-void UMovementManager::AddExplosion(AActor* ExplosionActor)
-{
-	m_Explosions.insert(ExplosionActor);
-}
-
 void UMovementManager::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
 
 	ULevel* ActiveLevel = GetActiveLevel();
-
 
 	for (AActor* MovableActor : m_Movables)
 	{
@@ -84,8 +147,9 @@ void UMovementManager::Tick(float fDeltaTime)
 		FInGameObjectProperty& InGameObjectProperty = MovableInGameObjectComponent->m_InGameObjectProperty;
 		if (InGameObjectProperty.m_Velocity != FVector2D::Zero)
 		{
-			FVector2D VelocityToApplyInFrame = InGameObjectProperty.m_Velocity;
-			VelocityToApplyInFrame = VelocityToApplyInFrame * fDeltaTime;
+			URenderComponent* RenderComponent = MovableActor->GetComponentByClass<URenderComponent>();
+
+			FVector2D VelocityToApplyInFrame = InGameObjectProperty.m_Velocity * fDeltaTime;
 			VelocityToApplyInFrame.X = VelocityToApplyInFrame.X > MAX_SPEED_PER_FRAME ? MAX_SPEED_PER_FRAME : VelocityToApplyInFrame.X;
 			VelocityToApplyInFrame.X = VelocityToApplyInFrame.X < - MAX_SPEED_PER_FRAME ? - MAX_SPEED_PER_FRAME : VelocityToApplyInFrame.X;
 			VelocityToApplyInFrame.Y = VelocityToApplyInFrame.Y > MAX_SPEED_PER_FRAME ? MAX_SPEED_PER_FRAME : VelocityToApplyInFrame.Y;
@@ -97,7 +161,7 @@ void UMovementManager::Tick(float fDeltaTime)
 				InGameObjectProperty.m_CollisionSize.X / 2,
 				InGameObjectProperty.m_CollisionSize.Y / 2 };
 
-
+			bool bAlreadyPushedWall = false;
 			for (AActor* WallActor : m_Walls)
 			{
 				UInGameObjectComponent* WallInGameObjectComponent = WallActor->GetComponentByClass<UInGameObjectComponent>();
@@ -109,8 +173,20 @@ void UMovementManager::Tick(float fDeltaTime)
 				if (DestinationAABB.GetIsCollidedWith(WallAABB))
 				{
 					DestinationAABB = DestinationAABB.CalculateCorrectPos(OriginalPos, WallAABB);
+					if (!bAlreadyPushedWall)
+					{
+						WallInGameObjectComponent->m_InGameObjectProperty.m_fAccumulatedPushedTime += fDeltaTime;
+						if (WallInGameObjectComponent->m_InGameObjectProperty.m_fAccumulatedPushedTime > 0.25f)
+						{
+							WallInGameObjectComponent->OnPushed(VelocityToApplyInFrame.GetNormalized());
+							bAlreadyPushedWall = true;
+						}
+					}
+					bAlreadyPushedWall = true;
 				}
 			}
+
+			MovableInGameObjectComponent->CheckAndHandleHidable();
 
 			MovableActor->SetPosition(DestinationAABB.m_Center);
 			MovableActor->GetComponentByClass<URenderComponent>()->SetRenderPriority(VectorToRenderPriority(MovableActor->GetPosition()));
@@ -118,67 +194,23 @@ void UMovementManager::Tick(float fDeltaTime)
 		}
 	}
 
-	// Obsolete Physics
-	/*
-	for (UMovableComponent* MovableComponent : m_Movables)
-	{
-		FVector2D VelocityToApply = MovableComponent->GetVelocity();
-		if (VelocityToApply == FVector2D::Zero)
-			continue;
-
-		FVector2D VelocityToApplyPerFrame = VelocityToApply * fDeltaTime;
-		AActor* MovableActor = MovableComponent->GetOwner();
-		FVector2D ActorPos = MovableActor->GetPosition();
-		float MaxSpeed = MovableComponent->GetMaxSpeed();
-		float MaxSpeedPerFrame = MaxSpeed * fDeltaTime;
-		float SpeedToApply = VelocityToApply.GetLength();
-		float SpeedToApplyPerFrame = SpeedToApply* fDeltaTime;
-
-		if (SpeedToApplyPerFrame > MaxSpeedPerFrame)
-		{
-			VelocityToApplyPerFrame = VelocityToApplyPerFrame / SpeedToApplyPerFrame * MaxSpeedPerFrame;
-		}
-
-		FVector2D ActorPositionToSettle = ActorPos + VelocityToApplyPerFrame;
-
-		for (UWallComponent* WallComponent : m_Walls)
-		{
-			if (VelocityToApplyPerFrame.X > 0.0f)
-			{
-				AActor* WallActor = WallComponent->GetOwner();
-				// 벽을 15, 30, 15의 픽셀로 나눔 
-				// 벽때문에 못지나갈때
-				if (ActorPositionToSettle.Y < WallActor->GetPosition().Y + 15.0f &&
-					ActorPositionToSettle.Y > WallActor->GetPosition().Y - 15.0f &&
-					ActorPositionToSettle.X + 60.0f > WallActor->GetPosition().X &&
-					ActorPositionToSettle.X + 60.0f < WallActor->GetPosition().X + 30.0f)
-				{
-					VelocityToApplyPerFrame.X = 0.0f;
-				}
-			}
-		}
-
-
-
-
-
-		ActorPositionToSettle = ActorPos + VelocityToApplyPerFrame;
-		MovableActor->SetPosition(ActorPositionToSettle);
-		MovableComponent->SetVelocity(FVector2D::Zero);
-
-
-		if (URenderComponent* RenderComponent = MovableActor->GetComponentByClass<URenderComponent>())
-		{
-			RenderComponent->SetRenderPriority(10 + (ActorPositionToSettle.Y - 60) / 60);
-		}
-
-	}
-	*/
 }
 
 UMovementManager::UMovementManager()
 	:
 	m_Movables{},
-	m_Walls{}
+	m_Walls{},
+	m_hBrush{},
+	m_hPen{}
 {
+}
+
+FLerpEvent::FLerpEvent(FVector2D StartPos, FVector2D DestPos, float fTotalTime)
+	:
+	m_StartPos{ StartPos },
+	m_DestPos{ DestPos },
+	m_fTotalTime{ fTotalTime },
+	m_fAccumulatedTime{}
+{
+
 }

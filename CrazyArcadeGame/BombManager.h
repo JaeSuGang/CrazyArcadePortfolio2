@@ -9,6 +9,7 @@ class UBombManager : public UGameInstanceSubsystem
 	typedef UGameInstanceSubsystem Super;
 
 public:
+	void AddCharacter(AActor* CharacterActor);
 	void AddExplosion(AActor* ExplosionActor);
 	void RemoveExplosion(AActor* ExplosionActor);
 	bool TryPutBomb(int nTileIndex, AActor* Spawner);
@@ -20,6 +21,7 @@ public:
 
 public:
 	unordered_set<AActor*> m_Explosions;
+	unordered_set<AActor*> m_Characters;
 
 private:
 	float m_fAccumulatedDeltaTime;

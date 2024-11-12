@@ -167,6 +167,7 @@
     <ClCompile Include="InGameObjectComponent.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MovementManager.cpp" />
+    <ClCompile Include="PowerUpItem.cpp" />
     <ClCompile Include="SpawnManager.cpp" />
     <ClCompile Include="stdafx.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
@@ -186,6 +187,7 @@
     <ClInclude Include="GameUI.h" />
     <ClInclude Include="InGameObjectComponent.h" />
     <ClInclude Include="MovementManager.h" />
+    <ClInclude Include="PowerUpItem.h" />
     <ClInclude Include="SpawnManager.h" />
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="TestGameInstance.h" />

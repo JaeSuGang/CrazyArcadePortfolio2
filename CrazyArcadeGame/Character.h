@@ -7,8 +7,6 @@ class ACharacter : public APawn
 	typedef APawn Super;
 
 public:
-	void SetBombCount(int nValue);
-	int GetBombCount() const;
 	void SetCharacterName(string strCharacterName);
 	string GetCharacterName();
 	void Move(FVector2D Direction);
@@ -27,7 +25,5 @@ public:
 
 private:
 	string m_strCharacterName;
-	bool m_bIsAlreadyMoving;
-	int m_nBombCount;
 };
 

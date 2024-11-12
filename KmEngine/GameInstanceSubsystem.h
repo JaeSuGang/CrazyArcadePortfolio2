@@ -6,7 +6,7 @@ class ULevel;
 class UGameInstanceSubsystem : public UObject
 {
 public:
-	ULevel* GetActiveLevel();
+	ULevel* GetActiveLevel() const;
 
 public:
 	virtual void Tick(float fDeltaTime) = 0;

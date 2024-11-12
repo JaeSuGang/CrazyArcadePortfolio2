@@ -91,6 +91,17 @@ void UInGameObjectComponent::PlayFadeAnimation()
 		GetOwner()->GetComponentByClass<URenderComponent>()->SetIsHidden(false);
 }
 
+void UInGameObjectComponent::CheckAndHandleHidable()
+{
+	UMovementManager* MovementManager = GetGameInstanceSubsystem<UMovementManager>();
+	AActor* HidablePlace = MovementManager->GetIsInHidable(GetOwner());
+
+	if (HidablePlace)
+		GetOwner()->GetComponentByClass<URenderComponent>()->SetIsHidden(true);
+	else
+		GetOwner()->GetComponentByClass<URenderComponent>()->SetIsHidden(false);
+}
+
 void UInGameObjectComponent::AddVelocity(FVector2D VelocityToAdd)
 {
 	m_InGameObjectProperty.m_Velocity += VelocityToAdd;
@@ -106,8 +117,10 @@ void UInGameObjectComponent::OnExploded()
 	if (m_InGameObjectProperty.m_bIsAlreadyExploded)
 		return;
 
-	else
-		m_InGameObjectProperty.m_bIsAlreadyExploded = true;
+	m_InGameObjectProperty.m_bIsAlreadyExploded = true;
+
+	URenderComponent* RenderComponent = GetOwner()->GetComponentByClass<URenderComponent>();
+	RenderComponent->SetIsHidden(false);
 
 	if (m_InGameObjectProperty.m_bIsExplodable)
 	{
@@ -118,8 +131,39 @@ void UInGameObjectComponent::OnExploded()
  	}
 }
 
+void UInGameObjectComponent::OnPushed(FVector2D Direction)
+{
+	for (std::function<void(FVector2D)> Event : m_OnPushedEvents)
+	{
+		Event(Direction);
+	}
+}
+
+void UInGameObjectComponent::OnPushed_MovableBlock(FVector2D Direction)
+{
+	if (m_InGameObjectProperty.m_bIsAlreadyMoving)
+		return;
+
+	m_InGameObjectProperty.m_fAccumulatedPushedTime = 0.0f;
+
+	FAxisAlignedBoundingBox PredictedAABB = { GetOwner()->GetPosition() + Direction * 60.0f, TILE_WIDTH / 2, TILE_HEIGHT / 2 };
+	UMovementManager* MovementManager = GetGameInstanceSubsystem<UMovementManager>();
+	if (MovementManager->GetWallInAABB(PredictedAABB) || MovementManager->GetMovableInAABB(PredictedAABB))
+		return;
+
+	if (AActor* HidablePlace = MovementManager->GetHidablePlaceInAABB(PredictedAABB))
+		HidablePlace->Destroy();
+
+
+
+	m_InGameObjectProperty.m_bIsAlreadyMoving = true;
+	m_InGameObjectProperty.m_DestinationPos = GetOwner()->GetPosition() + Direction * 60.0f;
+}
+
 void UInGameObjectComponent::OnExploded_Character()
 {
+	UBombManager* BombManager = GetGameInstanceSubsystem<UBombManager>();
+
 	m_InGameObjectProperty.m_fSpeed = 25.0f;
 }
 
@@ -144,6 +188,8 @@ void UInGameObjectComponent::OnExploded_Block()
 {
 	// 아이템 확률 생성 코드 추가하기
 
+	int nRandomNumber = rand() % 100;
+
 
 }
 
@@ -162,6 +208,7 @@ void UInGameObjectComponent::BeginPlay()
 	if (m_InGameObjectProperty.m_bIsCharacter)
 	{
 		MovementManager->AddMovable(this->GetOwner());
+		BombManager->AddCharacter(this->GetOwner());
 		std::function<void()> Event1 = std::bind(&UInGameObjectComponent::OnExploded_Character, this);
 		this->m_OnExplodedEvents.push_back(Event1);
 	}
@@ -183,12 +230,19 @@ void UInGameObjectComponent::BeginPlay()
 	if (m_InGameObjectProperty.m_bIsHidablePlace)
 	{
 		std::function<void()> Event1 = std::bind(&UInGameObjectComponent::OnExploded_Hidable, this);
+		MovementManager->AddHidablePlace(GetOwner());
 		this->m_OnExplodedEvents.push_back(Event1);
 	}
 
 	if (m_InGameObjectProperty.m_bIsExplosion)
 	{
 		BombManager->AddExplosion(GetOwner());
+	}
+
+	if (m_InGameObjectProperty.m_bIsPushable)
+	{
+		std::function<void(FVector2D)> Event1 = std::bind(&UInGameObjectComponent::OnPushed_MovableBlock, this, std::placeholders::_1);
+		this->m_OnPushedEvents.push_back(Event1);
 	}
 
 }
@@ -211,8 +265,11 @@ void UInGameObjectComponent::TickComponent(float fDeltaTime)
 		m_InGameObjectProperty.m_fElapsedTimeAfterExplosion += fDeltaTime;
 	}
 
+	if (m_InGameObjectProperty.m_fAccumulatedPushedTime > 0)
+		m_InGameObjectProperty.m_fAccumulatedPushedTime -= fDeltaTime / 2.0f;
+
 	if (m_InGameObjectProperty.m_fElapsedTimeAfterExplosion > 0.4f && !m_InGameObjectProperty.m_bIsCharacter)
-		Owner->Destroy();
+		Owner->Destroy(); 
 
 	if (m_InGameObjectProperty.m_bIsCharacter)
 		this->Tick_Character(fDeltaTime);
@@ -222,6 +279,9 @@ void UInGameObjectComponent::TickComponent(float fDeltaTime)
 
 	if (m_InGameObjectProperty.m_bIsExplosion)
 		this->Tick_Explosion(fDeltaTime);
+
+	if (m_InGameObjectProperty.m_bIsPushable)
+		this->Tick_PushableBlock(fDeltaTime);
 }
 
 void UInGameObjectComponent::Tick_Explosion(float fDeltaTime)
@@ -268,13 +328,29 @@ void UInGameObjectComponent::Tick_Character(float fDeltaTime)
 	}
 }
 
+void UInGameObjectComponent::Tick_PushableBlock(float fDeltaTime)
+{
+	if (m_InGameObjectProperty.m_bIsAlreadyMoving)
+	{
+		AActor* Owner = GetOwner();
+		FVector2D Direction = (m_InGameObjectProperty.m_DestinationPos - Owner->GetPosition()).GetNormalized();
+
+		Owner->AddPosition(Direction * 100.0f * fDeltaTime);
+
+		if ((m_InGameObjectProperty.m_DestinationPos - Owner->GetPosition()).GetLength() < 5.0f)
+		{
+			Owner->SetPosition(m_InGameObjectProperty.m_DestinationPos);
+			m_InGameObjectProperty.m_bIsAlreadyMoving = false;
+		}
+	}
+}
+
 void UInGameObjectComponent::Release()
 {
 	UMovementManager* MovementManager = GetGameInstanceSubsystem<UMovementManager>();
 	UBombManager* BombManager = GetGameInstanceSubsystem<UBombManager>();
 	MovementManager->m_Walls.erase(m_Owner);
 	MovementManager->m_Movables.erase(m_Owner);
-	MovementManager->m_Explosions.erase(m_Owner);
 	BombManager->m_Explosions.erase(m_Owner);
 }
 

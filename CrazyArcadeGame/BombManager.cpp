@@ -9,6 +9,11 @@
 #include "AxisAlignedBoundingBox.h"
 #include "InGameObjectComponent.h"
 
+void UBombManager::AddCharacter(AActor* CharacterActor)
+{
+	m_Characters.insert(CharacterActor);
+}
+
 void UBombManager::AddExplosion(AActor* ExplosionActor)
 {
 	m_Explosions.insert(ExplosionActor);
@@ -47,7 +52,8 @@ bool UBombManager::TryPutBomb(int nTileIndex, AActor* Spawner)
 void UBombManager::ForcePutBomb(int nTileIndex, AActor* Spawner)
 {
 	USpawnManager* SpawnManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<USpawnManager>();
-	SpawnManager->SpawnBomb(TileIndexToVector(nTileIndex), Spawner);
+	AActor* BombActor = SpawnManager->SpawnBomb(TileIndexToVector(nTileIndex), Spawner);
+	BombActor->GetComponentByClass<UInGameObjectComponent>()->CheckAndHandleHidable();
 }
 
 void UBombManager::Explode(int nTileIndex, int nRange)
@@ -105,13 +111,13 @@ void UBombManager::Tick(float fDeltaTime)
 	{
 		m_fAccumulatedDeltaTime = 0.0f;
 
+		FAxisAlignedBoundingBox TileSizeCollider = { FVector2D::Zero, TILE_WIDTH / 2, TILE_HEIGHT / 2 };
+
 		for (AActor* ExplosionActor : m_Explosions)
 		{
 			UInGameObjectComponent* ExplosionInGameObjectComponent = ExplosionActor->GetComponentByClass<UInGameObjectComponent>();
-			FAxisAlignedBoundingBox ExplosionAABB = {
-				ExplosionActor->GetPosition(),
-				ExplosionInGameObjectComponent->m_InGameObjectProperty.m_CollisionSize.X / 2,
-				ExplosionInGameObjectComponent->m_InGameObjectProperty.m_CollisionSize.Y / 2 };
+
+			TileSizeCollider.m_Center = ExplosionActor->GetPosition();
 
 			for (AActor* TargetActor : GetActiveLevel()->m_Actors)
 			{
@@ -122,9 +128,27 @@ void UBombManager::Tick(float fDeltaTime)
 				if (!TargetInGameObjectComponent->m_InGameObjectProperty.m_bIsExplodable)
 					continue;
 
-				if (ExplosionAABB.GetIsCollidedWith(TargetActor->GetPosition()))
+				if (TileSizeCollider.GetIsCollidedWith(TargetActor->GetPosition()))
 				{
 					TargetInGameObjectComponent->OnExploded();
+				}
+			}
+		}
+
+		for (AActor* CharacterTarget : m_Characters)
+		{
+			UInGameObjectComponent* TargetInGameObjectComponent = CharacterTarget->GetComponentByClass<UInGameObjectComponent>();
+			TileSizeCollider.m_Center = CharacterTarget->GetPosition();
+
+			for (AActor* CharacterInAction : m_Characters)
+			{
+				if (CharacterInAction == CharacterTarget)
+					continue;
+
+				if (TargetInGameObjectComponent->m_InGameObjectProperty.m_bIsAlreadyExploded &&
+					TileSizeCollider.GetIsCollidedWith(CharacterInAction->GetPosition()))
+				{
+					//CharacterTarget->Destroy();
 				}
 			}
 		}

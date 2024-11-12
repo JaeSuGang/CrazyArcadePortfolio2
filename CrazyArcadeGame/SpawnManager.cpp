@@ -183,11 +183,10 @@ ACharacter* USpawnManager::SpawnBazzi(FVector2D PositionVector)
 	RenderComponent->CreateAnimation("LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation("RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation("UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation("BubbleLoop", "Resources\\" + strCharacterName + "\\BubbleLoop", 2, 0.5f, true);
+	RenderComponent->CreateAnimation("BubbleLoop", "Resources\\" + strCharacterName + "\\BubbleLoop", 2, 0.25f, true);
 	RenderComponent->CreateAnimation("BubbleFade", "Resources\\" + strCharacterName + "\\BubbleFade", 2, 0.5f, false);
 	UInGameObjectComponent* InGameObjectComponent = SpawnedCharacter->CreateDefaultSubobject<UInGameObjectComponent>();
 	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Character;
-	SpawnedCharacter->SetBombCount(1);
 
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->BeginPlay();
@@ -210,7 +209,7 @@ ACharacter* USpawnManager::SpawnDao(FVector2D PositionVector)
 	RenderComponent->CreateAnimation("LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation("RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation("UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation("BubbleLoop", "Resources\\" + strCharacterName + "\\BubbleLoop", 2, 0.5f, true);
+	RenderComponent->CreateAnimation("BubbleLoop", "Resources\\" + strCharacterName + "\\BubbleLoop", 2, 0.25f, true);
 	RenderComponent->CreateAnimation("BubbleFade", "Resources\\" + strCharacterName + "\\BubbleFade", 2, 0.5f, false);
 	UInGameObjectComponent* InGameObjectComponent = SpawnedCharacter->CreateDefaultSubobject<UInGameObjectComponent>();
 	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Character;
@@ -236,7 +235,7 @@ ACharacter* USpawnManager::SpawnCappi(FVector2D PositionVector)
 	RenderComponent->CreateAnimation("LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation("RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation("UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation("BubbleLoop", "Resources\\" + strCharacterName + "\\BubbleLoop", 2, 0.5f, true);
+	RenderComponent->CreateAnimation("BubbleLoop", "Resources\\" + strCharacterName + "\\BubbleLoop", 2, 0.25f, true);
 	RenderComponent->CreateAnimation("BubbleFade", "Resources\\" + strCharacterName + "\\BubbleFade", 2, 0.5f, false);
 	UInGameObjectComponent* InGameObjectComponent = SpawnedCharacter->CreateDefaultSubobject<UInGameObjectComponent>();
 	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Character;
@@ -262,7 +261,7 @@ ACharacter* USpawnManager::SpawnMarid(FVector2D PositionVector)
 	RenderComponent->CreateAnimation("LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation("RightWalk", "Resources\\" + strCharacterName + "\\RightWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation("UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
-	RenderComponent->CreateAnimation("BubbleLoop", "Resources\\" + strCharacterName + "\\BubbleLoop", 2, 0.5f, true);
+	RenderComponent->CreateAnimation("BubbleLoop", "Resources\\" + strCharacterName + "\\BubbleLoop", 2, 0.25f, true);
 	RenderComponent->CreateAnimation("BubbleFade", "Resources\\" + strCharacterName + "\\BubbleFade", 2, 0.5f, false);
 	UInGameObjectComponent* InGameObjectComponent = SpawnedCharacter->CreateDefaultSubobject<UInGameObjectComponent>();
 	InGameObjectComponent->m_InGameObjectProperty = FInGameObjectProperty::Character;
@@ -270,6 +269,13 @@ ACharacter* USpawnManager::SpawnMarid(FVector2D PositionVector)
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->BeginPlay();
 	return SpawnedCharacter;
+}
+
+AActor* USpawnManager::SpawnItem(FVector2D PositionVector, int nItemCode)
+{
+
+
+	return nullptr;
 }
 
 AActor* USpawnManager::SpawnBomb(FVector2D PositionVector, AActor* Spawner)
