@@ -41,7 +41,15 @@
     <ClCompile Include="InGameObjectComponent.cpp">
       <Filter>ActorComponent</Filter>
     </ClCompile>
-    <ClCompile Include="PowerUpItem.cpp" />
+    <ClCompile Include="PowerUpItem.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Block.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="GroundTile.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -115,7 +123,15 @@
     <ClInclude Include="InGameObjectComponent.h">
       <Filter>ActorComponent</Filter>
     </ClInclude>
-    <ClInclude Include="PowerUpItem.h" />
+    <ClInclude Include="PowerUpItem.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Block.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="GroundTile.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Image Include="..\Resources\Bazzi\BazziDownIdle.bmp">

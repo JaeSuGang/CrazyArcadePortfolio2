@@ -1,7 +1,7 @@
 #pragma once
 #include "KmEngine/Actor.h"
 
-class AGameUI : public AActor
+class AGroundTile : public AActor
 {
 	typedef AActor Super;
 

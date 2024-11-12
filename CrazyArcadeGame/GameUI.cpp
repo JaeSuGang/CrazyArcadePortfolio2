@@ -1,6 +1,13 @@
 #include "stdafx.h"
 #include "GameUI.h"
 
+void AGameUI::BeginPlay()
+{
+	Super::BeginPlay();
+
+
+}
+
 void AGameUI::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);

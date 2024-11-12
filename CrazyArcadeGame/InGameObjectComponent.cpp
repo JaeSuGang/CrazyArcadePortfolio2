@@ -351,6 +351,7 @@ void UInGameObjectComponent::Release()
 	UBombManager* BombManager = GetGameInstanceSubsystem<UBombManager>();
 	MovementManager->m_Walls.erase(m_Owner);
 	MovementManager->m_Movables.erase(m_Owner);
+	MovementManager->m_HidablePlaces.erase(m_Owner);
 	BombManager->m_Explosions.erase(m_Owner);
 }
 
