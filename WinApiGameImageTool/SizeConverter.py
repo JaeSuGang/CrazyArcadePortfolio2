@@ -26,7 +26,7 @@ class CBmpConverter:
         output_path = self.m_OutputDirectory + "\\" + file_name
         img = Image.open(file_path)
         original_width, original_height = img.size
-        new_width = int(90)
+        new_width = int(60)
         new_height = int(original_height / original_width * new_width)
         new_size = (new_width, new_height)
         new_img = img.resize(new_size, Image.NEAREST)
@@ -35,6 +35,6 @@ class CBmpConverter:
 
 if __name__ == "__main__":
     BmpConverter = CBmpConverter()
-    BmpConverter.SetDirectory(r"C:\Users\33kkm\Desktop\Image2")
-    BmpConverter.SetOutputDirectory(r"C:\Users\33kkm\Desktop\Image3")
+    BmpConverter.SetDirectory(r"C:\Users\33kkm\Desktop\1")
+    BmpConverter.SetOutputDirectory(r"C:\Users\33kkm\Desktop\2")
     BmpConverter.ConvertAll()

@@ -10,6 +10,7 @@ class ABlock : public AActor, public FInGameProperty, public IExplodable
 	typedef AActor Super;
 
 public:
+	void SpawnItem();
 	void PlayFadeAnimation();
 	virtual void OnPushed(FVector2D Direction);
 
@@ -19,6 +20,8 @@ public:
 	void SetHidable(bool bHidable);
 	void SetBreakable(bool bBreakable);
 	void SetPushable(bool bPushable);
+	void SetItemSpawnable(bool bItemSpawnable);
+	bool GetItemSpawnable() const;
 	bool GetPushable() const;
 	bool GetBreakable() const;
 	bool GetHidable() const;
@@ -41,6 +44,7 @@ protected:
 	FVector2D m_DestinationPos;
 	float m_fAccumulatedPushedTime;
 
+	bool m_bIsItemSpawnable;
 	bool m_bIsBreakable;
 	bool m_bIsMoving;
 	bool m_bIsPassable;

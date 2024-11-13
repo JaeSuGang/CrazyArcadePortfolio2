@@ -2,12 +2,14 @@
 #include "KmEngine/GameInstanceSubsystem.h"
 #include "KmBase/Vector.h"
 
+enum class EItemCode;
 class APlayerController;
 class AAIController;
 class ACharacter;
 class AGameUI;
 class ABlock;
 class ABomb;
+class APowerUpItem;
 class AExplosion;
 class FTilemap;
 
@@ -24,7 +26,8 @@ public:
 	ACharacter* SpawnDao(FVector2D PositionVector);
 	ACharacter* SpawnCappi(FVector2D PositionVector);
 	ACharacter* SpawnMarid(FVector2D PositionVector);
-	AActor* SpawnItem(FVector2D PositionVector, int nItemCode);
+	APowerUpItem* SpawnRandomItem(FVector2D PositionVector);
+	APowerUpItem* SpawnItem(FVector2D PositionVector, EItemCode ItemCode);
 	ABomb* SpawnBomb(FVector2D PositionVector, ACharacter* Spawner);
 	AExplosion* SpawnExplosion(FVector2D PositionVector, int nDirection, bool bIsEnd);
 	AExplosion* SpawnExplosion(FVector2D PositionVector, int nDirection, float fDelayTimer, bool bIsEnd);

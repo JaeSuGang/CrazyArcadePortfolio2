@@ -129,6 +129,11 @@ void UMovementManager::AddBlock(ABlock* Wall)
 	m_Blocks.insert(Wall);
 }
 
+void UMovementManager::AddPowerUpItem(APowerUpItem* Item)
+{
+	m_PowerUpItems.insert(Item);
+}
+
 void UMovementManager::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
@@ -198,14 +203,4 @@ UMovementManager::UMovementManager()
 	m_hBrush{},
 	m_hPen{}
 {
-}
-
-FLerpEvent::FLerpEvent(FVector2D StartPos, FVector2D DestPos, float fTotalTime)
-	:
-	m_StartPos{ StartPos },
-	m_DestPos{ DestPos },
-	m_fTotalTime{ fTotalTime },
-	m_fAccumulatedTime{}
-{
-
 }

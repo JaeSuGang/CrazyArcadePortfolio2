@@ -3,6 +3,7 @@
 #include "AxisAlignedBoundingBox.h"
 #include "BombManager.h"
 #include "MovementManager.h"
+#include "SpawnManager.h"
 #include "KmEngine/RenderComponent.h"
 
 void ABlock::BeginPlay()
@@ -40,7 +41,13 @@ void ABlock::Tick(float fDeltaTime)
 		m_fElapsedTimeAfterExplosion += fDeltaTime;
 
 	if (m_fElapsedTimeAfterExplosion > 0.4f)
+	{
+		if (m_bIsItemSpawnable)
+		{
+
+		}
 		this->Destroy();
+	}
 
 	else if (m_fElapsedTimeAfterExplosion > 0.0f)
 		this->PlayFadeAnimation();
@@ -81,6 +88,12 @@ ABlock::ABlock()
 	m_bIsPushable{},
 	m_bIsHidable{}
 {
+}
+
+void ABlock::SpawnItem()
+{
+	USpawnManager* SpawnManager = GetGameInstance()->GetGameInstanceSubsystem<USpawnManager>();
+	SpawnManager->SpawnRandomItem(GetPosition());
 }
 
 void ABlock::PlayFadeAnimation()
@@ -143,6 +156,16 @@ void ABlock::SetPushable(bool bPushable)
 	m_bIsPushable = bPushable;
 }
 
+void ABlock::SetItemSpawnable(bool bItemSpawnable)
+{
+	m_bIsItemSpawnable = bItemSpawnable;
+}
+
+bool ABlock::GetItemSpawnable() const
+{
+	return m_bIsItemSpawnable;
+}
+
 bool ABlock::GetPushable() const
 {
 	return m_bIsPushable;
@@ -179,4 +202,6 @@ void ABlock::OnExploded()
 		return;
 
 	m_bIsAlreadyExploded = true;
+
+	this->SpawnItem();
 }

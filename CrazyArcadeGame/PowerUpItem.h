@@ -5,14 +5,19 @@
 
 enum class EItemCode
 {
-	None,
 	BombCount,
-	BombRange
+	BombRange,
+	Speed,
+	End
 };
 
-class APowerUpItem : public AActor, public FInGameProperty, public IExplodable
+class APowerUpItem : public AActor, public IExplodable, public FInGameProperty
 {
 	typedef AActor Super;
+
+public:
+	void SetItemCode(EItemCode ItemCode);
+	EItemCode GetItemCode() const;
 
 public:
 	void OnExploded() override;
@@ -20,7 +25,11 @@ public:
 	void Tick(float fDeltaTime) override;
 	void LateTick(float fDeltaTime) override;
 
+public:
+	void Release();
+	~APowerUpItem();
+
 private:
-	EItemCode m_nItemCode;
+	EItemCode m_ItemCode;
 
 };

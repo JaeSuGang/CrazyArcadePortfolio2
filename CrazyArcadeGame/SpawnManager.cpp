@@ -12,6 +12,7 @@
 #include "Bomb.h"
 #include "Block.h"
 #include "Explosion.h"
+#include "PowerUpItem.h"
 
 
 void USpawnManager::GenerateWallTile(int nTileLocationIndex, int nTileValue, int nGroundTileValue)
@@ -170,15 +171,17 @@ ACharacter* USpawnManager::SpawnBazzi(FVector2D PositionVector)
 {
 	string strCharacterName = "Bazzi";
 	ACharacter* SpawnedCharacter = GetActiveLevel()->InitializeActorForPlay<ACharacter>();
+	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->SetCharacterName(strCharacterName);
 	SpawnedCharacter->SetBombLeft(1);
+	SpawnedCharacter->SetBombRange(1);
 	SpawnedCharacter->SetBombRange(1);
 	URenderComponent* RenderComponent = SpawnedCharacter->CreateDefaultSubobject<URenderComponent>();
 	RenderComponent->SetStaticImageOffset(FVector2D(0.0f, -12.0f));
 	RenderComponent->SetStaticImage("Resources\\" + strCharacterName + "\\" + "DownIdle.bmp");
 	RenderComponent->SetShadowImageOffset(FVector2D(0.0f, 25.0f));
 	RenderComponent->SetShadowImage("Resources\\Shadows\\CharacterShadow.bmp");
-	RenderComponent->SetRenderPriority(1);
+	RenderComponent->SetRenderPriority(VectorToRenderPriority(SpawnedCharacter->GetPosition()));
 	RenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
 	RenderComponent->CreateAnimation("DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation("LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
@@ -190,7 +193,6 @@ ACharacter* USpawnManager::SpawnBazzi(FVector2D PositionVector)
 	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
 	BombManager->AddCharacter(SpawnedCharacter);
 
-	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->BeginPlay();
 	return SpawnedCharacter;
 }
@@ -200,6 +202,7 @@ ACharacter* USpawnManager::SpawnDao(FVector2D PositionVector)
 	string strCharacterName = "Dao";
 	ACharacter* SpawnedCharacter = GetActiveLevel()->InitializeActorForPlay<ACharacter>();
 	SpawnedCharacter->SetCharacterName(strCharacterName);
+	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->SetBombLeft(2);
 	SpawnedCharacter->SetBombRange(1);
 	URenderComponent* RenderComponent = SpawnedCharacter->CreateDefaultSubobject<URenderComponent>();
@@ -207,7 +210,7 @@ ACharacter* USpawnManager::SpawnDao(FVector2D PositionVector)
 	RenderComponent->SetStaticImage("Resources\\" + strCharacterName + "\\" + "DownIdle.bmp");
 	RenderComponent->SetShadowImageOffset(FVector2D(0.0f, 25.0f));
 	RenderComponent->SetShadowImage("Resources\\Shadows\\CharacterShadow.bmp");
-	RenderComponent->SetRenderPriority(1);
+	RenderComponent->SetRenderPriority(VectorToRenderPriority(SpawnedCharacter->GetPosition()));
 	RenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
 	RenderComponent->CreateAnimation("DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation("LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
@@ -216,7 +219,6 @@ ACharacter* USpawnManager::SpawnDao(FVector2D PositionVector)
 	RenderComponent->CreateAnimation("BubbleLoop", "Resources\\" + strCharacterName + "\\BubbleLoop", 2, 0.25f, true);
 	RenderComponent->CreateAnimation("BubbleFade", "Resources\\" + strCharacterName + "\\BubbleFade", 2, 0.5f, false);
 
-	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->BeginPlay();
 	return SpawnedCharacter;
 }
@@ -226,6 +228,7 @@ ACharacter* USpawnManager::SpawnCappi(FVector2D PositionVector)
 	string strCharacterName = "Cappi";
 	ACharacter* SpawnedCharacter = GetActiveLevel()->InitializeActorForPlay<ACharacter>();
 	SpawnedCharacter->SetCharacterName(strCharacterName);
+	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->SetBombLeft(1);
 	SpawnedCharacter->SetBombRange(2);
 	URenderComponent* RenderComponent = SpawnedCharacter->CreateDefaultSubobject<URenderComponent>();
@@ -233,7 +236,7 @@ ACharacter* USpawnManager::SpawnCappi(FVector2D PositionVector)
 	RenderComponent->SetStaticImage("Resources\\" + strCharacterName + "\\" + "DownIdle.bmp");
 	RenderComponent->SetShadowImageOffset(FVector2D(0.0f, 25.0f));
 	RenderComponent->SetShadowImage("Resources\\Shadows\\CharacterShadow.bmp");
-	RenderComponent->SetRenderPriority(1);
+	RenderComponent->SetRenderPriority(VectorToRenderPriority(SpawnedCharacter->GetPosition()));
 	RenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
 	RenderComponent->CreateAnimation("DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation("LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
@@ -242,7 +245,6 @@ ACharacter* USpawnManager::SpawnCappi(FVector2D PositionVector)
 	RenderComponent->CreateAnimation("BubbleLoop", "Resources\\" + strCharacterName + "\\BubbleLoop", 2, 0.25f, true);
 	RenderComponent->CreateAnimation("BubbleFade", "Resources\\" + strCharacterName + "\\BubbleFade", 2, 0.5f, false);
 
-	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->BeginPlay();
 	return SpawnedCharacter;
 }
@@ -252,6 +254,7 @@ ACharacter* USpawnManager::SpawnMarid(FVector2D PositionVector)
 	string strCharacterName = "Marid";
 	ACharacter* SpawnedCharacter = GetActiveLevel()->InitializeActorForPlay<ACharacter>();
 	SpawnedCharacter->SetCharacterName(strCharacterName);
+	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->SetBombLeft(2);
 	SpawnedCharacter->SetBombRange(1);
 	URenderComponent* RenderComponent = SpawnedCharacter->CreateDefaultSubobject<URenderComponent>();
@@ -259,7 +262,7 @@ ACharacter* USpawnManager::SpawnMarid(FVector2D PositionVector)
 	RenderComponent->SetStaticImage("Resources\\" + strCharacterName + "\\" + "DownIdle.bmp");
 	RenderComponent->SetShadowImageOffset(FVector2D(0.0f, 25.0f));
 	RenderComponent->SetShadowImage("Resources\\Shadows\\CharacterShadow.bmp");
-	RenderComponent->SetRenderPriority(1);
+	RenderComponent->SetRenderPriority(VectorToRenderPriority(SpawnedCharacter->GetPosition()));
 	RenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
 	RenderComponent->CreateAnimation("DownWalk", "Resources\\" + strCharacterName + "\\DownWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation("LeftWalk", "Resources\\" + strCharacterName + "\\LeftWalk", 4, 0.1f, true);
@@ -268,16 +271,44 @@ ACharacter* USpawnManager::SpawnMarid(FVector2D PositionVector)
 	RenderComponent->CreateAnimation("BubbleLoop", "Resources\\" + strCharacterName + "\\BubbleLoop", 2, 0.25f, true);
 	RenderComponent->CreateAnimation("BubbleFade", "Resources\\" + strCharacterName + "\\BubbleFade", 2, 0.5f, false);
 
-	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->BeginPlay();
 	return SpawnedCharacter;
 }
 
-AActor* USpawnManager::SpawnItem(FVector2D PositionVector, int nItemCode)
+APowerUpItem* USpawnManager::SpawnRandomItem(FVector2D PositionVector)
 {
+	int nRandomInt = rand();
+	int nItemTypeCount = static_cast<int>(EItemCode::End);
+	nRandomInt %= nItemTypeCount;
 
+	return SpawnItem(PositionVector, static_cast<EItemCode>(nRandomInt));
+}
 
-	return nullptr;
+APowerUpItem* USpawnManager::SpawnItem(FVector2D PositionVector, EItemCode ItemCode)
+{
+	APowerUpItem* SpawnedItem = GetActiveLevel()->InitializeActorForPlay<APowerUpItem>();
+	SpawnedItem->SetPosition(PositionVector);
+	SpawnedItem->SetItemCode(ItemCode);
+
+	URenderComponent* RenderComponent = SpawnedItem->CreateDefaultSubobject<URenderComponent>();
+	RenderComponent->SetRenderPriority(VectorToRenderPriority(PositionVector));
+	RenderComponent->SetRenderType(URenderComponent::ERenderType::NonShadowObject);
+
+	switch (ItemCode)
+	{
+	case EItemCode::BombCount:
+		RenderComponent->SetStaticImage("Resources\\PowerUps\\Count.bmp");
+		break;
+	case EItemCode::BombRange:
+		RenderComponent->SetStaticImage("Resources\\PowerUps\\Range.bmp");
+		break;
+	case EItemCode::Speed:
+		RenderComponent->SetStaticImage("Resources\\PowerUps\\Speed.bmp");
+		break;
+	}
+
+	SpawnedItem->BeginPlay();
+	return SpawnedItem;
 }
 
 ABomb* USpawnManager::SpawnBomb(FVector2D PositionVector, ACharacter* Spawner)

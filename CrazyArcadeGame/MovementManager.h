@@ -4,23 +4,9 @@
 #include "KmBase/Vector.h"
 #include "AxisAlignedBoundingBox.h"
 
-class ACharacter;
 class ABlock;
-class UMovableComponent;
-class UWallComponent;
-
-struct FLerpEvent
-{
-public:
-	FLerpEvent(FVector2D StartPos, FVector2D DestPos, float fTotalTime);
-
-public:
-	FVector2D m_StartPos;
-	FVector2D m_DestPos;
-	float m_fTotalTime;
-	float m_fAccumulatedTime;
-
-};
+class ACharacter;
+class APowerUpItem;
 
 class UMovementManager : public UGameInstanceSubsystem
 {
@@ -38,6 +24,7 @@ public:
 	void AddHidableBlock(ABlock* HidablePlaceActor);
 	void AddCharacter(ACharacter* MovableActor);
 	void AddBlock(ABlock* WallActor);
+	void AddPowerUpItem(APowerUpItem* Item);
 
 public:
 	void Tick(float fDeltaTime) override;
@@ -49,7 +36,7 @@ public:
 	unordered_set<ACharacter*> m_Characters;
 	unordered_set<ABlock*> m_Blocks;
 	unordered_set<ABlock*> m_HidableBlocks;
-	vector<FLerpEvent> m_LerpEvents;
+	unordered_set<APowerUpItem*> m_PowerUpItems;
 
 private:
 	HPEN m_hPen;
