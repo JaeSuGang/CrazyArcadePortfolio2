@@ -38,9 +38,6 @@
     <ClCompile Include="BombManager.cpp">
       <Filter>GameInstanceSubsystem</Filter>
     </ClCompile>
-    <ClCompile Include="InGameObjectComponent.cpp">
-      <Filter>ActorComponent</Filter>
-    </ClCompile>
     <ClCompile Include="PowerUpItem.cpp">
       <Filter>Actor</Filter>
     </ClCompile>
@@ -49,6 +46,21 @@
     </ClCompile>
     <ClCompile Include="GroundTile.cpp">
       <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="Bomb.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="WallProperty.cpp">
+      <Filter>Property</Filter>
+    </ClCompile>
+    <ClCompile Include="BombProperty.cpp">
+      <Filter>Property</Filter>
+    </ClCompile>
+    <ClCompile Include="Explosion.cpp">
+      <Filter>Actor</Filter>
+    </ClCompile>
+    <ClCompile Include="InGameProperty.cpp">
+      <Filter>Property</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -78,6 +90,12 @@
     </Filter>
     <Filter Include="Struct">
       <UniqueIdentifier>{9b2e3c19-059f-4cc5-9ed2-a93cd5b17b27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Interface">
+      <UniqueIdentifier>{37aad7f0-59cc-44f8-a651-9d5087082bfa}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Property">
+      <UniqueIdentifier>{6bd5789a-a513-4795-a083-a60074c5d16c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -120,9 +138,6 @@
     <ClInclude Include="BombManager.h">
       <Filter>GameInstanceSubsystem</Filter>
     </ClInclude>
-    <ClInclude Include="InGameObjectComponent.h">
-      <Filter>ActorComponent</Filter>
-    </ClInclude>
     <ClInclude Include="PowerUpItem.h">
       <Filter>Actor</Filter>
     </ClInclude>
@@ -131,6 +146,27 @@
     </ClInclude>
     <ClInclude Include="GroundTile.h">
       <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Bomb.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Explodable.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="WallProperty.h">
+      <Filter>Property</Filter>
+    </ClInclude>
+    <ClInclude Include="BombProperty.h">
+      <Filter>Property</Filter>
+    </ClInclude>
+    <ClInclude Include="Explosion.h">
+      <Filter>Actor</Filter>
+    </ClInclude>
+    <ClInclude Include="Hidable.h">
+      <Filter>Interface</Filter>
+    </ClInclude>
+    <ClInclude Include="InGameProperty.h">
+      <Filter>Property</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

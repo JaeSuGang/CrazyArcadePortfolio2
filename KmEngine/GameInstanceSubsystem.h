@@ -2,10 +2,13 @@
 #include "Object.h"
 
 class ULevel;
+class UGameInstance;
 
 class UGameInstanceSubsystem : public UObject
 {
 public:
+	UGameInstance* GetGameInstance() const;
+
 	ULevel* GetActiveLevel() const;
 
 public:

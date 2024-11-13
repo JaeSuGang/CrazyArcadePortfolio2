@@ -5,6 +5,7 @@
 #include "AxisAlignedBoundingBox.h"
 
 class ACharacter;
+class ABlock;
 class UMovableComponent;
 class UWallComponent;
 
@@ -27,16 +28,16 @@ class UMovementManager : public UGameInstanceSubsystem
 
 public:
 	AActor* GetActorInAABB(FAxisAlignedBoundingBox AABB) const;
-	AActor* GetWallInAABB(FAxisAlignedBoundingBox AABB) const;
+	ABlock* GetBlockInAABB(FAxisAlignedBoundingBox AABB) const;
 	AActor* GetMovableInAABB(FAxisAlignedBoundingBox AABB) const;
 	AActor* GetHidablePlaceInAABB(FAxisAlignedBoundingBox AABB) const;
 	AActor* GetIsInHidable(AActor* ActorToCheck);
 	void EnableDebugRender();
 	void DebugRender();
 	void Reset();
-	void AddHidablePlace(AActor* HidablePlaceActor);
-	void AddMovable(AActor* MovableActor);
-	void AddWall(AActor* WallActor);
+	void AddHidableBlock(ABlock* HidablePlaceActor);
+	void AddCharacter(ACharacter* MovableActor);
+	void AddBlock(ABlock* WallActor);
 
 public:
 	void Tick(float fDeltaTime) override;
@@ -45,9 +46,9 @@ public:
 	UMovementManager();
 
 public:
-	unordered_set<AActor*> m_Movables;
-	unordered_set<AActor*> m_Walls;
-	unordered_set<AActor*> m_HidablePlaces;
+	unordered_set<ACharacter*> m_Characters;
+	unordered_set<ABlock*> m_Blocks;
+	unordered_set<ABlock*> m_HidableBlocks;
 	vector<FLerpEvent> m_LerpEvents;
 
 private:

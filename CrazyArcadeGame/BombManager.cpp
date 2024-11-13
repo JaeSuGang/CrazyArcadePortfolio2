@@ -7,41 +7,54 @@
 #include "MovementManager.h"
 #include "WallComponent.h"
 #include "AxisAlignedBoundingBox.h"
-#include "InGameObjectComponent.h"
+#include "Explosion.h"
+#include "Block.h"
+#include "Bomb.h"
+#include "InGameProperty.h"
 
-void UBombManager::AddCharacter(AActor* CharacterActor)
+void UBombManager::AddBlock(ABlock* BlockActor)
+{
+	m_Blocks.insert(BlockActor);
+}
+
+void UBombManager::AddExplodable(IExplodable* Explodable)
+{
+	m_Explodables.insert(Explodable);
+}
+
+void UBombManager::AddCharacter(ACharacter* CharacterActor)
 {
 	m_Characters.insert(CharacterActor);
 }
 
-void UBombManager::AddExplosion(AActor* ExplosionActor)
+void UBombManager::AddExplosion(AExplosion* ExplosionActor)
 {
 	m_Explosions.insert(ExplosionActor);
 }
 
-void UBombManager::RemoveExplosion(AActor* ExplosionActor)
+void UBombManager::RemoveExplosion(AExplosion* ExplosionActor)
 {
 	m_Explosions.erase(ExplosionActor);
 }
 
-bool UBombManager::TryPutBomb(int nTileIndex, AActor* Spawner)
+bool UBombManager::TryPutBomb(int nTileIndex, ACharacter* Spawner)
 {
 	UMovementManager* MovementManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
 
 	FVector2D BombSpawnPos = TileIndexToVector(nTileIndex);
 	FAxisAlignedBoundingBox BombSpawnAABB = { BombSpawnPos , TILE_WIDTH / 2, TILE_HEIGHT / 2 };
 
-	for (AActor* WallActor : MovementManager->m_Walls)
+	for (ABlock* WallActor : MovementManager->m_Blocks)
 	{
-		UInGameObjectComponent* WallInGameObjectComponent = WallActor->GetComponentByClass<UInGameObjectComponent>();
 		FAxisAlignedBoundingBox WallAABB = {
 			WallActor->GetPosition(),
-			WallInGameObjectComponent->m_InGameObjectProperty.m_CollisionSize.X / 2,
-			WallInGameObjectComponent->m_InGameObjectProperty.m_CollisionSize.Y / 2 };
+			WallActor->m_CollisionSize.X / 2,
+			WallActor->m_CollisionSize.Y / 2 };
 
 		if (BombSpawnAABB.GetIsCollidedWith(WallAABB))
 		{
-			return false;
+			if (!WallActor->GetPassable())
+				return false;
 		}
 	}
 
@@ -49,11 +62,11 @@ bool UBombManager::TryPutBomb(int nTileIndex, AActor* Spawner)
 	return true;
 }
 
-void UBombManager::ForcePutBomb(int nTileIndex, AActor* Spawner)
+void UBombManager::ForcePutBomb(int nTileIndex, ACharacter* Spawner)
 {
 	USpawnManager* SpawnManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<USpawnManager>();
-	AActor* BombActor = SpawnManager->SpawnBomb(TileIndexToVector(nTileIndex), Spawner);
-	BombActor->GetComponentByClass<UInGameObjectComponent>()->CheckAndHandleHidable();
+	ABomb* BombActor = SpawnManager->SpawnBomb(TileIndexToVector(nTileIndex), Spawner);
+	BombActor->CheckAndHide();
 }
 
 void UBombManager::Explode(int nTileIndex, int nRange)
@@ -76,15 +89,12 @@ void UBombManager::Explode(int nTileIndex, int nRange)
 			bool bSkipThisDirection = false;
 			AABB.m_Center = ExplosionCenterPos + Directions[i] * (float)j * 60.0f;
 
-			for (AActor* WallActor : MovementManager->m_Walls)
+			for (ABlock* WallActor : m_Blocks)
 			{
-				UInGameObjectComponent* WallInGameObjectComponent = WallActor->GetComponentByClass<UInGameObjectComponent>();
-				if (AABB.GetIsCollidedWith(WallActor->GetPosition()))
+				if (!WallActor->GetPassable() && AABB.GetIsCollidedWith(WallActor->GetPosition()))
 				{
 					bSkipThisDirection = true;
-
-					if (WallInGameObjectComponent->m_InGameObjectProperty.m_bIsExplodable)
-						WallInGameObjectComponent->OnExploded();
+					WallActor->OnExploded();
 					break;
 				}
 			}
@@ -113,42 +123,19 @@ void UBombManager::Tick(float fDeltaTime)
 
 		FAxisAlignedBoundingBox TileSizeCollider = { FVector2D::Zero, TILE_WIDTH / 2, TILE_HEIGHT / 2 };
 
-		for (AActor* ExplosionActor : m_Explosions)
+		for (AExplosion* ExplosionActor : m_Explosions)
 		{
-			UInGameObjectComponent* ExplosionInGameObjectComponent = ExplosionActor->GetComponentByClass<UInGameObjectComponent>();
-
 			TileSizeCollider.m_Center = ExplosionActor->GetPosition();
 
-			for (AActor* TargetActor : GetActiveLevel()->m_Actors)
+			for (IExplodable* Explodable : m_Explodables)
 			{
-				UInGameObjectComponent* TargetInGameObjectComponent = TargetActor->GetComponentByClass<UInGameObjectComponent>();
-				if (!TargetInGameObjectComponent)
-					continue;
-
-				if (!TargetInGameObjectComponent->m_InGameObjectProperty.m_bIsExplodable)
-					continue;
-
-				if (TileSizeCollider.GetIsCollidedWith(TargetActor->GetPosition()))
+				// 액터만이 IExplodable을 상속받을 수 있다는 전제가 있기 때문에
+				// 부하를 줄이기 위한 dynamic_cast대신 reinterpret_cast
+				AActor* ExplodableActor = dynamic_cast<AActor*>(Explodable);
+				FInGameProperty* ExplodableActorProperty = dynamic_cast<FInGameProperty*>(Explodable);
+				if (!ExplodableActorProperty->m_bIsAlreadyExploded && TileSizeCollider.GetIsCollidedWith(ExplodableActor->GetPosition()))
 				{
-					TargetInGameObjectComponent->OnExploded();
-				}
-			}
-		}
-
-		for (AActor* CharacterTarget : m_Characters)
-		{
-			UInGameObjectComponent* TargetInGameObjectComponent = CharacterTarget->GetComponentByClass<UInGameObjectComponent>();
-			TileSizeCollider.m_Center = CharacterTarget->GetPosition();
-
-			for (AActor* CharacterInAction : m_Characters)
-			{
-				if (CharacterInAction == CharacterTarget)
-					continue;
-
-				if (TargetInGameObjectComponent->m_InGameObjectProperty.m_bIsAlreadyExploded &&
-					TileSizeCollider.GetIsCollidedWith(CharacterInAction->GetPosition()))
-				{
-					//CharacterTarget->Destroy();
+					Explodable->OnExploded();
 				}
 			}
 		}

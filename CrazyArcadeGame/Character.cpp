@@ -5,31 +5,49 @@
 #include "KmEngine/KeyManager.h"
 #include "KmEngine/TimeManager.h"
 #include "KmEngine/KeyManager.h"
+#include "MovementManager.h"
 #include "BombManager.h"
 #include "AIManager.h"
-#include "InGameObjectComponent.h"
+
+void ACharacter::SetBombLeft(int nCount)
+{
+	m_nBombLeft = nCount;
+}
+
+void ACharacter::SetBombRange(int nRange)
+{
+	m_nBombRange = nRange;
+}
 
 void ACharacter::SetCharacterName(string strCharacterName)
 {
 	m_strCharacterName = strCharacterName;
 }
 
-string ACharacter::GetCharacterName()
+int ACharacter::GetBombLeft() const
+{
+	return m_nBombLeft;
+}
+
+int ACharacter::GetBombRange() const
+{
+	return m_nBombRange;
+}
+
+string ACharacter::GetCharacterName() const
 {
 	return m_strCharacterName;
 }
 
 void ACharacter::Move(FVector2D DirectionVector)
 {
-	UInGameObjectComponent* InGameObjectComponent = GetComponentByClass<UInGameObjectComponent>();
-	if (InGameObjectComponent->m_InGameObjectProperty.m_bIsAlreadyMoving == false)
+	if (m_bIsMoving == false)
 	{
-		InGameObjectComponent->m_InGameObjectProperty.m_bIsAlreadyMoving = true;
-		UInGameObjectComponent* InGameObjectComponent = GetComponentByClass<UInGameObjectComponent>();
-		InGameObjectComponent->AddVelocity(DirectionVector * InGameObjectComponent->m_InGameObjectProperty.m_fSpeed);
+		m_bIsMoving = true;
+		m_Velocity += (DirectionVector * m_fSpeed);
 
 		URenderComponent* RenderComponent = GetComponentByClass<URenderComponent>();
-		if (!InGameObjectComponent->m_InGameObjectProperty.m_bIsAlreadyExploded)
+		if (!m_bIsAlreadyExploded)
 		{
 			if (DirectionVector == FVector2D::Up)
 			{
@@ -75,16 +93,12 @@ void ACharacter::Idle(FVector2D DirectionVector)
 
 void ACharacter::TryPutBomb()
 {
-	UInGameObjectComponent* CharacterInGameObjectComponent = GetComponentByClass<UInGameObjectComponent>();
-
-	int& nBombCountRef = CharacterInGameObjectComponent->m_InGameObjectProperty.m_nBombLeft;
-
-	if (nBombCountRef <= 0)
+	if (m_nBombLeft <= 0)
 		return;
 
 	UBombManager* BombManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
 	if (BombManager->TryPutBomb(VectorToTileIndex(this->GetPosition()), this))
-		nBombCountRef--;
+		m_nBombLeft--;
 }
 
 void ACharacter::Tick(float fDeltaTime)
@@ -92,18 +106,72 @@ void ACharacter::Tick(float fDeltaTime)
 	Super::Tick(fDeltaTime);
 
 
+	if (m_bIsAlreadyExploded)
+	{
+		URenderComponent* RenderComponent = GetComponentByClass<URenderComponent>();
+		if (m_fElapsedTimeAfterExplosion > 3.0f)
+			RenderComponent->PlayAnimation("BubbleFade");
+
+		else
+			RenderComponent->PlayAnimation("BubbleLoop");
+
+		m_fElapsedTimeAfterExplosion += fDeltaTime;
+	}
 }
 
 void ACharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
+	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
+	BombManager->AddCharacter(this);
+	BombManager->AddExplodable(this);
+
+	UMovementManager* MovementManager = GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
+	MovementManager->AddCharacter(this);
+}
+
+void ACharacter::Release()
+{
+	UMovementManager* MovementManager = GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
+	MovementManager->m_Characters.erase(this);
+}
+
+ACharacter::~ACharacter()
+{
+	this->Release();
 }
 
 ACharacter::ACharacter()
 	:
-	m_strCharacterName{}
+	m_strCharacterName{},
+	m_nBombLeft{},
+	m_nBombRange{},
+	m_fSpeed{ 200.0f }
 {
+
+}
+
+void ACharacter::CheckAndHide()
+{
+	UMovementManager* MovementManager = GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
+	AActor* HidablePlace = MovementManager->GetIsInHidable(this);
+
+	URenderComponent* RenderComponent = GetComponentByClass<URenderComponent>();
+	if (HidablePlace)
+		RenderComponent->SetIsHidden(true);
+	else
+		RenderComponent->SetIsHidden(false);
+}
+
+void ACharacter::OnExploded()
+{
+	if (m_bIsAlreadyExploded)
+		return;
+
+	m_bIsAlreadyExploded = true;
+	m_fSpeed = 50.0f;
+
 
 }
 
@@ -139,7 +207,5 @@ void ACharacter::LateTick(float fDeltaTime)
 {
 	Super::LateTick(fDeltaTime);
 
-
-	UInGameObjectComponent* InGameObjectComponent = GetComponentByClass<UInGameObjectComponent>();
-	InGameObjectComponent->m_InGameObjectProperty.m_bIsAlreadyMoving = false;
+	m_bIsMoving = false;
 }

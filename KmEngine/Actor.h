@@ -15,6 +15,8 @@ public:
 	void SetPosition(FVector2D NewPosition);
 	void AddPosition(FVector2D PositionToAdd);
 	FVector2D GetPosition() const;
+	ULevel* GetLevel() const;
+	UGameInstance* GetGameInstance() const;
 
 public:
 	// 기본 Component 추가 코드

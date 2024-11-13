@@ -6,6 +6,9 @@ class APlayerController;
 class AAIController;
 class ACharacter;
 class AGameUI;
+class ABlock;
+class ABomb;
+class AExplosion;
 class FTilemap;
 
 class USpawnManager : public UGameInstanceSubsystem
@@ -22,9 +25,9 @@ public:
 	ACharacter* SpawnCappi(FVector2D PositionVector);
 	ACharacter* SpawnMarid(FVector2D PositionVector);
 	AActor* SpawnItem(FVector2D PositionVector, int nItemCode);
-	AActor* SpawnBomb(FVector2D PositionVector, AActor* Spawner);
-	AActor* SpawnExplosion(FVector2D PositionVector, int nDirection, bool bIsEnd);
-	AActor* SpawnExplosion(FVector2D PositionVector, int nDirection, float fDelayTimer, bool bIsEnd);
+	ABomb* SpawnBomb(FVector2D PositionVector, ACharacter* Spawner);
+	AExplosion* SpawnExplosion(FVector2D PositionVector, int nDirection, bool bIsEnd);
+	AExplosion* SpawnExplosion(FVector2D PositionVector, int nDirection, float fDelayTimer, bool bIsEnd);
 	APlayerController* SpawnPlayerController();
 	AAIController* SpawnCharacterAIController();
 

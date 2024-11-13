@@ -78,3 +78,13 @@ FVector2D AActor::GetPosition() const
 	return m_Position;
 }
 
+ULevel* AActor::GetLevel() const
+{
+	return m_Level;
+}
+
+UGameInstance* AActor::GetGameInstance() const
+{
+	return GEngine->GetGameInstance();
+}
+
