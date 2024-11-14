@@ -11,7 +11,9 @@ public:
 	AController* GetController();
 	void SetController(AController* Controller);
 	virtual void OnPlayerPossessed();
+	virtual void OnPlayerUnpossessed();
 	virtual void OnAIPossessed();
+	virtual void OnAIUnpossessed();
 
 public:
 	void Tick(float fDeltaTime) override;

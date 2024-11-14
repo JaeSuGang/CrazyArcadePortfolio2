@@ -31,7 +31,9 @@ public:
 	void CheckAndHide() override;
 	void OnExploded() override;
 	void OnAIPossessed() override;
+	void OnAIUnpossessed() override;
 	void OnPlayerPossessed() override;
+	void OnPlayerUnpossessed() override;
 	void Tick(float fDeltaTime) override;
 	void LateTick(float fDeltaTime) override;
 	void BeginPlay() override;

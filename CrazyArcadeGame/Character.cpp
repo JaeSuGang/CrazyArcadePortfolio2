@@ -2,7 +2,6 @@
 #include "Character.h"
 #include "KmEngine/Engine.h"
 #include "KmEngine/RenderComponent.h"
-#include "KmEngine/KeyManager.h"
 #include "KmEngine/TimeManager.h"
 #include "KmEngine/KeyManager.h"
 #include "KmEngine/PlayerController.h"
@@ -188,7 +187,11 @@ void ACharacter::Release()
 	if (m_Controller)
 	{
 		m_Controller->Unpossess();
+		m_Controller = nullptr;
 	}
+	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
+	BombManager->m_Characters.erase(this);
+	BombManager->m_Explodables.erase(this);
 
 	UMovementManager* MovementManager = GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
 	MovementManager->m_Characters.erase(this);
@@ -204,7 +207,10 @@ ACharacter::ACharacter()
 	m_strCharacterName{},
 	m_nBombLeft{},
 	m_nBombRange{},
-	m_fSpeed{}
+	m_fSpeed{},
+	m_bIsDead{},
+	m_fElapsedTimeAfterDeath{},
+	m_fMaxSpeed{}
 {
 
 }
@@ -240,6 +246,14 @@ void ACharacter::OnAIPossessed()
 	AIManager->AddAIPawn(this);
 }
 
+void ACharacter::OnAIUnpossessed()
+{
+	Super::OnAIUnpossessed();
+
+	UAIManager* AIManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<UAIManager>();
+	AIManager->RemoveAIPawn(this);
+}
+
 void ACharacter::OnPlayerPossessed()
 {
 	Super::OnPlayerPossessed();
@@ -258,6 +272,14 @@ void ACharacter::OnPlayerPossessed()
 	km->BindKey(VK_SPACE, UKeyManager::EKeyState::KeyDown, std::bind(&ACharacter::TryPutBomb, this));
 
 
+}
+
+void ACharacter::OnPlayerUnpossessed()
+{
+	Super::OnPlayerUnpossessed();
+
+	UKeyManager* km = GEngine->GetEngineSubsystem<UKeyManager>();
+	km->ClearBindKey();
 }
 
 void ACharacter::LateTick(float fDeltaTime)

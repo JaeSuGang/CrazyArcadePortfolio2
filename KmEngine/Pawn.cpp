@@ -16,7 +16,17 @@ void APawn::OnPlayerPossessed()
 
 }
 
+void APawn::OnPlayerUnpossessed()
+{
+
+}
+
 void APawn::OnAIPossessed()
+{
+
+}
+
+void APawn::OnAIUnpossessed()
 {
 
 }

@@ -1,11 +1,20 @@
 #include "stdafx.h"
 #include "AIController.h"
 
+void AAIController::Unpossess()
+{
+	if (m_Pawn)
+	{
+		m_Pawn->OnAIUnpossessed();
+		m_Pawn = nullptr;
+	}
+}
+
 void AAIController::Possess(APawn* Pawn)
 {
 	Super::Possess(Pawn);
 
-	m_Pawn->OnAIPossessed();
+	Pawn->OnAIPossessed();
 }
 
 void AAIController::Tick(float fDeltaTime)
@@ -22,4 +31,13 @@ void AAIController::LateTick(float fDeltaTime)
 void AAIController::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+void AAIController::Release()
+{
+}
+
+AAIController::~AAIController()
+{
+	this->Release();
 }

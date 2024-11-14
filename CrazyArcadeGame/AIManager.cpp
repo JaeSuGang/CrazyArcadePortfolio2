@@ -39,7 +39,7 @@ void UAIManager::Tick(float fDeltaTime)
 		
 		if (ACharacter* AICharacter = dynamic_cast<ACharacter*>(AIPawn))
 		{
-			ACharacterAIController* Controller = static_cast<ACharacterAIController*>(AICharacter->GetController());
+			ACharacterAIController* Controller = dynamic_cast<ACharacterAIController*>(AICharacter->GetController());
 			AICharacter->Move(Controller->GetDirection());
 			float fAccumulatedTime = Controller->GetAccumulatedTime();
 			float fChangeDirectionTime = Controller->GetChangeDirectionTime();

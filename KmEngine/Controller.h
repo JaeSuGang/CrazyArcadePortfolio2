@@ -7,7 +7,7 @@ class AController : public AActor
 	typedef AActor Super;
 
 public:
-	virtual void Unpossess();
+	virtual void Unpossess() = 0;
 	virtual void Possess(APawn* Pawn);
 
 public:

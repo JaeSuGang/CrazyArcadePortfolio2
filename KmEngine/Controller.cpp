@@ -3,22 +3,14 @@
 #include "Engine.h"
 #include "KeyManager.h"
 
-void AController::Unpossess()
-{
-	if (UKeyManager* km = GEngine->GetEngineSubsystem<UKeyManager>())
-		km->ClearBindKey();
-
-	if (m_Pawn)
-	{
-		m_Pawn->SetController(nullptr);
-		m_Pawn = nullptr;
-	}
-}
 
 void AController::Possess(APawn* Pawn)
 {
-	m_Pawn = Pawn;
-	m_Pawn->SetController(this);
+	if (Pawn)
+	{
+		Pawn->SetController(this);
+		m_Pawn = Pawn;
+	}
 }
 
 void AController::Tick(float fDeltaTime)
@@ -40,8 +32,8 @@ void AController::Release()
 {
 	this->Unpossess();
 
-	UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
-	KeyManager->ClearBindKey();
+	if (UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>())
+		KeyManager->ClearBindKey();
 }
 
 AController::~AController()
