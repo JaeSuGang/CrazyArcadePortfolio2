@@ -6,7 +6,6 @@ class APlayerController : public AController
 	typedef AController Super;
 
 public:
-	void Unpossess() override;
 	void Possess(APawn* Pawn) override;
 
 public:

@@ -50,9 +50,7 @@ public:
 			SHOW_ERROR(("존재하지 않는 엔진 서브시스템입니다 : " + ClassName).c_str());
 		}
 
-		// 캐스팅 성공을 보장할 수 있기 때문에,
-		// 성능 오버헤드를 줄이고자 dynamic_cast 대신 static_cast 사용
-		T* Casted = static_cast<T*>((*iter).second);
+		T* Casted = dynamic_cast<T*>((*iter).second);
 
 		return Casted;
 	}

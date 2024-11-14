@@ -41,7 +41,7 @@ public:
 			return nullptr;
 		}
 
-		T* Component = static_cast<T*>((*iter).second);
+		T* Component = dynamic_cast<T*>((*iter).second);
 
 		return Component;
 	}

@@ -1,15 +1,6 @@
 #include "stdafx.h"
 #include "AIController.h"
 
-void AAIController::Unpossess()
-{
-	if (m_Pawn)
-	{
-		m_Pawn->OnAIUnpossessed();
-		m_Pawn = nullptr;
-	}
-}
-
 void AAIController::Possess(APawn* Pawn)
 {
 	Super::Possess(Pawn);

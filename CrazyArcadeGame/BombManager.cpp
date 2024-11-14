@@ -129,8 +129,6 @@ void UBombManager::Tick(float fDeltaTime)
 
 			for (IExplodable* Explodable : m_Explodables)
 			{
-				// 액터만이 IExplodable을 상속받을 수 있다는 전제가 있기 때문에
-				// 부하를 줄이기 위한 dynamic_cast대신 reinterpret_cast
 				AActor* ExplodableActor = dynamic_cast<AActor*>(Explodable);
 				FInGameProperty* ExplodableActorProperty = dynamic_cast<FInGameProperty*>(Explodable);
 				if (!ExplodableActorProperty->m_bIsAlreadyExploded && TileSizeCollider.GetIsCollidedWith(ExplodableActor->GetPosition()))

@@ -4,6 +4,7 @@
 #include "KmEngine/RenderComponent.h"
 #include "KmEngine/TimeManager.h"
 #include "KmEngine/KeyManager.h"
+#include "KmEngine/Controller.h"
 #include "KmEngine/PlayerController.h"
 #include "MovementManager.h"
 #include "BombManager.h"
@@ -62,7 +63,22 @@ string ACharacter::GetCharacterName() const
 void ACharacter::Die()
 {
 	if (!m_bIsDead)
+	{
 		m_bIsDead = true;
+		if (m_Controller)
+		{
+			if (APlayerController* CharacterController = dynamic_cast<APlayerController*>(m_Controller))
+			{
+				UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
+				KeyManager->ClearBindKey();
+			}
+
+			UAIManager* AIManager = GetGameInstance()->GetGameInstanceSubsystem<UAIManager>();
+			AIManager->RemoveAIPawn(this);
+			m_Controller->SetPawn(nullptr);
+		}
+
+	}
 }
 
 void ACharacter::Move(FVector2D DirectionVector)
@@ -184,11 +200,7 @@ void ACharacter::BeginPlay()
 
 void ACharacter::Release()
 {
-	if (m_Controller)
-	{
-		m_Controller->Unpossess();
-		m_Controller = nullptr;
-	}
+
 	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
 	BombManager->m_Characters.erase(this);
 	BombManager->m_Explodables.erase(this);

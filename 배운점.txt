@@ -33,4 +33,3 @@ FArchive 매우 추상적이고 원초적인 클래스 임에도 불구하고 구체적인 Concrete한 객�
 m_fAccumulatedDeltaTime += fDeltaTime; if (m_AccumulatedfDeltaTime > 0.05f)
 등으로 프레임을 방어할수 있었음.
 
-9. BombManager.cpp 121번째 줄, Interface 컨테이너를 순환하며 요소를 reinterpret_cast하고 사용하기

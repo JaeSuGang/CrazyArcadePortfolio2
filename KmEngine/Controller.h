@@ -7,8 +7,10 @@ class AController : public AActor
 	typedef AActor Super;
 
 public:
-	virtual void Unpossess() = 0;
 	virtual void Possess(APawn* Pawn);
+
+public:
+	void SetPawn(APawn* Pawn);
 
 public:
 	void Tick(float fDeltaTime) override;

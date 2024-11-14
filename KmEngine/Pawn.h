@@ -20,6 +20,10 @@ public:
 	void LateTick(float fDeltaTime) override;
 	void BeginPlay() override;
 
+public:
+	void Release();
+	~APawn();
+
 protected:
 	AController* m_Controller;
 };

@@ -13,6 +13,11 @@ void AController::Possess(APawn* Pawn)
 	}
 }
 
+void AController::SetPawn(APawn* Pawn)
+{
+	m_Pawn = Pawn;
+}
+
 void AController::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
@@ -30,10 +35,7 @@ void AController::BeginPlay()
 
 void AController::Release()
 {
-	this->Unpossess();
 
-	if (UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>())
-		KeyManager->ClearBindKey();
 }
 
 AController::~AController()

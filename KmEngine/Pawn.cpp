@@ -1,5 +1,6 @@
 #include "stdafx.h"
 #include "Pawn.h"
+#include "Controller.h"
 
 AController* APawn::GetController()
 {
@@ -44,4 +45,18 @@ void APawn::LateTick(float fDeltaTime)
 void APawn::BeginPlay()
 {
 	Super::BeginPlay();
+}
+
+void APawn::Release()
+{
+	if (m_Controller)
+	{
+		m_Controller->SetPawn(nullptr);
+		m_Controller = nullptr;
+	}
+}
+
+APawn::~APawn()
+{
+	this->Release();
 }

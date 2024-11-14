@@ -21,7 +21,7 @@ public:
 			SHOW_ERROR("GetGameInstanceSubsystem, 존재하지 않는 클래스 입니다");
 		}
 
-		return static_cast<T*>(SubsystemIter->second);
+		return dynamic_cast<T*>(SubsystemIter->second);
 	}
 
 	template <typename T>
