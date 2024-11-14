@@ -16,6 +16,9 @@ class APowerUpItem : public AActor, public IExplodable, public FInGameProperty
 	typedef AActor Super;
 
 public:
+	void PlayFloatingAnimation();
+
+public:
 	void SetItemCode(EItemCode ItemCode);
 	EItemCode GetItemCode() const;
 
@@ -31,5 +34,5 @@ public:
 
 private:
 	EItemCode m_ItemCode;
-
+	float m_AccumulatedFloatingAnimationTime;
 };

@@ -3,6 +3,12 @@
 #include "Engine.h"
 #include "KeyManager.h"
 
+void AController::Unpossess()
+{
+	m_Pawn->SetController(nullptr);
+	m_Pawn = nullptr;
+}
+
 void AController::Possess(APawn* Pawn)
 {
 	m_Pawn = Pawn;

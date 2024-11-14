@@ -9,6 +9,7 @@ class ACharacter : public APawn, public FInGameProperty, public IExplodable, pub
 	typedef APawn Super;
 
 public:
+	void Die();
 	void Move(FVector2D Direction);
 	void Idle(FVector2D Direction);
 	void TryPutBomb();
@@ -17,7 +18,11 @@ public:
 	void SetBombLeft(int nCount);
 	void SetBombRange(int nRange);
 	void SetCharacterName(string strCharacterName);
+	void SetSpeed(float fSpeed);
+	void SetMaxSpeed(float fSpeed);
 
+	float GetMaxSpeed() const;
+	float GetSpeed() const;
 	int GetBombLeft() const;
 	int GetBombRange() const;
 	string GetCharacterName() const;
@@ -38,9 +43,10 @@ public:
 
 protected:
 	string m_strCharacterName;
-
+	float m_fElapsedTimeAfterDeath;
 	float m_fSpeed;
-
+	float m_fMaxSpeed;
+	bool m_bIsDead;
 	int m_nBombLeft;
 	int m_nBombRange;
 };

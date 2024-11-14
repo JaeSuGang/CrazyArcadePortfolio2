@@ -175,7 +175,8 @@ ACharacter* USpawnManager::SpawnBazzi(FVector2D PositionVector)
 	SpawnedCharacter->SetCharacterName(strCharacterName);
 	SpawnedCharacter->SetBombLeft(1);
 	SpawnedCharacter->SetBombRange(1);
-	SpawnedCharacter->SetBombRange(1);
+	SpawnedCharacter->SetSpeed(240.0f);
+	SpawnedCharacter->SetMaxSpeed(400.0f);
 	URenderComponent* RenderComponent = SpawnedCharacter->CreateDefaultSubobject<URenderComponent>();
 	RenderComponent->SetStaticImageOffset(FVector2D(0.0f, -12.0f));
 	RenderComponent->SetStaticImage("Resources\\" + strCharacterName + "\\" + "DownIdle.bmp");
@@ -189,6 +190,7 @@ ACharacter* USpawnManager::SpawnBazzi(FVector2D PositionVector)
 	RenderComponent->CreateAnimation("UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation("BubbleLoop", "Resources\\" + strCharacterName + "\\BubbleLoop", 2, 0.25f, true);
 	RenderComponent->CreateAnimation("BubbleFade", "Resources\\" + strCharacterName + "\\BubbleFade", 2, 0.5f, false);
+	RenderComponent->CreateAnimation("Death", "Resources\\" + strCharacterName + "\\Death", 5, 0.1f, false);
 
 	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
 	BombManager->AddCharacter(SpawnedCharacter);
@@ -205,6 +207,8 @@ ACharacter* USpawnManager::SpawnDao(FVector2D PositionVector)
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->SetBombLeft(2);
 	SpawnedCharacter->SetBombRange(1);
+	SpawnedCharacter->SetSpeed(200.0f);
+	SpawnedCharacter->SetMaxSpeed(400.0f);
 	URenderComponent* RenderComponent = SpawnedCharacter->CreateDefaultSubobject<URenderComponent>();
 	RenderComponent->SetStaticImageOffset(FVector2D(0.0f, -12.0f));
 	RenderComponent->SetStaticImage("Resources\\" + strCharacterName + "\\" + "DownIdle.bmp");
@@ -231,6 +235,8 @@ ACharacter* USpawnManager::SpawnCappi(FVector2D PositionVector)
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->SetBombLeft(1);
 	SpawnedCharacter->SetBombRange(2);
+	SpawnedCharacter->SetSpeed(200.0f);
+	SpawnedCharacter->SetMaxSpeed(400.0f);
 	URenderComponent* RenderComponent = SpawnedCharacter->CreateDefaultSubobject<URenderComponent>();
 	RenderComponent->SetStaticImageOffset(FVector2D(0.0f, -12.0f));
 	RenderComponent->SetStaticImage("Resources\\" + strCharacterName + "\\" + "DownIdle.bmp");
@@ -244,6 +250,7 @@ ACharacter* USpawnManager::SpawnCappi(FVector2D PositionVector)
 	RenderComponent->CreateAnimation("UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation("BubbleLoop", "Resources\\" + strCharacterName + "\\BubbleLoop", 2, 0.25f, true);
 	RenderComponent->CreateAnimation("BubbleFade", "Resources\\" + strCharacterName + "\\BubbleFade", 2, 0.5f, false);
+	RenderComponent->CreateAnimation("Death", "Resources\\" + strCharacterName + "\\Death", 5, 0.1f, false);
 
 	SpawnedCharacter->BeginPlay();
 	return SpawnedCharacter;
@@ -257,6 +264,8 @@ ACharacter* USpawnManager::SpawnMarid(FVector2D PositionVector)
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->SetBombLeft(2);
 	SpawnedCharacter->SetBombRange(1);
+	SpawnedCharacter->SetSpeed(200.0f);
+	SpawnedCharacter->SetMaxSpeed(400.0f);
 	URenderComponent* RenderComponent = SpawnedCharacter->CreateDefaultSubobject<URenderComponent>();
 	RenderComponent->SetStaticImageOffset(FVector2D(0.0f, -12.0f));
 	RenderComponent->SetStaticImage("Resources\\" + strCharacterName + "\\" + "DownIdle.bmp");
@@ -292,18 +301,24 @@ APowerUpItem* USpawnManager::SpawnItem(FVector2D PositionVector, EItemCode ItemC
 
 	URenderComponent* RenderComponent = SpawnedItem->CreateDefaultSubobject<URenderComponent>();
 	RenderComponent->SetRenderPriority(VectorToRenderPriority(PositionVector));
-	RenderComponent->SetRenderType(URenderComponent::ERenderType::NonShadowObject);
+	RenderComponent->SetStaticImageOffset(FVector2D(0.0f, -30.0f));
+	RenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
+	RenderComponent->SetShadowImage("Resources\\Shadows\\SmallShadow.bmp");
+	RenderComponent->SetShadowImageOffset(FVector2D(0.0f, 5.0f));
 
 	switch (ItemCode)
 	{
 	case EItemCode::BombCount:
 		RenderComponent->SetStaticImage("Resources\\PowerUps\\Count.bmp");
+		RenderComponent->CreateAnimation("Shine", "Resources\\PowerUps\\Count", 2, 0.25f, true);
 		break;
 	case EItemCode::BombRange:
 		RenderComponent->SetStaticImage("Resources\\PowerUps\\Range.bmp");
+		RenderComponent->CreateAnimation("Shine", "Resources\\PowerUps\\Range", 2, 0.25f, true);
 		break;
 	case EItemCode::Speed:
 		RenderComponent->SetStaticImage("Resources\\PowerUps\\Speed.bmp");
+		RenderComponent->CreateAnimation("Shine", "Resources\\PowerUps\\Speed", 2, 0.25f, true);
 		break;
 	}
 

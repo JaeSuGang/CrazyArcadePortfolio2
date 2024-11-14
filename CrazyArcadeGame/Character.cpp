@@ -5,6 +5,7 @@
 #include "KmEngine/KeyManager.h"
 #include "KmEngine/TimeManager.h"
 #include "KmEngine/KeyManager.h"
+#include "KmEngine/PlayerController.h"
 #include "MovementManager.h"
 #include "BombManager.h"
 #include "AIManager.h"
@@ -24,6 +25,26 @@ void ACharacter::SetCharacterName(string strCharacterName)
 	m_strCharacterName = strCharacterName;
 }
 
+void ACharacter::SetSpeed(float fSpeed)
+{
+	m_fSpeed = fSpeed;
+}
+
+void ACharacter::SetMaxSpeed(float fSpeed)
+{
+	m_fMaxSpeed = fSpeed;
+}
+
+float ACharacter::GetMaxSpeed() const
+{
+	return m_fMaxSpeed;
+}
+
+float ACharacter::GetSpeed() const
+{
+	return m_fSpeed;
+}
+
 int ACharacter::GetBombLeft() const
 {
 	return m_nBombLeft;
@@ -39,9 +60,15 @@ string ACharacter::GetCharacterName() const
 	return m_strCharacterName;
 }
 
+void ACharacter::Die()
+{
+	if (!m_bIsDead)
+		m_bIsDead = true;
+}
+
 void ACharacter::Move(FVector2D DirectionVector)
 {
-	if (m_bIsMoving == false)
+	if (m_bIsMoving == false && !m_bIsDead)
 	{
 		m_bIsMoving = true;
 		m_Velocity += (DirectionVector * m_fSpeed);
@@ -106,16 +133,41 @@ void ACharacter::Tick(float fDeltaTime)
 	Super::Tick(fDeltaTime);
 
 
-	if (m_bIsAlreadyExploded)
+	if (!m_bIsDead && m_bIsAlreadyExploded)
 	{
 		URenderComponent* RenderComponent = GetComponentByClass<URenderComponent>();
-		if (m_fElapsedTimeAfterExplosion > 3.0f)
+
+		if (m_fElapsedTimeAfterExplosion > 5.0f)
+			this->Die();
+
+		else if (m_fElapsedTimeAfterExplosion > 3.0f)
 			RenderComponent->PlayAnimation("BubbleFade");
 
 		else
 			RenderComponent->PlayAnimation("BubbleLoop");
 
 		m_fElapsedTimeAfterExplosion += fDeltaTime;
+	}
+
+	if (m_bIsDead)
+	{
+		int nFlicker = (int)(m_fElapsedTimeAfterDeath / 0.05f);
+		URenderComponent* RenderComponent = GetComponentByClass<URenderComponent>();
+
+		RenderComponent->PlayAnimation("Death");
+
+		if (m_fElapsedTimeAfterDeath > 2.5f)
+			this->Destroy();
+
+		else if (m_fElapsedTimeAfterDeath > 0.5f)
+		{
+			if (nFlicker % 2 == 0)
+				RenderComponent->SetIsHidden(true);
+			else
+				RenderComponent->SetIsHidden(false);
+		}
+
+		m_fElapsedTimeAfterDeath += fDeltaTime;
 	}
 }
 
@@ -133,6 +185,17 @@ void ACharacter::BeginPlay()
 
 void ACharacter::Release()
 {
+	if (m_Controller)
+	{
+		if (dynamic_cast<APlayerController*>(m_Controller))
+		{
+			UKeyManager* km = GEngine->GetEngineSubsystem<UKeyManager>();
+			km->ClearBindKey();
+		}
+
+		m_Controller->Unpossess();
+	}
+
 	UMovementManager* MovementManager = GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
 	MovementManager->m_Characters.erase(this);
 }
@@ -147,7 +210,7 @@ ACharacter::ACharacter()
 	m_strCharacterName{},
 	m_nBombLeft{},
 	m_nBombRange{},
-	m_fSpeed{ 200.0f }
+	m_fSpeed{}
 {
 
 }

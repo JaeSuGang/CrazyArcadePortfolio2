@@ -8,6 +8,7 @@
 #include "AxisAlignedBoundingBox.h"
 #include "Block.h"
 #include "Character.h"
+#include "PowerUpItem.h"
 
 AActor* UMovementManager::GetActorInAABB(FAxisAlignedBoundingBox AABB) const
 {
@@ -160,6 +161,7 @@ void UMovementManager::Tick(float fDeltaTime)
 				CharacterActor->m_CollisionSize.Y / 2 };
 
 			bool bAlreadyPushedWall = false;
+			// 캐릭터가 블록에 닿음
 			for (ABlock* BlockActor : m_Blocks)
 			{
 				if (BlockActor->GetPassable())
@@ -186,8 +188,45 @@ void UMovementManager::Tick(float fDeltaTime)
 				}
 			}
 
-			CharacterActor->CheckAndHide();
+			// 캐릭터가 아이템에 닿음
+			for (APowerUpItem* PowerUpItem : m_PowerUpItems)
+			{
+				if (DestinationAABB.GetIsCollidedWith(PowerUpItem->GetPosition()))
+				{
+					switch (PowerUpItem->GetItemCode())
+					{
+					case EItemCode::BombCount:
+						CharacterActor->SetBombLeft(CharacterActor->GetBombLeft() + 1);
+						if (CharacterActor->GetBombLeft() > 6)
+							CharacterActor->SetBombLeft(6);
+						break;
+					case EItemCode::BombRange:
+						CharacterActor->SetBombRange(CharacterActor->GetBombRange() + 1);
+						if (CharacterActor->GetBombRange() > 6)
+							CharacterActor->SetBombRange(6);
+						break;
+					case EItemCode::Speed:
+						CharacterActor->SetSpeed(CharacterActor->GetSpeed() + 40.0f);
+						if (CharacterActor->GetSpeed() > CharacterActor->GetMaxSpeed())
+							CharacterActor->SetSpeed(CharacterActor->GetMaxSpeed());
+						break;
+					}
 
+					PowerUpItem->Destroy();
+				}
+			}
+
+			// 캐릭터가 캐릭터에 닿음
+			for (ACharacter* OtherCharacter : m_Characters)
+			{
+				if (DestinationAABB.GetIsCollidedWith(OtherCharacter->GetPosition()))
+				{
+					if (OtherCharacter->m_bIsAlreadyExploded)
+						OtherCharacter->Die();
+				}
+			}
+
+			CharacterActor->CheckAndHide();
 			CharacterActor->SetPosition(DestinationAABB.m_Center);
 			CharacterActor->GetComponentByClass<URenderComponent>()->SetRenderPriority(VectorToRenderPriority(CharacterActor->GetPosition()));
 			CharacterActor->m_Velocity = FVector2D::Zero;
