@@ -23,6 +23,10 @@ void AActor::LateTick(float fDeltaTime)
 
 void AActor::Destroy()
 {
+	auto FindIter = std::find(m_Level->m_ActorsToDestroy.begin(), m_Level->m_ActorsToDestroy.end(), this);
+	if (FindIter != m_Level->m_ActorsToDestroy.end())
+		return;
+
 	m_Level->m_ActorsToDestroy.push_back(this);
 }
 
