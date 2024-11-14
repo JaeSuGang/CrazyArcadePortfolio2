@@ -222,10 +222,11 @@ ACharacter* USpawnManager::SpawnDao(FVector2D PositionVector)
 	RenderComponent->CreateAnimation("UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation("BubbleLoop", "Resources\\" + strCharacterName + "\\BubbleLoop", 2, 0.25f, true);
 	RenderComponent->CreateAnimation("BubbleFade", "Resources\\" + strCharacterName + "\\BubbleFade", 2, 0.5f, false);
+	RenderComponent->CreateAnimation("Death", "Resources\\" + strCharacterName + "\\Death", 5, 0.1f, false);
 
 	SpawnedCharacter->BeginPlay();
 	return SpawnedCharacter;
-}
+}   
 
 ACharacter* USpawnManager::SpawnCappi(FVector2D PositionVector)
 {
@@ -279,6 +280,7 @@ ACharacter* USpawnManager::SpawnMarid(FVector2D PositionVector)
 	RenderComponent->CreateAnimation("UpWalk", "Resources\\" + strCharacterName + "\\UpWalk", 4, 0.1f, true);
 	RenderComponent->CreateAnimation("BubbleLoop", "Resources\\" + strCharacterName + "\\BubbleLoop", 2, 0.25f, true);
 	RenderComponent->CreateAnimation("BubbleFade", "Resources\\" + strCharacterName + "\\BubbleFade", 2, 0.5f, false);
+	RenderComponent->CreateAnimation("Death", "Resources\\" + strCharacterName + "\\Death", 5, 0.1f, false);
 
 	SpawnedCharacter->BeginPlay();
 	return SpawnedCharacter;

@@ -5,8 +5,14 @@
 
 void AController::Unpossess()
 {
-	m_Pawn->SetController(nullptr);
-	m_Pawn = nullptr;
+	if (UKeyManager* km = GEngine->GetEngineSubsystem<UKeyManager>())
+		km->ClearBindKey();
+
+	if (m_Pawn)
+	{
+		m_Pawn->SetController(nullptr);
+		m_Pawn = nullptr;
+	}
 }
 
 void AController::Possess(APawn* Pawn)
@@ -32,6 +38,8 @@ void AController::BeginPlay()
 
 void AController::Release()
 {
+	this->Unpossess();
+
 	UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
 	KeyManager->ClearBindKey();
 }

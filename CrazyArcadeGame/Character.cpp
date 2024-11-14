@@ -73,9 +73,9 @@ void ACharacter::Move(FVector2D DirectionVector)
 		m_bIsMoving = true;
 		m_Velocity += (DirectionVector * m_fSpeed);
 
-		URenderComponent* RenderComponent = GetComponentByClass<URenderComponent>();
 		if (!m_bIsAlreadyExploded)
 		{
+			URenderComponent* RenderComponent = GetComponentByClass<URenderComponent>();
 			if (DirectionVector == FVector2D::Up)
 			{
 				RenderComponent->PlayAnimation("UpWalk");
@@ -120,7 +120,7 @@ void ACharacter::Idle(FVector2D DirectionVector)
 
 void ACharacter::TryPutBomb()
 {
-	if (m_nBombLeft <= 0)
+	if (m_nBombLeft <= 0 || m_bIsDead || m_bIsAlreadyExploded)
 		return;
 
 	UBombManager* BombManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
@@ -187,12 +187,6 @@ void ACharacter::Release()
 {
 	if (m_Controller)
 	{
-		if (dynamic_cast<APlayerController*>(m_Controller))
-		{
-			UKeyManager* km = GEngine->GetEngineSubsystem<UKeyManager>();
-			km->ClearBindKey();
-		}
-
 		m_Controller->Unpossess();
 	}
 

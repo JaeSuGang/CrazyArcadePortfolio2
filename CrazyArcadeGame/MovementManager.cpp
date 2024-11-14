@@ -188,41 +188,48 @@ void UMovementManager::Tick(float fDeltaTime)
 				}
 			}
 
-			// 캐릭터가 아이템에 닿음
-			for (APowerUpItem* PowerUpItem : m_PowerUpItems)
-			{
-				if (DestinationAABB.GetIsCollidedWith(PowerUpItem->GetPosition()))
-				{
-					switch (PowerUpItem->GetItemCode())
-					{
-					case EItemCode::BombCount:
-						CharacterActor->SetBombLeft(CharacterActor->GetBombLeft() + 1);
-						if (CharacterActor->GetBombLeft() > 6)
-							CharacterActor->SetBombLeft(6);
-						break;
-					case EItemCode::BombRange:
-						CharacterActor->SetBombRange(CharacterActor->GetBombRange() + 1);
-						if (CharacterActor->GetBombRange() > 6)
-							CharacterActor->SetBombRange(6);
-						break;
-					case EItemCode::Speed:
-						CharacterActor->SetSpeed(CharacterActor->GetSpeed() + 40.0f);
-						if (CharacterActor->GetSpeed() > CharacterActor->GetMaxSpeed())
-							CharacterActor->SetSpeed(CharacterActor->GetMaxSpeed());
-						break;
-					}
-
-					PowerUpItem->Destroy();
-				}
-			}
-
 			// 캐릭터가 캐릭터에 닿음
 			for (ACharacter* OtherCharacter : m_Characters)
 			{
+				if (CharacterActor == OtherCharacter)
+					continue;
+
 				if (DestinationAABB.GetIsCollidedWith(OtherCharacter->GetPosition()))
 				{
 					if (OtherCharacter->m_bIsAlreadyExploded)
 						OtherCharacter->Die();
+				}
+			}
+
+			// 캐릭터가 아이템에 닿음
+
+			if (!CharacterActor->m_bIsAlreadyExploded)
+			{
+				for (APowerUpItem* PowerUpItem : m_PowerUpItems)
+				{
+					if (DestinationAABB.GetIsCollidedWith(PowerUpItem->GetPosition()))
+					{
+						switch (PowerUpItem->GetItemCode())
+						{
+						case EItemCode::BombCount:
+							CharacterActor->SetBombLeft(CharacterActor->GetBombLeft() + 1);
+							if (CharacterActor->GetBombLeft() > 6)
+								CharacterActor->SetBombLeft(6);
+							break;
+						case EItemCode::BombRange:
+							CharacterActor->SetBombRange(CharacterActor->GetBombRange() + 1);
+							if (CharacterActor->GetBombRange() > 6)
+								CharacterActor->SetBombRange(6);
+							break;
+						case EItemCode::Speed:
+							CharacterActor->SetSpeed(CharacterActor->GetSpeed() + 40.0f);
+							if (CharacterActor->GetSpeed() > CharacterActor->GetMaxSpeed())
+								CharacterActor->SetSpeed(CharacterActor->GetMaxSpeed());
+							break;
+						}
+
+						PowerUpItem->Destroy();
+					}
 				}
 			}
 

@@ -42,7 +42,7 @@ void UGameLevelBase::BeginPlay()
 	SpawnManager->GenerateTilemap(m_Tilemap);
 
 	// 메인 플레이어 생성
-	ACharacter* MainCharacter = SpawnManager->SpawnBazzi(FVector2D(420.0f, 330.0f));
+	ACharacter* MainCharacter = SpawnManager->SpawnCappi(FVector2D(420.0f, 330.0f));
 	PlayerController->Possess(MainCharacter);
 
 	// AI 봇 생성
