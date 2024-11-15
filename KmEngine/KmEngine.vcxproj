@@ -69,6 +69,11 @@
     <ClCompile Include="RenderManager.cpp" />
     <ClCompile Include="TimeManager.cpp" />
   </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\ThirdPartyLibrary\FMod\fmod.dll">
+      <FileType>Document</FileType>
+    </CopyFileToFolders>
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>17.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>
@@ -175,7 +180,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Bin\$(Platform)\$(Configuration)\;$(SolutionDir)ThirdPartyLibrary\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>fmod_vc.dll;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>FMod\fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -200,7 +205,7 @@
     </Link>
     <Lib>
       <AdditionalLibraryDirectories>$(SolutionDir)Bin\$(Platform)\$(Configuration)\;$(SolutionDir)ThirdPartyLibrary\</AdditionalLibraryDirectories>
-      <AdditionalDependencies>fmod_vc.dll;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalDependencies>FMod\fmod_vc.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

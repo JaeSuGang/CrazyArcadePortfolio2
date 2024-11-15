@@ -211,48 +211,6 @@
     <ClInclude Include="Block.h" />
     <ClInclude Include="WallProperty.h" />
   </ItemGroup>
-  <ItemGroup>
-    <Image Include="..\Resources\Bazzi\BazziDownIdle.bmp" />
-    <Image Include="..\Resources\Bazzi\BazziDownWalk_0.bmp" />
-    <Image Include="..\Resources\Bazzi\BazziDownWalk_1.bmp" />
-    <Image Include="..\Resources\Bazzi\BazziDownWalk_2.bmp" />
-    <Image Include="..\Resources\Bazzi\BazziDownWalk_3.bmp" />
-    <Image Include="..\Resources\Bazzi\BazziLeftIdle.bmp" />
-    <Image Include="..\Resources\Bazzi\BazziLeftWalk_0.bmp" />
-    <Image Include="..\Resources\Bazzi\BazziLeftWalk_1.bmp" />
-    <Image Include="..\Resources\Bazzi\BazziLeftWalk_2.bmp" />
-    <Image Include="..\Resources\Bazzi\BazziLeftWalk_3.bmp" />
-    <Image Include="..\Resources\Bazzi\BazziRightIdle.bmp" />
-    <Image Include="..\Resources\Bazzi\BazziRightWalk_0.bmp" />
-    <Image Include="..\Resources\Bazzi\BazziRightWalk_1.bmp" />
-    <Image Include="..\Resources\Bazzi\BazziRightWalk_2.bmp" />
-    <Image Include="..\Resources\Bazzi\BazziRightWalk_3.bmp" />
-    <Image Include="..\Resources\Bazzi\BazziUpIdle.bmp" />
-    <Image Include="..\Resources\Bazzi\BazziUpWalk_0.bmp" />
-    <Image Include="..\Resources\Bazzi\BazziUpWalk_1.bmp" />
-    <Image Include="..\Resources\Bazzi\BazziUpWalk_2.bmp" />
-    <Image Include="..\Resources\Bazzi\BazziUpWalk_3.bmp" />
-    <Image Include="..\Resources\Bazzi\DownIdle.bmp" />
-    <Image Include="..\Resources\Bazzi\DownWalk_0.bmp" />
-    <Image Include="..\Resources\Bazzi\DownWalk_1.bmp" />
-    <Image Include="..\Resources\Bazzi\DownWalk_2.bmp" />
-    <Image Include="..\Resources\Bazzi\DownWalk_3.bmp" />
-    <Image Include="..\Resources\Bazzi\LeftIdle.bmp" />
-    <Image Include="..\Resources\Bazzi\LeftWalk_0.bmp" />
-    <Image Include="..\Resources\Bazzi\LeftWalk_1.bmp" />
-    <Image Include="..\Resources\Bazzi\LeftWalk_2.bmp" />
-    <Image Include="..\Resources\Bazzi\LeftWalk_3.bmp" />
-    <Image Include="..\Resources\Bazzi\RightIdle.bmp" />
-    <Image Include="..\Resources\Bazzi\RightWalk_0.bmp" />
-    <Image Include="..\Resources\Bazzi\RightWalk_1.bmp" />
-    <Image Include="..\Resources\Bazzi\RightWalk_2.bmp" />
-    <Image Include="..\Resources\Bazzi\RightWalk_3.bmp" />
-    <Image Include="..\Resources\Bazzi\UpIdle.bmp" />
-    <Image Include="..\Resources\Bazzi\UpWalk_0.bmp" />
-    <Image Include="..\Resources\Bazzi\UpWalk_1.bmp" />
-    <Image Include="..\Resources\Bazzi\UpWalk_2.bmp" />
-    <Image Include="..\Resources\Bazzi\UpWalk_3.bmp" />
-  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

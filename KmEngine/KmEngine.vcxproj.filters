@@ -193,4 +193,7 @@
       <Filter>EngineSubsystem\SoundManager</Filter>
     </ClInclude>
   </ItemGroup>
+  <ItemGroup>
+    <CopyFileToFolders Include="..\ThirdPartyLibrary\FMod\fmod.dll" />
+  </ItemGroup>
 </Project>

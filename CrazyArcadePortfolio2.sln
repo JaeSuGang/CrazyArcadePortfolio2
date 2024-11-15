@@ -39,24 +39,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "메모장", "메모장", "{
 		해야할것.txt = 해야할것.txt
 	EndProjectSection
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Resources", "Resources", "{6D3AA875-C05B-4592-8669-32AAB9E5EDFF}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ThirdPartyLibrary", "ThirdPartyLibrary", "{4FDCCB80-7464-496B-8D53-B4D12DE81D94}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "FMod", "FMod", "{9411700E-3B35-4BFE-8B2A-29F3351A553F}"
-	ProjectSection(SolutionItems) = preProject
-		ThirdPartyLibrary\FMod\fmod.dll = ThirdPartyLibrary\FMod\fmod.dll
-		ThirdPartyLibrary\FMod\fmod.h = ThirdPartyLibrary\FMod\fmod.h
-		ThirdPartyLibrary\FMod\fmod.hpp = ThirdPartyLibrary\FMod\fmod.hpp
-		ThirdPartyLibrary\FMod\fmod_codec.h = ThirdPartyLibrary\FMod\fmod_codec.h
-		ThirdPartyLibrary\FMod\fmod_common.h = ThirdPartyLibrary\FMod\fmod_common.h
-		ThirdPartyLibrary\FMod\fmod_dsp.h = ThirdPartyLibrary\FMod\fmod_dsp.h
-		ThirdPartyLibrary\FMod\fmod_dsp_effects.h = ThirdPartyLibrary\FMod\fmod_dsp_effects.h
-		ThirdPartyLibrary\FMod\fmod_errors.h = ThirdPartyLibrary\FMod\fmod_errors.h
-		ThirdPartyLibrary\FMod\fmod_output.h = ThirdPartyLibrary\FMod\fmod_output.h
-		ThirdPartyLibrary\FMod\fmod_vc.lib = ThirdPartyLibrary\FMod\fmod_vc.lib
-	EndProjectSection
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -106,7 +88,6 @@ Global
 		{D6515775-4270-4768-8444-D999FE39E7A3} = {1EFAF317-24F2-450F-9AD9-D1C69CDC6D65}
 		{1A8BA832-BBF8-4186-8964-D6510AE612B8} = {56CF6EE8-F096-4EBF-B152-91EAE9BEE9D2}
 		{03051202-D43F-4433-BAD1-8D9BE4CD5B47} = {56CF6EE8-F096-4EBF-B152-91EAE9BEE9D2}
-		{9411700E-3B35-4BFE-8B2A-29F3351A553F} = {4FDCCB80-7464-496B-8D53-B4D12DE81D94}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {9118924C-374A-42E1-B64B-8C92E1D50FCF}
