@@ -5,7 +5,7 @@
 #include "KeyManager.h"
 #include "RenderManager.h"
 #include "TimeManager.h"
-#include "PhysicsManager.h"
+#include "SoundManager.h"
 #include "DebugManager.h"
 
 using std::pair;
@@ -125,12 +125,12 @@ void UEngine::CreateKeyManager()
 	m_Subsystems.insert(PairToInsert);
 }
 
-void UEngine::CreatePhysicsManager()
+void UEngine::CreateSoundManager()
 {
-	UPhysicsManager* Subsystem = new UPhysicsManager{};
+	USoundManager* Subsystem = new USoundManager{};
 	Subsystem->Initialize();
 
-	string ClassName = typeid(UPhysicsManager).name();
+	string ClassName = typeid(USoundManager).name();
 	pair<string, UEngineSubsystem*> PairToInsert{ ClassName, Subsystem };
 	m_Subsystems.insert(PairToInsert);
 }

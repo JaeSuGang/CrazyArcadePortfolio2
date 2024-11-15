@@ -40,9 +40,6 @@
     <Filter Include="ActorComponent\RenderComponent">
       <UniqueIdentifier>{3895fa7a-491b-4975-b49f-8e34248a2fed}</UniqueIdentifier>
     </Filter>
-    <Filter Include="EngineSubsystem\PhysicsManager">
-      <UniqueIdentifier>{db53c1ab-31d2-4e95-8aa5-c5f5e610dcb4}</UniqueIdentifier>
-    </Filter>
     <Filter Include="ActorComponent\PhysicsComponent">
       <UniqueIdentifier>{6d05d95f-d5be-4c33-924f-bd708a824c98}</UniqueIdentifier>
     </Filter>
@@ -57,6 +54,9 @@
     </Filter>
     <Filter Include="EngineSubsystem\SoundManager">
       <UniqueIdentifier>{8bf1ce90-1166-4d55-ac98-0167a22d0847}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="NewFilter1">
+      <UniqueIdentifier>{b8499d1e-b308-417b-92a4-4be9b57301f3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -98,9 +98,6 @@
     </ClCompile>
     <ClCompile Include="RenderComponent.cpp">
       <Filter>ActorComponent\RenderComponent</Filter>
-    </ClCompile>
-    <ClCompile Include="PhysicsManager.cpp">
-      <Filter>EngineSubsystem\PhysicsManager</Filter>
     </ClCompile>
     <ClCompile Include="main.cpp" />
     <ClCompile Include="PhysicsComponent.cpp">
@@ -170,9 +167,6 @@
     </ClInclude>
     <ClInclude Include="RenderComponent.h">
       <Filter>ActorComponent\RenderComponent</Filter>
-    </ClInclude>
-    <ClInclude Include="PhysicsManager.h">
-      <Filter>EngineSubsystem\PhysicsManager</Filter>
     </ClInclude>
     <ClInclude Include="PhysicsComponent.h">
       <Filter>ActorComponent\PhysicsComponent</Filter>

@@ -22,7 +22,6 @@ public:
 	URenderManager* CreateRenderManager(const char* lpszTitle, FVector2D WindowSize);
 	void CreateTimeManager();
 	void CreateKeyManager();
-	void CreatePhysicsManager();
 	void CreateSoundManager();
 
 public:

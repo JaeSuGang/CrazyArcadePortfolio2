@@ -34,7 +34,6 @@
     <ClInclude Include="Object.h" />
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="PhysicsComponent.h" />
-    <ClInclude Include="PhysicsManager.h" />
     <ClInclude Include="PlayerController.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="ResourceManager.h" />
@@ -59,7 +58,6 @@
     <ClCompile Include="Object.cpp" />
     <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
-    <ClCompile Include="PhysicsManager.cpp" />
     <ClCompile Include="PlayerController.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
@@ -166,7 +164,7 @@
       <PreprocessorDefinitions>_DEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>..\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\;$(SolutionDir)ThirdPartyLibrary\</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
@@ -176,7 +174,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Bin\$(Platform)\$(Configuration)\;$(SolutionDir)ThirdPartyLibrary\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmod_vc.dll;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -188,7 +187,7 @@
       <PreprocessorDefinitions>NDEBUG;_CONSOLE;%(PreprocessorDefinitions)</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
       <LanguageStandard>stdcpp20</LanguageStandard>
-      <AdditionalIncludeDirectories>..\;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>..\;$(SolutionDir)ThirdPartyLibrary\</AdditionalIncludeDirectories>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderOutputFile>$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile>stdafx.h</PrecompiledHeaderFile>
@@ -200,7 +199,8 @@
       <GenerateDebugInformation>true</GenerateDebugInformation>
     </Link>
     <Lib>
-      <AdditionalLibraryDirectories>$(SolutionDir)Bin\$(Platform)\$(Configuration)\</AdditionalLibraryDirectories>
+      <AdditionalLibraryDirectories>$(SolutionDir)Bin\$(Platform)\$(Configuration)\;$(SolutionDir)ThirdPartyLibrary\</AdditionalLibraryDirectories>
+      <AdditionalDependencies>fmod_vc.dll;%(AdditionalDependencies)</AdditionalDependencies>
     </Lib>
   </ItemDefinitionGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
