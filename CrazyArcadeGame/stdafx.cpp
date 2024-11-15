@@ -10,9 +10,9 @@ int VectorToTileIndex(FVector2D Vector)
 
 float VectorToRenderPriority(FVector2D Vector)
 {
-	int nY = (int)(Vector.Y - 60.0f) / 60.0f;
+	int nY = (int)((Vector.Y - 60.0f) / 60.0f);
 
-	return 10 + nY;
+	return (float)(10 + nY);
 }
 
 FVector2D TileIndexToVector(int nTileIndex)

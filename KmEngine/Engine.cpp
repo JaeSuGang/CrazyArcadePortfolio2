@@ -16,6 +16,7 @@ void UEngine::Tick()
 	UTimeManager* TimeManager = GetEngineSubsystem<UTimeManager>();
 	URenderManager* RenderManager = GetEngineSubsystem<URenderManager>();
 	UDebugManager* DebugManager = GetEngineSubsystem<UDebugManager>();
+	USoundManager* SoundManager = GetEngineSubsystem<USoundManager>();
 	UGameInstance* GameInstance = GetGameInstance();
 
 	TimeManager->SetLastCounter();
@@ -33,6 +34,8 @@ void UEngine::Tick()
 		GameInstance->LateTick(fDeltaTime);
 
 		RenderManager->Tick();
+
+		SoundManager->Tick(fDeltaTime);
 
 #ifdef _DEBUG
 		DebugManager->Tick(fDeltaTime);

@@ -1,5 +1,7 @@
 #include "stdafx.h"
+#include "Engine.h"
 #include "ResourceManager.h"
+#include "SoundManager.h"
 
 HDC UResourceManager::GetImageDC(string strKey)
 {
@@ -40,6 +42,16 @@ void UResourceManager::LoadFile(string strPath)
 		m_Images.insert(PairToInsert);
 		return;
 	}
+
+	else if (Path.extension().string() == ".wav")
+	{
+		USound* Sound = new USound{};
+		Sound->LoadFile(strPath);
+
+		pair<string, USound*> PairToInsert{ strPath, Sound };
+		m_Sounds.insert(PairToInsert);
+		return;
+	}
 }
 
 void UResourceManager::LoadFolder(string strPath)
@@ -61,6 +73,11 @@ void UResourceManager::LoadFolder(string strPath)
 		}
 
 		if (ChildPath.extension().string() == ".bmp")
+		{
+			LoadFile(ChildPath.string());
+		}
+
+		else if (ChildPath.extension().string() == ".wav")
 		{
 			LoadFile(ChildPath.string());
 		}
@@ -146,4 +163,10 @@ void UImage::Initialize(HWND hGameWindow)
 UImage::~UImage()
 {
 	this->Release();
+}
+
+void USound::LoadFile(string strPath)
+{
+	USoundManager* SoundManager = GEngine->GetEngineSubsystem<USoundManager>();
+	SoundManager->m_FModSystem->createSound(strPath.data(), FMOD_LOOP_OFF, nullptr, &m_hSoundHandle);
 }

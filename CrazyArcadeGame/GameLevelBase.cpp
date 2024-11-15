@@ -4,6 +4,7 @@
 #include "KmEngine/Engine.h"
 #include "KmEngine/GameInstance.h"
 #include "KmEngine/PlayerController.h"
+#include "KmEngine/SoundManager.h"
 #include "GameUI.h"
 #include "SpawnManager.h"
 #include "BombManager.h"
@@ -52,6 +53,10 @@ void UGameLevelBase::BeginPlay()
 	SpawnManager->SpawnCharacterAIController()->Possess(Marid);
 	ACharacter* Cappi = SpawnManager->SpawnCappi(FVector2D(840.0f, 150.0f));
 	SpawnManager->SpawnCharacterAIController()->Possess(Cappi);
+
+	// 소리 재생
+	USoundManager* SoundManager = GEngine->GetEngineSubsystem<USoundManager>();
+	SoundManager->Play("Resources\\Sound\\Login.wav");
 }
 
 void UGameLevelBase::Release()

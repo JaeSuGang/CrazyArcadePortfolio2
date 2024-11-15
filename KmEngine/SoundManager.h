@@ -5,6 +5,10 @@
 class USoundManager : public UEngineSubsystem
 {
 public:
+	void Play(string strKey);
+
+public:
+	void Tick(float fDeltaTime);
 	void Initialize();
 
 public:

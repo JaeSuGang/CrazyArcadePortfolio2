@@ -1,5 +1,6 @@
 #pragma once
 #include "stdafx.h"
+#include "FMod/fmod.hpp"
 #include "EngineSubsystem.h"
 
 class UImage
@@ -25,7 +26,11 @@ private:
 
 class USound
 {
+public:
+	void LoadFile(string strPath);
 
+public:
+	FMOD::Sound* m_hSoundHandle;
 };
 
 class UResourceManager : public UEngineSubsystem
@@ -45,7 +50,7 @@ public:
 	UResourceManager();
 	~UResourceManager();
 
-private:
+public:
 	unordered_map<string, UImage*> m_Images;
 	unordered_map<string, USound*> m_Sounds;
 	HWND m_hWnd;
