@@ -40,5 +40,4 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 
 	delete GEngine;
 
-	_CrtDumpMemoryLeaks();
 }

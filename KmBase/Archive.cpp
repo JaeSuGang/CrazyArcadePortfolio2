@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Archive.h"
 
+
 void FArchive::ReserveMemory(int nSize)
 {
 	while (m_Data.size() + nSize > m_Data.capacity())

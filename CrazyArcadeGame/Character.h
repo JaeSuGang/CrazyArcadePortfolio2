@@ -4,7 +4,7 @@
 #include "Hidable.h"
 #include "InGameProperty.h"
 
-class ACharacter : public APawn, public FInGameProperty, public IExplodable, public IHidable
+class ACharacter : virtual public APawn, public FInGameProperty, public IExplodable, public IHidable
 {
 	typedef APawn Super;
 
@@ -13,6 +13,7 @@ public:
 	void Move(FVector2D Direction);
 	void Idle(FVector2D Direction);
 	void TryPutBomb();
+
 
 public:
 	void SetBombLeft(int nCount);

@@ -55,6 +55,9 @@
     <Filter Include="GameInstanceSubsystem">
       <UniqueIdentifier>{5914938a-5f75-4f85-9716-00966fab2f8f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EngineSubsystem\SoundManager">
+      <UniqueIdentifier>{8bf1ce90-1166-4d55-ac98-0167a22d0847}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -120,6 +123,9 @@
     </ClCompile>
     <ClCompile Include="GameInstanceSubsystem.cpp">
       <Filter>GameInstanceSubsystem</Filter>
+    </ClCompile>
+    <ClCompile Include="SoundManager.cpp">
+      <Filter>EngineSubsystem\SoundManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -188,6 +194,9 @@
     </ClInclude>
     <ClInclude Include="GameInstanceSubsystem.h">
       <Filter>GameInstanceSubsystem</Filter>
+    </ClInclude>
+    <ClInclude Include="SoundManager.h">
+      <Filter>EngineSubsystem\SoundManager</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
