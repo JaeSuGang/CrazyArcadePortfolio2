@@ -2,5 +2,5 @@
 
 __interface IExplodable
 {
-	virtual void OnExploded() = 0;
+	virtual void OnExploded();
 };

@@ -4,7 +4,7 @@
 #include "Hidable.h"
 #include "InGameProperty.h"
 
-class ACharacter : virtual public APawn, public FInGameProperty, public IExplodable, public IHidable
+class ACharacter : public APawn, public FInGameProperty, public IExplodable, public IHidable
 {
 	typedef APawn Super;
 
