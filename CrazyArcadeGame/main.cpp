@@ -4,6 +4,7 @@
 #include "KmBase/Archive.h"
 #include "KmEngine/Engine.h"
 #include "CrazyArcadeGame/TestGameInstance.h"
+#include "CrazyArcadeGame/MainGameInstance.h"
 
 #pragma comment (lib, "KmBase.lib")
 #pragma comment (lib, "KmEngine.lib")
@@ -35,7 +36,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	GEngine->SetTargetFPS(500000.0f);
 
 	// Editor 구현해서 CLevelDeserializer의 Deserialize함수를 path인자로 받도록 오버로딩
-	GEngine->OpenGameInstance<UTestGameInstance>();
+	GEngine->OpenGameInstance<UMainGameInstance>();
 
 	GEngine->RunForever();
 

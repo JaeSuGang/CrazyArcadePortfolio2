@@ -62,7 +62,12 @@
     <ClCompile Include="InGameProperty.cpp">
       <Filter>Property</Filter>
     </ClCompile>
-    <ClCompile Include="LobbyLevel.cpp" />
+    <ClCompile Include="LobbyLevel.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="MainGameInstance.cpp">
+      <Filter>GameInstance</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -166,6 +171,11 @@
     <ClInclude Include="InGameProperty.h">
       <Filter>Property</Filter>
     </ClInclude>
-    <ClInclude Include="LobbyLevel.h" />
+    <ClInclude Include="LobbyLevel.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="MainGameInstance.h">
+      <Filter>GameInstance</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
