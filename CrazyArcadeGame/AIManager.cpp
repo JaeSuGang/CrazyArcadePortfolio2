@@ -37,18 +37,18 @@ void UAIManager::Tick(float fDeltaTime)
 	{
 		APawn* AIPawn = *AIPawnIter;
 		
-		if (ACharacter* AICharacter = dynamic_cast<ACharacter*>(AIPawn))
-		{
-			ACharacterAIController* Controller = dynamic_cast<ACharacterAIController*>(AICharacter->GetController());
-			AICharacter->Move(Controller->GetDirection());
-			float fAccumulatedTime = Controller->GetAccumulatedTime();
-			float fChangeDirectionTime = Controller->GetChangeDirectionTime();
-			if (fAccumulatedTime > fChangeDirectionTime)
-			{
-				Controller->SetRandomDirection();
-				Controller->SetAccumulatedTime(0.0f);
-			}
-		}
+		//if (ACharacter* AICharacter = dynamic_cast<ACharacter*>(AIPawn))
+		//{
+		//	ACharacterAIController* Controller = dynamic_cast<ACharacterAIController*>(AICharacter->GetController());
+		//	AICharacter->Move(Controller->GetDirection());
+		//	float fAccumulatedTime = Controller->GetAccumulatedTime();
+		//	float fChangeDirectionTime = Controller->GetChangeDirectionTime();
+		//	if (fAccumulatedTime > fChangeDirectionTime)
+		//	{
+		//		Controller->SetRandomDirection();
+		//		Controller->SetAccumulatedTime(0.0f);
+		//	}
+		//}
 
 		++AIPawnIter;
 	}

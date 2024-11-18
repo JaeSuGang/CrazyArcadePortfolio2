@@ -32,7 +32,6 @@ public:
 private:
 	void Tick(float fDeltaTime);
 	void RefreshKeyStateAndBroadcast();
-	//void BroadcastKeyEvent();
 
 private:
 	void Initialize();

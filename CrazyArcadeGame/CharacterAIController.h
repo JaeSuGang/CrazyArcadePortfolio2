@@ -1,9 +1,22 @@
 #pragma once
 #include "KmEngine/AIController.h"
 
+class ACharacter;
+
 class ACharacterAIController : public AAIController
 {
 	typedef AAIController Super;
+
+public:
+	enum class EAIState
+	{
+		Idle,
+		Move
+	};
+
+public:
+	void LocatePosToPutBomb();
+	bool FindPathUsingAStar(FVector2D Destination, std::list<FVector2D>& ListToContainPath);
 
 public:
 	float GetChangeDirectionTime();
@@ -22,6 +35,11 @@ public:
 
 public:
 	ACharacterAIController();
+
+public:
+	std::list<FVector2D> m_MoveDestination;
+	EAIState m_AIState;
+	ACharacter* m_Character;
 
 protected:
 	float m_fChangeDirectionTime;

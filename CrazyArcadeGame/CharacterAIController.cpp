@@ -1,5 +1,43 @@
 #include "stdafx.h"
 #include "CharacterAIController.h"
+#include "Character.h"
+
+void ACharacterAIController::LocatePosToPutBomb()
+{
+	FVector2D CurTilePos = TileIndexToVector(VectorToTileIndex(this->GetPosition()));
+	vector<FVector2D> ConsiderableTilePositions;
+
+	ConsiderableTilePositions.push_back(CurTilePos + FVector2D::Left * 60.0f + FVector2D::Up * 60.0f);
+	ConsiderableTilePositions.push_back(CurTilePos + FVector2D::Up * 60.0f);
+	ConsiderableTilePositions.push_back(CurTilePos + FVector2D::Right * 60.0f + FVector2D::Up * 60.0f);
+	ConsiderableTilePositions.push_back(CurTilePos + FVector2D::Left * 60.0f);
+	ConsiderableTilePositions.push_back(CurTilePos);
+	ConsiderableTilePositions.push_back(CurTilePos + FVector2D::Right * 60.0f);
+	ConsiderableTilePositions.push_back(CurTilePos + FVector2D::Left * 60.0f + FVector2D::Down * 60.0f);
+	ConsiderableTilePositions.push_back(CurTilePos + FVector2D::Down * 60.0f);
+	ConsiderableTilePositions.push_back(CurTilePos + FVector2D::Right * 60.0f + FVector2D::Down * 60.0f);
+
+	for (FVector2D TilePos : ConsiderableTilePositions)
+	{
+
+	}
+}
+
+bool ACharacterAIController::FindPathUsingAStar(FVector2D Destination, std::list<FVector2D>& ListToContainPath)
+{
+	FVector2D DestinationTilePosition = TileIndexToVector(VectorToTileIndex(Destination));
+	FVector2D StartTilePosition = TileIndexToVector(VectorToTileIndex(m_Character->GetPosition()));
+
+	vector<FVector2D> AdjacentTilePositions;
+	AdjacentTilePositions.push_back(DestinationTilePosition + FVector2D::Up * 60.0f);
+	AdjacentTilePositions.push_back(DestinationTilePosition + FVector2D::Right * 60.0f);
+	AdjacentTilePositions.push_back(DestinationTilePosition + FVector2D::Down * 60.0f);
+	AdjacentTilePositions.push_back(DestinationTilePosition + FVector2D::Left * 60.0f);
+
+
+
+
+}
 
 float ACharacterAIController::GetChangeDirectionTime()
 {
@@ -31,7 +69,7 @@ void ACharacterAIController::SetRandomDirection()
 		break;
 	}
 
-	m_fChangeDirectionTime = (rand() % 70 + 10) / 100.0f;
+	m_fChangeDirectionTime = m_fAccumulatedTime + (rand() % 70 + 10) / 100.0f;
 }
 
 void ACharacterAIController::SetAccumulatedTime(float fTime)
@@ -47,11 +85,33 @@ float ACharacterAIController::GetAccumulatedTime()
 void ACharacterAIController::Possess(APawn* Pawn)
 {
 	Super::Possess(Pawn);
+
+	m_Character = dynamic_cast<ACharacter*>(Pawn);
 }
 
 void ACharacterAIController::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
+
+	if (m_Character)
+	{
+		switch (m_AIState)
+		{
+		case ACharacterAIController::EAIState::Idle:
+			if (m_fAccumulatedTime > m_fChangeDirectionTime)
+			{
+				this->SetRandomDirection();
+			}
+			m_Character->Move(m_Direction);
+			break;
+
+		case ACharacterAIController::EAIState::Move:
+			break;
+
+		default:
+			break;
+		}
+	}
 
 	m_fAccumulatedTime += fDeltaTime;
 }
@@ -70,6 +130,7 @@ ACharacterAIController::ACharacterAIController()
 	:
 	m_Direction{},
 	m_fChangeDirectionTime{},
-	m_fAccumulatedTime{}
+	m_fAccumulatedTime{},
+	m_AIState{ ACharacterAIController::EAIState::Idle}
 {
 }

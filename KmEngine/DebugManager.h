@@ -5,8 +5,9 @@
 class UDebugManager : public UEngineSubsystem
 {
 public:
+	void ShowCursorPos(HDC hBackBuffer, HWND hWindow, int nIndex);
 	void ShowFPS(HDC hBackBuffer, int nIndex, float* fFPSVariable);
-	void EnableFPSCounter();
+	void EnableDebugMode();
 	void Tick(float fDeltaTime);
 
 public:

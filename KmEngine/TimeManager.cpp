@@ -3,7 +3,7 @@
 
 void UTimeManager::AssignDeltaTime()
 {
-	LONGLONG dCounterDifference = m_LastPerformanceCounter.QuadPart - m_StartPerformanceCounter.QuadPart;
+	unsigned long long dCounterDifference = m_LastPerformanceCounter.QuadPart - m_StartPerformanceCounter.QuadPart;
 
 	m_fDeltaTime = (float)dCounterDifference / (float)m_PerformanceFrequency.QuadPart;
 	m_fCurrentFPS = 1 / m_fDeltaTime;
@@ -28,10 +28,12 @@ void UTimeManager::Initialize()
 {
 	QueryPerformanceFrequency(&m_PerformanceFrequency);
 	QueryPerformanceCounter(&m_LastPerformanceCounter);
+	QueryPerformanceCounter(&m_StartPerformanceCounter);
 }
 
 UTimeManager::UTimeManager()
 	:
+	m_StartPerformanceCounter{},
 	m_LastPerformanceCounter{},
 	m_PerformanceFrequency{}
 {
