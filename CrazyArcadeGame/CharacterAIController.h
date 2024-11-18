@@ -16,7 +16,8 @@ public:
 
 public:
 	void LocatePosToPutBomb();
-	bool FindPathUsingAStar(FVector2D Destination, std::list<FVector2D>& ListToContainPath);
+	bool SetPathUsingAStar(FVector2D Destination);
+	void SetPathByClicking();
 
 public:
 	float GetChangeDirectionTime();
@@ -37,9 +38,11 @@ public:
 	ACharacterAIController();
 
 public:
-	std::list<FVector2D> m_MoveDestination;
+	std::list<FVector2D> m_Path;
 	EAIState m_AIState;
 	ACharacter* m_Character;
+	bool m_bDebugMode{};
+	HPEN m_hDebugPen;
 
 protected:
 	float m_fChangeDirectionTime;

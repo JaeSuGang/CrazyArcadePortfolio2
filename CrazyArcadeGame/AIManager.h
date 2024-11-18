@@ -8,18 +8,22 @@ class ABlock;
 struct FPathNode : public std::enable_shared_from_this<FPathNode>
 {
 public:
+	float GetFScore() const;
+
+public:
 	FPathNode(shared_ptr<FPathNode> ParentNode, FVector2D Position);
 
 public:
 	shared_ptr<FPathNode> m_ParentNode;
 	FVector2D m_Position;
-	float m_fHeuristicScore;
+	float m_fGScore;
+	float m_fHScore;
 };
 
 struct CompareFunctionForOpenList
 {
 public:
-	bool operator()(const FPathNode* Left, const FPathNode* Right);
+	bool operator()(const shared_ptr<FPathNode> Left, const shared_ptr<FPathNode> Right) const;
 
 
 };

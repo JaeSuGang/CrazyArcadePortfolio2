@@ -18,13 +18,24 @@ bool UAIManager::FindPath(FVector2D StartPos, FVector2D DestinationPos, std::lis
 	std::set<shared_ptr<FPathNode>, CompareFunctionForOpenList> OpenList{};
 	unordered_set<shared_ptr<FPathNode>> ClosedList{};
 
-	shared_ptr<FPathNode> StartNode{ new FPathNode{ nullptr, StartPos } };
-	StartNode->m_fHeuristicScore = 0.0f;
+	shared_ptr<FPathNode> StartNode{ new FPathNode{ nullptr, StartPos} };
 	OpenList.insert(StartNode);
 
 	while (OpenList.size() <= 0 )
 	{
 		shared_ptr<FPathNode> CenterNode = *OpenList.begin();
+
+		if (CenterNode->m_Position == DestinationPos)
+		{
+			ListToContainPath.clear();
+			shared_ptr<FPathNode> NodeToLoop{ CenterNode };
+			while (NodeToLoop.get() != nullptr)
+			{
+				ListToContainPath.push_front(NodeToLoop->m_Position);
+				NodeToLoop = NodeToLoop->m_ParentNode;
+			}
+			return true;
+		}
 
 		vector<FVector2D> AdjacentTiles{};
 		UAIManager::GetAdjacentTilePos(CenterNode->m_Position, AdjacentTiles);
@@ -32,16 +43,6 @@ bool UAIManager::FindPath(FVector2D StartPos, FVector2D DestinationPos, std::lis
 		for (FVector2D Pos : AdjacentTiles)
 		{
 			bool bIsInvalidPath{};
-
-			// OpenList에 존재하는 중복 위치일시 스킵
-			for (shared_ptr<FPathNode> Node : OpenList)
-			{
-				if (Pos == Node->m_Position)
-				{
-					bIsInvalidPath = true;
-					break;
-				}
-			}
 
 			// ClosedList에 존재하는 중복 위치일시 스킵
 			for (shared_ptr<FPathNode> Node : ClosedList)
@@ -63,17 +64,33 @@ bool UAIManager::FindPath(FVector2D StartPos, FVector2D DestinationPos, std::lis
 				}
 			}
 
+			// OpenList에 존재하는 중복 위치일시 g값 비교후 부모노드 변경할지 결정
+			for (shared_ptr<FPathNode> Node : OpenList)
+			{
+				if (Pos != Node->m_Position)
+					continue;
+
+				if (Node->m_fGScore < abs(Pos.X - StartPos.X) + abs(Pos.Y - StartPos.Y))
+					CenterNode->m_ParentNode = Node;
+			}
+
 			if (bIsInvalidPath)
 				continue;
 
 			shared_ptr<FPathNode> AdjacentNode{ new FPathNode{CenterNode, Pos} };
 			AdjacentNode->m_ParentNode = CenterNode;
+			// 맨해튼 거리법
+			AdjacentNode->m_fGScore = abs(StartPos.X - Pos.X) + abs(StartPos.Y - Pos.Y);
+			AdjacentNode->m_fHScore = abs(DestinationPos.X - Pos.X) + abs(DestinationPos.Y - Pos.Y);
 			OpenList.insert(AdjacentNode);
 		}
 
 		OpenList.erase(OpenList.begin());
 		ClosedList.insert(CenterNode);
 	}
+
+	ListToContainPath.clear();
+	return false;
 }
 
 void UAIManager::AddAIPawn(APawn* Pawn)
@@ -127,16 +144,22 @@ void UAIManager::Tick(float fDeltaTime)
 	}
 }
 
+float FPathNode::GetFScore() const
+{
+	return m_fGScore + m_fHScore;
+}
+
 FPathNode::FPathNode(std::shared_ptr<FPathNode> ParentNode, FVector2D Position)
 	:
 	m_ParentNode{ParentNode},
 	m_Position{Position},
-	m_fHeuristicScore{}
+	m_fGScore{},
+	m_fHScore{}
 {
 
 }
 
-bool CompareFunctionForOpenList::operator()(const FPathNode* Left, const FPathNode* Right)
+bool CompareFunctionForOpenList::operator()(const shared_ptr<FPathNode> Left, const shared_ptr<FPathNode> Right) const
 {
-	return Left->m_fHeuristicScore < Right->m_fHeuristicScore;
+	return Left->GetFScore() < Right->GetFScore();
 }

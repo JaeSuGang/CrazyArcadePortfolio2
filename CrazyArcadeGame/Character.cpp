@@ -9,6 +9,7 @@
 #include "MovementManager.h"
 #include "BombManager.h"
 #include "AIManager.h"
+#include "CharacterAIController.h"
 
 void ACharacter::SetBombLeft(int nCount)
 {
@@ -200,13 +201,21 @@ void ACharacter::BeginPlay()
 
 void ACharacter::Release()
 {
-
 	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
 	BombManager->m_Characters.erase(this);
 	BombManager->m_Explodables.erase(this);
 
 	UMovementManager* MovementManager = GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
 	MovementManager->m_Characters.erase(this);
+
+	if (m_Controller)
+	{
+		m_Controller->SetPawn(nullptr);
+		if (ACharacterAIController* Casted = dynamic_cast<ACharacterAIController*>(m_Controller))
+		{
+			Casted->m_Character = nullptr;
+		}
+	}
 }
 
 ACharacter::~ACharacter()

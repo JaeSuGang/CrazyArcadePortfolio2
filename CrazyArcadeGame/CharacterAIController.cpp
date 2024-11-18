@@ -23,20 +23,16 @@ void ACharacterAIController::LocatePosToPutBomb()
 	}
 }
 
-bool ACharacterAIController::FindPathUsingAStar(FVector2D Destination, std::list<FVector2D>& ListToContainPath)
+bool ACharacterAIController::SetPathUsingAStar(FVector2D Destination)
 {
-	FVector2D DestinationTilePosition = TileIndexToVector(VectorToTileIndex(Destination));
-	FVector2D StartTilePosition = TileIndexToVector(VectorToTileIndex(m_Character->GetPosition()));
+	
 
-	vector<FVector2D> AdjacentTilePositions;
-	AdjacentTilePositions.push_back(DestinationTilePosition + FVector2D::Up * 60.0f);
-	AdjacentTilePositions.push_back(DestinationTilePosition + FVector2D::Right * 60.0f);
-	AdjacentTilePositions.push_back(DestinationTilePosition + FVector2D::Down * 60.0f);
-	AdjacentTilePositions.push_back(DestinationTilePosition + FVector2D::Left * 60.0f);
+	return false;
+}
 
-
-
-
+void ACharacterAIController::SetPathByClicking()
+{
+	
 }
 
 float ACharacterAIController::GetChangeDirectionTime()
@@ -93,6 +89,9 @@ void ACharacterAIController::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
 
+	if (m_Path.size() == 0)
+		m_AIState = ACharacterAIController::EAIState::Idle;
+
 	if (m_Character)
 	{
 		switch (m_AIState)
@@ -106,6 +105,15 @@ void ACharacterAIController::Tick(float fDeltaTime)
 			break;
 
 		case ACharacterAIController::EAIState::Move:
+
+			if (m_bDebugMode)
+			{
+				for (FVector2D Path : m_Path)
+				{
+
+				}
+			}
+
 			break;
 
 		default:
