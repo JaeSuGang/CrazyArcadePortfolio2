@@ -171,6 +171,7 @@
     <ClCompile Include="GameUI.cpp" />
     <ClCompile Include="GroundTile.cpp" />
     <ClCompile Include="InGameProperty.cpp" />
+    <ClCompile Include="LobbyLevel.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MovementManager.cpp" />
     <ClCompile Include="PowerUpItem.cpp" />
@@ -200,6 +201,7 @@
     <ClInclude Include="GroundTile.h" />
     <ClInclude Include="Hidable.h" />
     <ClInclude Include="InGameProperty.h" />
+    <ClInclude Include="LobbyLevel.h" />
     <ClInclude Include="MovementManager.h" />
     <ClInclude Include="PowerUpItem.h" />
     <ClInclude Include="SpawnManager.h" />

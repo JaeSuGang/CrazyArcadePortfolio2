@@ -148,8 +148,7 @@ void UEditorManager::LoadWallTilePalette()
 				RenderComponent->SetStaticImage(Image);
 				RenderComponent->SetRenderPriority(1);
 				RenderComponent->SetRenderType(URenderComponent::ERenderType::UI);
-				RenderComponent->BeginPlay();
-				ClickableUIComponent->BeginPlay();
+				Tile->BeginPlay();
 			}
 			else
 			{
@@ -234,7 +233,7 @@ void UEditorManager::PutTile(int nlocation, bool bIsGroundTile, int nValue)
 	{
 		UImage* Image = ResourceManager->GetImage("Resources\\Tiles\\WallTiles\\" + std::to_string(nValue) + ".bmp");
 		PositionedTileRenderComponent->SetRenderPriority(nYIndex + 10.0f);
-		PositionedTileRenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
+		PositionedTileRenderComponent->SetRenderType(URenderComponent::ERenderType::NonShadowObject);
 		PositionedTileRenderComponent->SetStaticImage(Image);
 		switch (nValue)
 		{
@@ -286,10 +285,6 @@ void UEditorManager::BindEditorKeys()
 
 void UEditorManager::OnLeftClick()
 {
-	// AStart 좀더 정밀한데 연산량이 높다.
-	// JPS 빠른데 
-
-
 	FVector2D CursorVector = GetRelativeMousePosition();
 
 	if (CursorVector.X > 900)

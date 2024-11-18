@@ -5,6 +5,7 @@
 #include "Actor.h"
 #include "Level.h"
 #include "RenderComponent.h"
+#include <iostream>
 
 void URenderManager::CleanLayerDC(HDC hDC, FVector2D Size)
 {
@@ -19,6 +20,7 @@ void URenderManager::CopyBitBltDC(HDC dest, HDC source, FVector2D ScreenSize)
 
 void URenderManager::RenderComponents(const vector<URenderComponent*>& ComponentsToRender, const HDC hMemoryDCToRender, const FVector2D ScreenSize)
 {
+	int nTestCount{};
 	for (const URenderComponent* ComponentToRender : ComponentsToRender)
 	{
 		if (ComponentToRender->GetIsHidden())
@@ -32,8 +34,10 @@ void URenderManager::RenderComponents(const vector<URenderComponent*>& Component
 			ImagePosition += ComponentToRender->GetStaticImageOffset();
 
 			URenderManager::TrasparentBitBlt(hMemoryDCToRender, Image->getDC(), ImagePosition, ImageSize);
+			nTestCount++;
 		}
 	}
+	std::cerr << nTestCount << "\n";
 }
 
 void URenderManager::RenderShadowComponents(const vector<URenderComponent*>& ComponentsToRender, const HDC hMemoryDCToRender, const FVector2D ScreenSize)

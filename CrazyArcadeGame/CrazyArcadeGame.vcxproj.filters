@@ -62,6 +62,7 @@
     <ClCompile Include="InGameProperty.cpp">
       <Filter>Property</Filter>
     </ClCompile>
+    <ClCompile Include="LobbyLevel.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -165,5 +166,6 @@
     <ClInclude Include="InGameProperty.h">
       <Filter>Property</Filter>
     </ClInclude>
+    <ClInclude Include="LobbyLevel.h" />
   </ItemGroup>
 </Project>

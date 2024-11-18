@@ -23,3 +23,7 @@ using std::vector;
 // Base
 #include "KmBase/Vector.h"
 
+int VectorToTileIndex(FVector2D Vector);
+float VectorToRenderPriority(FVector2D Vector);
+FVector2D TileIndexToVector(int nTileIndex);
+
