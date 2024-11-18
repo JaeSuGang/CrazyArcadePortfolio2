@@ -1,10 +1,12 @@
 #include "stdafx.h"
 #include "Block.h"
+
+#include "KmEngine/RenderComponent.h"
 #include "AxisAlignedBoundingBox.h"
 #include "BombManager.h"
 #include "MovementManager.h"
 #include "SpawnManager.h"
-#include "KmEngine/RenderComponent.h"
+#include "AIManager.h"
 
 void ABlock::BeginPlay()
 {
@@ -18,6 +20,9 @@ void ABlock::BeginPlay()
 	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
 	BombManager->AddExplodable(this);
 	BombManager->AddBlock(this);
+
+	UAIManager* AIManager = GetGameInstance()->GetGameInstanceSubsystem<UAIManager>();
+	AIManager->m_Blocks.insert(this);
 }
 
 void ABlock::Tick(float fDeltaTime)
@@ -71,6 +76,10 @@ void ABlock::Release()
 	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
 	BombManager->m_Blocks.erase(this);
 	BombManager->m_Explodables.erase(this);
+
+	UAIManager* AIManager = GetGameInstance()->GetGameInstanceSubsystem<UAIManager>();
+	AIManager->m_Blocks.erase(this);
+
 }
 
 ABlock::~ABlock()
