@@ -4,6 +4,7 @@
 #include "KmBase/Vector.h"
 #include "AxisAlignedBoundingBox.h"
 
+class AActor;
 class ABlock;
 class ACharacter;
 class APowerUpItem;

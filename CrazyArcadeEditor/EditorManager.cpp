@@ -220,7 +220,8 @@ void UEditorManager::PutTile(int nlocation, bool bIsGroundTile, int nValue)
 	{
 		UImage* Image = ResourceManager->GetImage("Resources\\Tiles\\GroundTiles\\" + std::to_string(nValue) + ".bmp");
 		PositionedTileRenderComponent->SetRenderPriority(1.0f);
-		PositionedTileRenderComponent->SetRenderType(URenderComponent::ERenderType::FloorTile);
+		// 버그 수정 임시 UI로 설정
+		PositionedTileRenderComponent->SetRenderType(URenderComponent::ERenderType::UI);
 		PositionedTileRenderComponent->SetStaticImage(Image);
 		switch (nValue)
 		{
@@ -233,7 +234,8 @@ void UEditorManager::PutTile(int nlocation, bool bIsGroundTile, int nValue)
 	{
 		UImage* Image = ResourceManager->GetImage("Resources\\Tiles\\WallTiles\\" + std::to_string(nValue) + ".bmp");
 		PositionedTileRenderComponent->SetRenderPriority(nYIndex + 10.0f);
-		PositionedTileRenderComponent->SetRenderType(URenderComponent::ERenderType::NonShadowObject);
+		// 버그 수정 임시 UI로 설정
+		PositionedTileRenderComponent->SetRenderType(URenderComponent::ERenderType::UI);
 		PositionedTileRenderComponent->SetStaticImage(Image);
 		switch (nValue)
 		{
