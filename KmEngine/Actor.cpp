@@ -14,9 +14,17 @@ void AActor::Tick(float fDeltaTime)
 
 		++ComponentIter;
 	}
+
+	if (m_DebugMode)
+		this->OnDebug();
 }
 
 void AActor::LateTick(float fDeltaTime)
+{
+
+}
+
+void AActor::OnDebug()
 {
 
 }

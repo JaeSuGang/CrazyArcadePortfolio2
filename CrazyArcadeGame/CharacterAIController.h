@@ -17,7 +17,10 @@ public:
 public:
 	void LocatePosToPutBomb();
 	bool SetPathUsingAStar(FVector2D Destination);
+
+	// 디버그용
 	void SetPathByClicking();
+	void DebugGUI();
 
 public:
 	float GetChangeDirectionTime();

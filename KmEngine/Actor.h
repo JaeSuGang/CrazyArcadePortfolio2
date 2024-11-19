@@ -23,6 +23,7 @@ public:
 	virtual void BeginPlay();
 	virtual void Tick(float fDeltaTime);
 	virtual void LateTick(float fDeltaTime);
+	virtual void OnDebug();
 
 public:
 	void Destroy();
@@ -98,5 +99,6 @@ protected:
 	ULevel* m_Level;
 	unordered_map<string, UActorComponent*> m_OwnedComponents;
 	FVector2D m_Position;
+	bool m_DebugMode;
 };
 
