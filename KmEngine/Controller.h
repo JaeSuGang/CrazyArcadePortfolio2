@@ -13,6 +13,7 @@ public:
 	void SetPawn(APawn* Pawn);
 
 public:
+	void Destroy() override;
 	void Tick(float fDeltaTime) override;
 	void LateTick(float fDeltaTime) override;
 	void BeginPlay() override;

@@ -26,7 +26,7 @@ public:
 	virtual void OnDebug();
 
 public:
-	void Destroy();
+	virtual void Destroy();
 
 	template <typename T>
 	T* GetComponentByClass()

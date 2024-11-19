@@ -63,6 +63,12 @@ void UEngine::RunForever()
 void UEngine::TerminateEngine()
 {
 	m_bEngineSwitch = false;
+
+	for (auto atd : m_ActiveGameInstance->GetActiveLevel()->m_Actors)
+	{
+		m_ActiveGameInstance->GetActiveLevel()->m_ActorsToDestroy.push_back(atd);
+	}
+	m_ActiveGameInstance->GetActiveLevel()->InitiateDestroy();
 }
 
 UGameInstance* UEngine::GetGameInstance() const

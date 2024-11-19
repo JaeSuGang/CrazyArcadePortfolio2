@@ -281,8 +281,8 @@ FVector2D UEditorManager::GetRelativeMousePosition()
 void UEditorManager::BindEditorKeys()
 {
 	UKeyManager* km = GEngine->GetEngineSubsystem<UKeyManager>();
-	km->BindKey(VK_LBUTTON, UKeyManager::EKeyState::KeyDown, std::bind(&UEditorManager::OnLeftClick, this));
-	km->BindKey(VK_RBUTTON, UKeyManager::EKeyState::KeyDown, std::bind(&UEditorManager::OnRightClick, this));
+	km->BindKey(VK_LBUTTON, UKeyManager::EKeyState::Triggered, std::bind(&UEditorManager::OnLeftClick, this));
+	km->BindKey(VK_RBUTTON, UKeyManager::EKeyState::Triggered, std::bind(&UEditorManager::OnRightClick, this));
 }
 
 void UEditorManager::OnLeftClick()

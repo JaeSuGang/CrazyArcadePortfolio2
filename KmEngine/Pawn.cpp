@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "Pawn.h"
 #include "Controller.h"
+#include "Level.h"
 
 AController* APawn::GetController()
 {
