@@ -13,13 +13,16 @@
 #include "Block.h"
 #include "Explosion.h"
 #include "PowerUpItem.h"
+#include "AIManager.h"
 
 
-void USpawnManager::GenerateVoidWallTile(FVector2D Pos)
+ABlock* USpawnManager::GenerateVoidWallTile(FVector2D Pos)
 {
 	ABlock* TileActor = GetActiveLevel()->InitializeActorForPlay<ABlock>();
 	TileActor->SetPosition(Pos);
 	TileActor->BeginPlay();
+
+	return TileActor;
 }
 
 void USpawnManager::GenerateWallTile(FVector2D Pos, int nTileValue, int nGroundTileValue)

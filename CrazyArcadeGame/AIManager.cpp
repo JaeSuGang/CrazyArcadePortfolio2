@@ -3,7 +3,42 @@
 #include "Character.h"
 #include "CharacterAIController.h"
 #include "AxisAlignedBoundingBox.h"
+#include "SpawnManager.h"
 #include "Block.h"
+#include "Bomb.h"
+#include "BombManager.h"
+#include "KmEngine/Level.h"
+
+void UAIManager::FetchDangerousAABBRange(std::vector<FAxisAlignedBoundingBox>& VectorToFetch)
+{
+}
+
+bool UAIManager::CheckPositionWhetherSafeToPutBomb(const ACharacter* AICharacter, FVector2D Position, FVector2D& EscapeDest)
+{
+	Position = VectorToRefinedVector(Position);
+	std::list<FVector2D> TempPath;
+
+	for (int i = -2; i < 3; i++)
+	{
+		for (int j = -2; j < 3; j++)
+		{
+			if (i == 0 || j == 0)
+				continue;
+
+			FVector2D CheckDest = Position + FVector2D::Right * 60.0f * i + FVector2D::Down * 60.0f * j;
+
+			bool bHasValidPath = this->FindPath(AICharacter->GetPosition(), CheckDest, TempPath);
+
+			if (!bHasValidPath)
+				continue;
+
+			EscapeDest = CheckDest;
+			return true;
+		}
+	}
+
+	return false;
+}
 
 void UAIManager::GetAdjacentTilePos(FVector2D CenterPos, std::vector<FVector2D>& ListToContainAdjacentTiles)
 {

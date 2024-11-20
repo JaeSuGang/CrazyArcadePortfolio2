@@ -19,7 +19,7 @@ class USpawnManager : public UGameInstanceSubsystem
 	typedef UGameInstanceSubsystem Super;
 
 public:
-	void GenerateVoidWallTile(FVector2D Pos);
+	ABlock* GenerateVoidWallTile(FVector2D Pos);
 	void GenerateWallTile(FVector2D Pos, int nTileValue, int nGroundTileValue);
 	void GenerateWallTile(int nTileIndex, int nTileValue, int nGroundTileValue);
 	void GenerateGroundTile(int nTileIndex, int nValue);

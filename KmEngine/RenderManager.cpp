@@ -97,6 +97,7 @@ void URenderManager::RemoveRender(URenderComponent* ComponentToRemove, vector<UR
 
 void URenderManager::DrawDebugRectangle(FVector2D Center, FVector2D Size, HPEN hPen)
 {
+	HBRUSH hPreviousBrush = (HBRUSH)SelectObject(m_LayerDC[4], GetStockObject(HOLLOW_BRUSH));
 	HPEN hPreviousPen = (HPEN)SelectObject(m_LayerDC[4], hPen);
 
 	Rectangle(m_LayerDC[4],
@@ -105,7 +106,8 @@ void URenderManager::DrawDebugRectangle(FVector2D Center, FVector2D Size, HPEN h
 		(int)(Center.X + Size.X / 2),
 		(int)(Center.Y + Size.Y / 2));
 
-	SelectObject(m_hBackBufferDC, hPreviousPen);
+	SelectObject(m_LayerDC[4], hPreviousPen);
+	SelectObject(m_LayerDC[4], hPreviousBrush);
 }
 
 void URenderManager::DrawDebugText(FVector2D Position, string_view Text)

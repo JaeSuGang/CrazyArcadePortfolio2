@@ -15,6 +15,11 @@ float VectorToRenderPriority(FVector2D Vector)
 	return (float)(10 + nY);
 }
 
+FVector2D VectorToRefinedVector(FVector2D Vector)
+{
+	return TileIndexToVector(VectorToTileIndex(Vector));
+}
+
 FVector2D TileIndexToVector(int nTileIndex)
 {
 	int nX = nTileIndex % 15;

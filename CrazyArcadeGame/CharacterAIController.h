@@ -11,10 +11,11 @@ public:
 	enum class EAIState
 	{
 		Idle,
-		Move
+		Move,
 	};
 
 public:
+	bool CheckPositionWhetherSafeToPutBomb(FVector2D Position, FVector2D& EscapeDest) const;
 	void LocatePosToPutBomb();
 	bool SetPathUsingAStar(FVector2D Destination);
 

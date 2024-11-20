@@ -3,6 +3,13 @@
 #include "Character.h"
 #include "AIManager.h"
 
+
+bool ACharacterAIController::CheckPositionWhetherSafeToPutBomb(FVector2D Position, FVector2D& EscapeDest) const
+{
+	UAIManager* AIManager = GetGameInstance()->GetGameInstanceSubsystem<UAIManager>();
+	return AIManager->CheckPositionWhetherSafeToPutBomb(m_Character, Position, EscapeDest);
+}
+
 void ACharacterAIController::LocatePosToPutBomb()
 {
 	FVector2D CurTilePos = TileIndexToVector(VectorToTileIndex(this->GetPosition()));
@@ -93,18 +100,35 @@ void ACharacterAIController::Possess(APawn* Pawn)
 void ACharacterAIController::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
+	m_fAccumulatedTime += fDeltaTime;
 
 	if (m_Path.size() == 0)
 		m_AIState = ACharacterAIController::EAIState::Idle;
 	else
 		m_AIState = ACharacterAIController::EAIState::Move;
 
+	if ((int)(m_fAccumulatedTime / 0.01f) % 5 != 0)
+		return;
 
 	if (m_Character)
 	{
 		switch (m_AIState)
 		{
 		case ACharacterAIController::EAIState::Idle:
+			if ((int)(m_fAccumulatedTime / 0.01f) % 50 != 0)
+			{
+				if (m_Character->GetBombLeft() > 0)
+				{
+					FVector2D EscapePosition{};
+					if (this->CheckPositionWhetherSafeToPutBomb(m_Character->GetPosition(), EscapePosition))
+					{
+						m_Character->TryPutBomb();
+						this->SetPathUsingAStar(EscapePosition);
+					}
+
+				}
+			}
+
 			if (m_fAccumulatedTime > m_fChangeDirectionTime)
 			{
 				this->SetRandomDirection();
@@ -141,9 +165,8 @@ void ACharacterAIController::Tick(float fDeltaTime)
 		default:
 			break;
 		}
-	}
 
-	m_fAccumulatedTime += fDeltaTime;
+	}
 }
 
 void ACharacterAIController::LateTick(float fDeltaTime)
@@ -161,6 +184,19 @@ void ACharacterAIController::OnDebug()
 	if (!m_Pawn)
 		return;
 	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
+
+	switch (m_AIState)
+	{
+	case ACharacterAIController::EAIState::Idle:
+		RenderManager->DrawDebugText(m_Pawn->GetPosition() + FVector2D::Down * 20, "State : Idle");
+		break;
+	case ACharacterAIController::EAIState::Move:
+		RenderManager->DrawDebugText(m_Pawn->GetPosition() + FVector2D::Down * 20, "State : Move");
+		break;
+	default:
+		break;
+	}
+
 
 	FVector2D PreviousPosition = m_Pawn->GetPosition();
 	for (FVector2D Position : m_Path)

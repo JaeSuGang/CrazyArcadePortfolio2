@@ -1,9 +1,11 @@
 #pragma once
 #include "KmEngine/GameInstanceSubsystem.h"
 #include "stdafx.h"
+#include "AxisAlignedBoundingBox.h"
 
 class APawn;
 class ABlock;
+class ACharacter;
 
 struct FPathNode : public std::enable_shared_from_this<FPathNode>
 {
@@ -33,6 +35,8 @@ class UAIManager : public UGameInstanceSubsystem
 	typedef UGameInstanceSubsystem Super;
 
 public:
+	void FetchDangerousAABBRange(std::vector<FAxisAlignedBoundingBox>& VectorToFetch);
+	bool CheckPositionWhetherSafeToPutBomb(const ACharacter* AICharacter, FVector2D Position, FVector2D& EscapeDest);
 	static void GetAdjacentTilePos(FVector2D CenterPos, std::vector<FVector2D>& ListToContainAdjacentTiles);
 	bool FindPath(FVector2D StartPos, FVector2D DestinationPos, std::list<FVector2D>& ListToContainPath);
 
