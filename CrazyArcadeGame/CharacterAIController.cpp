@@ -195,7 +195,42 @@ ACharacterAIController::ACharacterAIController()
 	:
 	m_Direction{},
 	m_fIdleLastingTime{},
-	m_fAccumulatedTime{},
-	m_AIState{ ACharacterAIController::EAIState::Idle}
+	m_fAccumulatedTime{}
+{
+}
+
+void ACharacterAIController::UIdleState::OnStateEnter()
+{
+}
+
+void ACharacterAIController::UIdleState::OnStateUpdate()
+{
+}
+
+void ACharacterAIController::UIdleState::OnStateExit()
+{
+}
+
+void ACharacterAIController::UWorkState::OnStateEnter()
+{
+}
+
+void ACharacterAIController::UWorkState::OnStateUpdate()
+{
+}
+
+void ACharacterAIController::UWorkState::OnStateExit()
+{
+}
+
+void ACharacterAIController::UEvadeState::OnStateEnter()
+{
+}
+
+void ACharacterAIController::UEvadeState::OnStateUpdate()
+{
+}
+
+void ACharacterAIController::UEvadeState::OnStateExit()
 {
 }
