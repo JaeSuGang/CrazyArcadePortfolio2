@@ -31,6 +31,7 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "CrazyArcadeEditor", "CrazyA
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "메모장", "메모장", "{7BBD5724-2DE7-42AE-9E98-8A06254AF9CB}"
 	ProjectSection(SolutionItems) = preProject
+		AI FSM 설계.png = AI FSM 설계.png
 		게임기획.txt = 게임기획.txt
 		메모.txt = 메모.txt
 		배운점.txt = 배운점.txt
