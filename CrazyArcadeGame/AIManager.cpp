@@ -9,23 +9,87 @@
 #include "BombManager.h"
 #include "KmEngine/Level.h"
 
-void UAIManager::FetchDangerousAABBRange(std::vector<FAxisAlignedBoundingBox>& VectorToFetch)
+void UAIManager::SetCharacterRandomPositionToGo(ACharacterAIController* AIController) const
 {
+	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
+
+	FVector2D Position = VectorToRefinedVector(AIController->m_Character->GetPosition());
+	std::list<FVector2D> TempPath;
+
+	vector<int> Width{};
+	vector<int> Height{};
+	for (int i = -2; i < 3; i++)
+	{
+		Width.push_back(i);
+		Height.push_back(i);
+	}
+	std::shuffle(Width.begin(), Width.end(), std::default_random_engine{});
+	std::shuffle(Height.begin(), Height.end(), std::default_random_engine{});
+
+	for (int i : Width)
+	{
+		for (int j : Height)
+		{
+			FVector2D CheckDest = Position + FVector2D::Right * 60.0f * (float)i + FVector2D::Down * 60.0f * (float)j;
+
+			bool bIsUnsafePlace{};
+
+			for (ABomb* Bomb : BombManager->m_Bombs)
+			{
+				FAxisAlignedBoundingBox ExpectedExplosionAABB1{};
+				ExpectedExplosionAABB1.m_Center = Bomb->GetPosition();
+				ExpectedExplosionAABB1.m_WidthRadius = Bomb->GetBombRange() * TILE_WIDTH - TILE_WIDTH / 2;
+				ExpectedExplosionAABB1.m_HeightRadius = TILE_HEIGHT / 2;
+
+				if (ExpectedExplosionAABB1.GetIsCollidedWith(CheckDest))
+					bIsUnsafePlace = true;
+
+				FAxisAlignedBoundingBox ExpectedExplosionAABB2{};
+				ExpectedExplosionAABB2.m_Center = Bomb->GetPosition();
+				ExpectedExplosionAABB2.m_WidthRadius = TILE_WIDTH / 2;
+				ExpectedExplosionAABB2.m_HeightRadius = Bomb->GetBombRange() * TILE_HEIGHT - TILE_HEIGHT / 2;
+
+				if (ExpectedExplosionAABB2.GetIsCollidedWith(CheckDest))
+					bIsUnsafePlace = true;
+			}
+			if (bIsUnsafePlace)
+				continue;
+
+			bool bHasValidPath = this->FindPath(Position, CheckDest, TempPath);
+
+			if (!bHasValidPath)
+				continue;
+
+			this->FindPath(Position, CheckDest, AIController->m_Path);
+			return;
+		}
+	}
+
 }
 
-bool UAIManager::CheckPositionWhetherSafeToPutBomb(const ACharacter* AICharacter, FVector2D Position, FVector2D& EscapeDest)
+bool UAIManager::CheckPositionWhetherSafeToPutBomb(const ACharacter* AICharacter, FVector2D Position, FVector2D& EscapeDest) const
 {
 	Position = VectorToRefinedVector(Position);
 	std::list<FVector2D> TempPath;
 
+	vector<int> Width{};
+	vector<int> Height{};
 	for (int i = -2; i < 3; i++)
 	{
-		for (int j = -2; j < 3; j++)
+		Width.push_back(i);
+		Height.push_back(i);
+	}
+	std::shuffle(Width.begin(), Width.end(), std::default_random_engine{});
+	std::shuffle(Height.begin(), Height.end(), std::default_random_engine{});
+
+	for (int i : Width)
+	{
+		for (int j : Height)
 		{
 			if (i == 0 || j == 0)
 				continue;
 
-			FVector2D CheckDest = Position + FVector2D::Right * 60.0f * i + FVector2D::Down * 60.0f * j;
+			FVector2D CheckDest = Position + FVector2D::Right * 60.0f * (float)i + FVector2D::Down * 60.0f * (float)j;
 
 			bool bHasValidPath = this->FindPath(AICharacter->GetPosition(), CheckDest, TempPath);
 
@@ -48,7 +112,7 @@ void UAIManager::GetAdjacentTilePos(FVector2D CenterPos, std::vector<FVector2D>&
 	ListToContainAdjacentTiles.push_back(CenterPos + FVector2D::Down * TILE_HEIGHT);
 }
 
-bool UAIManager::FindPath(FVector2D StartPos, FVector2D DestinationPos, std::list<FVector2D>& ListToContainPath)
+bool UAIManager::FindPath(FVector2D StartPos, FVector2D DestinationPos, std::list<FVector2D>& ListToContainPath) const
 {
 	std::multiset<shared_ptr<FPathNode>, CompareFunctionForOpenList> OpenList{};
 	unordered_set<shared_ptr<FPathNode>> ClosedList{};

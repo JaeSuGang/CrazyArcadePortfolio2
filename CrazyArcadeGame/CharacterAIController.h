@@ -15,6 +15,7 @@ public:
 	};
 
 public:
+	void SetRandomPositionToGo();
 	bool CheckPositionWhetherSafeToPutBomb(FVector2D Position, FVector2D& EscapeDest) const;
 	void LocatePosToPutBomb();
 	bool SetPathUsingAStar(FVector2D Destination);
@@ -25,7 +26,7 @@ public:
 public:
 	float GetChangeDirectionTime();
 	FVector2D GetDirection();
-	void SetRandomDirection();
+	void SetNewIdleLastingTime(float fDuration);
 	void SetAccumulatedTime(float fTime);
 	float GetAccumulatedTime();
 
@@ -47,7 +48,7 @@ public:
 	ACharacter* m_Character;
 
 protected:
-	float m_fChangeDirectionTime;
+	float m_fIdleLastingTime;
 	float m_fAccumulatedTime;
 	FVector2D m_Direction;
 };

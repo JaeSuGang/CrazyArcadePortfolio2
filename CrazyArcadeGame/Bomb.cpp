@@ -39,7 +39,8 @@ void ABomb::BeginPlay()
 {
 	Super::BeginPlay();
 
-
+	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
+	BombManager->m_Bombs.insert(this);
 }
 
 void ABomb::Tick(float fDeltaTime)
@@ -62,6 +63,17 @@ void ABomb::LateTick(float fDeltaTime)
 {
 	Super::LateTick(fDeltaTime);
 
+}
+
+void ABomb::Release()
+{
+	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
+	BombManager->m_Bombs.erase(this);
+}
+
+ABomb::~ABomb()
+{
+	this->Release();
 }
 
 void ABomb::CheckAndHide()

@@ -3,6 +3,7 @@
 #include "Explodable.h"
 #include "KmEngine/GameInstanceSubsystem.h"
 
+class ABomb;
 class AActor;
 class ABlock;
 class ACharacter;
@@ -29,6 +30,7 @@ public:
 	unordered_set<AExplosion*> m_Explosions;
 	unordered_set<ACharacter*> m_Characters;
 	unordered_set<ABlock*> m_Blocks;
+	unordered_set<ABomb*> m_Bombs;
 	unordered_set<IExplodable*> m_Explodables;
 
 private:

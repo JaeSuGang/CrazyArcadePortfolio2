@@ -23,6 +23,10 @@ public:
 	void Tick(float fDeltaTime) override;
 	void LateTick(float fDeltaTime) override;
 
+public:
+	void Release();
+	~ABomb();
+
 protected:
 	ACharacter* m_Spawner;
 	float m_fTimer;

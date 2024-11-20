@@ -11,6 +11,8 @@
 #include <string>
 #include <typeinfo>
 #include <memory>
+#include <algorithm>
+#include <random>
 
 using std::string;
 

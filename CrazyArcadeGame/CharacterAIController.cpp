@@ -4,6 +4,13 @@
 #include "AIManager.h"
 
 
+void ACharacterAIController::SetRandomPositionToGo()
+{
+	UAIManager* AIManager = GetGameInstance()->GetGameInstanceSubsystem<UAIManager>();
+	AIManager->SetCharacterRandomPositionToGo(this);
+	this->SetNewIdleLastingTime(4.0f);
+}
+
 bool ACharacterAIController::CheckPositionWhetherSafeToPutBomb(FVector2D Position, FVector2D& EscapeDest) const
 {
 	UAIManager* AIManager = GetGameInstance()->GetGameInstanceSubsystem<UAIManager>();
@@ -49,7 +56,7 @@ void ACharacterAIController::SetPathByClicking()
 
 float ACharacterAIController::GetChangeDirectionTime()
 {
-	return m_fChangeDirectionTime;
+	return m_fIdleLastingTime;
 }
 
 FVector2D ACharacterAIController::GetDirection()
@@ -57,27 +64,9 @@ FVector2D ACharacterAIController::GetDirection()
 	return m_Direction;
 }
 
-void ACharacterAIController::SetRandomDirection()
+void ACharacterAIController::SetNewIdleLastingTime(float fDuration)
 {
-	int nRandomResult = rand() % 4;
-
-	switch (nRandomResult)
-	{
-	case 0:
-		m_Direction = FVector2D::Up;
-		break;
-	case 1:
-		m_Direction = FVector2D::Down;
-		break;
-	case 2:
-		m_Direction = FVector2D::Left;
-		break;
-	case 3:
-		m_Direction = FVector2D::Right;
-		break;
-	}
-
-	m_fChangeDirectionTime = m_fAccumulatedTime + (rand() % 70 + 10) / 100.0f;
+	m_fIdleLastingTime = m_fAccumulatedTime + fDuration;
 }
 
 void ACharacterAIController::SetAccumulatedTime(float fTime)
@@ -107,9 +96,6 @@ void ACharacterAIController::Tick(float fDeltaTime)
 	else
 		m_AIState = ACharacterAIController::EAIState::Move;
 
-	if ((int)(m_fAccumulatedTime / 0.01f) % 5 != 0)
-		return;
-
 	if (m_Character)
 	{
 		switch (m_AIState)
@@ -117,7 +103,7 @@ void ACharacterAIController::Tick(float fDeltaTime)
 		case ACharacterAIController::EAIState::Idle:
 			if ((int)(m_fAccumulatedTime / 0.01f) % 50 != 0)
 			{
-				if (m_Character->GetBombLeft() > 0)
+				if (m_Character->GetBombLeft() > 0 && m_fIdleLastingTime < m_fAccumulatedTime)
 				{
 					FVector2D EscapePosition{};
 					if (this->CheckPositionWhetherSafeToPutBomb(m_Character->GetPosition(), EscapePosition))
@@ -129,11 +115,10 @@ void ACharacterAIController::Tick(float fDeltaTime)
 				}
 			}
 
-			if (m_fAccumulatedTime > m_fChangeDirectionTime)
+			if (m_fAccumulatedTime > m_fIdleLastingTime)
 			{
-				this->SetRandomDirection();
+				this->SetRandomPositionToGo();
 			}
-			m_Character->Move(m_Direction);
 			break;
 
 		case ACharacterAIController::EAIState::Move:
@@ -209,7 +194,7 @@ void ACharacterAIController::OnDebug()
 ACharacterAIController::ACharacterAIController()
 	:
 	m_Direction{},
-	m_fChangeDirectionTime{},
+	m_fIdleLastingTime{},
 	m_fAccumulatedTime{},
 	m_AIState{ ACharacterAIController::EAIState::Idle}
 {
