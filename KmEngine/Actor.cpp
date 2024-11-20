@@ -14,9 +14,6 @@ void AActor::Tick(float fDeltaTime)
 
 		++ComponentIter;
 	}
-
-	if (m_DebugMode)
-		this->OnDebug();
 }
 
 void AActor::LateTick(float fDeltaTime)
@@ -66,13 +63,34 @@ AActor::AActor()
 	:
 	m_OwnedComponents{},
 	m_Position{},
-	m_Level{}
+	m_Level{},
+	m_bDebugMode{},
+	m_hDebugPen{}
 {
+#ifdef _DEBUG
+	m_bDebugMode = true;
+#endif 
+
 }
 
 AActor::~AActor()
 {
 	this->Release();
+}
+
+bool AActor::GetDebugMode() const
+{
+	return m_bDebugMode;
+}
+
+HPEN AActor::GetDebugPen() const
+{
+	return m_hDebugPen;
+}
+
+void AActor::SetDebugPen(HPEN Pen)
+{
+	m_hDebugPen = Pen;
 }
 
 void AActor::SetPosition(FVector2D NewPosition)

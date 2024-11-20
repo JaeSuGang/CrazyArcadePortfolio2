@@ -95,6 +95,40 @@ void URenderManager::RemoveRender(URenderComponent* ComponentToRemove, vector<UR
 	}
 }
 
+void URenderManager::DrawDebugRectangle(FVector2D Center, FVector2D Size, HPEN hPen)
+{
+	HPEN hPreviousPen = (HPEN)SelectObject(m_LayerDC[4], hPen);
+
+	Rectangle(m_LayerDC[4],
+		(int)(Center.X - Size.X / 2),
+		(int)(Center.Y - Size.Y / 2),
+		(int)(Center.X + Size.X / 2),
+		(int)(Center.Y + Size.Y / 2));
+
+	SelectObject(m_hBackBufferDC, hPreviousPen);
+}
+
+void URenderManager::DrawDebugText(FVector2D Position, string_view Text)
+{
+	TextOutA(m_LayerDC[4], (int)(Position.X), (int)(Position.Y), Text.data(), (int)Text.size());
+}
+
+void URenderManager::DrawDebugPosition(FVector2D Position)
+{
+	string strPos = "[" + std::to_string((int)Position.X) + ", " + std::to_string((int)Position.Y) + "]";
+	this->DrawDebugText(Position, strPos);
+}
+
+void URenderManager::DrawDebugLine(FVector2D StartPos, FVector2D DestPos ,HPEN hPen)
+{
+	HPEN hPreviousPen = (HPEN)SelectObject(m_LayerDC[4], hPen);
+
+	MoveToEx(m_LayerDC[4], (int)StartPos.X, (int)StartPos.Y, NULL);
+	LineTo(m_LayerDC[4], (int)DestPos.X, (int)DestPos.Y);
+
+	SelectObject(m_hBackBufferDC, hPreviousPen);
+}
+
 void URenderManager::SetbShouldGenerateFloorTiles(bool bValue)
 {
 	m_bShouldGenerateFloorTiles = bValue;
@@ -168,7 +202,8 @@ void URenderManager::Tick()
 	process3.join();
 	process4.join();
 	URenderManager::CopyBitBltDC(m_hBackBufferDC, m_LayerDC[2], m_WindowSize);
-
+	URenderManager::CopyBitBltDC(m_hBackBufferDC, m_LayerDC[4], m_WindowSize);
+	URenderManager::CleanLayerDC(m_LayerDC[4], m_WindowSize);
 
 	// Ä¿½ºÅÒ ·»´õ¸µ ÀÌº¥Æ®
 	for (int i = 0; i < m_CustomRenderEvents.size(); i++)
@@ -223,7 +258,7 @@ void URenderManager::Initialize(const char* lpszTitle, FVector2D WindowSize)
 
 	m_hMagentaPen = CreatePen(PS_SOLID, 1, RGB(255, 0, 255));
 	m_hMagentaBrush = CreateSolidBrush(RGB(255, 0, 255));
-	for (size_t i = 0; i < 4; i++)
+	for (size_t i = 0; i < 5; i++)
 	{
 		HDC LayerDC = CreateCompatibleDC(m_hBackBufferDC);
 		HBITMAP hLayerBitmap = CreateCompatibleBitmap(m_hBackBufferDC, (int)WindowSize.X, (int)WindowSize.Y);
@@ -295,6 +330,11 @@ void URenderManager::RenderProcess3()
 	URenderManager::CleanLayerDC(m_LayerDC[2], m_WindowSize);
 	URenderManager::SortRender(m_ComponentsToRenderThird);
 	URenderManager::RenderComponents(m_ComponentsToRenderThird, m_LayerDC[2], m_WindowSize);
+}
+
+void URenderManager::RenderProcess5()
+{
+	URenderManager::CleanLayerDC(m_LayerDC[4], m_WindowSize);
 }
 
 void URenderManager::RenderProcess4(std::thread& PutRenderProcess2)

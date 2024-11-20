@@ -15,22 +15,29 @@
 #include "PowerUpItem.h"
 
 
-void USpawnManager::GenerateWallTile(int nTileLocationIndex, int nTileValue, int nGroundTileValue)
+void USpawnManager::GenerateVoidWallTile(FVector2D Pos)
+{
+	ABlock* TileActor = GetActiveLevel()->InitializeActorForPlay<ABlock>();
+	TileActor->SetPosition(Pos);
+	TileActor->BeginPlay();
+}
+
+void USpawnManager::GenerateWallTile(FVector2D Pos, int nTileValue, int nGroundTileValue)
 {
 	if (nTileValue == 0)
 		return;
 
-	int nXIndex = nTileLocationIndex % 15;
-	int nYIndex = nTileLocationIndex / 15;
-
 	UResourceManager* ResourceManager = GEngine->GetEngineSubsystem<UResourceManager>();
-	FVector2D LocationVector{ 60.0f + 60.0f * nXIndex, 90.0f + 60.0f * nYIndex };
+	FVector2D LocationVector{ Pos };
 	ABlock* TileActor = GetActiveLevel()->InitializeActorForPlay<ABlock>();
 	URenderComponent* PositionedTileRenderComponent = TileActor->CreateDefaultSubobject<URenderComponent>();
 
 	// 벽 특성 설정
 	switch (nTileValue)
 	{
+	case 0:
+		break;
+
 	case 1:
 	case 2:
 		TileActor->SetBreakable(true);
@@ -92,13 +99,18 @@ void USpawnManager::GenerateWallTile(int nTileLocationIndex, int nTileValue, int
 	}
 
 	TileActor->SetPosition(LocationVector);
-	PositionedTileRenderComponent->SetRenderPriority(nYIndex + 10.0f);
+	PositionedTileRenderComponent->SetRenderPriority(VectorToRenderPriority(Pos));
 	PositionedTileRenderComponent->SetRenderType(URenderComponent::ERenderType::ShadowObject);
 	PositionedTileRenderComponent->SetStaticImage("Resources\\Tiles\\WallTiles\\" + std::to_string(nTileValue) + ".bmp");
 
 
 
 	TileActor->BeginPlay();
+}
+
+void USpawnManager::GenerateWallTile(int nTileLocationIndex, int nTileValue, int nGroundTileValue)
+{
+	this->GenerateWallTile(TileIndexToVector(nTileLocationIndex), nTileValue, nGroundTileValue);
 }
 
 void USpawnManager::GenerateGroundTile(int nTileLocationIndex, int nTileValue)
@@ -130,29 +142,42 @@ void USpawnManager::GenerateTilemap(FTilemap* TilemapStruct)
 		this->GenerateWallTile(i, m_Tilemap->m_WallTiles[i], m_Tilemap->m_GroundTiles[i]);
 	}
 
-	// 
-	ABlock* UpBoundary = GetActiveLevel()->InitializeActorForPlay<ABlock>();
-	UpBoundary->m_CollisionSize = FVector2D(900.0f, 60.0f);
-	UpBoundary->SetPosition(FVector2D(480.0f, 30.0f));
-	UpBoundary->BeginPlay();
+	for (int i = -1; i < 16; i++)
+	{
+		for (int j = -1; j < 14; j++)
+		{
+			if (i < 0 || i > 14 || j < 0 || j > 12)
+			{
+				FVector2D Pos = { 60.0f + (i * TILE_WIDTH), 90.0f + (j * TILE_HEIGHT) };
+				this->GenerateVoidWallTile(Pos);
+			}
+		}
+	}
 
-	// 
-	ABlock* DownBoundary = GetActiveLevel()->InitializeActorForPlay<ABlock>();
-	DownBoundary->m_CollisionSize = FVector2D(900.0f, 60.0f);
-	DownBoundary->SetPosition(FVector2D(480.0f, 870.0f));
-	DownBoundary->BeginPlay();
 
-	// 
-	ABlock* LeftBoundary = GetActiveLevel()->InitializeActorForPlay<ABlock>();
-	LeftBoundary->m_CollisionSize = FVector2D(60.0f, 780.0f);
-	LeftBoundary->SetPosition(FVector2D(0.0f, 450.0f));
-	LeftBoundary->BeginPlay();
+	//// 
+	//ABlock* UpBoundary = GetActiveLevel()->InitializeActorForPlay<ABlock>();
+	//UpBoundary->m_CollisionSize = FVector2D(900.0f, 60.0f);
+	//UpBoundary->SetPosition(FVector2D(480.0f, 30.0f));
+	//UpBoundary->BeginPlay();
 
-	// 
-	ABlock* RightBoundary = GetActiveLevel()->InitializeActorForPlay<ABlock>();
-	RightBoundary->m_CollisionSize = FVector2D(60.0f, 780.0f);
-	RightBoundary->SetPosition(FVector2D(960.0f, 450.0f));
-	RightBoundary->BeginPlay();
+	//// 
+	//ABlock* DownBoundary = GetActiveLevel()->InitializeActorForPlay<ABlock>();
+	//DownBoundary->m_CollisionSize = FVector2D(900.0f, 60.0f);
+	//DownBoundary->SetPosition(FVector2D(480.0f, 870.0f));
+	//DownBoundary->BeginPlay();
+
+	//// 
+	//ABlock* LeftBoundary = GetActiveLevel()->InitializeActorForPlay<ABlock>();
+	//LeftBoundary->m_CollisionSize = FVector2D(60.0f, 780.0f);
+	//LeftBoundary->SetPosition(FVector2D(0.0f, 450.0f));
+	//LeftBoundary->BeginPlay();
+
+	//// 
+	//ABlock* RightBoundary = GetActiveLevel()->InitializeActorForPlay<ABlock>();
+	//RightBoundary->m_CollisionSize = FVector2D(60.0f, 780.0f);
+	//RightBoundary->SetPosition(FVector2D(960.0f, 450.0f));
+	//RightBoundary->BeginPlay();
 }
 
 AGameUI* USpawnManager::SpawnGameUI(string strImagePath, FVector2D PositionVector)
@@ -405,7 +430,7 @@ APlayerController* USpawnManager::SpawnPlayerController()
 	return PlayerController;
 }
 
-AAIController* USpawnManager::SpawnCharacterAIController()
+ACharacterAIController* USpawnManager::SpawnCharacterAIController()
 {
 	ACharacterAIController* AIController = GetActiveLevel()->InitializeActorForPlay<ACharacterAIController>();
 	AIController->BeginPlay();

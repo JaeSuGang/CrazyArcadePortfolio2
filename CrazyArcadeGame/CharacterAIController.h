@@ -20,7 +20,6 @@ public:
 
 	// 디버그용
 	void SetPathByClicking();
-	void DebugGUI();
 
 public:
 	float GetChangeDirectionTime();
@@ -36,6 +35,7 @@ public:
 	void Tick(float fDeltaTime) override;
 	void LateTick(float fDeltaTime) override;
 	void BeginPlay() override;
+	void OnDebug() override;
 
 public:
 	ACharacterAIController();
@@ -44,8 +44,6 @@ public:
 	std::list<FVector2D> m_Path;
 	EAIState m_AIState;
 	ACharacter* m_Character;
-	bool m_bDebugMode{};
-	HPEN m_hDebugPen;
 
 protected:
 	float m_fChangeDirectionTime;

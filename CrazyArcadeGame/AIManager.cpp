@@ -15,15 +15,21 @@ void UAIManager::GetAdjacentTilePos(FVector2D CenterPos, std::vector<FVector2D>&
 
 bool UAIManager::FindPath(FVector2D StartPos, FVector2D DestinationPos, std::list<FVector2D>& ListToContainPath)
 {
-	std::set<shared_ptr<FPathNode>, CompareFunctionForOpenList> OpenList{};
+	std::multiset<shared_ptr<FPathNode>, CompareFunctionForOpenList> OpenList{};
 	unordered_set<shared_ptr<FPathNode>> ClosedList{};
+
+	StartPos = TileIndexToVector(VectorToTileIndex(StartPos));
+	DestinationPos = TileIndexToVector(VectorToTileIndex(DestinationPos));
 
 	shared_ptr<FPathNode> StartNode{ new FPathNode{ nullptr, StartPos} };
 	OpenList.insert(StartNode);
 
-	while (OpenList.size() <= 0 )
+	while (OpenList.size() > 0 )
 	{
 		shared_ptr<FPathNode> CenterNode = *OpenList.begin();
+
+		OpenList.erase(OpenList.begin());
+		ClosedList.insert(CenterNode);
 
 		if (CenterNode->m_Position == DestinationPos)
 		{
@@ -53,16 +59,21 @@ bool UAIManager::FindPath(FVector2D StartPos, FVector2D DestinationPos, std::lis
 					break;
 				}
 			}
+			if (bIsInvalidPath)
+				continue;
 
 			// Block으로 막힌 위치일시 스킵
 			for (ABlock* Block : m_Blocks)
 			{
-				if (Pos == Block->GetPosition())
+				if (Pos == Block->GetPosition() && !Block->GetPassable())
 				{
 					bIsInvalidPath = true;
 					break;
 				}
 			}
+
+			if (bIsInvalidPath)
+				continue;
 
 			// OpenList에 존재하는 중복 위치일시 g값 비교후 부모노드 변경할지 결정
 			for (shared_ptr<FPathNode> Node : OpenList)
@@ -85,8 +96,7 @@ bool UAIManager::FindPath(FVector2D StartPos, FVector2D DestinationPos, std::lis
 			OpenList.insert(AdjacentNode);
 		}
 
-		OpenList.erase(OpenList.begin());
-		ClosedList.insert(CenterNode);
+
 	}
 
 	ListToContainPath.clear();

@@ -5,6 +5,7 @@
 enum class EItemCode;
 class APlayerController;
 class AAIController;
+class ACharacterAIController;
 class ACharacter;
 class AGameUI;
 class ABlock;
@@ -18,7 +19,9 @@ class USpawnManager : public UGameInstanceSubsystem
 	typedef UGameInstanceSubsystem Super;
 
 public:
-	void GenerateWallTile(int nTileIndex, int nValue, int nGroundTileValue);
+	void GenerateVoidWallTile(FVector2D Pos);
+	void GenerateWallTile(FVector2D Pos, int nTileValue, int nGroundTileValue);
+	void GenerateWallTile(int nTileIndex, int nTileValue, int nGroundTileValue);
 	void GenerateGroundTile(int nTileIndex, int nValue);
 	void GenerateTilemap(FTilemap* TilemapStruct);
 	AGameUI* SpawnGameUI(string strImagePath, FVector2D PositionVector);
@@ -32,7 +35,7 @@ public:
 	AExplosion* SpawnExplosion(FVector2D PositionVector, int nDirection, bool bIsEnd);
 	AExplosion* SpawnExplosion(FVector2D PositionVector, int nDirection, float fDelayTimer, bool bIsEnd);
 	APlayerController* SpawnPlayerController();
-	AAIController* SpawnCharacterAIController();
+	ACharacterAIController* SpawnCharacterAIController();
 
 public:
 	void Tick(float fDeltaTime) override;

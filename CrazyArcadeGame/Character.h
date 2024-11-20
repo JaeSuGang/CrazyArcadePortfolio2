@@ -38,6 +38,7 @@ public:
 	void Tick(float fDeltaTime) override;
 	void LateTick(float fDeltaTime) override;
 	void BeginPlay() override;
+	void OnDebug() override;
 
 public:
 	void Release();

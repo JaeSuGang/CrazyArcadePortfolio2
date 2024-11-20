@@ -19,7 +19,6 @@ public:
 	AActor* GetMovableInAABB(FAxisAlignedBoundingBox AABB) const;
 	AActor* GetHidablePlaceInAABB(FAxisAlignedBoundingBox AABB) const;
 	AActor* GetIsInHidable(AActor* ActorToCheck);
-	void EnableDebugRender();
 	void DebugRender();
 	void Reset();
 	void AddHidableBlock(ABlock* HidablePlaceActor);

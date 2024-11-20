@@ -199,6 +199,13 @@ void ACharacter::BeginPlay()
 	MovementManager->AddCharacter(this);
 }
 
+void ACharacter::OnDebug()
+{
+	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
+	RenderManager->DrawDebugRectangle(m_Position, m_CollisionSize, m_hDebugPen);
+	RenderManager->DrawDebugPosition(m_Position);
+}
+
 void ACharacter::Release()
 {
 	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();

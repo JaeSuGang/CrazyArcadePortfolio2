@@ -73,19 +73,6 @@ AActor* UMovementManager::GetIsInHidable(AActor* ActorToCheck)
 	return nullptr;
 }
 
-void UMovementManager::EnableDebugRender()
-{
-	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
-	RenderManager->AddCustomRenderEvent(std::bind(&UMovementManager::DebugRender, this));
-
-	HDC hDC = RenderManager->GetBackBufferHandle();
-	HPEN hGreenPen = CreatePen(PS_SOLID, 3, RGB(0, 255, 0));
-	HBRUSH hHollowBrush = (HBRUSH)GetStockObject(HOLLOW_BRUSH);
-
-	HPEN hOldPen = (HPEN)SelectObject(hDC, hGreenPen);
-	HBRUSH hOldBrush = (HBRUSH)SelectObject(hDC, hHollowBrush);
-}
-
 void UMovementManager::DebugRender()
 {
 	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();

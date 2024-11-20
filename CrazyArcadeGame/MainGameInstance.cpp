@@ -30,10 +30,6 @@ void UMainGameInstance::BeginPlay()
 	UMovementManager* MovementManager = CreateGameInstanceSubsystem<UMovementManager>();
 	UBombManager* BombManager = CreateGameInstanceSubsystem<UBombManager>();
 	UAIManager* AIManager = CreateGameInstanceSubsystem<UAIManager>();
-#ifdef _DEBUG 
-	MovementManager->EnableDebugRender();
-
-#endif 
 
 	this->OpenLevel<ULobbyLevel>();
 }

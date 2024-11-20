@@ -12,6 +12,9 @@ class AActor : public UObject
 public:
 	// 직접 호출 X. 물리 연산에서만 호출. 
 	// AActor에게 이동 명령을 주고 싶다면 PhysicsComponent에서 호출
+	bool GetDebugMode() const;
+	HPEN GetDebugPen() const;
+	void SetDebugPen(HPEN Pen);
 	void SetPosition(FVector2D NewPosition);
 	void AddPosition(FVector2D PositionToAdd);
 	FVector2D GetPosition() const;
@@ -96,9 +99,13 @@ public:
 	~AActor();
 
 protected:
+	bool m_bDebugMode{};
+	HPEN m_hDebugPen;
+
+
+protected:
 	ULevel* m_Level;
 	unordered_map<string, UActorComponent*> m_OwnedComponents;
 	FVector2D m_Position;
-	bool m_DebugMode;
 };
 

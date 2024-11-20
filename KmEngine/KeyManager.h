@@ -23,6 +23,7 @@ public:
 	};
 
 public:
+	FVector2D GetMousePos() const;
 	bool GetKeyUp(int VirtualKey);
 	bool GetKeyDown(int VirtualKey);
 	bool GetKeyTriggered(int VirtualKey);

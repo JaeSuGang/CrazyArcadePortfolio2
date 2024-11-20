@@ -1,5 +1,20 @@
 #include "stdafx.h"
 #include "KeyManager.h"
+#include "Engine.h"
+
+FVector2D UKeyManager::GetMousePos() const
+{
+	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
+	HWND hWnd = RenderManager->GetGameWindowHandle();
+
+	POINT CursorPos;
+	GetCursorPos(&CursorPos);
+	ScreenToClient(hWnd, &CursorPos);
+
+	FVector2D CursorVector{ (float)CursorPos.x, (float)CursorPos.y };
+
+	return CursorVector;
+}
 
 bool UKeyManager::GetKeyUp(int VirtualKey)
 {
@@ -51,7 +66,6 @@ void UKeyManager::ClearBindKey()
 void UKeyManager::Tick(float fDeltaTime)
 {
 	this->RefreshKeyStateAndBroadcast();
-	//this->BroadcastKeyEvent();
 }
 
 void UKeyManager::RefreshKeyStateAndBroadcast()
@@ -100,40 +114,6 @@ void UKeyManager::RefreshKeyStateAndBroadcast()
 	}
 }
 
-//void UKeyManager::BroadcastKeyEvent()
-//{
-//	for (int i = 0; i < m_KeyEvents.size(); i++)
-//	{
-//		FKeyEvent& KeyEvent = m_KeyEvents[i];
-//
-//		switch (KeyEvent.KeyState)
-//		{
-//		case EKeyState::Triggered:
-//			if (m_KeyStates[KeyEvent.VirtualKey] == 0x8000 || m_KeyStates[KeyEvent.VirtualKey] == 0x8001)
-//			{
-//				KeyEvent.Event();
-//			}
-//			break;
-//
-//		case EKeyState::KeyDown:
-//			if (m_KeyStates[KeyEvent.VirtualKey] == 0x8001)
-//			{
-//				KeyEvent.Event();
-//			}
-//			break;
-//
-//		case EKeyState::KeyUp:
-//			if (m_KeyStates[KeyEvent.VirtualKey] == 0x0001)
-//			{
-//				KeyEvent.Event();
-//			}
-//			break;
-//
-//		default:
-//			break;
-//		}
-//	}
-//}
 
 void UKeyManager::Initialize()
 {

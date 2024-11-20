@@ -57,6 +57,9 @@ void ULevel::Tick(float fDeltaTime)
 	{
 		(*ActorIter)->Tick(fDeltaTime);
 
+		if ((*ActorIter)->GetDebugMode())
+			(*ActorIter)->OnDebug();
+
 		++ActorIter;
 	}
 }

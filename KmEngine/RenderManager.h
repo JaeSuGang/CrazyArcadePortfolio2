@@ -9,6 +9,12 @@ class URenderManager : public UEngineSubsystem
 	friend class UEngine;
 
 public:
+	void DrawDebugRectangle(FVector2D Center, FVector2D Size, HPEN hPen);
+	void DrawDebugText(FVector2D Position, string_view Text);
+	void DrawDebugPosition(FVector2D Position);
+	void DrawDebugLine(FVector2D StartPos, FVector2D DestPos, HPEN hPen);
+
+public:
 	void SetbShouldGenerateFloorTiles(bool bValue);
 	void AddCustomRenderEvent(std::function<void()> RenderEvent);
 	void ClearCustomRenderEvents();
@@ -32,6 +38,7 @@ private:
 	void RenderProcess2(std::thread& PutRenderProcess1);
 	void RenderProcess4(std::thread& PutRenderProcess3);
 	void RenderProcess3();
+	void RenderProcess5();
 
 public:
 	static void CleanLayerDC(HDC hDC, FVector2D Size);
@@ -47,6 +54,7 @@ public:
 	vector<URenderComponent*> m_ComponentsToRenderSecond;
 	vector<URenderComponent*> m_ComponentsToRenderThird;
 	vector<URenderComponent*> m_ComponentsToRenderFourth;
+	vector<URenderComponent*> m_ComponentsToRenderFifth;
 
 private:
 	HPEN m_hMagentaPen;

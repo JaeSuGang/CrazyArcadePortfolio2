@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Windows.h"
 #include "GameLevelBase.h"
 #include "Character.h"
 #include "KmEngine/Engine.h"
@@ -45,14 +46,23 @@ void UGameLevelBase::BeginPlay()
 
 	// 메인 플레이어 생성
 	ACharacter* MainCharacter = SpawnManager->SpawnBazzi(FVector2D(420.0f, 330.0f));
+	MainCharacter->SetDebugPen(CreatePen(PS_SOLID, 3, RGB(0, 255, 0)));
 	PlayerController->Possess(MainCharacter);
 
 	// AI 봇 생성
 	ACharacter* Dao = SpawnManager->SpawnDao(FVector2D(900.0f, 810.0f));
+	Dao->SetDebugPen(CreatePen(PS_SOLID, 3, RGB(255, 127, 0)));
 	SpawnManager->SpawnCharacterAIController()->Possess(Dao);
+
 	ACharacter* Marid = SpawnManager->SpawnMarid(FVector2D(60.0f, 150.0f));
-	SpawnManager->SpawnCharacterAIController()->Possess(Marid);
+	Marid->SetDebugPen(CreatePen(PS_SOLID, 3, RGB(255, 212, 0)));
+	ACharacterAIController* MaridController = SpawnManager->SpawnCharacterAIController();
+	MaridController->Possess(Marid);
+	UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
+	KeyManager->BindKey(VK_LBUTTON, UKeyManager::EKeyState::KeyDown, std::bind(&ACharacterAIController::SetPathByClicking, MaridController));
+
 	ACharacter* Cappi = SpawnManager->SpawnCappi(FVector2D(840.0f, 150.0f));
+	Cappi->SetDebugPen(CreatePen(PS_SOLID, 3, RGB(15, 180, 252)));
 	SpawnManager->SpawnCharacterAIController()->Possess(Cappi);
 
 	// 소리 재생
