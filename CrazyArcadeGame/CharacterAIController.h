@@ -2,6 +2,7 @@
 #include "stdafx.h"
 #include "KmEngine/AIController.h"
 #include "FSM.h"
+#include "AttributeData.h"
 
 class ACharacter;
 
@@ -74,10 +75,10 @@ public:
 
 
 public:
-	ATTTIBUTE_ACCESSORS(float, IdleTimer);
+	
 
 protected:
-	float IdleTimer;
+	FAttributeData<float> IdleTimer;
 
 	float m_fAccumulatedTime;
 

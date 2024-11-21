@@ -53,10 +53,7 @@ void ACharacterAIController::SetPathByClicking()
 	this->SetPathUsingAStar(KeyManager->GetMousePos());
 }
 
-float ACharacterAIController::GetChangeDirectionTime()
-{
-	return idleTimer;
-}
+
 
 FVector2D ACharacterAIController::GetDirection()
 {
@@ -65,7 +62,7 @@ FVector2D ACharacterAIController::GetDirection()
 
 void ACharacterAIController::SetRandomIdleTimer()
 {
-	m_fIdleTimer = ((float)(rand() % 200) + 100.0f) / 100.0f;
+	IdleTimer = ((float)(rand() % 200) + 100.0f) / 100.0f;
 }
 
 void ACharacterAIController::SetAccumulatedTime(float fTime)
@@ -89,7 +86,6 @@ void ACharacterAIController::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
 	m_fAccumulatedTime += fDeltaTime;
-	m_fIdleTimer -= fDeltaTime;
 
 
 	//if (m_Path.size() == 0)
@@ -186,7 +182,7 @@ void ACharacterAIController::OnDebug()
 ACharacterAIController::ACharacterAIController()
 	:
 	m_Direction{},
-	m_fIdleTimer{},
+	IdleTimer{},
 	m_fAccumulatedTime{},
 	m_Character{}
 {
@@ -209,10 +205,11 @@ void ACharacterAIController::UIdleState::OnStateUpdate(float fDeltaTime)
 	ACharacterAIController* Controller = static_cast<ACharacterAIController*>(this->m_Owner);
 	ACharacter* Character = static_cast<ACharacter*>(Controller->GetPawn());
 
-	Controller->SetRandomIdleTimer
+	Controller->IdleTimer -= fDeltaTime;
 
 	if (Controller->GetDebugMode())
-		Character->GetRenderManager()->DrawDebugText(Character->GetPosition() + FVector2D::Down * 20.0f, "IdleState");
+		Character->GetRenderManager()->DrawDebugText(Character->GetPosition() + FVector2D::Down * 20.0f,
+			"IdleState : " + std::to_string(Controller->IdleTimer));
 
 }
 

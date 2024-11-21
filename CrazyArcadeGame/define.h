@@ -12,16 +12,6 @@
 #define SAFE_DELETE(p) if (p) {delete p; p = nullptr;}
 
 
-#define ATTTIBUTE_ACCESSORS(type, PropertyName) \
-type Get##PropertyName() const \
-{ \
-	return PropertyName; \
-} \
-void Set##PropertyName(type Val) \
-{ \
-	PropertyName = Val; \
-} \
-
 // 게임 리터럴 상수
 #define TILE_WIDTH 60.0f
 #define TILE_HEIGHT 60.0f
