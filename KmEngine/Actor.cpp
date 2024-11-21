@@ -78,6 +78,11 @@ AActor::~AActor()
 	this->Release();
 }
 
+URenderManager* AActor::GetRenderManager() const
+{
+	return GEngine->GetEngineSubsystem<URenderManager>();
+}
+
 bool AActor::GetDebugMode() const
 {
 	return m_bDebugMode;

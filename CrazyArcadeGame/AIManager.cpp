@@ -11,7 +11,7 @@
 
 void UAIManager::SetCharacterRandomPositionToGo(ACharacterAIController* AIController) const
 {
-	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
+	UBombManager* BombManager = GetGameInstance()->GetSubsystem<UBombManager>();
 
 	FVector2D Position = VectorToRefinedVector(AIController->m_Character->GetPosition());
 	std::list<FVector2D> TempPath;

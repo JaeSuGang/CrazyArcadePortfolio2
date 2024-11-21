@@ -32,8 +32,8 @@ void UGameLevelBase::BeginPlay()
 {
 	Super::BeginPlay();
 
-	USpawnManager* SpawnManager = GetGameInstance()->GetGameInstanceSubsystem<USpawnManager>();
-	UMovementManager* MovementManager = GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
+	USpawnManager* SpawnManager = GetGameInstance()->GetSubsystem<USpawnManager>();
+	UMovementManager* MovementManager = GetGameInstance()->GetSubsystem<UMovementManager>();
 	APlayerController* PlayerController = SpawnManager->SpawnPlayerController();
 
 	// UI »ý¼º
@@ -74,7 +74,7 @@ void UGameLevelBase::Release()
 {
 	UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
 	KeyManager->ClearBindKey();
-	UMovementManager* MovementManager = GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
+	UMovementManager* MovementManager = GetGameInstance()->GetSubsystem<UMovementManager>();
 	MovementManager->Reset();
 	SAFE_DELETE(m_Tilemap);
 }

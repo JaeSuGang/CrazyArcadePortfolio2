@@ -18,7 +18,7 @@ void UEditorGameInstance::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UEditorManager* EditorManager = CreateGameInstanceSubsystem<UEditorManager>();
+	UEditorManager* EditorManager = CreateSubsystem<UEditorManager>();
 
 
 	OpenLevel<UEditorLevel>();

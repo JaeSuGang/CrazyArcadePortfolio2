@@ -14,6 +14,11 @@ void AController::Possess(APawn* Pawn)
 	}
 }
 
+APawn* AController::GetPawn() const
+{
+	return m_Pawn;
+}
+
 void AController::SetPawn(APawn* Pawn)
 {
 	m_Pawn = Pawn;

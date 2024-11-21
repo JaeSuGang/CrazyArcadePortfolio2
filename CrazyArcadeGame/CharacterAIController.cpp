@@ -6,14 +6,13 @@
 
 void ACharacterAIController::SetRandomPositionToGo()
 {
-	UAIManager* AIManager = GetGameInstance()->GetGameInstanceSubsystem<UAIManager>();
+	UAIManager* AIManager = GetGameInstance()->GetSubsystem<UAIManager>();
 	AIManager->SetCharacterRandomPositionToGo(this);
-	this->SetNewIdleLastingTime(4.0f);
 }
 
 bool ACharacterAIController::CheckPositionWhetherSafeToPutBomb(FVector2D Position, FVector2D& EscapeDest) const
 {
-	UAIManager* AIManager = GetGameInstance()->GetGameInstanceSubsystem<UAIManager>();
+	UAIManager* AIManager = GetGameInstance()->GetSubsystem<UAIManager>();
 	return AIManager->CheckPositionWhetherSafeToPutBomb(m_Character, Position, EscapeDest);
 }
 
@@ -43,7 +42,7 @@ bool ACharacterAIController::SetPathUsingAStar(FVector2D Destination)
 	if (!m_Pawn)
 		return false;
 
-	UAIManager* AIManager = GetGameInstance()->GetGameInstanceSubsystem<UAIManager>();
+	UAIManager* AIManager = GetGameInstance()->GetSubsystem<UAIManager>();
 
 	return AIManager->FindPath(m_Pawn->GetPosition(), Destination, m_Path);
 }
@@ -56,7 +55,7 @@ void ACharacterAIController::SetPathByClicking()
 
 float ACharacterAIController::GetChangeDirectionTime()
 {
-	return m_fIdleLastingTime;
+	return idleTimer;
 }
 
 FVector2D ACharacterAIController::GetDirection()
@@ -64,9 +63,9 @@ FVector2D ACharacterAIController::GetDirection()
 	return m_Direction;
 }
 
-void ACharacterAIController::SetNewIdleLastingTime(float fDuration)
+void ACharacterAIController::SetRandomIdleTimer()
 {
-	m_fIdleLastingTime = m_fAccumulatedTime + fDuration;
+	m_fIdleTimer = ((float)(rand() % 200) + 100.0f) / 100.0f;
 }
 
 void ACharacterAIController::SetAccumulatedTime(float fTime)
@@ -90,68 +89,70 @@ void ACharacterAIController::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
 	m_fAccumulatedTime += fDeltaTime;
+	m_fIdleTimer -= fDeltaTime;
 
-	if (m_Path.size() == 0)
-		m_AIState = ACharacterAIController::EAIState::Idle;
-	else
-		m_AIState = ACharacterAIController::EAIState::Move;
 
-	if (m_Character)
-	{
-		switch (m_AIState)
-		{
-		case ACharacterAIController::EAIState::Idle:
-			if ((int)(m_fAccumulatedTime / 0.01f) % 50 != 0)
-			{
-				if (m_Character->GetBombLeft() > 0 && m_fIdleLastingTime < m_fAccumulatedTime)
-				{
-					FVector2D EscapePosition{};
-					if (this->CheckPositionWhetherSafeToPutBomb(m_Character->GetPosition(), EscapePosition))
-					{
-						m_Character->TryPutBomb();
-						this->SetPathUsingAStar(EscapePosition);
-					}
+	//if (m_Path.size() == 0)
+	//	m_AIState = ACharacterAIController::EAIState::Idle;
+	//else
+	//	m_AIState = ACharacterAIController::EAIState::Move;
 
-				}
-			}
+	//if (m_Character)
+	//{
+	//	switch (m_AIState)
+	//	{
+	//	case ACharacterAIController::EAIState::Idle:
+	//		if ((int)(m_fAccumulatedTime / 0.01f) % 50 != 0)
+	//		{
+	//			if (m_Character->GetBombLeft() > 0 && m_fIdleLastingTime < m_fAccumulatedTime)
+	//			{
+	//				FVector2D EscapePosition{};
+	//				if (this->CheckPositionWhetherSafeToPutBomb(m_Character->GetPosition(), EscapePosition))
+	//				{
+	//					m_Character->TryPutBomb();
+	//					this->SetPathUsingAStar(EscapePosition);
+	//				}
 
-			if (m_fAccumulatedTime > m_fIdleLastingTime)
-			{
-				this->SetRandomPositionToGo();
-			}
-			break;
+	//			}
+	//		}
 
-		case ACharacterAIController::EAIState::Move:
-		{
-			for (FVector2D Dest : m_Path)
-			{
-				if ((m_Character->GetPosition() - Dest).GetLength() < 6.0f)
-				{
-					m_Path.erase(m_Path.begin());
-					break;
-				}
+	//		if (m_fAccumulatedTime > m_fIdleLastingTime)
+	//		{
+	//			this->SetRandomPositionToGo();
+	//		}
+	//		break;
 
-				if (m_Character->GetPosition().X < Dest.X - 3.0f)
-					m_Character->Move(FVector2D::Right);
-				else if (m_Character->GetPosition().X > Dest.X + 3.0f)
-					m_Character->Move(FVector2D::Left);
+	//	case ACharacterAIController::EAIState::Move:
+	//	{
+	//		for (FVector2D Dest : m_Path)
+	//		{
+	//			if ((m_Character->GetPosition() - Dest).GetLength() < 6.0f)
+	//			{
+	//				m_Path.erase(m_Path.begin());
+	//				break;
+	//			}
 
-				if (m_Character->GetPosition().Y < Dest.Y - 3.0f)
-					m_Character->Move(FVector2D::Down);
-				else if (m_Character->GetPosition().Y > Dest.Y + 3.0f)
-					m_Character->Move(FVector2D::Up);
+	//			if (m_Character->GetPosition().X < Dest.X - 3.0f)
+	//				m_Character->Move(FVector2D::Right);
+	//			else if (m_Character->GetPosition().X > Dest.X + 3.0f)
+	//				m_Character->Move(FVector2D::Left);
 
-				break;
-			}
-		}
+	//			if (m_Character->GetPosition().Y < Dest.Y - 3.0f)
+	//				m_Character->Move(FVector2D::Down);
+	//			else if (m_Character->GetPosition().Y > Dest.Y + 3.0f)
+	//				m_Character->Move(FVector2D::Up);
 
-			break;
+	//			break;
+	//		}
+	//	}
 
-		default:
-			break;
-		}
+	//		break;
 
-	}
+	//	default:
+	//		break;
+	//	}
+
+	//}
 }
 
 void ACharacterAIController::LateTick(float fDeltaTime)
@@ -162,25 +163,16 @@ void ACharacterAIController::LateTick(float fDeltaTime)
 void ACharacterAIController::BeginPlay()
 {
 	Super::BeginPlay();
+
+	m_FSM->ChangeState<UIdleState>();
 }
 
 void ACharacterAIController::OnDebug()
 {
 	if (!m_Pawn)
 		return;
-	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
 
-	switch (m_AIState)
-	{
-	case ACharacterAIController::EAIState::Idle:
-		RenderManager->DrawDebugText(m_Pawn->GetPosition() + FVector2D::Down * 20, "State : Idle");
-		break;
-	case ACharacterAIController::EAIState::Move:
-		RenderManager->DrawDebugText(m_Pawn->GetPosition() + FVector2D::Down * 20, "State : Move");
-		break;
-	default:
-		break;
-	}
+	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
 
 
 	FVector2D PreviousPosition = m_Pawn->GetPosition();
@@ -194,32 +186,49 @@ void ACharacterAIController::OnDebug()
 ACharacterAIController::ACharacterAIController()
 	:
 	m_Direction{},
-	m_fIdleLastingTime{},
-	m_fAccumulatedTime{}
+	m_fIdleTimer{},
+	m_fAccumulatedTime{},
+	m_Character{}
 {
+	m_FSM = CreateDefaultSubobject<UFSMComponent>();
+	m_FSM->CreateState<UIdleState>();
+	m_FSM->CreateState<UTaskState>();
+	m_FSM->CreateState<UEvadeState>();
 }
 
 void ACharacterAIController::UIdleState::OnStateEnter()
 {
+	ACharacterAIController* Controller = static_cast<ACharacterAIController*>(this->m_Owner);
+	ACharacter* Character = static_cast<ACharacter*>(Controller->GetPawn());
+
+	Controller->SetRandomIdleTimer();
 }
 
-void ACharacterAIController::UIdleState::OnStateUpdate()
+void ACharacterAIController::UIdleState::OnStateUpdate(float fDeltaTime)
 {
+	ACharacterAIController* Controller = static_cast<ACharacterAIController*>(this->m_Owner);
+	ACharacter* Character = static_cast<ACharacter*>(Controller->GetPawn());
+
+	Controller->SetRandomIdleTimer
+
+	if (Controller->GetDebugMode())
+		Character->GetRenderManager()->DrawDebugText(Character->GetPosition() + FVector2D::Down * 20.0f, "IdleState");
+
 }
 
 void ACharacterAIController::UIdleState::OnStateExit()
 {
 }
 
-void ACharacterAIController::UWorkState::OnStateEnter()
+void ACharacterAIController::UTaskState::OnStateEnter()
 {
 }
 
-void ACharacterAIController::UWorkState::OnStateUpdate()
+void ACharacterAIController::UTaskState::OnStateUpdate(float fDeltaTime)
 {
 }
 
-void ACharacterAIController::UWorkState::OnStateExit()
+void ACharacterAIController::UTaskState::OnStateExit()
 {
 }
 
@@ -227,7 +236,7 @@ void ACharacterAIController::UEvadeState::OnStateEnter()
 {
 }
 
-void ACharacterAIController::UEvadeState::OnStateUpdate()
+void ACharacterAIController::UEvadeState::OnStateUpdate(float fDeltaTime)
 {
 }
 

@@ -19,7 +19,6 @@ UGameInstance::UGameInstance()
 	:
 	m_ActiveLevel{}
 {
-
 }
 
 UGameInstance::~UGameInstance()

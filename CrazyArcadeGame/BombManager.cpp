@@ -39,7 +39,7 @@ void UBombManager::RemoveExplosion(AExplosion* ExplosionActor)
 
 bool UBombManager::TryPutBomb(int nTileIndex, ACharacter* Spawner)
 {
-	UMovementManager* MovementManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
+	UMovementManager* MovementManager = GEngine->GetGameInstance()->GetSubsystem<UMovementManager>();
 
 	FVector2D BombSpawnPos = TileIndexToVector(nTileIndex);
 	FAxisAlignedBoundingBox BombSpawnAABB = { BombSpawnPos , TILE_WIDTH / 2, TILE_HEIGHT / 2 };
@@ -64,15 +64,15 @@ bool UBombManager::TryPutBomb(int nTileIndex, ACharacter* Spawner)
 
 void UBombManager::ForcePutBomb(int nTileIndex, ACharacter* Spawner)
 {
-	USpawnManager* SpawnManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<USpawnManager>();
+	USpawnManager* SpawnManager = GEngine->GetGameInstance()->GetSubsystem<USpawnManager>();
 	ABomb* BombActor = SpawnManager->SpawnBomb(TileIndexToVector(nTileIndex), Spawner);
 	BombActor->CheckAndHide();
 }
 
 void UBombManager::Explode(int nTileIndex, int nRange)
 {
-	UMovementManager* MovementManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
-	USpawnManager* SpawnManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<USpawnManager>();
+	UMovementManager* MovementManager = GEngine->GetGameInstance()->GetSubsystem<UMovementManager>();
+	USpawnManager* SpawnManager = GEngine->GetGameInstance()->GetSubsystem<USpawnManager>();
 
 	FVector2D ExplosionCenterPos = TileIndexToVector(nTileIndex);
 

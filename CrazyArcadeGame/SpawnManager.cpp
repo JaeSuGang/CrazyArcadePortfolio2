@@ -220,7 +220,7 @@ ACharacter* USpawnManager::SpawnBazzi(FVector2D PositionVector)
 	RenderComponent->CreateAnimation("BubbleFade", "Resources\\" + strCharacterName + "\\BubbleFade", 2, 0.5f, false);
 	RenderComponent->CreateAnimation("Death", "Resources\\" + strCharacterName + "\\Death", 5, 0.1f, false);
 
-	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
+	UBombManager* BombManager = GetGameInstance()->GetSubsystem<UBombManager>();
 	BombManager->AddCharacter(SpawnedCharacter);
 
 	SpawnedCharacter->BeginPlay();

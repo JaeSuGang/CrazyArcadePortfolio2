@@ -17,7 +17,7 @@ void AExplosion::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
+	UBombManager* BombManager = GetGameInstance()->GetSubsystem<UBombManager>();
 	BombManager->AddExplosion(this);
 }
 
@@ -45,7 +45,7 @@ void AExplosion::LateTick(float fDeltaTime)
 
 void AExplosion::Release()
 {
-	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
+	UBombManager* BombManager = GetGameInstance()->GetSubsystem<UBombManager>();
 	BombManager->m_Explosions.erase(this);
 }
 

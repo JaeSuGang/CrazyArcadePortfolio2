@@ -15,7 +15,7 @@ public:
 	template <typename T>
 	T* GetGameInstanceSubsystem()
 	{
-		return GEngine->GetGameInstance()->GetGameInstanceSubsystem<T>();
+		return GEngine->GetGameInstance()->GetSubsystem<T>();
 	}
 
 public:

@@ -8,10 +8,10 @@ void APowerUpItem::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
+	UBombManager* BombManager = GetGameInstance()->GetSubsystem<UBombManager>();
 	BombManager->AddExplodable(this);
 
-	UMovementManager* MovementManager = GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
+	UMovementManager* MovementManager = GetGameInstance()->GetSubsystem<UMovementManager>();
 	MovementManager->AddPowerUpItem(this);
 }
 
@@ -35,10 +35,10 @@ void APowerUpItem::LateTick(float fDeltaTime)
 
 void APowerUpItem::Release()
 {
-	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
+	UBombManager* BombManager = GetGameInstance()->GetSubsystem<UBombManager>();
 	BombManager->m_Explodables.erase(this);
 
-	UMovementManager* MovementManager = GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
+	UMovementManager* MovementManager = GetGameInstance()->GetSubsystem<UMovementManager>();
 	MovementManager->m_PowerUpItems.erase(this);
 }
 

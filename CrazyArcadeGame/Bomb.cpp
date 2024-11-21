@@ -39,7 +39,7 @@ void ABomb::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
+	UBombManager* BombManager = GetGameInstance()->GetSubsystem<UBombManager>();
 	BombManager->m_Bombs.insert(this);
 }
 
@@ -67,7 +67,7 @@ void ABomb::LateTick(float fDeltaTime)
 
 void ABomb::Release()
 {
-	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
+	UBombManager* BombManager = GetGameInstance()->GetSubsystem<UBombManager>();
 	BombManager->m_Bombs.erase(this);
 }
 
@@ -78,7 +78,7 @@ ABomb::~ABomb()
 
 void ABomb::CheckAndHide()
 {
-	UMovementManager* MovementManager = GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
+	UMovementManager* MovementManager = GetGameInstance()->GetSubsystem<UMovementManager>();
 	AActor* HidablePlace = MovementManager->GetIsInHidable(this);
 
 	URenderComponent* RenderComponent = GetComponentByClass<URenderComponent>();
@@ -100,7 +100,7 @@ void ABomb::OnExploded()
 	if (ACharacter* Spawner = GetSpawner())
 		Spawner->SetBombLeft(Spawner->GetBombLeft() + 1);
 
-	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
+	UBombManager* BombManager = GetGameInstance()->GetSubsystem<UBombManager>();
 	BombManager->Explode(CorrectBombTileLocationIndex, m_nBombRange);
 
 	this->Destroy();

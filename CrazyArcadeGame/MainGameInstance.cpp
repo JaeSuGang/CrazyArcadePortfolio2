@@ -26,10 +26,10 @@ void UMainGameInstance::BeginPlay()
 {
 	Super::BeginPlay();
 
-	USpawnManager* SpawnManager = CreateGameInstanceSubsystem<USpawnManager>();
-	UMovementManager* MovementManager = CreateGameInstanceSubsystem<UMovementManager>();
-	UBombManager* BombManager = CreateGameInstanceSubsystem<UBombManager>();
-	UAIManager* AIManager = CreateGameInstanceSubsystem<UAIManager>();
+	USpawnManager* SpawnManager = CreateSubsystem<USpawnManager>();
+	UMovementManager* MovementManager = CreateSubsystem<UMovementManager>();
+	UBombManager* BombManager = CreateSubsystem<UBombManager>();
+	UAIManager* AIManager = CreateSubsystem<UAIManager>();
 
 	this->OpenLevel<ULobbyLevel>();
 }

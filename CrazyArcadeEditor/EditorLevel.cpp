@@ -18,7 +18,7 @@ void UEditorLevel::LateTick(float fDeltaTime)
 void UEditorLevel::BeginPlay()
 {
 	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
-	UEditorManager* EditorManager = GetGameInstance()->GetGameInstanceSubsystem<UEditorManager>();
+	UEditorManager* EditorManager = GetGameInstance()->GetSubsystem<UEditorManager>();
 
 	std::function<void()> Event = std::bind(&UEditorManager::ShowDebugMousePos, EditorManager, RenderManager->GetBackBufferHandle());
 	RenderManager->AddCustomRenderEvent(Event);

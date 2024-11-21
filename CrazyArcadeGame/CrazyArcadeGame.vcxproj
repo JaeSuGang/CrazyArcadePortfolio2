@@ -162,12 +162,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="AIManager.cpp" />
+    <ClCompile Include="AttributeData.cpp" />
     <ClCompile Include="AxisAlignedBoundingBox.cpp" />
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="BombManager.cpp" />
     <ClCompile Include="BombProperty.cpp" />
     <ClCompile Include="CharacterAIController.cpp" />
     <ClCompile Include="Explosion.cpp" />
+    <ClCompile Include="FSM.cpp" />
     <ClCompile Include="GameUI.cpp" />
     <ClCompile Include="GroundTile.cpp" />
     <ClCompile Include="InGameProperty.cpp" />
@@ -190,6 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="AIManager.h" />
+    <ClInclude Include="AttributeData.h" />
     <ClInclude Include="AxisAlignedBoundingBox.h" />
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="BombManager.h" />
@@ -198,6 +201,7 @@
     <ClInclude Include="define.h" />
     <ClInclude Include="Explodable.h" />
     <ClInclude Include="Explosion.h" />
+    <ClInclude Include="FSM.h" />
     <ClInclude Include="GameUI.h" />
     <ClInclude Include="GroundTile.h" />
     <ClInclude Include="Hidable.h" />

@@ -12,16 +12,16 @@ void ABlock::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UMovementManager* MovementManager = GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
+	UMovementManager* MovementManager = GetGameInstance()->GetSubsystem<UMovementManager>();
 	MovementManager->AddBlock(this);
 	if (m_bIsHidable)
 		MovementManager->AddHidableBlock(this);
 
-	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
+	UBombManager* BombManager = GetGameInstance()->GetSubsystem<UBombManager>();
 	BombManager->AddExplodable(this);
 	BombManager->AddBlock(this);
 
-	UAIManager* AIManager = GetGameInstance()->GetGameInstanceSubsystem<UAIManager>();
+	UAIManager* AIManager = GetGameInstance()->GetSubsystem<UAIManager>();
 	AIManager->m_Blocks.insert(this);
 }
 
@@ -69,15 +69,15 @@ void ABlock::LateTick(float fDeltaTime)
 
 void ABlock::Release()
 {
-	UMovementManager* MovementManager = GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
+	UMovementManager* MovementManager = GetGameInstance()->GetSubsystem<UMovementManager>();
 	MovementManager->m_Blocks.erase(this);
 	MovementManager->m_HidableBlocks.erase(this);
 
-	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
+	UBombManager* BombManager = GetGameInstance()->GetSubsystem<UBombManager>();
 	BombManager->m_Blocks.erase(this);
 	BombManager->m_Explodables.erase(this);
 
-	UAIManager* AIManager = GetGameInstance()->GetGameInstanceSubsystem<UAIManager>();
+	UAIManager* AIManager = GetGameInstance()->GetSubsystem<UAIManager>();
 	AIManager->m_Blocks.erase(this);
 
 }
@@ -101,7 +101,7 @@ ABlock::ABlock()
 
 void ABlock::SpawnItem()
 {
-	USpawnManager* SpawnManager = GetGameInstance()->GetGameInstanceSubsystem<USpawnManager>();
+	USpawnManager* SpawnManager = GetGameInstance()->GetSubsystem<USpawnManager>();
 	SpawnManager->SpawnRandomItem(GetPosition());
 }
 
@@ -124,7 +124,7 @@ void ABlock::OnPushed(FVector2D Direction)
 	m_fAccumulatedPushedTime = 0.0f;
 
 	FAxisAlignedBoundingBox PredictedAABB = { m_Position + Direction * 60.0f, TILE_WIDTH / 2, TILE_HEIGHT / 2 };
-	UMovementManager* MovementManager = GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
+	UMovementManager* MovementManager = GetGameInstance()->GetSubsystem<UMovementManager>();
 	if (MovementManager->GetMovableInAABB(PredictedAABB))
 		return;
 

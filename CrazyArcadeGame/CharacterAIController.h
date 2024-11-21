@@ -1,5 +1,7 @@
 #pragma once
+#include "stdafx.h"
 #include "KmEngine/AIController.h"
+#include "FSM.h"
 
 class ACharacter;
 
@@ -8,27 +10,19 @@ class ACharacterAIController : public AAIController
 	typedef AAIController Super;
 
 public:
-	class UBaseState abstract
-	{
-	public:
-		virtual void OnStateEnter() = 0;
-		virtual void OnStateUpdate() = 0;
-		virtual void OnStateExit() = 0;
-	};
-
 	class UIdleState : public UBaseState
 	{
 	public:
 		void OnStateEnter() override;
-		void OnStateUpdate() override;
+		void OnStateUpdate(float fDeltaTime) override;
 		void OnStateExit() override;
 	};
 
-	class UWorkState : public UBaseState
+	class UTaskState : public UBaseState
 	{
 	public:
 		void OnStateEnter() override;
-		void OnStateUpdate() override;
+		void OnStateUpdate(float fDeltaTime) override;
 		void OnStateExit() override;
 	};
 
@@ -36,7 +30,7 @@ public:
 	{
 	public:
 		void OnStateEnter() override;
-		void OnStateUpdate() override;
+		void OnStateUpdate(float fDeltaTime) override;
 		void OnStateExit() override;
 	};
 
@@ -64,7 +58,7 @@ public:
 
 	FVector2D GetDirection();
 
-	void SetNewIdleLastingTime(float fDuration);
+	void SetRandomIdleTimer();
 
 	void SetAccumulatedTime(float fTime);
 
@@ -74,13 +68,16 @@ public:
 public:
 	std::list<FVector2D> m_Path;
 
-	UBaseState* m_AIState;
+	UFSMComponent* m_FSM;
 
 	ACharacter* m_Character;
 
 
+public:
+	ATTTIBUTE_ACCESSORS(float, IdleTimer);
+
 protected:
-	float m_fIdleLastingTime;
+	float IdleTimer;
 
 	float m_fAccumulatedTime;
 

@@ -4,6 +4,7 @@
 
 class ULevel;
 class UGameInstanceSubsystem;
+class URenderManager;
 
 class UGameInstance : public UObject
 {
@@ -11,7 +12,7 @@ class UGameInstance : public UObject
 	
 public:
 	template <typename T>
-	T* GetGameInstanceSubsystem()
+	T* GetSubsystem()
 	{
 		string ClassName = typeid(T).name();
 		auto SubsystemIter = m_Subsystems.find(ClassName);
@@ -25,7 +26,7 @@ public:
 	}
 
 	template <typename T>
-	T* CreateGameInstanceSubsystem()
+	T* CreateSubsystem()
 	{
 		static_assert(std::is_base_of<UGameInstanceSubsystem, T>::value);
 		T* Subsystem = new T{};
@@ -65,6 +66,7 @@ public:
 
 // 접근 제한 차후 수정
 public:
+	URenderManager* m_RenderManager;
 	unordered_map<string, UGameInstanceSubsystem*> m_Subsystems;
 	ULevel* m_ActiveLevel;
 };

@@ -10,6 +10,7 @@ public:
 	virtual void Possess(APawn* Pawn);
 
 public:
+	APawn* GetPawn() const;
 	void SetPawn(APawn* Pawn);
 
 public:

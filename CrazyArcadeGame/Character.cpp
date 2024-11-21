@@ -74,7 +74,7 @@ void ACharacter::Die()
 				KeyManager->ClearBindKey();
 			}
 
-			UAIManager* AIManager = GetGameInstance()->GetGameInstanceSubsystem<UAIManager>();
+			UAIManager* AIManager = GetGameInstance()->GetSubsystem<UAIManager>();
 			AIManager->RemoveAIPawn(this);
 			m_Controller->SetPawn(nullptr);
 		}
@@ -139,7 +139,7 @@ void ACharacter::TryPutBomb()
 	if (m_nBombLeft <= 0 || m_bIsDead || m_bIsAlreadyExploded)
 		return;
 
-	UBombManager* BombManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
+	UBombManager* BombManager = GEngine->GetGameInstance()->GetSubsystem<UBombManager>();
 	if (BombManager->TryPutBomb(VectorToTileIndex(this->GetPosition()), this))
 		m_nBombLeft--;
 }
@@ -191,11 +191,11 @@ void ACharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
+	UBombManager* BombManager = GetGameInstance()->GetSubsystem<UBombManager>();
 	BombManager->AddCharacter(this);
 	BombManager->AddExplodable(this);
 
-	UMovementManager* MovementManager = GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
+	UMovementManager* MovementManager = GetGameInstance()->GetSubsystem<UMovementManager>();
 	MovementManager->AddCharacter(this);
 }
 
@@ -208,11 +208,11 @@ void ACharacter::OnDebug()
 
 void ACharacter::Release()
 {
-	UBombManager* BombManager = GetGameInstance()->GetGameInstanceSubsystem<UBombManager>();
+	UBombManager* BombManager = GetGameInstance()->GetSubsystem<UBombManager>();
 	BombManager->m_Characters.erase(this);
 	BombManager->m_Explodables.erase(this);
 
-	UMovementManager* MovementManager = GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
+	UMovementManager* MovementManager = GetGameInstance()->GetSubsystem<UMovementManager>();
 	MovementManager->m_Characters.erase(this);
 
 	if (m_Controller)
@@ -245,7 +245,7 @@ ACharacter::ACharacter()
 
 void ACharacter::CheckAndHide()
 {
-	UMovementManager* MovementManager = GetGameInstance()->GetGameInstanceSubsystem<UMovementManager>();
+	UMovementManager* MovementManager = GetGameInstance()->GetSubsystem<UMovementManager>();
 	AActor* HidablePlace = MovementManager->GetIsInHidable(this);
 
 	URenderComponent* RenderComponent = GetComponentByClass<URenderComponent>();
@@ -270,7 +270,7 @@ void ACharacter::OnAIPossessed()
 {
 	Super::OnAIPossessed();
 
-	UAIManager* AIManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<UAIManager>();
+	UAIManager* AIManager = GEngine->GetGameInstance()->GetSubsystem<UAIManager>();
 	AIManager->AddAIPawn(this);
 }
 
@@ -278,7 +278,7 @@ void ACharacter::OnAIUnpossessed()
 {
 	Super::OnAIUnpossessed();
 
-	UAIManager* AIManager = GEngine->GetGameInstance()->GetGameInstanceSubsystem<UAIManager>();
+	UAIManager* AIManager = GEngine->GetGameInstance()->GetSubsystem<UAIManager>();
 	AIManager->RemoveAIPawn(this);
 }
 
