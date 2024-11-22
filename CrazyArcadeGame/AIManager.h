@@ -38,11 +38,11 @@ class UAIManager : public UGameInstanceSubsystem
 public:
 	bool GetIsDangerousPosition(FVector2D PositionToCheck);
 
+	bool GetRandomPlaceToPutBombNextToBreakable(const FVector2D& CenterToSearch, FVector2D& Output);
+
 	bool GetRandomPlaceToPutBomb(const FVector2D& CenterToSearch, FVector2D& Output);
 
 	bool GetRandomPlaceToGo(const FVector2D& CenterToSearch, FVector2D& Output);
-
-	bool __FindPositionWhetherSafeToPutBomb(const ACharacter* AICharacter, FVector2D& PositionToPutBomb, FVector2D& EscapeDest) const;
 
 	bool CheckPositionWhetherSafeToPutBomb(const ACharacter* AICharacter, FVector2D PositionToPutBomb) const;
 
@@ -58,9 +58,13 @@ public:
 	void ClearAIPawns();
 
 public:
+	UAIManager();
+	~UAIManager();
 	void Tick(float fDeltaTime) override;
 
 public:
+	std::default_random_engine* RandomEngine;
+	std::random_device RandomDevice;
 	unordered_set<APawn*> m_AIPawns;
 	unordered_set<ABlock*> m_Blocks;
 };
