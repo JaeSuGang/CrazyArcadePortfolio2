@@ -44,11 +44,17 @@ public:
 	void BeginPlay() override;
 	void OnDebug() override;
 
+	bool GetIsInDangerousPosition() const;
+
+	bool GetIsDangerousPosition(FVector2D PositionToCheck) const;
+
 	void FollowPath();
 
 	void SetRandomPositionToGo();
 
 	bool GetRandomPlaceToPutBomb(FVector2D& Output);
+
+	bool GetRandomPlaceToGo(FVector2D& Output);
 
 	bool CheckPositionWhetherSafeToPutBomb(FVector2D Position) const;
 
@@ -68,9 +74,15 @@ public:
 
 	void SetRandomIdleTimer();
 
+	void SetRandomEvadeCheckCooldown();
+
+	void SubtractEvadeWaitTimer(float fDeltaTime);
+
 	void SubtractTaskSearchCooldown(float fDeltaTime);
 
 	void SubtractDirectionTimer(float fDeltaTime);
+
+	void SubtractEvadeCheckCooldown(float fDeltaTime);
 
 	void SetAccumulatedTime(float fTime);
 
@@ -87,17 +99,23 @@ public:
 
 public:
 	ACCESSORS_ALL(float, IdleTimer)
+	ACCESSORS_ALL(float, TaskSearchCooldown)
+	ACCESSORS_ALL(float, EvadeCheckCooldown)
+	ACCESSORS_ALL(float, EvadeWaitTimer)
 	ACCESSORS_GETTER(float, DirectionTimer)
-	ACCESSORS_ALL(float, TaskSearchCooldownTimer)
 
 protected:
+	float EvadeWaitTimer;
+
 	float IdleTimer;
 
-	float AccumulatedTime;
+	float EvadeCheckCooldown;
+
+	float TaskSearchCooldown;
 
 	float DirectionTimer;
 
-	float TaskSearchCooldownTimer;
+	float AccumulatedTime;
 
 	FVector2D Direction;
 };

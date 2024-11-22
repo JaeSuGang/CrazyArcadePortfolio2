@@ -66,7 +66,7 @@ void ULobbyLevel::ChangeLevelState(ELevelState LevelState)
 void ULobbyLevel::AddLevelEvent(std::function<void()> Function, float fElapseTimeToTrigger)
 {
 	FLevelEvent LevelEvent{};
-	LevelEvent.m_nUUID = rand();
+	LevelEvent.m_nUUID = (float)rand();
 	LevelEvent.m_Function = Function;
 	LevelEvent.m_fElapsedTimeToTrigger = m_fElapseTime + fElapseTimeToTrigger;
 

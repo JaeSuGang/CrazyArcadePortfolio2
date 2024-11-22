@@ -1,5 +1,7 @@
 #include "stdafx.h"
 #include "FSM.h"
+#include "KmEngine/Actor.h"
+#include "CharacterAIController.h"
 
 UFSMComponent::UFSMComponent()
 	:
@@ -21,7 +23,8 @@ void UFSMComponent::BeginPlay()
 
 void UFSMComponent::TickComponent(float fDeltaTime)
 {
-	m_CurrentState->OnStateUpdate(fDeltaTime);
+	if (static_cast<ACharacterAIController*>(m_Owner)->GetPawn())
+		m_CurrentState->OnStateUpdate(fDeltaTime);
 }
 
 UBaseState* UFSMComponent::GetCurrentState() const

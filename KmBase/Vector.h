@@ -1,4 +1,5 @@
 #pragma once
+#include "stdafx.h"
 
 struct FVector2D
 {
@@ -7,6 +8,7 @@ public:
 	FVector2D GetNormalized() const;
 
 public:
+	static const vector<FVector2D> Directions;
 	static const FVector2D Zero;
 	static const FVector2D Up;
 	static const FVector2D Down;

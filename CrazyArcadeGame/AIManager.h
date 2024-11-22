@@ -36,7 +36,11 @@ class UAIManager : public UGameInstanceSubsystem
 	typedef UGameInstanceSubsystem Super;
 
 public:
+	bool GetIsDangerousPosition(FVector2D PositionToCheck);
+
 	bool GetRandomPlaceToPutBomb(const FVector2D& CenterToSearch, FVector2D& Output);
+
+	bool GetRandomPlaceToGo(const FVector2D& CenterToSearch, FVector2D& Output);
 
 	bool __FindPositionWhetherSafeToPutBomb(const ACharacter* AICharacter, FVector2D& PositionToPutBomb, FVector2D& EscapeDest) const;
 

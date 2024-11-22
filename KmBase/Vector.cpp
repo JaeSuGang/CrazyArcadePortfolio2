@@ -6,6 +6,15 @@ const FVector2D FVector2D::Up = FVector2D{ 0.0f, -1.0f };
 const FVector2D FVector2D::Down = FVector2D{ 0.0f, 1.0f };
 const FVector2D FVector2D::Left = FVector2D{ -1.0f, 0.0f };
 const FVector2D FVector2D::Right = FVector2D{ 1.0f, 0.0f };
+const vector<FVector2D> FVector2D::Directions = []()
+	{
+		vector<FVector2D> temp{};
+		temp.push_back(FVector2D::Up);
+		temp.push_back(FVector2D::Right);
+		temp.push_back(FVector2D::Down);
+		temp.push_back(FVector2D::Left);
+		return temp;
+	}();
 
 float FVector2D::GetLength() const
 {

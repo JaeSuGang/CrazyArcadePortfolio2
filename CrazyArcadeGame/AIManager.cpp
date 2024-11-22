@@ -132,6 +132,79 @@ void UAIManager::GetAdjacentTilePos(FVector2D CenterPos, std::vector<FVector2D>&
 	ListToContainAdjacentTiles.push_back(CenterPos + FVector2D::Down * TILE_HEIGHT);
 }
 
+bool UAIManager::GetIsDangerousPosition(FVector2D PositionToCheck)
+{
+	PositionToCheck = VectorToRefinedVector(PositionToCheck);
+
+	UBombManager* BombManager = GetGameInstance()->GetSubsystem<UBombManager>();
+
+	for (ABomb* BombToCheck : BombManager->m_Bombs)
+	{
+		FAxisAlignedBoundingBox DangerousAABB{
+			VectorToRefinedVector(BombToCheck->GetPosition()),
+			BombToCheck->GetBombRange() * TILE_WIDTH + TILE_WIDTH / 2,
+			BombToCheck->GetBombRange() * TILE_HEIGHT + TILE_HEIGHT / 2
+		};
+
+		if (DangerousAABB.GetIsCollidedWith(PositionToCheck))
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
+bool UAIManager::GetRandomPlaceToGo(const FVector2D& CenterToSearch, FVector2D& Output)
+{
+	UMovementManager* MoveManager = GetGameInstance()->GetSubsystem<UMovementManager>();
+
+	FVector2D SearchingPosition{};
+	FAxisAlignedBoundingBox CheckAABB{ SearchingPosition, TILE_WIDTH / 2, TILE_HEIGHT / 2 };
+
+	vector<int> Width{};
+	vector<int> Height{};
+	for (int i = -3; i < 4; i++)
+	{
+		Width.push_back(i);
+		Height.push_back(i);
+	}
+	std::random_device rd{};
+	std::shuffle(Width.begin(), Width.end(), std::default_random_engine{ rd() });
+	std::shuffle(Height.begin(), Height.end(), std::default_random_engine{ rd() });
+
+	for (int i : Width)
+	{
+		for (int j : Height)
+		{
+			SearchingPosition = VectorToRefinedVector(CenterToSearch) + FVector2D::Right * 60.0f * (float)i + FVector2D::Down * 60.0f * (float)j;
+
+			if (GetIsOutOfMap(SearchingPosition))
+				continue;
+
+			CheckAABB.m_Center = SearchingPosition;
+
+			bool bIsInvalid{};
+			for (ABlock* Block : MoveManager->m_Blocks)
+			{
+				if (CheckAABB.GetIsCollidedWith(Block->GetPosition()))
+				{
+					bIsInvalid = true;
+					break;
+				}
+			}
+
+			if (!bIsInvalid)
+			{
+				Output = SearchingPosition;
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
 bool UAIManager::GetRandomPlaceToPutBomb(const FVector2D& CenterToSearch, FVector2D& Output)
 {
 	UMovementManager* MoveManager = GetGameInstance()->GetSubsystem<UMovementManager>();
