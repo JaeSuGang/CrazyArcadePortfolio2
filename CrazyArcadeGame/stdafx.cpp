@@ -28,3 +28,13 @@ FVector2D TileIndexToVector(int nTileIndex)
 	FVector2D ReturnVector = { nX * 60.0f + 60.0f, nY * 60.0f + 90.0f};
 	return ReturnVector;
 }
+
+bool GetIsOutOfMap(FVector2D Position)
+{
+	if (Position.X < TILEMAP_LEFT_MARGIN || Position.X > TILEMAP_RIGHT_MARGIN ||
+		Position.Y < TILEMAP_TOP_MARGIN || Position.Y > TILEMAP_BOTTOM_MARGIN)
+		return true;
+
+	return false;
+}
+

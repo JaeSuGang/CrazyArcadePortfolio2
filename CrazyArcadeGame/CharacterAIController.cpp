@@ -96,14 +96,19 @@ void ACharacterAIController::SetRandomDirectionTimer()
 	DirectionTimer = (rand() % 700 + 300.0f) / 1000.0f;
 }
 
+void ACharacterAIController::SetRandomTaskSearchTimer()
+{
+	TaskSearchCooldownTimer = (rand() % 2000 + 1000.0f) / 1000.0f;
+}
+
 void ACharacterAIController::SetRandomIdleTimer()
 {
 	IdleTimer = ((float)(rand() % 2000) + 800.0f) / 1000.0f;
 }
 
-void ACharacterAIController::SubtractIdleTimer(float fDeltaTime)
+void ACharacterAIController::SubtractTaskSearchCooldown(float fDeltaTime)
 {
-	this->IdleTimer -= fDeltaTime;
+	this->TaskSearchCooldownTimer -= fDeltaTime;
 }
 
 void ACharacterAIController::SubtractDirectionTimer(float fDeltaTime)
@@ -278,8 +283,8 @@ void ACharacterAIController::UIdleState::OnStateUpdate(float fDeltaTime)
 	ACharacterAIController* Controller = static_cast<ACharacterAIController*>(this->Owner);
 	ACharacter* Character = static_cast<ACharacter*>(Controller->GetPawn());
 
-	Controller->SubtractIdleTimer(fDeltaTime);
 	Controller->SubtractDirectionTimer(fDeltaTime);
+	Controller->SubtractTaskSearchCooldown(fDeltaTime);
 
 	if (Controller->GetDebugMode())
 	{
@@ -287,10 +292,9 @@ void ACharacterAIController::UIdleState::OnStateUpdate(float fDeltaTime)
 			"IdleState");
 	}
 
-	if (Controller->GetDirectionTimer() <= 0.0f)
+	if (Controller->GetTaskSearchCooldownTimer() <= 0.0f)
 	{
-		Controller->SetRandomDirection();
-		Controller->SetRandomDirectionTimer();
+		Controller->SetRandomTaskSearchTimer();
 
 		FVector2D PositionToPutBomb{};
 		if (Controller->GetRandomPlaceToPutBomb(PositionToPutBomb))
@@ -301,6 +305,12 @@ void ACharacterAIController::UIdleState::OnStateUpdate(float fDeltaTime)
 				FSM->ChangeState<UTaskState>();
 			}
 		}
+	}
+
+	if (Controller->GetDirectionTimer() <= 0.0f)
+	{
+		Controller->SetRandomDirection();
+		Controller->SetRandomDirectionTimer();
 	}
 
 	Character->Move(Controller->GetDirection());

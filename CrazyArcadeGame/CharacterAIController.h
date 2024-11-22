@@ -64,9 +64,11 @@ public:
 
 	void SetRandomDirectionTimer();
 
+	void SetRandomTaskSearchTimer();
+
 	void SetRandomIdleTimer();
 
-	void SubtractIdleTimer(float fDeltaTime);
+	void SubtractTaskSearchCooldown(float fDeltaTime);
 
 	void SubtractDirectionTimer(float fDeltaTime);
 
@@ -86,6 +88,7 @@ public:
 public:
 	ACCESSORS_ALL(float, IdleTimer)
 	ACCESSORS_GETTER(float, DirectionTimer)
+	ACCESSORS_ALL(float, TaskSearchCooldownTimer)
 
 protected:
 	float IdleTimer;
@@ -93,6 +96,8 @@ protected:
 	float AccumulatedTime;
 
 	float DirectionTimer;
+
+	float TaskSearchCooldownTimer;
 
 	FVector2D Direction;
 };

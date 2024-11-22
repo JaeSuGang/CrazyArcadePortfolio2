@@ -82,14 +82,19 @@ bool UAIManager::CheckPositionWhetherSafeToPutBomb(const ACharacter* AICharacter
 		Width.push_back(i);
 		Height.push_back(i);
 	}
-	std::shuffle(Width.begin(), Width.end(), std::default_random_engine{});
-	std::shuffle(Height.begin(), Height.end(), std::default_random_engine{});
+	std::random_device rd{};
+	std::shuffle(Width.begin(), Width.end(), std::default_random_engine{ rd() });
+	std::shuffle(Height.begin(), Height.end(), std::default_random_engine{ rd() });
 
 	for (int i : Width)
 	{
 		for (int j : Height)
 		{
 			FVector2D PositionToHide = VectorToRefinedVector(AICharacter->GetPosition()) + FVector2D::Right * 60.0f * (float)i + FVector2D::Down * 60.0f * (float)j;
+
+			if (GetIsOutOfMap(PositionToHide))
+				continue;
+
 			FAxisAlignedBoundingBox HideAABB{ PositionToHide, TILE_WIDTH / 2, TILE_HEIGHT / 2 };
 
 			bool bIsInvalidPositionToHide{};
@@ -141,14 +146,19 @@ bool UAIManager::GetRandomPlaceToPutBomb(const FVector2D& CenterToSearch, FVecto
 		Width.push_back(i);
 		Height.push_back(i);
 	}
-	std::shuffle(Width.begin(), Width.end(), std::default_random_engine{});
-	std::shuffle(Height.begin(), Height.end(), std::default_random_engine{});
+	std::random_device rd{};
+	std::shuffle(Width.begin(), Width.end(), std::default_random_engine{rd()});
+	std::shuffle(Height.begin(), Height.end(), std::default_random_engine{rd()});
 
 	for (int i : Width)
 	{
 		for (int j : Height)
 		{
 			SearchingPosition = VectorToRefinedVector(CenterToSearch) + FVector2D::Right * 60.0f * (float)i + FVector2D::Down * 60.0f * (float)j;
+
+			if (GetIsOutOfMap(SearchingPosition))
+				continue;
+
 			CheckAABB.m_Center = SearchingPosition;
 
 			bool bIsInvalid{};

@@ -33,5 +33,9 @@ T Get##PropertyName() const \
 #define TILE_WIDTH 60.0f
 #define TILE_HEIGHT 60.0f
 #define MAX_SPEED_PER_FRAME 10.0f
+#define TILEMAP_LEFT_MARGIN  30.0f
+#define TILEMAP_TOP_MARGIN 60.0f
+#define TILEMAP_RIGHT_MARGIN (30.0f + 15 * TILE_WIDTH)
+#define TILEMAP_BOTTOM_MARGIN (60.0f + 13 * TILE_HEIGHT)
 
 

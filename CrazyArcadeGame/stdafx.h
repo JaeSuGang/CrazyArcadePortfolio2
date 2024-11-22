@@ -38,3 +38,4 @@ int VectorToTileIndex(FVector2D Vector);
 float VectorToRenderPriority(FVector2D Vector);
 FVector2D VectorToRefinedVector(FVector2D Vector);
 FVector2D TileIndexToVector(int nTileIndex);
+bool GetIsOutOfMap(FVector2D Position);
