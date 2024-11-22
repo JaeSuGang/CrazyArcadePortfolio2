@@ -24,6 +24,11 @@ void UFSMComponent::TickComponent(float fDeltaTime)
 	m_CurrentState->OnStateUpdate(fDeltaTime);
 }
 
+UBaseState* UFSMComponent::GetCurrentState() const
+{
+	return this->m_CurrentState;
+}
+
 void UBaseState::OnStateEnter()
 {
 }
@@ -38,5 +43,10 @@ void UBaseState::OnStateExit()
 
 void UBaseState::SetOwner(AActor* Actor)
 {
-	m_Owner = Actor;
+	Owner = Actor;
+}
+
+void UBaseState::SetFSM(UFSMComponent* FSMToSet)
+{
+	FSM = FSMToSet;
 }

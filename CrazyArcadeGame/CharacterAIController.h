@@ -44,10 +44,13 @@ public:
 	void BeginPlay() override;
 	void OnDebug() override;
 
+	void FollowPath();
 
 	void SetRandomPositionToGo();
 
-	bool CheckPositionWhetherSafeToPutBomb(FVector2D Position, FVector2D& EscapeDest) const;
+	bool GetRandomPlaceToPutBomb(FVector2D& Output);
+
+	bool CheckPositionWhetherSafeToPutBomb(FVector2D Position) const;
 
 	void LocatePosToPutBomb();
 
@@ -55,11 +58,17 @@ public:
 
 	void SetPathByClicking();
 
-	float GetChangeDirectionTime();
-
 	FVector2D GetDirection();
 
+	void SetRandomDirection();
+
+	void SetRandomDirectionTimer();
+
 	void SetRandomIdleTimer();
+
+	void SubtractIdleTimer(float fDeltaTime);
+
+	void SubtractDirectionTimer(float fDeltaTime);
 
 	void SetAccumulatedTime(float fTime);
 
@@ -67,21 +76,24 @@ public:
 
 
 public:
-	std::list<FVector2D> m_Path;
+	std::list<FVector2D> Path;
 
-	UFSMComponent* m_FSM;
+	UFSMComponent* FSM;
 
 	ACharacter* m_Character;
 
 
 public:
-	
+	ACCESSORS_ALL(float, IdleTimer)
+	ACCESSORS_GETTER(float, DirectionTimer)
 
 protected:
-	FAttributeData<float> IdleTimer;
+	float IdleTimer;
 
-	float m_fAccumulatedTime;
+	float AccumulatedTime;
 
-	FVector2D m_Direction;
+	float DirectionTimer;
+
+	FVector2D Direction;
 };
 

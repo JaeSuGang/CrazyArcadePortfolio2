@@ -36,10 +36,17 @@ class UAIManager : public UGameInstanceSubsystem
 	typedef UGameInstanceSubsystem Super;
 
 public:
-	void SetCharacterRandomPositionToGo(ACharacterAIController* AIController) const;
-	bool CheckPositionWhetherSafeToPutBomb(const ACharacter* AICharacter, FVector2D Position, FVector2D& EscapeDest) const;
-	static void GetAdjacentTilePos(FVector2D CenterPos, std::vector<FVector2D>& ListToContainAdjacentTiles);
+	bool GetRandomPlaceToPutBomb(const FVector2D& CenterToSearch, FVector2D& Output);
+
+	bool __FindPositionWhetherSafeToPutBomb(const ACharacter* AICharacter, FVector2D& PositionToPutBomb, FVector2D& EscapeDest) const;
+
+	bool CheckPositionWhetherSafeToPutBomb(const ACharacter* AICharacter, FVector2D PositionToPutBomb) const;
+
 	bool FindPath(FVector2D StartPos, FVector2D DestinationPos, std::list<FVector2D>& ListToContainPath) const;
+
+	static void GetAdjacentTilePos(FVector2D CenterPos, std::vector<FVector2D>& ListToContainAdjacentTiles);
+
+	void SetCharacterRandomPositionToGo(ACharacterAIController* AIController) const;
 
 public:
 	void AddAIPawn(APawn* Pawn);

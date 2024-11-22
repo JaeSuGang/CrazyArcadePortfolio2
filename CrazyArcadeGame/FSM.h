@@ -2,6 +2,8 @@
 #include "KmEngine/Object.h"
 #include "KmEngine/ActorComponent.h"
 
+class UFSMComponent;
+
 /*
 * FSM을 쓰려는 게임 클래스에서 구체적 State를 구현해야 함
 */
@@ -12,10 +14,12 @@ public:
 	virtual void OnStateUpdate(float fDeltaTime) = 0;
 	virtual void OnStateExit() = 0;
 
-	void SetOwner(AActor* Actor);
+	void SetOwner(AActor* OwnerToSet);
+	void SetFSM(UFSMComponent* FSMToSet);
 
 protected:
-	AActor* m_Owner;
+	AActor* Owner;
+	UFSMComponent* FSM;
 };
 
 /*
@@ -31,7 +35,8 @@ public:
 	void TickComponent(float fDeltaTime) override;
 
 	// 함수
-	
+	UBaseState* GetCurrentState() const;
+
 	template <typename T>
 	void ChangeState()
 	{
@@ -66,6 +71,7 @@ public:
 
 		T* NewState = new T{};
 		NewState->SetOwner(m_Owner);
+		NewState->SetFSM(this);
 		std::pair<string, UBaseState*> PairToInsert{ typeid(T).name(), NewState };
 		m_States.insert(PairToInsert);
 

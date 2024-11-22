@@ -7,6 +7,7 @@
 #include "Block.h"
 #include "Bomb.h"
 #include "BombManager.h"
+#include "MovementManager.h"
 #include "KmEngine/Level.h"
 
 void UAIManager::SetCharacterRandomPositionToGo(ACharacterAIController* AIController) const
@@ -60,21 +61,23 @@ void UAIManager::SetCharacterRandomPositionToGo(ACharacterAIController* AIContro
 			if (!bHasValidPath)
 				continue;
 
-			this->FindPath(Position, CheckDest, AIController->m_Path);
+			this->FindPath(Position, CheckDest, AIController->Path);
 			return;
 		}
 	}
 
 }
 
-bool UAIManager::CheckPositionWhetherSafeToPutBomb(const ACharacter* AICharacter, FVector2D Position, FVector2D& EscapeDest) const
+bool UAIManager::CheckPositionWhetherSafeToPutBomb(const ACharacter* AICharacter, FVector2D PositionToPutBomb) const
 {
-	Position = VectorToRefinedVector(Position);
+	UMovementManager* MovementManager = GetGameInstance()->GetSubsystem<UMovementManager>();
+
+	PositionToPutBomb = VectorToRefinedVector(PositionToPutBomb);
 	std::list<FVector2D> TempPath;
 
 	vector<int> Width{};
 	vector<int> Height{};
-	for (int i = -2; i < 3; i++)
+	for (int i = -3; i < 4; i++)
 	{
 		Width.push_back(i);
 		Height.push_back(i);
@@ -86,17 +89,29 @@ bool UAIManager::CheckPositionWhetherSafeToPutBomb(const ACharacter* AICharacter
 	{
 		for (int j : Height)
 		{
-			if (i == 0 || j == 0)
+			FVector2D PositionToHide = VectorToRefinedVector(AICharacter->GetPosition()) + FVector2D::Right * 60.0f * (float)i + FVector2D::Down * 60.0f * (float)j;
+			FAxisAlignedBoundingBox HideAABB{ PositionToHide, TILE_WIDTH / 2, TILE_HEIGHT / 2 };
+
+			bool bIsInvalidPositionToHide{};
+			for (ABlock* BlockToCheck : MovementManager->m_Blocks)
+			{
+				if (HideAABB.GetIsCollidedWith(BlockToCheck->GetPosition()))
+				{
+					bIsInvalidPositionToHide = true;
+					break;
+				}
+			}
+			if (bIsInvalidPositionToHide)
 				continue;
 
-			FVector2D CheckDest = Position + FVector2D::Right * 60.0f * (float)i + FVector2D::Down * 60.0f * (float)j;
+			if (PositionToHide.X == PositionToPutBomb.X || PositionToHide.Y == PositionToPutBomb.Y)
+				continue;
 
-			bool bHasValidPath = this->FindPath(AICharacter->GetPosition(), CheckDest, TempPath);
+			bool bHasValidPath = this->FindPath(PositionToHide, PositionToPutBomb, TempPath);
 
 			if (!bHasValidPath)
 				continue;
 
-			EscapeDest = CheckDest;
 			return true;
 		}
 	}
@@ -112,6 +127,99 @@ void UAIManager::GetAdjacentTilePos(FVector2D CenterPos, std::vector<FVector2D>&
 	ListToContainAdjacentTiles.push_back(CenterPos + FVector2D::Down * TILE_HEIGHT);
 }
 
+bool UAIManager::GetRandomPlaceToPutBomb(const FVector2D& CenterToSearch, FVector2D& Output)
+{
+	UMovementManager* MoveManager = GetGameInstance()->GetSubsystem<UMovementManager>();
+
+	FVector2D SearchingPosition{};
+	FAxisAlignedBoundingBox CheckAABB{ SearchingPosition, TILE_WIDTH / 2, TILE_HEIGHT / 2 };
+
+	vector<int> Width{};
+	vector<int> Height{};
+	for (int i = -3; i < 4; i++)
+	{
+		Width.push_back(i);
+		Height.push_back(i);
+	}
+	std::shuffle(Width.begin(), Width.end(), std::default_random_engine{});
+	std::shuffle(Height.begin(), Height.end(), std::default_random_engine{});
+
+	for (int i : Width)
+	{
+		for (int j : Height)
+		{
+			SearchingPosition = VectorToRefinedVector(CenterToSearch) + FVector2D::Right * 60.0f * (float)i + FVector2D::Down * 60.0f * (float)j;
+			CheckAABB.m_Center = SearchingPosition;
+
+			bool bIsInvalid{};
+			for (ABlock* Block : MoveManager->m_Blocks)
+			{
+				if (CheckAABB.GetIsCollidedWith(Block->GetPosition()))
+				{
+					bIsInvalid = true;
+					break;
+				}
+			}
+
+			if (!bIsInvalid)
+			{
+				Output = SearchingPosition;
+				return true;
+			}
+		}
+	}
+
+	return false;
+}
+
+bool UAIManager::__FindPositionWhetherSafeToPutBomb(const ACharacter* AICharacter, FVector2D& PositionToPutBomb, FVector2D& EscapeDest) const
+{
+	FVector2D Position = VectorToRefinedVector(AICharacter->GetPosition());
+	std::list<FVector2D> TempPath;
+
+	vector<int> Width{};
+	vector<int> Height{};
+
+	for (int i = -3; i < 4; i++)
+	{
+		Width.push_back(i);
+		Height.push_back(i);
+	}
+
+	std::shuffle(Width.begin(), Width.end(), std::default_random_engine{});
+	std::shuffle(Height.begin(), Height.end(), std::default_random_engine{});
+
+	UMovementManager* MoveManager = GetGameInstance()->GetSubsystem<UMovementManager>();
+
+	for (int i : Width)
+	{
+		for (int j : Height)
+		{
+			FVector2D CheckDest = Position + FVector2D::Right * 60.0f * (float)i + FVector2D::Down * 60.0f * (float)j;
+			FAxisAlignedBoundingBox CheckAABB{ CheckDest, TILE_WIDTH / 2, TILE_HEIGHT / 2 };
+
+			bool bPossible{};
+
+			for (ABlock* Block : MoveManager->m_Blocks)
+			{
+				if (!CheckAABB.GetIsCollidedWith(Block->GetPosition()))
+				{
+					bPossible = true;
+					break;
+				}
+			}
+
+
+			if (bPossible)
+			{
+				PositionToPutBomb = CheckDest;
+				return true;
+			}
+		}
+	}
+
+}
+
 bool UAIManager::FindPath(FVector2D StartPos, FVector2D DestinationPos, std::list<FVector2D>& ListToContainPath) const
 {
 	std::multiset<shared_ptr<FPathNode>, CompareFunctionForOpenList> OpenList{};
@@ -123,7 +231,7 @@ bool UAIManager::FindPath(FVector2D StartPos, FVector2D DestinationPos, std::lis
 	shared_ptr<FPathNode> StartNode{ new FPathNode{ nullptr, StartPos} };
 	OpenList.insert(StartNode);
 
-	while (OpenList.size() > 0 )
+	while (OpenList.size() > 0 && OpenList.size() < 50)
 	{
 		shared_ptr<FPathNode> CenterNode = *OpenList.begin();
 

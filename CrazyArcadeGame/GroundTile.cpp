@@ -9,7 +9,9 @@ void AGroundTile::BeginPlay()
 
 void AGroundTile::Tick(float fDeltaTime)
 {
-	AGroundTile::Tick(fDeltaTime);
+	Super::Tick(fDeltaTime);
+
+
 }
 
 void AGroundTile::LateTick(float fDeltaTime)

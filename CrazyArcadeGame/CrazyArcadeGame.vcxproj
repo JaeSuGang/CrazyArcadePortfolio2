@@ -128,7 +128,8 @@
     </Lib>
     <PostBuildEvent>
       <Command>lib /OUT:"$(OutDir)$(ProjectName).lib" "$(IntDir)*.obj"
-</Command>
+xcopy /E /I /Y "$(SolutionDir)Resources" "$(OutDir)Resources"
+xcopy /E /I /Y "$(SolutionDir)Resources" "$(ProjectDir)Resources"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -157,7 +158,8 @@
     </Lib>
     <PostBuildEvent>
       <Command>lib /OUT:"$(OutDir)$(ProjectName).lib" "$(IntDir)*.obj"
-</Command>
+xcopy /E /I /Y "$(SolutionDir)Resources" "$(OutDir)Resources"
+xcopy /E /I /Y "$(SolutionDir)Resources" "$(ProjectDir)Resources"</Command>
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
