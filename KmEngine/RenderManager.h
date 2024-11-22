@@ -11,6 +11,7 @@ class URenderManager : public UEngineSubsystem
 public:
 	void DrawDebugRectangle(FVector2D Center, FVector2D Size, HPEN hPen);
 	void DrawDebugText(FVector2D Position, string_view Text);
+	void DrawDebugColorText(FVector2D Position, string_view Text, COLORREF Color);
 	void DrawDebugPosition(FVector2D Position);
 	void DrawDebugLine(FVector2D StartPos, FVector2D DestPos, HPEN hPen);
 

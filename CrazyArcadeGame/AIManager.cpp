@@ -140,13 +140,18 @@ bool UAIManager::GetIsDangerousPosition(FVector2D PositionToCheck)
 
 	for (ABomb* BombToCheck : BombManager->m_Bombs)
 	{
-		FAxisAlignedBoundingBox DangerousAABB{
+		FAxisAlignedBoundingBox DangerousAABB1{
 			VectorToRefinedVector(BombToCheck->GetPosition()),
 			BombToCheck->GetBombRange() * TILE_WIDTH + TILE_WIDTH / 2,
+			TILE_HEIGHT / 2
+		};
+		FAxisAlignedBoundingBox DangerousAABB2{
+			VectorToRefinedVector(BombToCheck->GetPosition()),
+			TILE_WIDTH / 2,
 			BombToCheck->GetBombRange() * TILE_HEIGHT + TILE_HEIGHT / 2
 		};
 
-		if (DangerousAABB.GetIsCollidedWith(PositionToCheck))
+		if (DangerousAABB1.GetIsCollidedWith(PositionToCheck) || DangerousAABB2.GetIsCollidedWith(PositionToCheck))
 		{
 			return true;
 		}

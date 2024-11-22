@@ -115,6 +115,13 @@ void URenderManager::DrawDebugText(FVector2D Position, string_view Text)
 	TextOutA(m_LayerDC[4], (int)(Position.X), (int)(Position.Y), Text.data(), (int)Text.size());
 }
 
+void URenderManager::DrawDebugColorText(FVector2D Position, string_view Text, COLORREF Color)
+{
+	SetTextColor(m_LayerDC[4], Color);
+	TextOutA(m_LayerDC[4], (int)(Position.X), (int)(Position.Y), Text.data(), (int)Text.size());
+	SetTextColor(m_LayerDC[4], RGB(0, 0, 0));
+}
+
 void URenderManager::DrawDebugPosition(FVector2D Position)
 {
 	string strPos = "[" + std::to_string((int)Position.X) + ", " + std::to_string((int)Position.Y) + "]";

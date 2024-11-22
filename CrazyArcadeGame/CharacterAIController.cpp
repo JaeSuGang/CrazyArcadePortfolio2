@@ -104,7 +104,7 @@ void ACharacterAIController::SetRandomDirectionTimer()
 
 void ACharacterAIController::SetRandomTaskSearchTimer()
 {
-	TaskSearchCooldown = (rand() % 2000 + 1000.0f) / 1000.0f;
+	TaskSearchCooldown = (rand() % 1000 + 1000.0f) / 1000.0f;
 }
 
 void ACharacterAIController::SetRandomIdleTimer()
@@ -114,7 +114,8 @@ void ACharacterAIController::SetRandomIdleTimer()
 
 void ACharacterAIController::SetRandomEvadeCheckCooldown()
 {
-	EvadeCheckCooldown = ((float)(rand() % 100) + 100.0f) / 1000.0f;
+	// EvadeCheckCooldown = 0.0f;
+	EvadeCheckCooldown = ((float)(rand() % 50) + 50.0f) / 1000.0f;
 }
 
 void ACharacterAIController::SubtractEvadeWaitTimer(float fDeltaTime)
@@ -266,7 +267,7 @@ void ACharacterAIController::UIdleState::OnStateUpdate(float fDeltaTime)
 			"IdleState");
 	}
 
-	if (Controller->GetTaskSearchCooldown() <= 0.0f)
+	if (Controller->GetTaskSearchCooldown() <= 0.0f && Character->GetBombLeft() > 0)
 	{
 		Controller->SetRandomTaskSearchTimer();
 
@@ -293,14 +294,24 @@ void ACharacterAIController::UIdleState::OnStateUpdate(float fDeltaTime)
 
 		if (Controller->GetIsInDangerousPosition())
 		{
+			if (Controller->GetDebugMode())
+				Character->GetRenderManager()->DrawDebugColorText(Character->GetPosition() + FVector2D::Up * 20.0f,
+					"Found Danger", RGB(255, 0, 0));
 			FVector2D RandomPlaceToGo{};
-			if (Controller->GetRandomPlaceToGo(RandomPlaceToGo))
+			int nThoughtCount = 50;
+			while (nThoughtCount > 0)
 			{
-				if (!Controller->GetIsDangerousPosition(RandomPlaceToGo))
+				if (Controller->GetRandomPlaceToGo(RandomPlaceToGo))
 				{
-					Controller->SetPathUsingAStar(RandomPlaceToGo);
-					FSM->ChangeState<UEvadeState>();
+					if (!Controller->GetIsDangerousPosition(RandomPlaceToGo))
+					{
+						Controller->SetPathUsingAStar(RandomPlaceToGo);
+						FSM->ChangeState<UEvadeState>();
+						break;
+					}
 				}
+
+				nThoughtCount--;
 			}
 		}
 	}
@@ -359,10 +370,18 @@ void ACharacterAIController::UEvadeState::OnStateUpdate(float fDeltaTime)
 
 	Controller->SubtractEvadeWaitTimer(fDeltaTime);
 
+	if (Controller->GetDebugMode())
+	{
+		Character->GetRenderManager()->DrawDebugText(Character->GetPosition() + FVector2D::Down * 20.0f,
+			"EvadeState");
+	}
+
+
 
 	if (Controller->GetEvadeWaitTimer() <= 0.0f)
 	{
 		FSM->ChangeState<UIdleState>();
+		return;
 	}
 
 
