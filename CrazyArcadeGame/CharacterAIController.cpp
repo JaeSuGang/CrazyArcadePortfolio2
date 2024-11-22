@@ -112,10 +112,10 @@ void ACharacterAIController::SetRandomIdleTimer()
 	IdleTimer = ((float)(rand() % 2000) + 800.0f) / 1000.0f;
 }
 
-void ACharacterAIController::SetRandomEvadeCheckCooldown()
+void ACharacterAIController::SetRandomEvadeCheckCooldown(float fAdditionalTime)
 {
 	// EvadeCheckCooldown = 0.0f;
-	EvadeCheckCooldown = ((float)(rand() % 50) + 50.0f) / 1000.0f;
+	EvadeCheckCooldown = ((float)(rand() % 100)) / 1000.0f + fAdditionalTime;
 }
 
 void ACharacterAIController::SubtractEvadeWaitTimer(float fDeltaTime)
@@ -189,6 +189,36 @@ void ACharacterAIController::OnDebug()
 		PreviousPosition = Position;
 	}
 }
+/*
+* returns true if it was dangerous
+*/
+bool ACharacterAIController::CheckAndEvade()
+{
+	if (this->GetIsInDangerousPosition())
+	{
+		if (this->GetDebugMode())
+			m_Character->GetRenderManager()->DrawDebugColorText(this->GetPosition() + FVector2D::Up * 20.0f,
+				"Found Danger", RGB(255, 0, 0));
+		FVector2D RandomPlaceToGo{};
+		int nThoughtCount = 50;
+		while (nThoughtCount > 0)
+		{
+			if (this->GetRandomPlaceToGo(RandomPlaceToGo))
+			{
+				if (!this->GetIsDangerousPosition(RandomPlaceToGo))
+				{
+					this->SetPathUsingAStar(RandomPlaceToGo);
+					FSM->ChangeState<UEvadeState>();
+					break;
+				}
+			}
+
+			nThoughtCount--;
+		}
+		return true;
+	}
+	return false;
+}
 
 bool ACharacterAIController::GetIsInDangerousPosition() const
 {
@@ -206,8 +236,15 @@ bool ACharacterAIController::GetIsDangerousPosition(FVector2D PositionToCheck) c
 
 void ACharacterAIController::FollowPath()
 {
-	if (!m_Character || Path.begin() == Path.end())
+	if (!m_Character)
 		return;
+
+	if (Path.begin() == Path.end())
+	{
+		if (!m_Character->m_bIsAlreadyExploded)
+			m_Character->Idle(FVector2D::Down);
+		return;
+	}
 
 	FVector2D PositionToGo = *Path.begin();
 
@@ -290,30 +327,11 @@ void ACharacterAIController::UIdleState::OnStateUpdate(float fDeltaTime)
 
 	if (Controller->GetEvadeCheckCooldown() <= 0.0f)
 	{
-		Controller->SetRandomEvadeCheckCooldown();
-
-		if (Controller->GetIsInDangerousPosition())
-		{
-			if (Controller->GetDebugMode())
-				Character->GetRenderManager()->DrawDebugColorText(Character->GetPosition() + FVector2D::Up * 20.0f,
-					"Found Danger", RGB(255, 0, 0));
-			FVector2D RandomPlaceToGo{};
-			int nThoughtCount = 50;
-			while (nThoughtCount > 0)
-			{
-				if (Controller->GetRandomPlaceToGo(RandomPlaceToGo))
-				{
-					if (!Controller->GetIsDangerousPosition(RandomPlaceToGo))
-					{
-						Controller->SetPathUsingAStar(RandomPlaceToGo);
-						FSM->ChangeState<UEvadeState>();
-						break;
-					}
-				}
-
-				nThoughtCount--;
-			}
-		}
+		bool bIsDangerous = Controller->CheckAndEvade();
+		if (bIsDangerous)
+			Controller->SetRandomEvadeCheckCooldown(1.0f);
+		else
+			Controller->SetRandomEvadeCheckCooldown(0.0f);
 	}
 
 	Character->Move(Controller->GetDirection());
@@ -368,6 +386,7 @@ void ACharacterAIController::UEvadeState::OnStateUpdate(float fDeltaTime)
 	ACharacterAIController* Controller = static_cast<ACharacterAIController*>(this->Owner);
 	ACharacter* Character = static_cast<ACharacter*>(Controller->GetPawn());
 
+	Controller->SubtractEvadeCheckCooldown(fDeltaTime);
 	Controller->SubtractEvadeWaitTimer(fDeltaTime);
 
 	if (Controller->GetDebugMode())
@@ -376,7 +395,15 @@ void ACharacterAIController::UEvadeState::OnStateUpdate(float fDeltaTime)
 			"EvadeState");
 	}
 
+	if (Controller->GetEvadeCheckCooldown() <= 0.0f)
+	{
+		bool bIsDangerous = Controller->CheckAndEvade();
+		if (bIsDangerous)
+			Controller->SetRandomEvadeCheckCooldown(1.0f);
+		else
+			Controller->SetRandomEvadeCheckCooldown(0.0f);
 
+	}
 
 	if (Controller->GetEvadeWaitTimer() <= 0.0f)
 	{

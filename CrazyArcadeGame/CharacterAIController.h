@@ -44,6 +44,8 @@ public:
 	void BeginPlay() override;
 	void OnDebug() override;
 
+	bool CheckAndEvade();
+
 	bool GetIsInDangerousPosition() const;
 
 	bool GetIsDangerousPosition(FVector2D PositionToCheck) const;
@@ -74,7 +76,7 @@ public:
 
 	void SetRandomIdleTimer();
 
-	void SetRandomEvadeCheckCooldown();
+	void SetRandomEvadeCheckCooldown(float fAdditionalTime);
 
 	void SubtractEvadeWaitTimer(float fDeltaTime);
 
