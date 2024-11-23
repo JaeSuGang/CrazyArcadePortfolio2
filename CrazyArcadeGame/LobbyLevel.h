@@ -6,32 +6,34 @@ class ULobbyLevel : public ULevel
 	typedef ULevel Super;
 
 public:
-	struct FLevelEvent
+	struct FTimeEvent
 	{
-		bool operator==(const FLevelEvent& Other) const;
+		bool operator==(const FTimeEvent& Other) const;
 
 		float m_fElapsedTimeToTrigger;
 		float m_nUUID;
 		std::function<void()> m_Function;
 	};
 
-	struct FLevelEventHash
+	struct FTimeEventHash
 	{
-		std::size_t operator()(const FLevelEvent& Event) const;
+		std::size_t operator()(const FTimeEvent& Event) const;
 	};
 
 	enum class ELevelState
 	{
 		Login,
 		Lobby,
-		Lobby_Tutorial
+		Lobby_Tutorial,
+		Room
 	};
 
 
 
 public:
 	void ChangeLevelState(ELevelState LevelState);
-	void AddLevelEvent(std::function<void()> Function, float fTime);
+	void AddLevelTimeEvent(std::function<void()> Function, float fTime);
+	void OnClicked();
 
 public:
 	void Tick(float fDeltaTime) override;
@@ -39,7 +41,7 @@ public:
 	void BeginPlay() override;
 
 public:
-	unordered_multiset<FLevelEvent, FLevelEventHash> m_Events;
+	unordered_multiset<FTimeEvent, FTimeEventHash> m_TimeEvents;
 	ELevelState m_LevelState;
 	float m_fElapseTime;
 		

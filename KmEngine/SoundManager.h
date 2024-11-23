@@ -5,6 +5,7 @@
 class USoundManager : public UEngineSubsystem
 {
 public:
+	void StopAllSounds();
 	void Play(string strKey);
 
 public:

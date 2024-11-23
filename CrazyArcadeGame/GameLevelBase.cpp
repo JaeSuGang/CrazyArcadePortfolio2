@@ -67,7 +67,7 @@ void UGameLevelBase::BeginPlay()
 
 	// 소리 재생
 	USoundManager* SoundManager = GEngine->GetEngineSubsystem<USoundManager>();
-	SoundManager->Play("Resources\\Sound\\Login.wav");
+	SoundManager->Play("Resources\\Sound\\gamebgm1.wav");
 }
 
 void UGameLevelBase::Release()

@@ -168,5 +168,9 @@ UImage::~UImage()
 void USound::LoadFile(string strPath)
 {
 	USoundManager* SoundManager = GEngine->GetEngineSubsystem<USoundManager>();
-	SoundManager->m_FModSystem->createSound(strPath.data(), FMOD_LOOP_OFF, nullptr, &m_hSoundHandle);
+
+	if (strPath.find("bgm") != string::npos)
+		SoundManager->m_FModSystem->createSound(strPath.data(), FMOD_LOOP_NORMAL, nullptr, &m_hSoundHandle);
+	else
+		SoundManager->m_FModSystem->createSound(strPath.data(), FMOD_LOOP_OFF, nullptr, &m_hSoundHandle);
 }

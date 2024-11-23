@@ -15,6 +15,16 @@ void USoundManager::Initialize()
 	m_FModSystem->init(32, FMOD_DEFAULT, nullptr);
 }
 
+void USoundManager::StopAllSounds()
+{
+	FMOD::ChannelGroup* MasterChannelGroup{};
+	m_FModSystem->getMasterChannelGroup(&MasterChannelGroup);
+
+	if (MasterChannelGroup)
+		MasterChannelGroup->stop();
+}
+
+
 void USoundManager::Play(string strKey)
 {
 	LOWER_STRING(strKey);
