@@ -48,8 +48,6 @@ void UGameLevelBase::BeginPlay()
 	AGameUI* InGameUI = SpawnManager->SpawnGameUI("Resources\\UI\\InGameUI.bmp", FVector2D(600.0f, 450.0f));
 
 	// Å¸ÀÏ¸Ê »ý¼º
-	m_Tilemap = new FTilemap{};
-	m_Tilemap->Load("Resources\\TilemapData\\stage1.tilemap");
 	SpawnManager->GenerateTilemap(m_Tilemap);
 
 

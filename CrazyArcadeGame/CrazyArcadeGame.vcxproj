@@ -169,7 +169,8 @@ xcopy /E /I /Y "$(SolutionDir)Resources" "$(ProjectDir)Resources"</Command>
     <ClCompile Include="Bomb.cpp" />
     <ClCompile Include="BombManager.cpp" />
     <ClCompile Include="BombProperty.cpp" />
-    <ClCompile Include="BP_GameStage_Village_0.cpp" />
+    <ClCompile Include="BP_GameStage_Village_1.cpp" />
+    <ClCompile Include="BP_GameStage_Village_2.cpp" />
     <ClCompile Include="CharacterAIController.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="FSM.cpp" />
@@ -201,7 +202,8 @@ xcopy /E /I /Y "$(SolutionDir)Resources" "$(ProjectDir)Resources"</Command>
     <ClInclude Include="Bomb.h" />
     <ClInclude Include="BombManager.h" />
     <ClInclude Include="BombProperty.h" />
-    <ClInclude Include="BP_GameStage_Village_0.h" />
+    <ClInclude Include="BP_GameStage_Village_1.h" />
+    <ClInclude Include="BP_GameStage_Village_2.h" />
     <ClInclude Include="CharacterAIController.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="Explodable.h" />

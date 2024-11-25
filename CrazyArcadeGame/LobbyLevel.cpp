@@ -8,7 +8,8 @@
 #include "MainGameInstance.h"
 #include "SpawnManager.h"
 #include "Character.h"
-#include "BP_GameStage_Village_0.h"
+#include "BP_GameStage_Village_1.h"
+#include "BP_GameStage_Village_2.h"
 
 void ULobbyLevel::OnStart()
 {
@@ -16,7 +17,10 @@ void ULobbyLevel::OnStart()
 	switch (SelectedGameStage)
 	{
 	case ULobbyLevel::ESelectedGameStage::Village_1:
-		GetGameInstance()->OpenLevel<BP_GameStage_Village_0>();
+		GetGameInstance()->OpenLevel<BP_GameStage_Village_2>();
+		break;
+	case ULobbyLevel::ESelectedGameStage::Village_2:
+		GetGameInstance()->OpenLevel<BP_GameStage_Village_2>();
 		break;
 	default:
 		break;

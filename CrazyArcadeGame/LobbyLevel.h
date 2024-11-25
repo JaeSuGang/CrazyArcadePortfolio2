@@ -34,7 +34,8 @@ public:
 
 	enum class ESelectedGameStage
 	{
-		Village_1
+		Village_1,
+		Village_2
 	};
 
 
