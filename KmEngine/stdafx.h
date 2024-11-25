@@ -7,6 +7,7 @@
 #include <Windows.h>
 
 // std
+#include <random>
 #include <string>
 #include <string_view>
 #include <typeinfo>

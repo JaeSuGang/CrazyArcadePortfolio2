@@ -35,6 +35,7 @@
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="PhysicsComponent.h" />
     <ClInclude Include="PlayerController.h" />
+    <ClInclude Include="RandomManager.h" />
     <ClInclude Include="RenderComponent.h" />
     <ClInclude Include="ResourceManager.h" />
     <ClInclude Include="SoundManager.h" />
@@ -59,6 +60,7 @@
     <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="PhysicsComponent.cpp" />
     <ClCompile Include="PlayerController.cpp" />
+    <ClCompile Include="RandomManager.cpp" />
     <ClCompile Include="RenderComponent.cpp" />
     <ClCompile Include="ResourceManager.cpp" />
     <ClCompile Include="SoundManager.cpp" />

@@ -6,6 +6,7 @@
 #include "RenderManager.h"
 #include "TimeManager.h"
 #include "SoundManager.h"
+#include "RandomManager.h"
 #include "DebugManager.h"
 
 using std::pair;
@@ -17,6 +18,7 @@ void UEngine::Tick()
 	URenderManager* RenderManager = GetEngineSubsystem<URenderManager>();
 	UDebugManager* DebugManager = GetEngineSubsystem<UDebugManager>();
 	USoundManager* SoundManager = GetEngineSubsystem<USoundManager>();
+	URandomManager* RandomManager = GetEngineSubsystem<URandomManager>();
 	UGameInstance* GameInstance = GetGameInstance();
 
 	TimeManager->SetLastCounter();
@@ -140,6 +142,16 @@ void UEngine::CreateSoundManager()
 	Subsystem->Initialize();
 
 	string ClassName = typeid(USoundManager).name();
+	pair<string, UEngineSubsystem*> PairToInsert{ ClassName, Subsystem };
+	m_Subsystems.insert(PairToInsert);
+}
+
+void UEngine::CreateRandomManager()
+{
+	URandomManager* Subsystem = new URandomManager{};
+	Subsystem->Initialize();
+
+	string ClassName = typeid(URandomManager).name();
 	pair<string, UEngineSubsystem*> PairToInsert{ ClassName, Subsystem };
 	m_Subsystems.insert(PairToInsert);
 }

@@ -18,6 +18,13 @@ public:
 
 	void AddTimeEvent(std::function<void()> Function, float TriggerDelay);
 
+	void HandleTimeEvents();
+
+	void ClearTimeEvents();
+
+public:
+	ACCESSORS_ALL(float, TimeElapsed);
+
 private:
 	vector<FTimeEvent> TimeEvents;
 	float TimeElapsed;

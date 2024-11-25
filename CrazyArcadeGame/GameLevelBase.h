@@ -20,7 +20,8 @@ public:
 	ACCESSORS_ALL(float, ElapsedTime);
 	ACCESSORS_ALL(bool, bIsGameStarted);
 
-private:
+protected:
+	vector<FVector2D> SpawnLocations;
 	FTilemap* m_Tilemap;
 	bool bIsGameStarted;
 	float ElapsedTime;

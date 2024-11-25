@@ -6,12 +6,15 @@
 #include "KmEngine/GameInstance.h"
 #include "KmEngine/PlayerController.h"
 #include "KmEngine/SoundManager.h"
+#include "KmEngine/RandomManager.h"
 #include "GameUI.h"
 #include "SpawnManager.h"
 #include "BombManager.h"
 #include "MovementManager.h"
 #include "CharacterAIController.h"
 #include "Tilemap.h"
+#include "TimeEventManager.h"
+#include "MainGameInstance.h"
 
 
 
@@ -32,6 +35,7 @@ void UGameLevelBase::BeginPlay()
 {
 	Super::BeginPlay();
 
+	UTimeEventManager* TimeEventManager = GetGameInstance()->GetSubsystem<UTimeEventManager>();
 	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
 	USpawnManager* SpawnManager = GetGameInstance()->GetSubsystem<USpawnManager>();
 	UMovementManager* MovementManager = GetGameInstance()->GetSubsystem<UMovementManager>();
@@ -48,30 +52,68 @@ void UGameLevelBase::BeginPlay()
 	m_Tilemap->Load("Resources\\TilemapData\\stage1.tilemap");
 	SpawnManager->GenerateTilemap(m_Tilemap);
 
-	// 메인 플레이어 생성
-	ACharacter* MainCharacter = SpawnManager->SpawnBazzi(FVector2D(420.0f, 330.0f));
-	MainCharacter->SetDebugPen(CreatePen(PS_SOLID, 3, RGB(0, 255, 0)));
-	PlayerController->Possess(MainCharacter);
 
-	// AI 봇 생성
-	ACharacter* Dao = SpawnManager->SpawnDao(FVector2D(900.0f, 810.0f));
-	Dao->SetDebugPen(CreatePen(PS_SOLID, 3, RGB(255, 127, 0)));
-	SpawnManager->SpawnCharacterAIController()->Possess(Dao);
+	UMainGameInstance* MainGameInstance = static_cast<UMainGameInstance*>(GetGameInstance());
+	URandomManager* RandomManager = GEngine->GetEngineSubsystem<URandomManager>();
+	RandomManager->ShuffleVector(SpawnLocations);
 
-	ACharacter* Marid = SpawnManager->SpawnMarid(FVector2D(60.0f, 150.0f));
-	Marid->SetDebugPen(CreatePen(PS_SOLID, 3, RGB(255, 212, 0)));
-	ACharacterAIController* MaridController = SpawnManager->SpawnCharacterAIController();
-	MaridController->Possess(Marid);
-	UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
-	KeyManager->BindKey(VK_LBUTTON, UKeyManager::EKeyState::KeyDown, std::bind(&ACharacterAIController::SetPathByClicking, MaridController));
+	
+	ACharacter* SpawningCharacter{};
+	AController* Controller{};
 
-	ACharacter* Cappi = SpawnManager->SpawnCappi(FVector2D(840.0f, 150.0f));
-	Cappi->SetDebugPen(CreatePen(PS_SOLID, 3, RGB(15, 180, 252)));
-	SpawnManager->SpawnCharacterAIController()->Possess(Cappi);
+	for (int i = 0; i < SpawnLocations.size(); i++)
+	{
+		int nRandomNumber = RandomManager->GenerateRandomNumber((int)UMainGameInstance::ECharacterType::Bazzi, (int)UMainGameInstance::ECharacterType::End);
+
+		UMainGameInstance::ECharacterType RandomCharacterType = (UMainGameInstance::ECharacterType)nRandomNumber;
+
+		if (i == 0)
+			RandomCharacterType = MainGameInstance->GetLocalPlayerCharacterType();
+
+		switch (RandomCharacterType)
+		{
+		case UMainGameInstance::ECharacterType::Bazzi:
+		{
+			SpawningCharacter = SpawnManager->SpawnBazzi(SpawnLocations[i]);
+			SpawningCharacter->SetDebugPen(CreatePen(PS_SOLID, 3, RGB(0, 255, 0)));
+			break;
+		}
+		case UMainGameInstance::ECharacterType::Dao:
+		{
+			SpawningCharacter = SpawnManager->SpawnDao(SpawnLocations[i]);
+			SpawningCharacter->SetDebugPen(CreatePen(PS_SOLID, 3, RGB(255, 127, 0)));
+			break;
+		}
+		case UMainGameInstance::ECharacterType::Cappi:
+		{
+			SpawningCharacter = SpawnManager->SpawnCappi(SpawnLocations[i]);
+			SpawningCharacter->SetDebugPen(CreatePen(PS_SOLID, 3, RGB(15, 180, 252)));
+			break;
+		}
+		case UMainGameInstance::ECharacterType::Marid:
+		{
+			SpawningCharacter = SpawnManager->SpawnMarid(SpawnLocations[i]);
+			SpawningCharacter->SetDebugPen(CreatePen(PS_SOLID, 3, RGB(255, 212, 0)));
+			break;
+		}
+		}
+
+		if (i == 0)
+		{
+			Controller = SpawnManager->SpawnPlayerController();
+		}
+		else
+		{
+			Controller = SpawnManager->SpawnCharacterAIController();
+		}
+
+		TimeEventManager->AddTimeEvent(std::bind(&AController::Possess, Controller, SpawningCharacter), 1.0f);
+	}
 
 	// 소리 재생
 	USoundManager* SoundManager = GEngine->GetEngineSubsystem<USoundManager>();
 	SoundManager->Play("Resources\\Sound\\gamebgm1.wav");
+
 }
 
 void UGameLevelBase::Release()

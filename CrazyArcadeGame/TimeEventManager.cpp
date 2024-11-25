@@ -3,7 +3,9 @@
 
 void UTimeEventManager::Tick(float fDeltaTime)
 {
-	this->TimeElapsed += fDeltaTime;
+	TimeElapsed += fDeltaTime;
+
+	this->HandleTimeEvents();
 }
 
 void UTimeEventManager::AddTimeEvent(std::function<void()> Function, float TriggerDelay)
@@ -13,4 +15,25 @@ void UTimeEventManager::AddTimeEvent(std::function<void()> Function, float Trigg
 	TimeEvent.TimeToTrigger = TimeElapsed + TriggerDelay;
 
 	TimeEvents.push_back(TimeEvent);
+}
+
+void UTimeEventManager::HandleTimeEvents()
+{
+	auto EndIterToErase = std::remove_if(TimeEvents.begin(), TimeEvents.end(),
+		[this](FTimeEvent& Event)
+		{
+			if (Event.TimeToTrigger >= this->GetTimeElapsed())
+			{
+				Event.FunctionToTrigger();
+				return true;
+			}
+			return false;
+		});
+
+	TimeEvents.erase(EndIterToErase, TimeEvents.end());
+}
+
+void UTimeEventManager::ClearTimeEvents()
+{
+	TimeEvents.clear();
 }

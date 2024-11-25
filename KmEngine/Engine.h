@@ -23,6 +23,7 @@ public:
 	void CreateTimeManager();
 	void CreateKeyManager();
 	void CreateSoundManager();
+	void CreateRandomManager();
 
 public:
 	UGameInstance* GetGameInstance() const;

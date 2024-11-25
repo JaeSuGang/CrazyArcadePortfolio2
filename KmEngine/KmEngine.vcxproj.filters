@@ -58,6 +58,9 @@
     <Filter Include="NewFilter1">
       <UniqueIdentifier>{b8499d1e-b308-417b-92a4-4be9b57301f3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EngineSubsystem\RandomManager">
+      <UniqueIdentifier>{f2c07af6-28e0-4f6c-9d08-535ebce0e8af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">
@@ -123,6 +126,9 @@
     </ClCompile>
     <ClCompile Include="SoundManager.cpp">
       <Filter>EngineSubsystem\SoundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="RandomManager.cpp">
+      <Filter>EngineSubsystem\RandomManager</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -191,6 +197,9 @@
     </ClInclude>
     <ClInclude Include="SoundManager.h">
       <Filter>EngineSubsystem\SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="RandomManager.h">
+      <Filter>EngineSubsystem\RandomManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

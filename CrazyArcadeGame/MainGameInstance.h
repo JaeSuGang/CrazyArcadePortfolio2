@@ -11,7 +11,8 @@ public:
 		Bazzi,
 		Dao,
 		Cappi,
-		Marid
+		Marid,
+		End
 	};
 
 public:

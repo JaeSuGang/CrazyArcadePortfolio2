@@ -27,6 +27,7 @@ int APIENTRY wWinMain(_In_ HINSTANCE hInstance,
 	GEngine->CreateTimeManager();
 	GEngine->CreateKeyManager();
 	GEngine->CreateSoundManager();
+	GEngine->CreateRandomManager();
 	UResourceManager* ResourceManager = GEngine->CreateResourceManager(hGameWindow);
 	ResourceManager->LoadAll();
 	GEngine->CreateDebugManager(hGameWindowDC);

@@ -12,6 +12,7 @@
 
 void ULobbyLevel::OnStart()
 {
+
 	switch (SelectedGameStage)
 	{
 	case ULobbyLevel::ESelectedGameStage::Village_1:
