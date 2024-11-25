@@ -57,11 +57,12 @@ public:
 	vector<URenderComponent*> m_ComponentsToRenderFourth;
 	vector<URenderComponent*> m_ComponentsToRenderFifth;
 
+
 private:
 	HPEN m_hMagentaPen;
 	HBRUSH m_hMagentaBrush;
 	vector<HDC> m_LayerDC;
-	bool m_bShouldGenerateFloorTiles;
+	bool bShouldGenerateFloorTiles;
 
 	vector<std::function<void()>> m_CustomRenderEvents;
 	FVector2D m_WindowSize;

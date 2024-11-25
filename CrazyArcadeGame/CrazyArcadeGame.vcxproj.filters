@@ -74,6 +74,9 @@
     <ClCompile Include="AttributeData.cpp">
       <Filter>Struct</Filter>
     </ClCompile>
+    <ClCompile Include="BP_GameStage_Village_0.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="pch">
@@ -191,6 +194,9 @@
     </ClInclude>
     <ClInclude Include="AttributeData.h">
       <Filter>Struct</Filter>
+    </ClInclude>
+    <ClInclude Include="BP_GameStage_Village_0.h">
+      <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

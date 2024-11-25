@@ -140,7 +140,7 @@ void URenderManager::DrawDebugLine(FVector2D StartPos, FVector2D DestPos ,HPEN h
 
 void URenderManager::SetbShouldGenerateFloorTiles(bool bValue)
 {
-	m_bShouldGenerateFloorTiles = bValue;
+	bShouldGenerateFloorTiles = bValue;
 }
 
 void URenderManager::AddCustomRenderEvent(std::function<void()> RenderEvent)
@@ -302,9 +302,9 @@ URenderManager::URenderManager()
 	m_WindowSize{},
 	m_CustomRenderEvents{},
 	m_LayerDC{},
-	m_bShouldGenerateFloorTiles{}
+	bShouldGenerateFloorTiles{}
 {
-	m_bShouldGenerateFloorTiles = true;
+	bShouldGenerateFloorTiles = true;
 }
 
 URenderManager::~URenderManager()
@@ -314,12 +314,12 @@ URenderManager::~URenderManager()
 
 void URenderManager::RenderProcess1()
 {
-	if (m_bShouldGenerateFloorTiles)
+	if (bShouldGenerateFloorTiles)
 	{
 		URenderManager::CleanLayerDC(m_LayerDC[0], m_WindowSize);
 		URenderManager::SortRender(m_ComponentsToRenderFirst);
 		URenderManager::RenderComponents(m_ComponentsToRenderFirst, m_LayerDC[0], m_WindowSize);
-		m_bShouldGenerateFloorTiles = false;
+		bShouldGenerateFloorTiles = false;
 	}
 
 	URenderManager::CopyBitBltDC(m_hBackBufferDC, m_LayerDC[0], m_WindowSize);

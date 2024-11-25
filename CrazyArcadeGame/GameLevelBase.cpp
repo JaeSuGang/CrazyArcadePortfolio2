@@ -32,9 +32,13 @@ void UGameLevelBase::BeginPlay()
 {
 	Super::BeginPlay();
 
+	URenderManager* RenderManager = GEngine->GetEngineSubsystem<URenderManager>();
 	USpawnManager* SpawnManager = GetGameInstance()->GetSubsystem<USpawnManager>();
 	UMovementManager* MovementManager = GetGameInstance()->GetSubsystem<UMovementManager>();
 	APlayerController* PlayerController = SpawnManager->SpawnPlayerController();
+
+	// 바닥타일 한번 렌더 허용
+	RenderManager->SetbShouldGenerateFloorTiles(true);
 
 	// UI 생성
 	AGameUI* InGameUI = SpawnManager->SpawnGameUI("Resources\\UI\\InGameUI.bmp", FVector2D(600.0f, 450.0f));
