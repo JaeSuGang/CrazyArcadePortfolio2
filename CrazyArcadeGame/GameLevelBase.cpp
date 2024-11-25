@@ -24,6 +24,8 @@ void UGameLevelBase::Tick(float fDeltaTime)
 	Super::Tick(fDeltaTime);
 
 	this->ElapsedTime += fDeltaTime;
+
+	CheckGameFinished();
 }
 
 void UGameLevelBase::LateTick(float fDeltaTime)
@@ -112,6 +114,43 @@ void UGameLevelBase::BeginPlay()
 	USoundManager* SoundManager = GEngine->GetEngineSubsystem<USoundManager>();
 	SoundManager->Play("Resources\\Sound\\gamebgm1.wav");
 
+}
+
+void UGameLevelBase::CheckGameFinished()
+{
+	if (LocalPlayerCharacter == nullptr)
+		return;
+
+	if (Characters.size() == 1 && *Characters.begin() == LocalPlayerCharacter)
+	{
+		this->OnWin();
+	}
+
+	else if (Characters.find(LocalPlayerCharacter) == Characters.end())
+	{
+		this->OnLose();
+	}
+}
+
+void UGameLevelBase::OnWin()
+{
+	SHOW_ERROR("승리했다");
+
+}
+
+void UGameLevelBase::OnLose()
+{
+	SHOW_ERROR("패배했다");
+}
+
+void UGameLevelBase::AddToCharacters(ACharacter* Character)
+{
+	Characters.insert(Character);
+}
+
+void UGameLevelBase::RemoveFromCharacters(ACharacter* Character)
+{
+	Characters.erase(Character);
 }
 
 void UGameLevelBase::Release()

@@ -10,6 +10,7 @@
 #include "BombManager.h"
 #include "AIManager.h"
 #include "CharacterAIController.h"
+#include "GameLevelBase.h"
 
 void ACharacter::SetBombLeft(int nCount)
 {
@@ -223,6 +224,11 @@ void ACharacter::Release()
 			Casted->m_Character = nullptr;
 		}
 	}
+
+	if (UGameLevelBase* CastedLevel = dynamic_cast<UGameLevelBase*>(GetLevel()))
+	{
+		CastedLevel->RemoveFromCharacters(this);
+	}
 }
 
 ACharacter::~ACharacter()
@@ -285,6 +291,11 @@ void ACharacter::OnAIUnpossessed()
 void ACharacter::OnPlayerPossessed()
 {
 	Super::OnPlayerPossessed();
+
+	if (UGameLevelBase* GameLevelBase = dynamic_cast<UGameLevelBase*>(GetLevel()))
+	{
+		GameLevelBase->SetLocalPlayerCharacter(this);
+	}
 
 	UKeyManager* km = GEngine->GetEngineSubsystem<UKeyManager>();
 	km->BindKey(VK_UP, UKeyManager::EKeyState::Triggered, std::bind(&ACharacter::Move, this, FVector2D::Up));

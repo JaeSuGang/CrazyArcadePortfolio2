@@ -14,6 +14,7 @@
 #include "Explosion.h"
 #include "PowerUpItem.h"
 #include "AIManager.h"
+#include "GameLevelBase.h"
 
 
 ABlock* USpawnManager::GenerateVoidWallTile(FVector2D Pos)
@@ -199,6 +200,8 @@ ACharacter* USpawnManager::SpawnBazzi(FVector2D PositionVector)
 {
 	string strCharacterName = "Bazzi";
 	ACharacter* SpawnedCharacter = GetActiveLevel()->InitializeActorForPlay<ACharacter>();
+	if (UGameLevelBase* CastedGameLevelBase = dynamic_cast<UGameLevelBase*>(GetActiveLevel()))
+		CastedGameLevelBase->AddToCharacters(SpawnedCharacter);
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->SetCharacterName(strCharacterName);
 	SpawnedCharacter->SetBombLeft(1);
@@ -231,6 +234,8 @@ ACharacter* USpawnManager::SpawnDao(FVector2D PositionVector)
 {
 	string strCharacterName = "Dao";
 	ACharacter* SpawnedCharacter = GetActiveLevel()->InitializeActorForPlay<ACharacter>();
+	if (UGameLevelBase* CastedGameLevelBase = dynamic_cast<UGameLevelBase*>(GetActiveLevel()))
+		CastedGameLevelBase->AddToCharacters(SpawnedCharacter);
 	SpawnedCharacter->SetCharacterName(strCharacterName);
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->SetBombLeft(2);
@@ -260,6 +265,8 @@ ACharacter* USpawnManager::SpawnCappi(FVector2D PositionVector)
 {
 	string strCharacterName = "Cappi";
 	ACharacter* SpawnedCharacter = GetActiveLevel()->InitializeActorForPlay<ACharacter>();
+	if (UGameLevelBase* CastedGameLevelBase = dynamic_cast<UGameLevelBase*>(GetActiveLevel()))
+		CastedGameLevelBase->AddToCharacters(SpawnedCharacter);
 	SpawnedCharacter->SetCharacterName(strCharacterName);
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->SetBombLeft(1);
@@ -289,6 +296,8 @@ ACharacter* USpawnManager::SpawnMarid(FVector2D PositionVector)
 {
 	string strCharacterName = "Marid";
 	ACharacter* SpawnedCharacter = GetActiveLevel()->InitializeActorForPlay<ACharacter>();
+	if (UGameLevelBase* CastedGameLevelBase = dynamic_cast<UGameLevelBase*>(GetActiveLevel()))
+		CastedGameLevelBase->AddToCharacters(SpawnedCharacter);
 	SpawnedCharacter->SetCharacterName(strCharacterName);
 	SpawnedCharacter->SetPosition(PositionVector);
 	SpawnedCharacter->SetBombLeft(2);
