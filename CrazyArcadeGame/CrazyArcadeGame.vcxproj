@@ -191,6 +191,7 @@ xcopy /E /I /Y "$(SolutionDir)Resources" "$(ProjectDir)Resources"</Command>
     <ClCompile Include="Character.cpp" />
     <ClCompile Include="Tilemap.cpp" />
     <ClCompile Include="Block.cpp" />
+    <ClCompile Include="TimeEventManager.cpp" />
     <ClCompile Include="WallProperty.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -221,6 +222,7 @@ xcopy /E /I /Y "$(SolutionDir)Resources" "$(ProjectDir)Resources"</Command>
     <ClInclude Include="Character.h" />
     <ClInclude Include="Tilemap.h" />
     <ClInclude Include="Block.h" />
+    <ClInclude Include="TimeEventManager.h" />
     <ClInclude Include="WallProperty.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

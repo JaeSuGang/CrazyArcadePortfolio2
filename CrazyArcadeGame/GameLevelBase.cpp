@@ -20,7 +20,7 @@ void UGameLevelBase::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
 
-
+	this->ElapsedTime += fDeltaTime;
 }
 
 void UGameLevelBase::LateTick(float fDeltaTime)

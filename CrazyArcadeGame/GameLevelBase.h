@@ -16,7 +16,13 @@ public:
 	void Release();
 	~UGameLevelBase();
 
+public:
+	ACCESSORS_ALL(float, ElapsedTime);
+	ACCESSORS_ALL(bool, bIsGameStarted);
+
 private:
 	FTilemap* m_Tilemap;
+	bool bIsGameStarted;
+	float ElapsedTime;
 };
 

@@ -3,6 +3,7 @@
 #include "KmEngine/Level.h"
 #include "KmEngine/Engine.h"
 #include "KmEngine/ResourceManager.h"
+#include "TimeEventManager.h"
 #include "SpawnManager.h"
 #include "MovementManager.h"
 #include "GameLevelBase.h"
@@ -30,6 +31,7 @@ void UMainGameInstance::BeginPlay()
 	UMovementManager* MovementManager = CreateSubsystem<UMovementManager>();
 	UBombManager* BombManager = CreateSubsystem<UBombManager>();
 	UAIManager* AIManager = CreateSubsystem<UAIManager>();
+	UTimeEventManager* TimeEventManager = CreateSubsystem<UTimeEventManager>();
 
 	this->OpenLevel<ULobbyLevel>();
 }
