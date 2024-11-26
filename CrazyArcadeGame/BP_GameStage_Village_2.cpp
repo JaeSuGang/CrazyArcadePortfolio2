@@ -15,3 +15,19 @@ BP_GameStage_Village_2::BP_GameStage_Village_2()
 		}
 	}
 }
+
+void BP_GameStage_Village_2::CheckGameFinished()
+{
+	if (LocalPlayerCharacter == nullptr)
+		return;
+
+	if (Characters.size() <= 5 && *Characters.begin() == LocalPlayerCharacter)
+	{
+		this->OnWin();
+	}
+
+	else if (Characters.find(LocalPlayerCharacter) == Characters.end())
+	{
+		this->OnLose();
+	}
+}

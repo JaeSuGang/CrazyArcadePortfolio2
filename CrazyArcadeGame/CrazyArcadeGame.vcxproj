@@ -171,6 +171,8 @@ xcopy /E /I /Y "$(SolutionDir)Resources" "$(ProjectDir)Resources"</Command>
     <ClCompile Include="BombProperty.cpp" />
     <ClCompile Include="BP_GameStage_Village_1.cpp" />
     <ClCompile Include="BP_GameStage_Village_2.cpp" />
+    <ClCompile Include="BP_GameStage_Village_3.cpp" />
+    <ClCompile Include="BP_GameStage_Village_4.cpp" />
     <ClCompile Include="CharacterAIController.cpp" />
     <ClCompile Include="Explosion.cpp" />
     <ClCompile Include="FSM.cpp" />
@@ -178,6 +180,7 @@ xcopy /E /I /Y "$(SolutionDir)Resources" "$(ProjectDir)Resources"</Command>
     <ClCompile Include="GroundTile.cpp" />
     <ClCompile Include="InGameProperty.cpp" />
     <ClCompile Include="LobbyLevel.cpp" />
+    <ClCompile Include="RoomLevel.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainGameInstance.cpp" />
     <ClCompile Include="MovementManager.cpp" />
@@ -204,6 +207,8 @@ xcopy /E /I /Y "$(SolutionDir)Resources" "$(ProjectDir)Resources"</Command>
     <ClInclude Include="BombProperty.h" />
     <ClInclude Include="BP_GameStage_Village_1.h" />
     <ClInclude Include="BP_GameStage_Village_2.h" />
+    <ClInclude Include="BP_GameStage_Village_3.h" />
+    <ClInclude Include="BP_GameStage_Village_4.h" />
     <ClInclude Include="CharacterAIController.h" />
     <ClInclude Include="define.h" />
     <ClInclude Include="Explodable.h" />
@@ -214,6 +219,7 @@ xcopy /E /I /Y "$(SolutionDir)Resources" "$(ProjectDir)Resources"</Command>
     <ClInclude Include="Hidable.h" />
     <ClInclude Include="InGameProperty.h" />
     <ClInclude Include="LobbyLevel.h" />
+    <ClInclude Include="RoomLevel.h" />
     <ClInclude Include="MainGameInstance.h" />
     <ClInclude Include="MovementManager.h" />
     <ClInclude Include="PowerUpItem.h" />

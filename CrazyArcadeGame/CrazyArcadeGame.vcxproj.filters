@@ -62,7 +62,7 @@
     <ClCompile Include="InGameProperty.cpp">
       <Filter>Property</Filter>
     </ClCompile>
-    <ClCompile Include="LobbyLevel.cpp">
+    <ClCompile Include="RoomLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
     <ClCompile Include="MainGameInstance.cpp">
@@ -79,6 +79,15 @@
     </ClCompile>
     <ClCompile Include="TimeEventManager.cpp" />
     <ClCompile Include="BP_GameStage_Village_2.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="BP_GameStage_Village_3.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="BP_GameStage_Village_4.cpp">
+      <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="LobbyLevel.cpp">
       <Filter>Level</Filter>
     </ClCompile>
   </ItemGroup>
@@ -187,7 +196,7 @@
     <ClInclude Include="InGameProperty.h">
       <Filter>Property</Filter>
     </ClInclude>
-    <ClInclude Include="LobbyLevel.h">
+    <ClInclude Include="RoomLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
     <ClInclude Include="MainGameInstance.h">
@@ -204,6 +213,15 @@
     </ClInclude>
     <ClInclude Include="TimeEventManager.h" />
     <ClInclude Include="BP_GameStage_Village_2.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="BP_GameStage_Village_3.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="BP_GameStage_Village_4.h">
+      <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="LobbyLevel.h">
       <Filter>Level</Filter>
     </ClInclude>
   </ItemGroup>

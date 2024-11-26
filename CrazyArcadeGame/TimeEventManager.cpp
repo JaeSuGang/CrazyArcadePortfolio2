@@ -22,7 +22,7 @@ void UTimeEventManager::HandleTimeEvents()
 	auto EndIterToErase = std::remove_if(TimeEvents.begin(), TimeEvents.end(),
 		[this](FTimeEvent& Event)
 		{
-			if (Event.TimeToTrigger >= this->GetTimeElapsed())
+			if (Event.TimeToTrigger <= this->GetTimeElapsed())
 			{
 				Event.FunctionToTrigger();
 				return true;

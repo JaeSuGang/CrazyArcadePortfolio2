@@ -25,6 +25,7 @@ public:
 	void GenerateGroundTile(int nTileIndex, int nValue);
 	void GenerateTilemap(FTilemap* TilemapStruct);
 	AGameUI* SpawnGameUI(string strImagePath, FVector2D PositionVector);
+	AGameUI* SpawnGameUI(string strImagePath, FVector2D PositionVector, float fRenderPriority);
 	ACharacter* SpawnBazzi(FVector2D PositionVector);
 	ACharacter* SpawnDao(FVector2D PositionVector);
 	ACharacter* SpawnCappi(FVector2D PositionVector);

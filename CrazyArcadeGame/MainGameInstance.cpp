@@ -9,6 +9,7 @@
 #include "GameLevelBase.h"
 #include "AIManager.h"
 #include "BombManager.h"
+#include "RoomLevel.h"
 #include "LobbyLevel.h"
 
 void UMainGameInstance::Tick(float fDeltaTime)

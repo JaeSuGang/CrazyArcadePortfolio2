@@ -15,12 +15,11 @@ public:
 	void Tick(float fDeltaTime) override;
 	void LateTick(float fDeltaTime) override;
 	void BeginPlay() override;
+	virtual void CheckGameFinished();
+	virtual void OnWin();
+	virtual void OnLose();
 
-	void CheckGameFinished();
 
-	void OnWin();
-	
-	void OnLose();
 
 	void AddToCharacters(ACharacter* Character);
 

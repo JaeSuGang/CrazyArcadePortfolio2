@@ -196,6 +196,13 @@ AGameUI* USpawnManager::SpawnGameUI(string strImagePath, FVector2D PositionVecto
 	return GameUI;
 }
 
+AGameUI* USpawnManager::SpawnGameUI(string strImagePath, FVector2D PositionVector, float fRenderPriority)
+{
+	AGameUI* GameUI = SpawnGameUI(strImagePath, PositionVector);
+	GameUI->GetComponentByClass<URenderComponent>()->SetRenderPriority(fRenderPriority);
+	return GameUI;
+}
+
 ACharacter* USpawnManager::SpawnBazzi(FVector2D PositionVector)
 {
 	string strCharacterName = "Bazzi";

@@ -15,6 +15,7 @@
 #include "Tilemap.h"
 #include "TimeEventManager.h"
 #include "MainGameInstance.h"
+#include "RoomLevel.h"
 
 
 
@@ -134,8 +135,10 @@ void UGameLevelBase::CheckGameFinished()
 
 void UGameLevelBase::OnWin()
 {
-	SHOW_ERROR("½Â¸®Çß´Ù");
+	UTimeEventManager* TimeEventManager = GetGameInstance()->GetSubsystem<UTimeEventManager>();
 
+	TimeEventManager->AddTimeEvent(std::bind(&UGameInstance::OpenLevel<URoomLevel>, GetGameInstance()), 5.0f);
+	TimeEventManager->AddTimeEvent(std::bind(&UGameInstance::OpenLevel<URoomLevel>, GetGameInstance()), 5.0f);
 }
 
 void UGameLevelBase::OnLose()
