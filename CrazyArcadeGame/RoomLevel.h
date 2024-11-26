@@ -24,7 +24,7 @@ public:
 
 
 public:
-	void OnStart();
+	void OnGameStart();
 	void OnChangedCharacterSelect(UMainGameInstance::ECharacterType CharacterType);
 	void OnChangedStage(ESelectedGameStage StageType);
 	void OnClickedNextMap();

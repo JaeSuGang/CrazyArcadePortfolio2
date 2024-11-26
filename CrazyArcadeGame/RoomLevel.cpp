@@ -13,8 +13,11 @@
 #include "BP_GameStage_Village_3.h"
 #include "BP_GameStage_Village_4.h"
 
-void URoomLevel::OnStart()
+void URoomLevel::OnGameStart()
 {
+	UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
+	KeyManager->ClearBindKey();
+
 	switch (SelectedGameStage)
 	{
 	case URoomLevel::ESelectedGameStage::Village_1:
@@ -164,7 +167,7 @@ void URoomLevel::OnClicked()
 	else if (KeyManager->GetMousePos().X > 773 && KeyManager->GetMousePos().X < 1053 &&
 		KeyManager->GetMousePos().Y > 744 && KeyManager->GetMousePos().Y < 819)
 	{
-		this->OnStart();
+		this->OnGameStart();
 	}
 
 }
@@ -187,6 +190,7 @@ void URoomLevel::BeginPlay()
 	Super::BeginPlay();
 
 	UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
+	KeyManager->ClearBindKey();
 
 	KeyManager->BindKey(VK_LBUTTON, UKeyManager::EKeyState::KeyDown, std::bind(&URoomLevel::OnClicked, this));
 
