@@ -8,6 +8,7 @@
 
 void ULobbyLevel::Tick(float fDeltaTime)
 {
+	Super::Tick(fDeltaTime);
 }
 
 void ULobbyLevel::LateTick(float fDeltaTime)
@@ -17,7 +18,19 @@ void ULobbyLevel::LateTick(float fDeltaTime)
 
 void ULobbyLevel::BeginPlay()
 {
+	Super::BeginPlay();
 
+	UTimeEventManager* TimeEventManager = GetGameInstance()->GetSubsystem<UTimeEventManager>();
+
+	UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
+
+	KeyManager->BindKey(VK_LBUTTON, UKeyManager::EKeyState::KeyDown, std::bind(&ULobbyLevel::OnClicked, this));
+
+	this->ChangeLevelState(ELevelState::Login);
+
+	TimeEventManager->AddTimeEvent(std::bind(&ULobbyLevel::ChangeLevelState, this, ULobbyLevel::ELevelState::Lobby), 3.0f);
+
+	TimeEventManager->AddTimeEvent(std::bind(&ULobbyLevel::ChangeLevelState, this, ULobbyLevel::ELevelState::Lobby_Tutorial), 3.5f);
 }
 
 void ULobbyLevel::OnClicked()
@@ -31,6 +44,7 @@ void ULobbyLevel::OnClicked()
 		if (KeyManager->GetMousePos().X > 1025 && KeyManager->GetMousePos().X < 1172 &&
 			KeyManager->GetMousePos().Y > 117 && KeyManager->GetMousePos().Y < 152)
 		{
+			KeyManager->ClearBindKey();
 			GetGameInstance()->OpenLevel<URoomLevel>();
 		}
 		break;
@@ -43,6 +57,8 @@ void ULobbyLevel::OnClicked()
 
 void ULobbyLevel::ChangeLevelState(ELevelState LevelState)
 {
+	UTimeEventManager* TimeEventManager = GetGameInstance()->GetSubsystem<UTimeEventManager>();
+
 	this->m_LevelState = LevelState;
 
 	switch (LevelState)
@@ -58,6 +74,7 @@ void ULobbyLevel::ChangeLevelState(ELevelState LevelState)
 		Renderer->SetRenderType(URenderComponent::ERenderType::UI);
 		Renderer->SetStaticImage("Resources\\UI\\login.bmp");
 		LoginScreen->BeginPlay();
+
 		break;
 	}
 	case ULobbyLevel::ELevelState::Lobby:
@@ -74,8 +91,6 @@ void ULobbyLevel::ChangeLevelState(ELevelState LevelState)
 		SoundManager->Play("Resources\\Sound\\lobbybgm.wav");
 		LobbyScreen->BeginPlay();
 
-		UTimeEventManager* TimeEventManager = GetGameInstance()->GetSubsystem<UTimeEventManager>();
-		TimeEventManager->AddTimeEvent(std::bind(&ULobbyLevel::ChangeLevelState, this, ULobbyLevel::ELevelState::Lobby_Tutorial), 0.5f);
 		break;
 	}
 	case ULobbyLevel::ELevelState::Lobby_Tutorial:

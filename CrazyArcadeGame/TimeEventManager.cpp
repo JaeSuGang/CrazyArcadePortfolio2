@@ -19,18 +19,22 @@ void UTimeEventManager::AddTimeEvent(std::function<void()> Function, float Trigg
 
 void UTimeEventManager::HandleTimeEvents()
 {
-	auto EndIterToErase = std::remove_if(TimeEvents.begin(), TimeEvents.end(),
-		[this](FTimeEvent& Event)
-		{
-			if (Event.TimeToTrigger <= this->GetTimeElapsed())
+	if (TimeEvents.size() > 0)
+	{
+		auto EndIterToErase = std::remove_if(TimeEvents.begin(), TimeEvents.end(),
+			[this](FTimeEvent& Event)
 			{
-				Event.FunctionToTrigger();
-				return true;
-			}
-			return false;
-		});
+				if (Event.TimeToTrigger <= this->GetTimeElapsed())
+				{
+					Event.FunctionToTrigger();
+					return true;
+				}
+				return false;
+			});
 
-	TimeEvents.erase(EndIterToErase, TimeEvents.end());
+		if (EndIterToErase != TimeEvents.end())
+			TimeEvents.erase(EndIterToErase, TimeEvents.end());
+	}
 }
 
 void UTimeEventManager::ClearTimeEvents()

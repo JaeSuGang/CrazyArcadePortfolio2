@@ -15,7 +15,6 @@
 
 void URoomLevel::OnStart()
 {
-
 	switch (SelectedGameStage)
 	{
 	case URoomLevel::ESelectedGameStage::Village_1:

@@ -136,14 +136,21 @@ void UGameLevelBase::CheckGameFinished()
 void UGameLevelBase::OnWin()
 {
 	UTimeEventManager* TimeEventManager = GetGameInstance()->GetSubsystem<UTimeEventManager>();
+	UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
 
-	TimeEventManager->AddTimeEvent(std::bind(&UGameInstance::OpenLevel<URoomLevel>, GetGameInstance()), 5.0f);
+	KeyManager->ClearBindKey();
+
 	TimeEventManager->AddTimeEvent(std::bind(&UGameInstance::OpenLevel<URoomLevel>, GetGameInstance()), 5.0f);
 }
 
 void UGameLevelBase::OnLose()
 {
-	SHOW_ERROR("패배했다");
+	UTimeEventManager* TimeEventManager = GetGameInstance()->GetSubsystem<UTimeEventManager>();
+	UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
+
+	KeyManager->ClearBindKey();
+
+	TimeEventManager->AddTimeEvent(std::bind(&UGameInstance::OpenLevel<URoomLevel>, GetGameInstance()), 5.0f);
 }
 
 void UGameLevelBase::AddToCharacters(ACharacter* Character)
