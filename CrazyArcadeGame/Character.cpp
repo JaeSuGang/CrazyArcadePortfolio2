@@ -78,6 +78,7 @@ void ACharacter::Die()
 			UAIManager* AIManager = GetGameInstance()->GetSubsystem<UAIManager>();
 			AIManager->RemoveAIPawn(this);
 			m_Controller->SetPawn(nullptr);
+			m_Controller = nullptr;
 		}
 
 	}
@@ -222,6 +223,7 @@ void ACharacter::Release()
 		if (ACharacterAIController* Casted = dynamic_cast<ACharacterAIController*>(m_Controller))
 		{
 			Casted->m_Character = nullptr;
+
 		}
 	}
 

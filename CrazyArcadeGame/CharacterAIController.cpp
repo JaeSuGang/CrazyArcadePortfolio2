@@ -148,6 +148,11 @@ float ACharacterAIController::GetAccumulatedTime()
 	return AccumulatedTime;
 }
 
+std::list<FVector2D>& ACharacterAIController::GetPath()
+{
+	return Path;
+}
+
 void ACharacterAIController::Possess(APawn* Pawn)
 {
 	Super::Possess(Pawn);
@@ -402,7 +407,6 @@ void ACharacterAIController::UEvadeState::OnStateUpdate(float fDeltaTime)
 			Controller->SetRandomEvadeCheckCooldown(1.0f);
 		else
 			Controller->SetRandomEvadeCheckCooldown(0.0f);
-
 	}
 
 	if (Controller->GetEvadeWaitTimer() <= 0.0f)
@@ -410,8 +414,6 @@ void ACharacterAIController::UEvadeState::OnStateUpdate(float fDeltaTime)
 		FSM->ChangeState<UIdleState>();
 		return;
 	}
-
-
 	Controller->FollowPath();
 }
 

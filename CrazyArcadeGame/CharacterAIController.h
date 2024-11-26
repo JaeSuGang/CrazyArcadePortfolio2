@@ -90,6 +90,8 @@ public:
 
 	float GetAccumulatedTime();
 
+	std::list<FVector2D>& GetPath();
+
 
 public:
 	std::list<FVector2D> Path;
