@@ -24,6 +24,7 @@ public:
 	void GenerateWallTile(int nTileIndex, int nTileValue, int nGroundTileValue);
 	void GenerateGroundTile(int nTileIndex, int nValue);
 	void GenerateTilemap(FTilemap* TilemapStruct);
+	AGameUI* SpawnTopMostGameUI(string strImagePath, FVector2D PositionVector);
 	AGameUI* SpawnGameUI(string strImagePath, FVector2D PositionVector);
 	AGameUI* SpawnGameUI(string strImagePath, FVector2D PositionVector, float fRenderPriority);
 	ACharacter* SpawnBazzi(FVector2D PositionVector);

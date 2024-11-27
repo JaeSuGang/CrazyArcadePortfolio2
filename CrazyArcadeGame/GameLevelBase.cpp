@@ -141,6 +141,9 @@ void UGameLevelBase::OnWin()
 	KeyManager->ClearBindKey();
 
 	TimeEventManager->AddTimeEvent(std::bind(&UGameInstance::OpenLevel<URoomLevel>, GetGameInstance()), 5.0f);
+
+	USpawnManager* SpawnManager = GetGameInstance()->GetSubsystem<USpawnManager>();
+	SpawnManager->SpawnTopMostGameUI("Resources\\UI\\win.bmp", FVector2D(600.0f, 410.0f));
 }
 
 void UGameLevelBase::OnLose()
@@ -151,6 +154,8 @@ void UGameLevelBase::OnLose()
 	KeyManager->ClearBindKey();
 
 	TimeEventManager->AddTimeEvent(std::bind(&UGameInstance::OpenLevel<URoomLevel>, GetGameInstance()), 5.0f);
+	USpawnManager* SpawnManager = GetGameInstance()->GetSubsystem<USpawnManager>();
+	SpawnManager->SpawnTopMostGameUI("Resources\\UI\\lose.bmp", FVector2D(600.0f, 410.0f));
 }
 
 void UGameLevelBase::AddToCharacters(ACharacter* Character)
@@ -161,6 +166,7 @@ void UGameLevelBase::AddToCharacters(ACharacter* Character)
 void UGameLevelBase::RemoveFromCharacters(ACharacter* Character)
 {
 	Characters.erase(Character);
+
 }
 
 void UGameLevelBase::Release()

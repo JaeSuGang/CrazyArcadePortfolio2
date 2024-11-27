@@ -184,6 +184,18 @@ void USpawnManager::GenerateTilemap(FTilemap* TilemapStruct)
 	//RightBoundary->BeginPlay();
 }
 
+AGameUI* USpawnManager::SpawnTopMostGameUI(string strImagePath, FVector2D PositionVector)
+{
+	AGameUI* GameUI = GetActiveLevel()->InitializeActorForPlay<AGameUI>();
+	URenderComponent* RenderComponent = GameUI->CreateDefaultSubobject<URenderComponent>();
+	RenderComponent->SetStaticImage(strImagePath);
+	RenderComponent->SetRenderType(URenderComponent::ERenderType::NonShadowObject);
+	RenderComponent->SetRenderPriority(1000);
+	RenderComponent->BeginPlay();
+	GameUI->SetPosition(PositionVector);
+	return GameUI;
+}
+
 AGameUI* USpawnManager::SpawnGameUI(string strImagePath, FVector2D PositionVector)
 {
 	AGameUI* GameUI = GetActiveLevel()->InitializeActorForPlay<AGameUI>();
