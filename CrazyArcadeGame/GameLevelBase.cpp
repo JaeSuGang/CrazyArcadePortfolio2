@@ -18,8 +18,6 @@
 #include "RoomLevel.h"
 
 
-
-
 void UGameLevelBase::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
@@ -52,7 +50,6 @@ void UGameLevelBase::BeginPlay()
 
 	// Å¸ÀÏ¸Ê »ý¼º
 	SpawnManager->GenerateTilemap(m_Tilemap);
-
 
 	UMainGameInstance* MainGameInstance = static_cast<UMainGameInstance*>(GetGameInstance());
 	URandomManager* RandomManager = GEngine->GetEngineSubsystem<URandomManager>();
@@ -119,16 +116,18 @@ void UGameLevelBase::BeginPlay()
 
 void UGameLevelBase::CheckGameFinished()
 {
-	if (LocalPlayerCharacter == nullptr)
+	if (LocalPlayerCharacter == nullptr || bIsGameFinished)
 		return;
 
 	if (Characters.size() == 1 && *Characters.begin() == LocalPlayerCharacter)
 	{
+		this->bIsGameFinished = true;
 		this->OnWin();
 	}
 
 	else if (Characters.find(LocalPlayerCharacter) == Characters.end())
 	{
+		this->bIsGameFinished = true;
 		this->OnLose();
 	}
 }

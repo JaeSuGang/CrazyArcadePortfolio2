@@ -36,6 +36,7 @@ protected:
 	vector<FVector2D> SpawnLocations;
 	FTilemap* m_Tilemap;
 	bool bIsGameStarted;
+	bool bIsGameFinished;
 	float ElapsedTime;
 };
 

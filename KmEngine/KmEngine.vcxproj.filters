@@ -55,9 +55,6 @@
     <Filter Include="EngineSubsystem\SoundManager">
       <UniqueIdentifier>{8bf1ce90-1166-4d55-ac98-0167a22d0847}</UniqueIdentifier>
     </Filter>
-    <Filter Include="NewFilter1">
-      <UniqueIdentifier>{b8499d1e-b308-417b-92a4-4be9b57301f3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="EngineSubsystem\RandomManager">
       <UniqueIdentifier>{f2c07af6-28e0-4f6c-9d08-535ebce0e8af}</UniqueIdentifier>
     </Filter>
