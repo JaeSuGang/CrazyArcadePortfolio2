@@ -68,9 +68,6 @@
     <ClCompile Include="MainGameInstance.cpp">
       <Filter>GameInstance</Filter>
     </ClCompile>
-    <ClCompile Include="FSM.cpp">
-      <Filter>FSM</Filter>
-    </ClCompile>
     <ClCompile Include="AttributeData.cpp">
       <Filter>Struct</Filter>
     </ClCompile>
@@ -89,6 +86,9 @@
     </ClCompile>
     <ClCompile Include="LobbyLevel.cpp">
       <Filter>Level</Filter>
+    </ClCompile>
+    <ClCompile Include="FSM.cpp">
+      <Filter>ActorComponent</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -121,9 +121,6 @@
     </Filter>
     <Filter Include="Property">
       <UniqueIdentifier>{6bd5789a-a513-4795-a083-a60074c5d16c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="FSM">
-      <UniqueIdentifier>{b0f02926-15a3-4f41-a39e-5451e6e8e358}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -202,9 +199,6 @@
     <ClInclude Include="MainGameInstance.h">
       <Filter>GameInstance</Filter>
     </ClInclude>
-    <ClInclude Include="FSM.h">
-      <Filter>FSM</Filter>
-    </ClInclude>
     <ClInclude Include="AttributeData.h">
       <Filter>Struct</Filter>
     </ClInclude>
@@ -223,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="LobbyLevel.h">
       <Filter>Level</Filter>
+    </ClInclude>
+    <ClInclude Include="FSM.h">
+      <Filter>ActorComponent</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

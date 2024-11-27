@@ -445,6 +445,11 @@ AExplosion* USpawnManager::SpawnExplosion(FVector2D PositionVector, int nDirecti
 APlayerController* USpawnManager::SpawnPlayerController()
 {
 	APlayerController* PlayerController = GetActiveLevel()->InitializeActorForPlay<APlayerController>();
+	URenderComponent* RenderComponent = PlayerController->CreateDefaultSubobject<URenderComponent>();
+	RenderComponent->SetStaticImage("Resources\\UI\\small_arrow.bmp");
+	RenderComponent->SetStaticImageOffset(FVector2D(0.0f, -60.0f));
+	RenderComponent->SetRenderPriority(1000.0f);
+	RenderComponent->SetRenderType(URenderComponent::ERenderType::NonShadowObject);
 	PlayerController->BeginPlay();
 	return PlayerController;
 }

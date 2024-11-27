@@ -2,6 +2,7 @@
 #include "Block.h"
 
 #include "KmEngine/RenderComponent.h"
+#include "KmEngine/RandomManager.h"
 #include "AxisAlignedBoundingBox.h"
 #include "BombManager.h"
 #include "MovementManager.h"
@@ -212,5 +213,8 @@ void ABlock::OnExploded()
 
 	m_bIsAlreadyExploded = true;
 
-	this->SpawnItem();
+	URandomManager* RandomManager = GEngine->GetEngineSubsystem<URandomManager>();
+	int nRand = RandomManager->GenerateRandomNumber(0, 4);
+	if (nRand > 0)
+		this->SpawnItem();
 }

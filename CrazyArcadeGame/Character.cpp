@@ -150,6 +150,11 @@ void ACharacter::Tick(float fDeltaTime)
 {
 	Super::Tick(fDeltaTime);
 
+	if (m_Controller && m_Controller->GetComponentByClass<URenderComponent>())
+	{
+		m_Controller->SetPosition(this->GetPosition());
+	}
+
 
 	if (!m_bIsDead && m_bIsAlreadyExploded)
 	{
@@ -312,7 +317,7 @@ void ACharacter::OnPlayerPossessed()
 
 	km->BindKey(VK_SPACE, UKeyManager::EKeyState::KeyDown, std::bind(&ACharacter::TryPutBomb, this));
 
-
+	
 }
 
 void ACharacter::OnPlayerUnpossessed()
