@@ -4,6 +4,8 @@
 #include "KmEngine/PlayerController.h"
 #include "CharacterAIController.h"
 #include "KmEngine/RenderComponent.h"
+#include "KmEngine/RandomManager.h"
+#include "MainGameInstance.h"
 #include "GameUI.h"
 #include "SpawnManager.h"
 #include "MovementManager.h"
@@ -16,6 +18,54 @@
 #include "AIManager.h"
 #include "GameLevelBase.h"
 
+
+ACharacterAIController* USpawnManager::SpawnRandomAICharacter(ACharacter* Spawner)
+{
+	return this->SpawnRandomAICharacter(Spawner->GetPosition());
+}
+
+ACharacterAIController* USpawnManager::SpawnRandomAICharacter(FVector2D SpawnPos)
+{
+	URandomManager* RandomManager = GEngine->GetEngineSubsystem<URandomManager>();
+	int nRandomNumber = RandomManager->GenerateRandomNumber((int)UMainGameInstance::ECharacterType::Bazzi, (int)UMainGameInstance::ECharacterType::End);
+
+	UMainGameInstance::ECharacterType RandomCharacterType = (UMainGameInstance::ECharacterType)nRandomNumber;
+
+	ACharacter* SpawningCharacter{};
+	switch (RandomCharacterType)
+	{
+	case UMainGameInstance::ECharacterType::Bazzi:
+	{
+		SpawningCharacter = SpawnBazzi(SpawnPos);
+		SpawningCharacter->SetDebugPen(CreatePen(PS_SOLID, 3, RGB(0, 255, 0)));
+		break;
+	}
+	case UMainGameInstance::ECharacterType::Dao:
+	{
+		SpawningCharacter = SpawnDao(SpawnPos);
+		SpawningCharacter->SetDebugPen(CreatePen(PS_SOLID, 3, RGB(255, 127, 0)));
+		break;
+	}
+	case UMainGameInstance::ECharacterType::Cappi:
+	{
+		SpawningCharacter = SpawnCappi(SpawnPos);
+		SpawningCharacter->SetDebugPen(CreatePen(PS_SOLID, 3, RGB(15, 180, 252)));
+		break;
+	}
+	case UMainGameInstance::ECharacterType::Marid:
+	{
+		SpawningCharacter = SpawnMarid(SpawnPos);
+		SpawningCharacter->SetDebugPen(CreatePen(PS_SOLID, 3, RGB(255, 212, 0)));
+		break;
+	}
+	}
+
+	ACharacterAIController* SpawnedAIController{};
+	SpawnedAIController = this->SpawnCharacterAIController();
+	SpawnedAIController->Possess(SpawningCharacter);
+
+	return SpawnedAIController;
+}
 
 ABlock* USpawnManager::GenerateVoidWallTile(FVector2D Pos)
 {

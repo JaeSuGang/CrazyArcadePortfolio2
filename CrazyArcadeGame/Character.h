@@ -16,6 +16,9 @@ public:
 
 
 public:
+	void SetMaxStat();
+	void SwitchInvincible();
+	void SwitchNoclip();
 	void SetBombLeft(int nCount);
 	void SetBombRange(int nRange);
 	void SetCharacterName(string strCharacterName);
@@ -45,12 +48,17 @@ public:
 	ACharacter();
 	~ACharacter();
 
+public:
+	ACCESSORS_ALL(bool, bIsNoclip);
+
 protected:
 	string m_strCharacterName;
 	float m_fElapsedTimeAfterDeath;
 	float m_fSpeed;
 	float m_fMaxSpeed;
 	bool m_bIsDead;
+	bool bIsNoclip;
+	bool bIsInvincible;
 	int m_nBombLeft;
 	int m_nBombRange;
 };

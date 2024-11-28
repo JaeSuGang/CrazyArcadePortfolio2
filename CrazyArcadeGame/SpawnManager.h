@@ -19,6 +19,9 @@ class USpawnManager : public UGameInstanceSubsystem
 	typedef UGameInstanceSubsystem Super;
 
 public:
+	ACharacterAIController* SpawnRandomAICharacter(ACharacter* Spawner);
+	ACharacterAIController* SpawnRandomAICharacter(FVector2D SpawnPos);
+
 	ABlock* GenerateVoidWallTile(FVector2D Pos);
 	void GenerateWallTile(FVector2D Pos, int nTileValue, int nGroundTileValue);
 	void GenerateWallTile(int nTileIndex, int nTileValue, int nGroundTileValue);

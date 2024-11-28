@@ -12,6 +12,30 @@
 #include "AIManager.h"
 #include "CharacterAIController.h"
 #include "GameLevelBase.h"
+#include "SpawnManager.h"
+
+void ACharacter::SetMaxStat()
+{
+	SetBombRange(6);
+	SetBombLeft(6);
+	SetSpeed(GetMaxSpeed());
+}
+
+void ACharacter::SwitchInvincible()
+{
+	if (!bIsInvincible)
+		bIsInvincible = true;
+	else
+		bIsInvincible = false;
+}
+
+void ACharacter::SwitchNoclip()
+{
+	if (!bIsNoclip)
+		bIsNoclip = true;
+	else
+		bIsNoclip = false;
+}
 
 void ACharacter::SetBombLeft(int nCount)
 {
@@ -258,7 +282,9 @@ ACharacter::ACharacter()
 	m_fSpeed{},
 	m_bIsDead{},
 	m_fElapsedTimeAfterDeath{},
-	m_fMaxSpeed{}
+	m_fMaxSpeed{},
+	bIsInvincible{},
+	bIsNoclip{}
 {
 
 }
@@ -277,7 +303,7 @@ void ACharacter::CheckAndHide()
 
 void ACharacter::OnExploded()
 {
-	if (m_bIsAlreadyExploded)
+	if (bIsInvincible || m_bIsAlreadyExploded)
 		return;
 
 	USoundManager* SoundManager = GEngine->GetEngineSubsystem<USoundManager>();
@@ -327,7 +353,16 @@ void ACharacter::OnPlayerPossessed()
 
 	km->BindKey(VK_SPACE, UKeyManager::EKeyState::KeyDown, std::bind(&ACharacter::TryPutBomb, this));
 
-	
+	if (GetDebugMode())
+	{
+		USpawnManager* SpawnManager = GetGameInstance()->GetSubsystem<USpawnManager>();
+		UBombManager* BombManager = GetGameInstance()->GetSubsystem<UBombManager>();
+		km->BindKey('B', UKeyManager::EKeyState::KeyDown, std::bind(&ACharacter::SwitchInvincible, this));
+		km->BindKey('N', UKeyManager::EKeyState::KeyDown, std::bind(&ACharacter::SwitchNoclip, this));
+		km->BindKey('M', UKeyManager::EKeyState::KeyDown, std::bind(&ACharacter::SetMaxStat, this));
+		km->BindKey('H', UKeyManager::EKeyState::KeyDown, std::bind(&UBombManager::ExpoldeAllCharacters, BombManager));
+		km->BindKey('J', UKeyManager::EKeyState::KeyDown, std::bind(static_cast<ACharacterAIController*(USpawnManager::*)(ACharacter*)>(&USpawnManager::SpawnRandomAICharacter), SpawnManager, this));
+	}
 }
 
 void ACharacter::OnPlayerUnpossessed()

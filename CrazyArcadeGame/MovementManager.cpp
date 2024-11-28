@@ -150,29 +150,32 @@ void UMovementManager::Tick(float fDeltaTime)
 
 			bool bAlreadyPushedWall = false;
 			// 캐릭터가 블록에 닿음
-			for (ABlock* BlockActor : m_Blocks)
+			if (!CharacterActor->GetbIsNoclip())
 			{
-				if (BlockActor->GetPassable())
-					continue;
-
-				FAxisAlignedBoundingBox WallAABB = {
-					BlockActor->GetPosition(),
-					BlockActor->m_CollisionSize.X / 2,
-					BlockActor->m_CollisionSize.Y / 2 };
-
-				if (DestinationAABB.GetIsCollidedWith(WallAABB))
+				for (ABlock* BlockActor : m_Blocks)
 				{
-					DestinationAABB = DestinationAABB.CalculateCorrectPos(OriginalPos, WallAABB);
-					if (!bAlreadyPushedWall)
+					if (BlockActor->GetPassable())
+						continue;
+
+					FAxisAlignedBoundingBox WallAABB = {
+						BlockActor->GetPosition(),
+						BlockActor->m_CollisionSize.X / 2,
+						BlockActor->m_CollisionSize.Y / 2 };
+
+					if (DestinationAABB.GetIsCollidedWith(WallAABB))
 					{
-						BlockActor->AddAccumulatedPushedTime(fDeltaTime);
-						if (BlockActor->GetAccumulatedPushedTime() > 0.25f)
+						DestinationAABB = DestinationAABB.CalculateCorrectPos(OriginalPos, WallAABB);
+						if (!bAlreadyPushedWall)
 						{
-							BlockActor->OnPushed(VelocityToApplyInFrame.GetNormalized());
-							bAlreadyPushedWall = true;
+							BlockActor->AddAccumulatedPushedTime(fDeltaTime);
+							if (BlockActor->GetAccumulatedPushedTime() > 0.25f)
+							{
+								BlockActor->OnPushed(VelocityToApplyInFrame.GetNormalized());
+								bAlreadyPushedWall = true;
+							}
 						}
+						bAlreadyPushedWall = true;
 					}
-					bAlreadyPushedWall = true;
 				}
 			}
 

@@ -8,6 +8,7 @@
 #include "WallComponent.h"
 #include "AxisAlignedBoundingBox.h"
 #include "Explosion.h"
+#include "Character.h"
 #include "Block.h"
 #include "Bomb.h"
 #include "InGameProperty.h"
@@ -112,6 +113,17 @@ void UBombManager::Explode(int nTileIndex, int nRange)
 		}
 	}
 
+}
+
+void UBombManager::ExpoldeAllCharacters()
+{
+	USpawnManager* SpawnManager = GEngine->GetGameInstance()->GetSubsystem<USpawnManager>();
+
+	for (ACharacter* Character : m_Characters)
+	{
+		SpawnManager->SpawnBomb(Character->GetPosition(), Character)->SetTimer(0.0f);
+		Character->OnExploded();
+	}
 }
 
 void UBombManager::Tick(float fDeltaTime)

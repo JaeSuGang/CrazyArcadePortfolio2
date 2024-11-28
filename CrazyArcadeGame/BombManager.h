@@ -22,6 +22,8 @@ public:
 	bool TryPutBomb(int nTileIndex, ACharacter* Spawner);
 	void ForcePutBomb(int nTileIndex, ACharacter* Spawner);
 	void Explode(int nTileIndex, int nRange);
+	void ExpoldeAllCharacters();
+
 
 public:
 	void Tick(float fDeltaTime) override;
