@@ -4,6 +4,7 @@
 #include "MovableComponent.h"
 #include "KmEngine/Actor.h"
 #include "KmEngine/RenderComponent.h"
+#include "KmEngine/SoundManager.h"
 #include "WallComponent.h"
 #include "AxisAlignedBoundingBox.h"
 #include "Block.h"
@@ -214,7 +215,8 @@ void UMovementManager::Tick(float fDeltaTime)
 								CharacterActor->SetSpeed(CharacterActor->GetMaxSpeed());
 							break;
 						}
-
+						USoundManager* SoundManager = GEngine->GetEngineSubsystem<USoundManager>();
+						SoundManager->Play("Resources\\Sound\\item_acquired.wav");
 						PowerUpItem->Destroy();
 					}
 				}

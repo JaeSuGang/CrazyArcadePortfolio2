@@ -110,6 +110,7 @@ void UGameLevelBase::BeginPlay()
 
 	// 소리 재생
 	USoundManager* SoundManager = GEngine->GetEngineSubsystem<USoundManager>();
+	SoundManager->StopAllSounds();
 	SoundManager->Play("Resources\\Sound\\gamebgm1.wav");
 
 }
@@ -136,7 +137,9 @@ void UGameLevelBase::OnWin()
 {
 	UTimeEventManager* TimeEventManager = GetGameInstance()->GetSubsystem<UTimeEventManager>();
 	UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
+	USoundManager* SoundManager = GEngine->GetEngineSubsystem<USoundManager>();
 
+	SoundManager->Play("Resources\\Sound\\Win.wav");
 	KeyManager->ClearBindKey();
 
 	TimeEventManager->AddTimeEvent(std::bind(&UGameInstance::OpenLevel<URoomLevel>, GetGameInstance()), 5.0f);
@@ -149,6 +152,9 @@ void UGameLevelBase::OnLose()
 {
 	UTimeEventManager* TimeEventManager = GetGameInstance()->GetSubsystem<UTimeEventManager>();
 	UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
+	USoundManager* SoundManager = GEngine->GetEngineSubsystem<USoundManager>();
+
+	SoundManager->Play("Resources\\Sound\\Lose.wav");
 
 	KeyManager->ClearBindKey();
 

@@ -17,6 +17,8 @@ void URoomLevel::OnGameStart()
 {
 	UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
 	KeyManager->ClearBindKey();
+	USoundManager* SoundManager = GEngine->GetEngineSubsystem<USoundManager>();
+	SoundManager->Play("Resources\\Sound\\click.wav");
 
 	switch (SelectedGameStage)
 	{
@@ -120,6 +122,8 @@ void URoomLevel::OnChangedStage(ESelectedGameStage StageType)
 
 void URoomLevel::OnClickedNextMap()
 {
+	USoundManager* SoundManager = GEngine->GetEngineSubsystem<USoundManager>();
+	SoundManager->Play("Resources\\Sound\\click.wav");
 	ESelectedGameStage NextStageEnum = (ESelectedGameStage)((int)SelectedGameStage + 1);
 	if (NextStageEnum == ESelectedGameStage::End || NextStageEnum == ESelectedGameStage::None)
 		NextStageEnum = ESelectedGameStage::Village_1;
@@ -130,6 +134,7 @@ void URoomLevel::OnClickedNextMap()
 void URoomLevel::OnClicked()
 {
 	UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
+	
 
 	UMainGameInstance* MainGameInstance = static_cast<UMainGameInstance*>(GetGameInstance());
 	USpawnManager* SpawnManager = MainGameInstance->GetSubsystem<USpawnManager>();

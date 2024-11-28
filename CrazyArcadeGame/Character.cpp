@@ -5,6 +5,7 @@
 #include "KmEngine/TimeManager.h"
 #include "KmEngine/KeyManager.h"
 #include "KmEngine/Controller.h"
+#include "KmEngine/SoundManager.h"
 #include "KmEngine/PlayerController.h"
 #include "MovementManager.h"
 #include "BombManager.h"
@@ -76,6 +77,8 @@ void ACharacter::Die()
 			}
 
 			UAIManager* AIManager = GetGameInstance()->GetSubsystem<UAIManager>();
+			USoundManager* SoundManager = GEngine->GetEngineSubsystem<USoundManager>();
+			SoundManager->Play("Resources\\Sound\\die.wav");
 			AIManager->RemoveAIPawn(this);
 			m_Controller->SetPawn(nullptr);
 			m_Controller = nullptr;
@@ -142,8 +145,12 @@ void ACharacter::TryPutBomb()
 		return;
 
 	UBombManager* BombManager = GEngine->GetGameInstance()->GetSubsystem<UBombManager>();
+	USoundManager* SoundManager = GEngine->GetEngineSubsystem<USoundManager>();
 	if (BombManager->TryPutBomb(VectorToTileIndex(this->GetPosition()), this))
+	{
+		SoundManager->Play("Resources\\Sound\\bomb_set.wav");
 		m_nBombLeft--;
+	}
 }
 
 void ACharacter::Tick(float fDeltaTime)
@@ -272,6 +279,9 @@ void ACharacter::OnExploded()
 {
 	if (m_bIsAlreadyExploded)
 		return;
+
+	USoundManager* SoundManager = GEngine->GetEngineSubsystem<USoundManager>();
+	SoundManager->Play("Resources\\Sound\\got_bubbled.wav");
 
 	m_bIsAlreadyExploded = true;
 	m_fSpeed = 50.0f;

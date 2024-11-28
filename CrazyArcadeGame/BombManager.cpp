@@ -11,6 +11,7 @@
 #include "Block.h"
 #include "Bomb.h"
 #include "InGameProperty.h"
+#include "KmEngine/SoundManager.h"
 
 void UBombManager::AddBlock(ABlock* BlockActor)
 {
@@ -73,6 +74,8 @@ void UBombManager::Explode(int nTileIndex, int nRange)
 {
 	UMovementManager* MovementManager = GEngine->GetGameInstance()->GetSubsystem<UMovementManager>();
 	USpawnManager* SpawnManager = GEngine->GetGameInstance()->GetSubsystem<USpawnManager>();
+	USoundManager* SoundManager = GEngine->GetEngineSubsystem<USoundManager>();
+	SoundManager->Play("Resources\\Sound\\explosion.wav");
 
 	FVector2D ExplosionCenterPos = TileIndexToVector(nTileIndex);
 

@@ -18,16 +18,18 @@ BP_GameStage_Village_2::BP_GameStage_Village_2()
 
 void BP_GameStage_Village_2::CheckGameFinished()
 {
-	if (LocalPlayerCharacter == nullptr)
+	if (LocalPlayerCharacter == nullptr || bIsGameFinished)
 		return;
 
-	if (Characters.size() <= 5 && *Characters.begin() == LocalPlayerCharacter)
+	if (Characters.size() <= 5 && Characters.find(LocalPlayerCharacter) != Characters.end())
 	{
+		this->bIsGameFinished = true;
 		this->OnWin();
 	}
 
 	else if (Characters.find(LocalPlayerCharacter) == Characters.end())
 	{
+		this->bIsGameFinished = true;
 		this->OnLose();
 	}
 }
