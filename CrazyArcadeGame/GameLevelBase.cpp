@@ -111,6 +111,7 @@ void UGameLevelBase::BeginPlay()
 	// 소리 재생
 	USoundManager* SoundManager = GEngine->GetEngineSubsystem<USoundManager>();
 	SoundManager->StopAllSounds();
+	SoundManager->Play("Resources\\Sound\\game_start.wav");
 	SoundManager->Play("Resources\\Sound\\gamebgm1.wav");
 
 }
