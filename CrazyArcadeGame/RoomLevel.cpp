@@ -17,8 +17,6 @@ void URoomLevel::OnGameStart()
 {
 	UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
 	KeyManager->ClearBindKey();
-	USoundManager* SoundManager = GEngine->GetEngineSubsystem<USoundManager>();
-	SoundManager->Play("Resources\\Sound\\click.wav");
 
 	switch (SelectedGameStage)
 	{

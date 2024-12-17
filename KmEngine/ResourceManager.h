@@ -12,6 +12,7 @@ public:
 	BITMAP m_BitmapInfo;
 	HDC getDC() const;
 
+
 public:
 	void Release();
 	void Initialize(HWND hGameWindow);

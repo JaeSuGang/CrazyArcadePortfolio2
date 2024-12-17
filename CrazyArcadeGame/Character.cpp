@@ -172,7 +172,8 @@ void ACharacter::TryPutBomb()
 	USoundManager* SoundManager = GEngine->GetEngineSubsystem<USoundManager>();
 	if (BombManager->TryPutBomb(VectorToTileIndex(this->GetPosition()), this))
 	{
-		SoundManager->Play("Resources\\Sound\\bomb_set.wav");
+		if (APlayerController* PlayerController = dynamic_cast<APlayerController*>(m_Controller))
+			SoundManager->Play("Resources\\Sound\\bomb_set.wav");
 		m_nBombLeft--;
 	}
 }
