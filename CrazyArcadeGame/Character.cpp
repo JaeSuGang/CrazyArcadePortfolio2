@@ -340,28 +340,28 @@ void ACharacter::OnPlayerPossessed()
 		GameLevelBase->SetLocalPlayerCharacter(this);
 	}
 
-	UKeyManager* km = GEngine->GetEngineSubsystem<UKeyManager>();
-	km->BindKey(VK_UP, UKeyManager::EKeyState::Triggered, std::bind(&ACharacter::Move, this, FVector2D::Up));
-	km->BindKey(VK_DOWN, UKeyManager::EKeyState::Triggered, std::bind(&ACharacter::Move, this, FVector2D::Down));
-	km->BindKey(VK_RIGHT, UKeyManager::EKeyState::Triggered, std::bind(&ACharacter::Move, this, FVector2D::Right));
-	km->BindKey(VK_LEFT, UKeyManager::EKeyState::Triggered, std::bind(&ACharacter::Move, this, FVector2D::Left));
+	UKeyManager* KeyManager = GEngine->GetEngineSubsystem<UKeyManager>();
+	KeyManager->BindKey(VK_UP, UKeyManager::EKeyState::Triggered, std::bind(&ACharacter::Move, this, FVector2D::Up));
+	KeyManager->BindKey(VK_DOWN, UKeyManager::EKeyState::Triggered, std::bind(&ACharacter::Move, this, FVector2D::Down));
+	KeyManager->BindKey(VK_RIGHT, UKeyManager::EKeyState::Triggered, std::bind(&ACharacter::Move, this, FVector2D::Right));
+	KeyManager->BindKey(VK_LEFT, UKeyManager::EKeyState::Triggered, std::bind(&ACharacter::Move, this, FVector2D::Left));
 
-	km->BindKey(VK_UP, UKeyManager::EKeyState::KeyUp, std::bind(&ACharacter::Idle, this, FVector2D::Up));
-	km->BindKey(VK_DOWN, UKeyManager::EKeyState::KeyUp, std::bind(&ACharacter::Idle, this, FVector2D::Down));
-	km->BindKey(VK_RIGHT, UKeyManager::EKeyState::KeyUp, std::bind(&ACharacter::Idle, this, FVector2D::Right));
-	km->BindKey(VK_LEFT, UKeyManager::EKeyState::KeyUp, std::bind(&ACharacter::Idle, this, FVector2D::Left));
+	KeyManager->BindKey(VK_UP, UKeyManager::EKeyState::KeyUp, std::bind(&ACharacter::Idle, this, FVector2D::Up));
+	KeyManager->BindKey(VK_DOWN, UKeyManager::EKeyState::KeyUp, std::bind(&ACharacter::Idle, this, FVector2D::Down));
+	KeyManager->BindKey(VK_RIGHT, UKeyManager::EKeyState::KeyUp, std::bind(&ACharacter::Idle, this, FVector2D::Right));
+	KeyManager->BindKey(VK_LEFT, UKeyManager::EKeyState::KeyUp, std::bind(&ACharacter::Idle, this, FVector2D::Left));
 
-	km->BindKey(VK_SPACE, UKeyManager::EKeyState::KeyDown, std::bind(&ACharacter::TryPutBomb, this));
+	KeyManager->BindKey(VK_SPACE, UKeyManager::EKeyState::KeyDown, std::bind(&ACharacter::TryPutBomb, this));
 
 	if (GetDebugMode())
 	{
 		USpawnManager* SpawnManager = GetGameInstance()->GetSubsystem<USpawnManager>();
 		UBombManager* BombManager = GetGameInstance()->GetSubsystem<UBombManager>();
-		km->BindKey('B', UKeyManager::EKeyState::KeyDown, std::bind(&ACharacter::SwitchInvincible, this));
-		km->BindKey('N', UKeyManager::EKeyState::KeyDown, std::bind(&ACharacter::SwitchNoclip, this));
-		km->BindKey('M', UKeyManager::EKeyState::KeyDown, std::bind(&ACharacter::SetMaxStat, this));
-		km->BindKey('H', UKeyManager::EKeyState::KeyDown, std::bind(&UBombManager::ExpoldeAllCharacters, BombManager));
-		km->BindKey('J', UKeyManager::EKeyState::KeyDown, std::bind(static_cast<ACharacterAIController*(USpawnManager::*)(ACharacter*)>(&USpawnManager::SpawnRandomAICharacter), SpawnManager, this));
+		KeyManager->BindKey('B', UKeyManager::EKeyState::KeyDown, std::bind(&ACharacter::SwitchInvincible, this));
+		KeyManager->BindKey('N', UKeyManager::EKeyState::KeyDown, std::bind(&ACharacter::SwitchNoclip, this));
+		KeyManager->BindKey('M', UKeyManager::EKeyState::KeyDown, std::bind(&ACharacter::SetMaxStat, this));
+		KeyManager->BindKey('H', UKeyManager::EKeyState::KeyDown, std::bind(&UBombManager::ExpoldeAllCharacters, BombManager));
+		KeyManager->BindKey('J', UKeyManager::EKeyState::KeyDown, std::bind(static_cast<ACharacterAIController*(USpawnManager::*)(ACharacter*)>(&USpawnManager::SpawnRandomAICharacter), SpawnManager, this));
 	}
 }
 
